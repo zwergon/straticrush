@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: StratiCrush
+Bundle-SymbolicName: StratiCrush;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: straticrush.activator.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.ifp.kronosflow.controller;bundle-version="1.0.0",
+ fr.ifp.kronosflow.geometry;bundle-version="1.0.0",
+ fr.ifp.kronosflow.model.impl;bundle-version="1.0.0",
+ fr.ifp.kronosflow.jdeform;bundle-version="1.0.0",
+ no.geosoft.graphics;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
