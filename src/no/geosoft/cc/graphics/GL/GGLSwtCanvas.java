@@ -417,7 +417,7 @@ public class GGLSwtCanvas extends Composite
 	  
 	  /**
 	   * GLAction for clipping an area
-	   * @author lecomtje
+	   * @author <a href="mailto:Jean-Francois.Lecomte@ifpen.fr">Jef Lecomte</a>
 	   *
 	   */
 	  private class ClipGlAction implements GLAction {
@@ -453,7 +453,7 @@ public class GGLSwtCanvas extends Composite
 	  
 	 /**
 	  * GLAction to draw GText 
-	  * @author lecomtje
+	  * @author <a href="mailto:Jean-Francois.Lecomte@ifpen.fr">Jef Lecomte</a>
 	  *
 	  */
 	  private class TextGLaction implements GLAction {
@@ -483,7 +483,7 @@ public class GGLSwtCanvas extends Composite
 	  
 	  /**
 	   * GLAction to draw Polygonal part of GSegment
-	   * @author lecomtje
+	   * @author <a href="mailto:Jean-Francois.Lecomte@ifpen.fr">Jef Lecomte</a>
 	   *
 	   */
 	  private class XYGLaction implements GLAction {

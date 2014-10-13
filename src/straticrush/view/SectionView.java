@@ -180,8 +180,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
     }
 
     private void fillLocalPullDown(IMenuManager manager) {
-
-
+	
     	manager.add(resetAction);
         manager.add(translateAction);
         //manager.add(translate_action_);

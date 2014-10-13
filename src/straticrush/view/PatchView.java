@@ -6,6 +6,7 @@ import java.util.Random;
 
 import fr.ifp.kronosflow.controller.Event;
 import fr.ifp.kronosflow.controller.IEventListener;
+import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Patch;
@@ -159,7 +160,7 @@ public class PatchView extends GObject implements IEventListener {
 				
 				List<CurviPoint> pts = line.getPoints();
 
-				int npts =  pts.size();
+				int npts =  ( line.isClosed()) ? pts.size()+1 : pts.size();
 				double[] xpts = new double[npts];
 				double[] ypts = new double[npts];
 
@@ -173,6 +174,12 @@ public class PatchView extends GObject implements IEventListener {
 					ypts[i] = w_pt[1];
 					i++;
 				}	
+				if ( line.isClosed() ){
+					CurviPoint tp = (CurviPoint)pts.get(0);
+					line.getPosition(tp, w_pt);
+					xpts[npts-1] = w_pt[0];
+					ypts[npts-1] = w_pt[1];
+				}
 				
 				gline.setGeometry(xpts, ypts);
 			}
