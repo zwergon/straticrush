@@ -44,8 +44,8 @@ public class ComputeContactInteraction implements GInteraction {
 			break;
 		case GEvent.BUTTON1_UP:
 			if ( ( p1 != null )&& ( p2 != null ) ){
-				ComputeContact compute = new ComputeContact(p1, p2);
-				compute.execute();
+				ComputeContact compute = new ComputeContact(p1);
+				compute.execute(p2);
 				p1 = null;
 				p2 = null;
 			}

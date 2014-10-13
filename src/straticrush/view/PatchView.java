@@ -95,9 +95,9 @@ public class PatchView extends GObject implements IEventListener {
 			border.setVertexImage (square);
 		}
 		
-		for( PolyLine line : patch.getLines() ){
+		/*for( PolyLine line : patch.getLines() ){
 			addPolyLine( line, GColor.green );
-		}
+		}*/
 		
 		setVisibility( GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE );
 	}

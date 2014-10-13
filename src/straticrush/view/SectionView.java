@@ -39,6 +39,7 @@ import straticrush.interaction.NodeMoveInteraction.NodeMoveType;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.Section;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
 
 
@@ -87,7 +88,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private JScrollBar vScrollBar;
 
 
-    private PatchLibrary patches_;
+    private Section section = new Section();
 
 
     /**
@@ -328,24 +329,25 @@ public class SectionView extends ViewPart implements ISelectionListener {
             return;
         }
 
-        if ( null != patches_ && !patches_.getPatches().isEmpty() ){
-            patches_.getPatches().clear();
+        PatchLibrary patchLib = section.findOrCreatePatchLibrary();
+        if ( !patchLib.isEmpty() ){
+        	patchLib.removeAll();
         }
 
 
 
-        patches_ = MeshObjectFactory.createDummyGeo( file.getAbsolutePath() );
+        MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), patchLib );
         scene.removeAll();
 
         // Create a graphic object
-        for( Patch patch : patches_.getPatches() ){
+        for( Patch patch : patchLib.getPatches() ){
             object_view_ = (PatchView)ViewFactory.createView( patch );
             if ( null != object_view_ ){
                 scene.add (object_view_);
             }
         }
 
-        RectD bbox = patches_.boundingBox();
+        RectD bbox = patchLib.getBoundingBox();
         scene.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
 
         window_.update();
