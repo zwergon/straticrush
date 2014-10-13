@@ -4,12 +4,13 @@ package straticrush.view;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.IEventListener;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import fr.ifp.kronosflow.topology.Contact;
 import no.geosoft.cc.graphics.GColor;
@@ -17,9 +18,16 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 
-public class ContactView extends GObject {
+public class ContactView extends GObject  implements IEventListener {
 	
 	private GSegment gline;
+	
+	public void destroy() {
+		Patch patch = getPatch();
+		if (null != patch ){
+			patch.removeListener(this);
+		}
+	}
 	
 	
 	public void setUserData (Object object)
@@ -28,9 +36,11 @@ public class ContactView extends GObject {
 		
 		Contact contact = (Contact)getUserData();
 
-		//contact.addListener( this );
-
 		PatchInterval interval = contact.getInterval();
+		Patch patch = interval.getPatch();
+		
+		patch.addListener(this);
+		
 		gline = new GSegment();
 		gline.setUserData( interval );
 		addSegment(gline);
@@ -39,8 +49,14 @@ public class ContactView extends GObject {
 		
 		GStyle style = new GStyle();
 		style.setForegroundColor ( new GColor( (int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255 )));
-		style.setLineWidth (1);
+		style.setLineWidth (3);
 		gline.setStyle (style);	
+	}
+	
+	private Patch getPatch(){
+		Contact contact = (Contact)getUserData();
+		PatchInterval interval = contact.getInterval();
+		return interval.getPatch();
 	}
 	
 	
@@ -73,6 +89,9 @@ public class ContactView extends GObject {
 		gline.setGeometry(xpts, ypts);
 	}
 	
-	
+	@Override
+	public void objectChanged(Object shape, Event event) {
+		updateGeometry();
+	}
 
 }

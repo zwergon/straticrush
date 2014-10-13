@@ -339,7 +339,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
         // Create a graphic object
         for( Patch patch : patchLib.getPatches() ){
-            ViewFactory.createView( plot, patch );
+        	ViewFactory.getInstance().createView( plot, patch );
             
         }
 
@@ -363,7 +363,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
         for( GObject object : copy ){
         	if ( object instanceof ContactView ){
-        		plot.remove(object);
+        		ViewFactory.getInstance().destroyView(plot, object);
         	}
         }
         
@@ -371,7 +371,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         	PatchLibrary patchLib = section.findOrCreatePatchLibrary();
         	// Create a graphic object
         	for( Contact contact : patchLib.getContacts() ){
-        		ViewFactory.createView( plot, contact );
+        		ViewFactory.getInstance().createView(plot, contact);
         	}
         }
          

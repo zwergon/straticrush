@@ -3,6 +3,7 @@ package no.geosoft.cc.graphics.GL;
 
 
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -546,12 +547,16 @@ public class GGLSwtCanvas extends Composite
 			  
 			  if ( style.isLineVisible() ){
 				  GColor fg = style.getForegroundColor();
+				  FloatBuffer widthBuffer = FloatBuffer.allocate(1);
+				  gl2.glGetFloatv(GL.GL_LINE_WIDTH, widthBuffer);
+				  gl2.glLineWidth( style.getLineWidth() );
 				  gl2.glColor3ub((byte)fg.getRed(), (byte)fg.getGreen(), (byte)fg.getBlue());
 				  gl2.glBegin( GL2.GL_LINE_STRIP );		//draw polyline
 				  for( int i = 0; i<x.length; i++ ){
 					  gl2.glVertex2i( x[i], y[i] );
 				  }
 				  gl2.glEnd();
+				  gl2.glLineWidth( widthBuffer.get(0) );
 			  }
 		  }
 		  

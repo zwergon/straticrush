@@ -11,20 +11,32 @@ import no.geosoft.cc.graphics.GScene;
 
 public class ViewFactory {
 	
-	private static Map<String, String> map_;
+	private Map<String, String> mapViews;
+	private static ViewFactory factory;
 	
 	static {
-		map_ = new HashMap<String, String>();
+		factory = null;
+	}
+	
+	private ViewFactory(){
+		mapViews = new HashMap<String, String>();
 		registerView( Patch.class, PatchView.class );
 		registerView( MeshPatch.class, PatchView.class );
 		registerView( Contact.class, ContactView.class );
 	}
 	
-	public static void registerView( Class<?> object_class, Class<?> view_class ){
-		map_.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
+	public static ViewFactory getInstance(){
+		if (  null == factory ){
+			factory = new ViewFactory();
+		}
+		return factory;
 	}
 	
-	public static GObject createView( GScene scene, Object object ){
+	public void registerView( Class<?> object_class, Class<?> view_class ){
+		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
+	}
+	
+	public GObject createView( GScene scene, Object object ){
 
 		GObject view = null;
 	    try {
@@ -32,7 +44,7 @@ public class ViewFactory {
 	    	 * TODO go through class inheritance to find the first ascending 
 	    	 * class valid to create a View
 	    	 */
-	    	Class c1 = Class.forName( map_.get(object.getClass().getCanonicalName() ) );
+	    	Class<?> c1 = Class.forName( mapViews.get(object.getClass().getCanonicalName() ) );
 	    	view = (GObject)c1.newInstance();
 	    	if ( null != view ){
 	    		scene.add( view );
@@ -44,5 +56,10 @@ public class ViewFactory {
 	    
 	    return view;
 	}
-
+	
+	public void destroyView( GScene scene, GObject view ){
+		scene.remove(view);
+		view.destroy();
+	}
+	
 }
