@@ -5,7 +5,9 @@ import java.util.Map;
 
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.topology.Contact;
 import no.geosoft.cc.graphics.GObject;
+import no.geosoft.cc.graphics.GScene;
 
 public class ViewFactory {
 	
@@ -15,13 +17,14 @@ public class ViewFactory {
 		map_ = new HashMap<String, String>();
 		registerView( Patch.class, PatchView.class );
 		registerView( MeshPatch.class, PatchView.class );
+		registerView( Contact.class, ContactView.class );
 	}
 	
 	public static void registerView( Class<?> object_class, Class<?> view_class ){
 		map_.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
 	}
 	
-	public static GObject createView( Object object ){
+	public static GObject createView( GScene scene, Object object ){
 
 		GObject view = null;
 	    try {
@@ -32,6 +35,7 @@ public class ViewFactory {
 	    	Class c1 = Class.forName( map_.get(object.getClass().getCanonicalName() ) );
 	    	view = (GObject)c1.newInstance();
 	    	if ( null != view ){
+	    		scene.add( view );
 	    		view.setUserData( object );
 	    	}
 	    }

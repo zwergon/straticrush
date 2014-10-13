@@ -1381,7 +1381,7 @@ public class GObject
   {
     // Compute actual visibility of this object
     visibilityMask &= visibilityMask_;
-
+  
     // If data is not visible on this level, return
     if ((visibilityMask & DATA_VISIBLE) == 0)
       return;
@@ -1391,6 +1391,7 @@ public class GObject
       	return;
       
 
+    
     // Refreshing self
     if (segments_ != null) {
       ICanvas canvas = getWindow().getCanvas();

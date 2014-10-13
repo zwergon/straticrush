@@ -1,5 +1,6 @@
 package straticrush.view;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
@@ -35,7 +37,7 @@ public class PatchView extends GObject implements IEventListener {
 		
 		patch.addListener( this );
 	
-		create_gsegments(patch);
+		createGSegments(patch);
 		
 		
 	}
@@ -68,7 +70,7 @@ public class PatchView extends GObject implements IEventListener {
 	}
 
 
-	protected void create_gsegments(Patch patch) {
+	protected void createGSegments(Patch patch) {
 		if ( null != patch.getBorder() ){
 			GColor color = getRandomPastelColor();
 			border = addPolyLine( patch.getBorder(), color );
@@ -77,8 +79,10 @@ public class PatchView extends GObject implements IEventListener {
 			textStyle.setForegroundColor (new GColor (100, 100, 150));
 			textStyle.setBackgroundColor (null);
 			int offset = 0;
-			for ( CurviPoint tp : patch.getBorder().getPoints() ) {
-
+			
+			Iterator<ICurviPoint> itr = patch.getBorder().iterator();
+			while( itr.hasNext() ){
+				itr.next();
 				GText text = new GText (String.valueOf(offset), GPosition.FIRST | GPosition.STATIC );
 				text.setPositionOffset( offset++ );
 				
@@ -141,11 +145,11 @@ public class PatchView extends GObject implements IEventListener {
 	
 	public void draw()
 	{
-		update_geometry();
+		updateGeometry();
 	}
 
 
-	public void update_geometry() {
+	public void updateGeometry() {
 		
 		for( Object segment : getSegments() ){
 			 if ( segment instanceof GPolyline ){
@@ -161,9 +165,9 @@ public class PatchView extends GObject implements IEventListener {
 
 				double[] w_pt = new double[2];
 				int i = 0;
-				for ( CurviPoint tp : line.getPoints()) {
-
-
+				Iterator<ICurviPoint> itr = line.iterator();
+				while( itr.hasNext() ){
+					CurviPoint tp = (CurviPoint)itr.next();
 					line.getPosition(tp, w_pt);
 					xpts[i] = w_pt[0];
 					ypts[i] = w_pt[1];
@@ -183,7 +187,7 @@ public class PatchView extends GObject implements IEventListener {
 	
 	@Override
 	public void objectChanged(Object shape, Event event) {
-		update_geometry();
+		updateGeometry();
 	}
 	
 	

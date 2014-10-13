@@ -2,6 +2,8 @@ package straticrush.view;
 
 import java.awt.Insets;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollBar;
 
@@ -40,6 +42,7 @@ import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
 
 
@@ -70,25 +73,23 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
     Composite section_composite_;
 
-    private Action load_action;
-    private Action translate_action_;
-    private Action zoom_action_;
-    private Action oneone_action_;
-    private Action reset_action;
-    private Action chainmail_action_;
-    private Action masspring_action_;
-    private Action display_symbols_;
-    private Action computeContactAction;
+    private Action loadAction;
+    private Action translateAction;
+    private Action zoomAction;
+    private Action oneOneAction;
+    private Action resetAction;
+    private Action chainMailAction;
+    private Action massSpringAction;
+    private Action displaySymbolsAction;
+    private Action displayContactsAction;
 
-    //private World world_ = null;
-    private PatchView object_view_; 
-
+   
     private GWindow   window_;
     private JScrollBar hScrollBar;
     private JScrollBar vScrollBar;
 
 
-    private Section section = new Section();
+    private Section section = null;
 
 
     /**
@@ -166,8 +167,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
 
     private void fillContextMenu(IMenuManager manager) {
-        manager.add(translate_action_);
-        manager.add(reset_action);
+        manager.add(translateAction);
+        manager.add(resetAction);
         // Other plug-ins can contribute there actions here
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
     }
@@ -181,28 +182,24 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private void fillLocalPullDown(IMenuManager manager) {
 
 
-
-        manager.add(translate_action_);
+    	manager.add(resetAction);
+        manager.add(translateAction);
         //manager.add(translate_action_);
-        manager.add(chainmail_action_);
-        manager.add(masspring_action_);
+        manager.add(chainMailAction);
+        manager.add(massSpringAction);
 
     }
 
 
 
     private void fillLocalToolBar(IToolBarManager manager) {
-        manager.add(load_action);
-        manager.add(reset_action);
+        manager.add(loadAction);
         manager.add(new Separator());
-        manager.add(zoom_action_);
-        manager.add(oneone_action_);
-        manager.add(display_symbols_);
+        manager.add(zoomAction);
+        manager.add(oneOneAction);
         manager.add(new Separator());
-        manager.add(computeContactAction);
-
-
-
+        manager.add(displaySymbolsAction);
+        manager.add(displayContactsAction);
     }
 
     private class WindowAction extends Action {
@@ -225,84 +222,88 @@ public class SectionView extends ViewPart implements ISelectionListener {
     }
 
     private void makeActions() {
-        load_action = new Action() {
+        loadAction = new Action() {
             public void run() {
                 load();
             }
         };
-        load_action.setText("Load");
-        load_action.setToolTipText("Load");
-        load_action.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+        loadAction.setText("Load");
+        loadAction.setToolTipText("Load");
+        loadAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
                 getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 
 
-        translate_action_ =  new WindowAction( window_, new TranslateInteraction(get_plot()) );
-        translate_action_.setText("Translate");
-        translate_action_.setToolTipText("eforme one patch by translation");
-        translate_action_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
+        translateAction =  new WindowAction( window_, new TranslateInteraction(getPlot()) );
+        translateAction.setText("Translate");
+        translateAction.setToolTipText("eforme one patch by translation");
+        translateAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
-        chainmail_action_ =  new WindowAction( window_, new NodeMoveInteraction(get_plot(), NodeMoveType.CHAINMAIL ) );
-        chainmail_action_.setText("Chainmail");
-        chainmail_action_.setToolTipText("Deforme one patch by chainmail");
-        chainmail_action_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
+        chainMailAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.CHAINMAIL ) );
+        chainMailAction.setText("Chainmail");
+        chainMailAction.setToolTipText("Deforme one patch by chainmail");
+        chainMailAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
-        masspring_action_ =  new WindowAction( window_, new NodeMoveInteraction(get_plot(), NodeMoveType.SPRINGMASS ) );
-        masspring_action_.setText("SpringMass");
-        masspring_action_.setToolTipText("Deforme one patch by spring/mass system");
-        masspring_action_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
+        massSpringAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.SPRINGMASS ) );
+        massSpringAction.setText("SpringMass");
+        massSpringAction.setToolTipText("Deforme one patch by spring/mass system");
+        massSpringAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
 
-        zoom_action_ =  new WindowAction( window_, new ZoomInteraction(get_plot()) );
-        zoom_action_.setText("Zoom");
-        zoom_action_.setToolTipText("Zoom scene");
-        zoom_action_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/zoomArea.gif") );		
+        zoomAction =  new WindowAction( window_, new ZoomInteraction(getPlot()) );
+        zoomAction.setText("Zoom");
+        zoomAction.setToolTipText("Zoom scene");
+        zoomAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/zoomArea.gif") );		
 
 
-        oneone_action_ =  new Action() {
+        oneOneAction =  new Action() {
             public void run() {
-                get_plot().unzoom();
+                getPlot().unzoom();
             }
         };
-        oneone_action_.setText("Unzoom");
-        oneone_action_.setToolTipText("Zoom reset");
-        oneone_action_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/oneOne.gif") );		
+        oneOneAction.setText("Unzoom");
+        oneOneAction.setToolTipText("Zoom reset");
+        oneOneAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/oneOne.gif") );		
 
 
-        display_symbols_ =  new Action("Display Symbols", Action.AS_CHECK_BOX ) {
-            private boolean checked_ = false;
+        displaySymbolsAction =  new Action("Display Symbols", Action.AS_CHECK_BOX ) {
+            private boolean checked = false;
             public void run() {
-                checked_ = !checked_;
-                setChecked( checked_ );
-                Plot scene = get_plot();
+                checked = !checked;
+                setChecked( checked );
+                Plot scene = getPlot();
                 for ( GObject gobject : scene.getChildren() ){
-                    gobject.setVisibility( (checked_)? GObject.SYMBOLS_VISIBLE : GObject.SYMBOLS_INVISIBLE );
+                    gobject.setVisibility( (checked)? GObject.SYMBOLS_VISIBLE : GObject.SYMBOLS_INVISIBLE );
                 }
                 window_.refresh();
 
 
             }
         };
-        display_symbols_.setToolTipText("Display symbols for patch nodes");
-        display_symbols_.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/allNodes.png") );		
+        displaySymbolsAction.setToolTipText("Display symbols for patch nodes");
+        displaySymbolsAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/allNodes.png") );		
 
 
-
-        reset_action = new WindowAction( window_, new ResetGeometryInteraction(get_plot()) );
-        reset_action.setText("Reset");
-        reset_action.setToolTipText("Reset geometry to initial");
-        reset_action.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+        resetAction = new WindowAction( window_, new ResetGeometryInteraction(getPlot()) );
+        resetAction.setText("Reset");
+        resetAction.setToolTipText("Reset geometry to initial");
+        resetAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
                 getImageDescriptor(ISharedImages.IMG_TOOL_BACK));
         
         
-        computeContactAction = new WindowAction( window_, new ComputeContactInteraction(get_plot()) );
-        computeContactAction.setText("Compute Contact");
-        computeContactAction.setToolTipText("Compute Contact");
-        computeContactAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-                getImageDescriptor(ISharedImages.IMG_TOOL_BACK));
-
+        displayContactsAction =  new Action("Display Contacts", Action.AS_CHECK_BOX ) {
+        	private boolean checked = false;
+        	public void run() {
+        		checked = !checked;
+        		setChecked( checked );
+        		displayContacts( checked );
+        	}
+        };
+        displayContactsAction.setText("Contacts");
+        displayContactsAction.setToolTipText("Display Contacts");
+        displayContactsAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/contacts.png") );		
 
     }
 
@@ -321,43 +322,66 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
 
     private void load(){
-        Plot scene = get_plot();
-        if ( scene == null ) return;
+        Plot plot = getPlot();
+        if ( plot == null ) return;
 
         File file = chooseVolatileFile();
         if ( file == null || !file.exists() ){
             return;
         }
 
+        section = new Section();
         PatchLibrary patchLib = section.findOrCreatePatchLibrary();
-        if ( !patchLib.isEmpty() ){
-        	patchLib.removeAll();
-        }
-
-
+      
 
         MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), patchLib );
-        scene.removeAll();
+        plot.removeAll();
 
         // Create a graphic object
         for( Patch patch : patchLib.getPatches() ){
-            object_view_ = (PatchView)ViewFactory.createView( patch );
-            if ( null != object_view_ ){
-                scene.add (object_view_);
-            }
+            ViewFactory.createView( plot, patch );
+            
         }
 
         RectD bbox = patchLib.getBoundingBox();
-        scene.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
+        plot.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
 
         window_.update();
 
     }
+    
+    private void displayContacts(boolean checked) {
+    	
+    	if ( section == null ){
+    		return;
+    	}
+    	
+    	Plot plot = getPlot();
+        if ( plot == null ) return;
+		
+        
+        List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
+        for( GObject object : copy ){
+        	if ( object instanceof ContactView ){
+        		plot.remove(object);
+        	}
+        }
+        
+        if ( checked ){
+        	PatchLibrary patchLib = section.findOrCreatePatchLibrary();
+        	// Create a graphic object
+        	for( Contact contact : patchLib.getContacts() ){
+        		ViewFactory.createView( plot, contact );
+        	}
+        }
+         
+        plot.refresh();
+	}
 
 
 
 
-    private Plot get_plot() {
+    private Plot getPlot() {
         Plot scene = null;
 
         for( GScene sc : window_.getScenes() ){

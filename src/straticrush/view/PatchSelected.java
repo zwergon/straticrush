@@ -11,7 +11,7 @@ import fr.ifp.kronosflow.model.implicit.MeshPatch;
 
 public class PatchSelected extends PatchView {
 	
-	protected void create_gsegments(Patch patch) {
+	protected void createGSegments(Patch patch) {
 		if ( null != patch.getBorder() ){
 			addPolyLine( patch.getBorder(), new GColor(1.0f, 0.0f, 0.0f, 0.2f) );
 		}
