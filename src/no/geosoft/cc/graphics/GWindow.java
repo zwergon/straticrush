@@ -72,11 +72,9 @@ public class GWindow
     //canvas_ = new GGLCanvas ((Composite)parent, this);
 	//canvas_ = new GAwtCanvas(this);
 	canvas_ = GFactory.createCanvas(parent, this);
-    /*
-     * TODO
-     * if (backgroundColor != null)
-     *  canvas_.setBackground (backgroundColor);
-     */
+    if (backgroundColor != null)
+    	canvas_.setBackgroundColor (backgroundColor);
+     
      
     
     interaction_  = null;
@@ -159,6 +157,11 @@ public class GWindow
   void addScene (GScene scene)
   {
     scenes_.add (scene);
+  }
+  
+  
+  public void removeScene( GScene scene ){
+	  scenes_.remove(scene);
   }
 
 

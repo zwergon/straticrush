@@ -22,7 +22,8 @@ public class Annotation extends GObject
     
     background_ = new GSegment();
     GStyle backgroundStyle = new GStyle();
-    backgroundStyle.setBackgroundColor (new GColor (1.0f, 1.0f, 0.9f, 0.8f));
+    backgroundStyle.setBackgroundColor (new GColor (0.0f, 0.0f, 0.0f, 0.0f));
+    backgroundStyle.setForegroundColor (new GColor (100, 120, 120));
     background_.setStyle (backgroundStyle);
     addSegment (background_);
 
@@ -38,6 +39,7 @@ public class Annotation extends GObject
     axisStyle.setBackgroundColor (null);
     //axisStyle.setFont (new Font ("Dialog", Font.BOLD, 10));
 
+    
     Axis horizontalAxis = new Axis (true, insets_);
     horizontalAxis.setStyle (axisStyle);
     add (horizontalAxis);
@@ -45,6 +47,7 @@ public class Annotation extends GObject
     Axis verticalAxis = new Axis (false, insets_);
     verticalAxis.setStyle (axisStyle);
     add (verticalAxis);
+    
   }
   
 

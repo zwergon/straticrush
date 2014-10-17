@@ -1,5 +1,6 @@
 package no.geosoft.cc.interfaces;
 
+import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GSegment;
@@ -17,6 +18,8 @@ public interface ICanvas {
 	public void refresh();
 	public void setClipArea(Region damageRegion);
 	public void clear(Rect extent);
+	
+	public void setBackgroundColor( GColor color );
 	
 	public void render (GSegment segment, GStyle style );
 	public void render (GText text, GStyle style);

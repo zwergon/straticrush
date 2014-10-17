@@ -28,7 +28,7 @@ public class GTransformer
 	 * @param viewport     Viewport of transformer.
 	 * @param worldExtent  World extent of transformer.
 	 */
-	GTransformer (GViewport viewport, GWorldExtent worldExtent)
+	public GTransformer (GViewport viewport, GWorldExtent worldExtent)
 	{
 		w_origin_ = new double[2];
 		d_origin_ = new double[2];

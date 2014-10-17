@@ -57,7 +57,7 @@ public class GWorldExtent
    * @param w1  Second world extent coordinate [x,y].
    * @param w2  Third world extent coordinate [x,y].
    */
-  GWorldExtent (double w0[], double w1[], double w2[])
+  public GWorldExtent (double w0[], double w1[], double w2[])
   {
     w0_ = new double[2];
     w1_ = new double[2];
@@ -72,7 +72,7 @@ public class GWorldExtent
    * Create a default (normalized) world extent. The normalized
    * world extent with X/Y extents [0.0 - 1.0].
    */
-  GWorldExtent()
+  public GWorldExtent()
   {
     this (new double[] {0.0, 0.0},
           new double[] {1.0, 0.0},
@@ -86,7 +86,7 @@ public class GWorldExtent
    * 
    * @param worldExtent  World extent to copy.
    */
-  GWorldExtent (GWorldExtent worldExtent)
+  public GWorldExtent (GWorldExtent worldExtent)
   {
     this (worldExtent.get(0), worldExtent.get(1), worldExtent.get(2));
   }
@@ -100,7 +100,7 @@ public class GWorldExtent
    * @param w1  Coordinate 1 of world extent [x,y].
    * @param w2  Coordinate 2 of world extent [x,y].
    */
-  void set (double w0[], double w1[], double w2[])
+  public void set (double w0[], double w1[], double w2[])
   {
     for (int i = 0; i < 2; i++) {
       w0_[i] = w0[i];

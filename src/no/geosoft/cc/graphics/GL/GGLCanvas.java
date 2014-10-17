@@ -107,6 +107,11 @@ public class GGLCanvas extends GLCanvas
 		addMouseWheelListener(this);
 
 	}
+	
+	 @Override
+	  public void setBackgroundColor(GColor color) {
+		  //TODO set background color
+	  };
 
 
 	@Override

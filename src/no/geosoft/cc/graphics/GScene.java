@@ -40,12 +40,12 @@ import fr.ifp.kronosflow.geometry.Rect;
 public class GScene extends GObject
 {
   private final GWindow      window_;
-  private final GTransformer transformer_;
+  protected GTransformer     transformer_;
   private final GAnnotator   annotator_;
 
-  private GViewport       viewport_;
-  private GWorldExtent    initialWorldExtent_;
-  private GWorldExtent    currentWorldExtent_;
+  protected GViewport       viewport_;
+  protected GWorldExtent    initialWorldExtent_;
+  protected GWorldExtent    currentWorldExtent_;
   private boolean         shouldZoomOnResize_;  // "see more" or "see bigger"
   private boolean         shouldWorldExtentFitViewport_;  // ie. squeeze world
   private boolean         isAnnotationValid_;

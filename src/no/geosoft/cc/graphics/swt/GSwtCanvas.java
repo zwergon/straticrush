@@ -76,6 +76,11 @@ MouseMoveListener {
 					0, 0,backBuffer.getBounds().width, backBuffer.getBounds().height );
 		}
 	}
+	
+	 @Override
+	  public void setBackgroundColor(GColor color) {
+		  //TODO set background color
+	  };
 
 	@Override
 	public int getWidth() {

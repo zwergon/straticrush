@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JScrollBar;
 
+import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -38,6 +39,9 @@ import straticrush.interaction.ResetGeometryInteraction;
 import straticrush.interaction.TranslateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.interaction.NodeMoveInteraction.NodeMoveType;
+import straticrush.menu.Menu;
+import straticrush.menu.MenuInteraction;
+import straticrush.menu.MenuItem;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
@@ -82,9 +86,11 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private Action massSpringAction;
     private Action displaySymbolsAction;
     private Action displayContactsAction;
+    private Action openMenuAction;
 
    
     private GWindow   window_;
+    private Menu      menu;
     private JScrollBar hScrollBar;
     private JScrollBar vScrollBar;
 
@@ -119,7 +125,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
 	    frame.setBackground(Color.white);
          */
 
-        window_ = new GWindow( parent );
+        window_ = new GWindow( parent, GColor.BLACK );
 
         /*AWT
 		frame.add ((GAwtCanvas)window_.getCanvas(), BorderLayout.CENTER);
@@ -141,14 +147,15 @@ public class SectionView extends ViewPart implements ISelectionListener {
         GScene annotationScene = new GScene (window_);
         GObject annotation = new Annotation (insets);
         annotationScene.add (annotation);
+        
+        
 
         // Create a value specific "plot" scene
         GScene plot = new Plot (window_, insets);
         annotationScene.setUserData (plot);
         plot.shouldWorldExtentFitViewport (false);
-        plot.shouldZoomOnResize (false);    
-
-
+        plot.shouldZoomOnResize (false);   
+        
         window_.startInteraction (new ZoomInteraction(plot));
 
 
@@ -196,6 +203,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         manager.add(new Separator());
         manager.add(zoomAction);
         manager.add(oneOneAction);
+        manager.add(openMenuAction);
         manager.add(new Separator());
         manager.add(displaySymbolsAction);
         manager.add(displayContactsAction);
@@ -264,7 +272,20 @@ public class SectionView extends ViewPart implements ISelectionListener {
         };
         oneOneAction.setText("Unzoom");
         oneOneAction.setToolTipText("Zoom reset");
-        oneOneAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/oneOne.gif") );		
+        oneOneAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/oneOne.gif") );	
+        
+        openMenuAction =  new Action( "Display Symbols", Action.AS_CHECK_BOX ) {
+        	private boolean checked = false;
+        	public void run() {
+        		checked = !checked;
+        		setChecked( checked );
+        		openMenu(checked);
+        	}
+        };
+        openMenuAction.setText("Menu");
+        openMenuAction.setToolTipText("Menu");
+        openMenuAction.setImageDescriptor( PlatformUI.getWorkbench().getSharedImages().
+                getImageDescriptor(ISharedImages.IMG_DEF_VIEW) );	
 
 
         displaySymbolsAction =  new Action("Display Symbols", Action.AS_CHECK_BOX ) {
@@ -307,7 +328,31 @@ public class SectionView extends ViewPart implements ISelectionListener {
     }
 
 
-    private File chooseVolatileFile() {
+    protected void openMenu(boolean checked) {
+	
+    	if ( checked ){
+    		// Create a value specific "plot" scene
+            menu = new Menu (window_);
+            
+            PatchLibrary patchLib = section.findOrCreatePatchLibrary();
+            menu.populate(patchLib);
+            window_.startInteraction( new MenuInteraction( menu ) );
+    		
+    	}
+    	else {
+    		window_.stopInteraction();
+    		menu.removeAll();
+    		window_.removeScene(menu);
+    	}
+    	
+    	window_.update();
+    		
+	}
+
+
+
+
+	private File chooseVolatileFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
         dialog.setFilterExtensions(new String[] { "*.geo" });
         dialog.setFilterNames(new String[] { "geofile (*.geo)" });

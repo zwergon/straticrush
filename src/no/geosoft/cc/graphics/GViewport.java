@@ -46,7 +46,7 @@ public class GViewport
   /**
    * Create an empty viewport.
    */
-  GViewport()
+  public GViewport()
   {
     set (0, 0, 0, 0, 0, 0);
   }
@@ -60,7 +60,7 @@ public class GViewport
    * @param width   Width of viewport.
    * @param height  Height of viewport.
    */
-  GViewport (int x0, int y0, int width, int height)
+  public GViewport (int x0, int y0, int width, int height)
   {
     set (x0, y0, x0+width, y0, x0, y0+height);
   }
@@ -86,7 +86,7 @@ public class GViewport
    * @param x2  X coordinate of third point.
    * @param y2  Y coordinate of third point.
    */
-  GViewport (int x0, int y0, int x1, int y1, int x2, int y2)
+  public GViewport (int x0, int y0, int x1, int y1, int x2, int y2)
   {
     set (x0, y0, x1, y1, x2, y2);
   }
@@ -103,7 +103,7 @@ public class GViewport
    * @param x2  X coordinate of third point.
    * @param y2  Y coordinate of third point.
    */
-  void set (int x0, int y0, int x1, int y1, int x2, int y2)
+  public void set (int x0, int y0, int x1, int y1, int x2, int y2)
   {
     p0_[X] = x0;
     p0_[Y] = y0;

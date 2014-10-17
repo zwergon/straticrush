@@ -1145,7 +1145,7 @@ public class GObject
    * 
    * @return  Position of this object among its siblings.
    */
-  private int getPosition()
+  protected int getPosition()
   {
     if (parent_ == null) return -1;
     return parent_.children_.indexOf (this);

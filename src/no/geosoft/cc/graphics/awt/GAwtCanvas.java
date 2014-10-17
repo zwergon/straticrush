@@ -46,6 +46,7 @@ import javax.swing.RepaintManager;
 
 import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
+import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GFont;
@@ -110,8 +111,13 @@ public class GAwtCanvas extends JComponent
     addComponentListener (this);
    
   }
-
   
+  @Override
+  public void setBackgroundColor(GColor color) {
+	  //TODO set background color
+  };
+
+
 
   /**
    * Override the JPanel default to indicate that this canvas is

@@ -74,12 +74,13 @@ public class GGLSwtCanvas extends Composite
 	
 	private List<GLAction> queue= new ArrayList<GGLSwtCanvas.GLAction>(16);
 	
-
-
-
+	private GColor backgroundColor;
+	
 	public GGLSwtCanvas( Object parent, GWindow window ) {
 		
 		super( (Composite)parent, SWT.NONE | SWT.NO_BACKGROUND );
+		
+		backgroundColor = GColor.WHITE;
 	
 		setLayout(new FillLayout());
 		
@@ -132,6 +133,10 @@ public class GGLSwtCanvas extends Composite
 		glcanvas.addMouseWheelListener( this);
 
 	}
+	
+	public void setBackgroundColor(GColor color) {
+		backgroundColor = color;
+	};
 	
 	@Override
 	public int getWidth() {
@@ -445,7 +450,9 @@ public class GGLSwtCanvas extends Composite
 		public void execute(GL target) {
 			GL2 gl2 = target.getGL2();
 			gl2.glScissor( clip.x, clip.y, clip.width, clip.height );
-			gl2.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			
+			float[] colors = backgroundColor.getComponents(null);
+			gl2.glClearColor( colors[0], colors[1], colors[2], colors[3]);
 			gl2.glClear( GL.GL_COLOR_BUFFER_BIT );	
 		}  
 	  }
@@ -511,6 +518,13 @@ public class GGLSwtCanvas extends Composite
 				   * in OpenGL redbook. 
 				   * http://glprogramming.com/red/chapter14.html#name13
 				   * don't forget to set: capabilities_.setStencilBits(8);*/
+				  
+
+				  gl2.glEnable( GL.GL_BLEND);
+				  gl2.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+				  /* Dessin du sprite avec transparence */
+				 
+
 				   
 				  gl2.glEnable(GL2.GL_STENCIL_TEST);
 				  gl2.glClear(GL.GL_STENCIL_BUFFER_BIT);
@@ -531,7 +545,7 @@ public class GGLSwtCanvas extends Composite
 				  gl2.glColorMask(true, true, true, true);
 				  gl2.glStencilFunc(GL2.GL_NOTEQUAL, 0, 1);
 				  gl2.glStencilOp(GL2.GL_KEEP, GL2.GL_ZERO, GL2.GL_ZERO);
-				  gl2.glColor3ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue());
+				  gl2.glColor4ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue(), (byte)bg.getAlpha());
 				  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
 				  for( int i = 1; i<x.length-2; i++ ){
 					  gl2.glVertex2i( x[0], y[0] );
@@ -541,6 +555,7 @@ public class GGLSwtCanvas extends Composite
 				  gl2.glEnd();
 				  
 				  gl2.glDisable(GL2.GL_STENCIL_TEST);
+				  gl2.glDisable(GL.GL_BLEND);
 				
 
 			  }
