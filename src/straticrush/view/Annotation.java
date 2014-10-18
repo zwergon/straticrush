@@ -31,7 +31,7 @@ public class Annotation extends GObject
     GStyle titleStyle = new GStyle();
     titleStyle.setForegroundColor (new GColor (100, 120, 120));
     title_.setStyle (titleStyle);
-    title_.setText (new GText("Kronos - Sprint 1"));
+    title_.setText (new GText("Kronos - Sprint élevé"));
     addSegment (title_);
     
     GStyle axisStyle = new GStyle();
@@ -47,7 +47,7 @@ public class Annotation extends GObject
     Axis verticalAxis = new Axis (false, insets_);
     verticalAxis.setStyle (axisStyle);
     add (verticalAxis);
-    
+   
   }
   
 

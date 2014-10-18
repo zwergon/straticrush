@@ -1,50 +1,41 @@
 package no.geosoft.cc.graphics.font;
 
-import java.awt.Font;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.Hashtable;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
-import fr.ifp.kronosflow.geometry.Rect;
 import no.geosoft.cc.graphics.font.GGLFontImpl.Glyph;
 
 public class GLFont{
-    int _texsize, _tex[], _list[];
+    int _tex[];
+    int _list[];
     float _charwidth[];
     int _color[];
-   
-    Hashtable<Character, Integer> _charmap;
+    boolean[] _hasGlyph;
+    
+    static final int NCHARACTERS = 280; /* only handle first 280 characters */
     
     public GLFont( GL2 gl, GGLFontImpl font ){
-     
-        Glyph glyph = font.getGlyph((char)32);
-        if ( null == glyph ){
-            return;
-        }
         
-   
-        _texsize = glyph.width;
-        _tex = new int[280];
-        _list = new int[280]; 
-        _charwidth = new float[280];
-        _charmap = new Hashtable<Character,Integer>();
+        _tex = new int[NCHARACTERS];
+        _list = new int[NCHARACTERS]; 
+        _charwidth = new float[NCHARACTERS];
+        _hasGlyph = new boolean[NCHARACTERS];
       
-
-        _charwidth[32] = glyph.setWidth;
-        
-        for(int index=9; index<280; index++){
+      
+        for(int index=0; index<NCHARACTERS; index++){
             
            Character character = new Character((char)index);
-           glyph = font.getGlyph(character);
+           Glyph glyph = font.getGlyph(character);
            if ( null == glyph ){
+               _hasGlyph[index] = false;
                continue;
            }
          
-          _charmap.put( character, new Integer(index) );
+           _hasGlyph[index] = true;
+         
           _charwidth[index]= glyph.setWidth;
           _tex[index] = createTexture(gl, glyph);
           
@@ -89,12 +80,13 @@ public class GLFont{
         gl.glColor4ub( (byte)_color[0], (byte)_color[1], (byte)_color[2], (byte)_color[3] );
         gl.glTranslatef(x,y,0);
         
+  
         for(int i=0; i<l_text.length(); i++){
+
+            int t = l_text.charAt(i);
+            if (!_hasGlyph[t])
+                t = 32 /*space*/;
             
-            int t = _charmap.get( (char)32  );
-            if( _charmap.containsKey( l_text.charAt(i)  ) ){
-                t = _charmap.get( l_text.charAt(i)  );
-            }
             gl.glBindTexture(GL.GL_TEXTURE_2D, _tex[t]);
             gl.glCallList( _list[t] );
             gl.glTranslatef( _charwidth[t], 0, 0 );
@@ -110,7 +102,6 @@ public class GLFont{
         
         int w = glyph.width;
         int h = glyph.height;
-        //int s = Math.max( w, h);
         
         ByteBuffer brga = ByteBuffer.allocate(w*h*4);
         byte[] pbrga = brga.array();
