@@ -11,6 +11,7 @@ import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GWindow;
+import no.geosoft.cc.graphics.GL.GGLSwtCanvas;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -20,9 +21,25 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.PathData;
+import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
@@ -31,6 +48,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.progress.PendingUpdateAdapter;
 
 import straticrush.interaction.ComputeContactInteraction;
 import straticrush.interaction.NodeMoveInteraction;
@@ -82,6 +100,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private Action massSpringAction;
     private Action displaySymbolsAction;
     private Action displayContactsAction;
+    
+    private Action openWindowAction;
 
    
     private GWindow   window_;
@@ -91,6 +111,44 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
     private Section section = null;
 
+    static int cur_x;
+    
+    static void loadPath(Region region, float[] points, byte[] types) {
+        int start = 0, end = 0;
+        for (int i = 0; i < types.length; i++) {
+            switch (types[i]) {
+                case SWT.PATH_MOVE_TO: {
+                    if (start != end) {
+                        int n = 0;
+                        int[] temp = new int[end - start];
+                        for (int k = start; k < end; k++) {
+                            temp[n++] = Math.round(points[k]);
+                        }
+                        region.add(temp);
+                    }
+                    start = end;
+                    end += 2;
+                    break;
+                }
+                case SWT.PATH_LINE_TO: {
+                    end += 2;
+                    break;
+                }
+                case SWT.PATH_CLOSE: {
+                    if (start != end) {
+                        int n = 0;
+                        int[] temp = new int[end - start];
+                        for (int k = start; k < end; k++) {
+                            temp[n++] = Math.round(points[k]);
+                        }
+                        region.add(temp);
+                    }
+                    start = end;
+                    break;
+                }
+            }
+        }
+    }
 
     /**
      * The constructor.
@@ -196,6 +254,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         manager.add(new Separator());
         manager.add(zoomAction);
         manager.add(oneOneAction);
+        manager.add(openWindowAction);
         manager.add(new Separator());
         manager.add(displaySymbolsAction);
         manager.add(displayContactsAction);
@@ -265,6 +324,118 @@ public class SectionView extends ViewPart implements ISelectionListener {
         oneOneAction.setText("Unzoom");
         oneOneAction.setToolTipText("Zoom reset");
         oneOneAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/oneOne.gif") );		
+
+        
+        openWindowAction =  new Action() {
+            
+            
+            public void run() {
+                openWindow();
+            }
+
+            private void openWindow() {
+                
+                Composite pageComposite = (GGLSwtCanvas)window_.getCanvas();
+              
+                final Shell dialog = new Shell (pageComposite.getShell(), SWT.NO_TRIM | SWT.ON_TOP );
+                final Display display = pageComposite.getDisplay();
+                
+                
+                final Rectangle rect = pageComposite.getClientArea();
+               
+                final Point location = pageComposite.toDisplay(rect.x+ rect.width/2, rect.y);
+                
+                dialog.setBackground(pageComposite.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+                dialog.setAlpha(128);
+                
+                dialog.addListener (SWT.Paint, new Listener () {
+                    @Override
+                    public void handleEvent (Event e) {
+                        GC gc = e.gc;
+                        Rectangle rect = dialog.getClientArea ();
+                        Color color1 = new Color (display, 234, 246, 253);
+                        Color color2 = new Color (display, 217, 240, 252);
+                        Color color3 = new Color (display, 190, 230, 253);
+                        Color color4 = new Color (display, 167, 217, 245);
+                        Pattern p1 = new Pattern (display, 0, 0, 0, rect.height / 2, color1, color2);
+                        gc.setBackgroundPattern (p1);
+                        gc.fillRectangle (rect.x, rect.y, rect.width, rect.height / 2);
+                        Pattern p2 = new Pattern (display, 0, rect.height / 2, 0, rect.height, color3, color4);
+                        gc.setBackgroundPattern (p2);
+                        gc.fillRectangle (rect.x, rect.y + (rect.height / 2), rect.width, rect.height / 2 + 1);
+                        p1.dispose ();
+                        p2.dispose ();
+                        color1.dispose ();
+                        color2.dispose ();
+                        color3.dispose ();
+                        color4.dispose ();
+                    }
+                });
+
+
+                dialog.addListener(SWT.KeyDown, new Listener() {
+                    @Override
+                    public void handleEvent(Event e)  {
+                        if (e.character == SWT.ESC) {
+                            dialog.dispose();
+                        }
+                    }
+                });
+                
+                final int start_x = location.x + rect.width/2;
+                final int end_x = location.x;
+                cur_x = 0;
+                
+                
+                dialog.setSize( 0, rect.height);
+                dialog.setLocation(cur_x  , location.y);
+                dialog.open ();
+                
+                final int time = 1;
+                Runnable timer = new Runnable () {
+                    @Override
+                    public void run () {
+                        if (dialog.isDisposed()) return;
+                        cur_x +=20;
+                        dialog.setRedraw(false);
+                        dialog.setSize( cur_x , rect.height);
+                        dialog.setLocation(start_x - cur_x  , location.y);
+                        dialog.setRedraw(true);
+                        
+                        if ( cur_x < rect.width/2 )
+                            display.timerExec (time, this);
+                    }
+                };
+                display.timerExec (time, timer);
+
+
+                
+                
+                
+                
+/*
+                Composite newWindow = new Composite(pageComposite, SWT.NO_REDRAW_RESIZE);
+                newWindow.setLayout(new GridLayout());
+                newWindow.setLayoutData(new GridData());
+                if (pageNum++ % 2 == 0) {
+                    Table table = new Table(newWindow, SWT.BORDER);
+                    table.setLayoutData(new GridData());
+                    for (int i = 0; i < 5; i++) {
+                        new TableItem(table, SWT.NONE).setText("table item " + i);
+                    }
+                } else {
+                    new Button(newWindow, SWT.RADIO).setText("radio");
+                }*/
+               
+
+                
+            }
+        };
+        openWindowAction.setText("Open Window");
+        openWindowAction.setToolTipText("Open sliding window");
+        openWindowAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+                getImageDescriptor(ISharedImages.IMG_DEF_VIEW) );       
+
 
 
         displaySymbolsAction =  new Action("Display Symbols", Action.AS_CHECK_BOX ) {
