@@ -489,7 +489,7 @@ public class GGLSwtCanvas extends Composite
 			  
 			  GGLFontImpl fontImpl = (GGLFontImpl)style.getFont().getImpl();
 			  
-			  GLFont glfont = new GLFont( gl2, fontImpl );
+			  GLFont glfont = fontImpl.createGLFont(gl2);
 		
 			  glfont.setColor((byte)fg.getRed(), (byte)fg.getGreen(), (byte)fg.getBlue(),(byte)fg.getAlpha() );
 			  glfont.write(gl2,text. getText(), text.getRectangle().x,  text.getRectangle().y );

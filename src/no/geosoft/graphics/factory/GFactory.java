@@ -34,7 +34,7 @@ public class GFactory {
 	}
 	
 	static public IFontImpl createFont( GFont font ){
-	    return new GGLFontImpl( new Font(font.getFontName(), Font.PLAIN, font.getSize()), true);
+	    return new GGLFontImpl( new Font(font.getFontName(), Font.BOLD, font.getSize()), true);
 		//return new GSwtFontImpl(font);
 		//return new GGLBitmapFont();
 	}

@@ -35,6 +35,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import javax.media.opengl.GL2;
+
 import fr.ifp.kronosflow.geometry.Rect;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.interfaces.IFontImpl;
@@ -122,16 +124,6 @@ public class GGLFontImpl implements IFontImpl {
 
   
   /**
-   * True if this font should return 'null' for getFont(), so that the native
-   * font will be used to create a subset, but the native version of the font
-   * will not be used.
-   */
-  protected boolean subsetting;
-
-  /** True if already tried to find the native AWT version of this font. */
-  protected boolean fontSearched;
-
-  /**
    * Array of the native system fonts. Used to lookup native fonts by their
    * PostScript name. This is a workaround for a several year old Apple Java
    * bug that they can't be bothered to fix.
@@ -177,12 +169,6 @@ public class GGLFontImpl implements IFontImpl {
     name = font.getName();
     psname = font.getPSName();
     size = font.getSize();
-
-    // no, i'm not interested in getting off the couch
-    //lazy = true;
-    // not sure what else to do here
-    //mbox2 = 0;
-
     
     glyphs = new Glyph[300];
 
@@ -264,26 +250,9 @@ public class GGLFontImpl implements IFontImpl {
   }
 
 
-  /**
-   * Use the getNative() method instead, which allows library interfaces to be
-   * written in a cross-platform fashion for desktop, Android, and others.
-   */
-  @Deprecated
   public Font getFont() {
     return font;
   }
-
-
-  /**
-   * Return the native java.awt.Font associated with this PFont (if any).
-   */
-  public Object getNative() {
-    if (subsetting) {
-      return null;  // don't return the font for use
-    }
-    return font;
-  }
-
 
   /**
    * Return size of this font.
@@ -291,41 +260,6 @@ public class GGLFontImpl implements IFontImpl {
   public int getSize() {
     return size;
   }
-
-
-
-  public void setSubsetting() {
-    subsetting = true;
-  }
-
-
-  /**
-   * Attempt to find the native version of this font.
-   * (Public so that it can be used by OpenGL or other renderers.)
-   */
-  public Object findNative() {
-    if (font == null) {
-      if (!fontSearched) {
-        // this font may or may not be installed
-        font = new Font(name, Font.PLAIN, size);
-        // if the ps name matches, then we're in fine shape
-        if (!font.getPSName().equals(psname)) {
-          // on osx java 1.4 (not 1.3.. ugh), you can specify the ps name
-          // of the font, so try that in case this .vlw font was created on pc
-          // and the name is different, but the ps name is found on the
-          // java 1.4 mac that's currently running this sketch.
-          font = new Font(psname, Font.PLAIN, size);
-        }
-        // check again, and if still bad, screw em
-        if (!font.getPSName().equals(psname)) {
-          font = null;
-        }
-        fontSearched = true;
-      }
-    }
-    return font;
-  }
-
 
   public Glyph getGlyph(char c) {
     int index = index(c);
@@ -550,78 +484,6 @@ public class GGLFontImpl implements IFontImpl {
       // used when reading from a stream or for subclasses
     }
 
-
-    public Glyph(DataInputStream is) throws IOException {
-      index = -1;
-      readHeader(is);
-    }
-
-
-    protected void readHeader(DataInputStream is) throws IOException {
-      value = is.readInt();
-      height = is.readInt();
-      width = is.readInt();
-      setWidth = is.readInt();
-      topExtent = is.readInt();
-      leftExtent = is.readInt();
-
-      // pointer from a struct in the c version, ignored
-      is.readInt();
-
-      // the values for getAscent() and getDescent() from FontMetrics
-      // seem to be way too large.. perhaps they're the max?
-      // as such, use a more traditional marker for ascent/descent
-      if (value == 'd') {
-        if (ascent == 0) ascent = topExtent;
-      }
-      if (value == 'p') {
-        if (descent == 0) descent = -topExtent + height;
-      }
-    }
-
-
-    protected void writeHeader(DataOutputStream os) throws IOException {
-      os.writeInt(value);
-      os.writeInt(height);
-      os.writeInt(width);
-      os.writeInt(setWidth);
-      os.writeInt(topExtent);
-      os.writeInt(leftExtent);
-      os.writeInt(0); // padding
-    }
-
-
-    protected void readBitmap(DataInputStream is) throws IOException {
-    
-      int bitmapSize = width * height;
-
-      byte[] temp = new byte[bitmapSize];
-      is.readFully(temp);
-
-      // convert the bitmap to an alpha channel
-      int w = width;
-      int h = height;
-      pixels = new int[width*height];
-      for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-          pixels[y * width + x] = temp[y*w + x] & 0xff;
-//          System.out.print((image.pixels[y*64+x] > 128) ? "*" : ".");
-        }
-//        System.out.println();
-      }
-//      System.out.println();
-    }
-
-
-    protected void writeBitmap(DataOutputStream os) throws IOException {
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          os.write(pixels[y * width + x] & 0xff);
-        }
-      }
-    }
-
-
     protected Glyph(char c) {
       int mbox3 = size * 3;
       lazyGraphics.setColor(Color.white);
@@ -700,5 +562,16 @@ public class GGLFontImpl implements IFontImpl {
     
     return new Rect (0, 0, width, height);
   }
+  
+  
+  public GLFont createGLFont( GL2 gl2 ) {
+      if ( glfont == null ){
+          glfont = new GLFont(gl2, this);
+      }
+   
+      return glfont;
+  }
+  
+  private static GLFont glfont = null;
 }
 

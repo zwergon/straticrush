@@ -85,7 +85,7 @@ public class Axis extends GObject
         if (rank == 0) {
           double value = niceNumber.getValue();
           GText text = new GText (format.format (value),
-                                  isTop_ ? GPosition.TOP : GPosition.LEFT);
+                                  isTop_ ? GPosition.TOP  : GPosition.LEFT);
           tick.setText (text);
         }
 
