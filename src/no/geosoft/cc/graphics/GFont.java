@@ -17,7 +17,7 @@ public  class GFont extends Object {
 	
 	public GFont(){
 		fontName="Arial";
-		fontSize=10;
+		fontSize=14;
 		fontStyle = NORMAL;
 		
 		impl = GFactory.createFont(this);

@@ -1,5 +1,7 @@
 package no.geosoft.graphics.factory;
 
+import java.awt.Font;
+
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
@@ -8,6 +10,7 @@ import no.geosoft.cc.graphics.GL.GGLBitmapFont;
 import no.geosoft.cc.graphics.GL.GGLCanvas;
 import no.geosoft.cc.graphics.GL.GGLImage;
 import no.geosoft.cc.graphics.GL.GGLSwtCanvas;
+import no.geosoft.cc.graphics.font.GGLFontImpl;
 import no.geosoft.cc.graphics.swt.GSwtCanvas;
 import no.geosoft.cc.graphics.swt.GSwtColorImpl;
 import no.geosoft.cc.graphics.swt.GSwtFontImpl;
@@ -26,13 +29,14 @@ public class GFactory {
 	}
 	
 	static public IColorImpl createColor( GColor color ){
-		//return new GSwtColorImpl( color );
-		return null;
+		return new GSwtColorImpl( color );
+		//return null;
 	}
 	
 	static public IFontImpl createFont( GFont font ){
+	    return new GGLFontImpl( new Font(font.getFontName(), Font.PLAIN, font.getSize()), true);
 		//return new GSwtFontImpl(font);
-		return new GGLBitmapFont();
+		//return new GGLBitmapFont();
 	}
 	
 	static public IImageImpl createImage( GImage image ){

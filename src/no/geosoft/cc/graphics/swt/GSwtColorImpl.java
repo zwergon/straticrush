@@ -14,7 +14,7 @@ public class GSwtColorImpl implements IColorImpl {
 		this.color = color;
 	}
 	
-	Color toSwtColor( Device device ){
+	public Color toSwtColor( Device device ){
 		return new Color( device, color.getRed(), color.getGreen(), color.getBlue() );
 	}
 
