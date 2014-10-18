@@ -437,20 +437,19 @@ public class GWindow
     // Clear the viewport area in the canvas
     canvas_.clear (damageRegion_.getExtent());
 
-    // Rendering pass 1: DATA clippend by scene viewport.
+   
     for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-      GScene scene = (GScene) i.next();
-      canvas_.setClipArea (scene.getRegion());
-      scene.refreshData (visibilityMask);
+        GScene scene = (GScene) i.next();
+        canvas_.setClipArea (scene.getRegion());
+        
+        // Rendering pass 1: DATA clippend by scene viewport.
+        scene.refreshData (visibilityMask);
+
+        // Rendering pass 2: ANNOTATION
+        scene.refreshAnnotation (visibilityMask);
     }
 
-    // Rendering pass 2: ANNOTATION
-    for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-      GScene scene = (GScene) i.next();
-      canvas_.setClipArea (scene.getRegion());
-      scene.refreshAnnotation (visibilityMask);
-    }
-    
+   
     canvas_.refresh();
  
   }
