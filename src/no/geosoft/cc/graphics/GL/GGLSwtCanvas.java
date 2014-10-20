@@ -27,8 +27,6 @@ import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
-import no.geosoft.cc.graphics.font.GGLFontImpl;
-import no.geosoft.cc.graphics.font.GLFont;
 import no.geosoft.cc.graphics.swt.GSwtColorImpl;
 import no.geosoft.cc.graphics.swt.GSwtFontImpl;
 import no.geosoft.cc.interfaces.ICanvas;
@@ -491,16 +489,15 @@ public class GGLSwtCanvas extends Composite
 			  
 			  GLFont glfont = fontImpl.createGLFont(gl2);
 		
-			  glfont.setColor((byte)fg.getRed(), (byte)fg.getGreen(), (byte)fg.getBlue(),(byte)fg.getAlpha() );
-			  glfont.write(gl2,text. getText(), text.getRectangle().x,  text.getRectangle().y );
-			  /*
-			  gl2.glColor3ub((byte)fg.getRed(), (byte)fg.getGreen(), (byte)fg.getBlue());
 			  
-			  gl2.glRasterPos2i(text.getRectangle().x,  text.getRectangle().y);
+			  glfont.setColor(
+					  (byte)fg.getRed(), 
+					  (byte)fg.getGreen(), 
+					  (byte)fg.getBlue(),
+					  (byte)fg.getAlpha() );
 			  
-			  GGLBitmapFont gl_font = (GGLBitmapFont)style.getFont().getImpl();
-			  glut_.glutBitmapString( gl_font.getType(), text.getText() );
-			  */
+			  glfont.write( gl2, text.getText(), text.getRectangle().x,  text.getRectangle().y );
+			
 		  }
 	  }
 	  

@@ -1,4 +1,4 @@
-package no.geosoft.cc.graphics.font;
+package no.geosoft.cc.graphics.GL;
 
 /* -*- mode: java; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 
