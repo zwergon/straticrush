@@ -54,7 +54,6 @@ public class GWindow
   private GInteraction  interaction_;
   private List<GScene>  scenes_;
   private GScene        interactionScene_;
-  private Region        damageRegion_;
   
   private boolean       isResizing = false;
 
@@ -79,7 +78,7 @@ public class GWindow
     
     interaction_  = null;
     scenes_       = new ArrayList();
-    damageRegion_ = new Region();
+   
 
     // Cannot set 0 initially as resize is computed relative to current
     width_  = 500;
@@ -261,52 +260,6 @@ public class GWindow
   }
   
 
-  
-  /**
-   * Return region of damage since last refresh.
-   * 
-   * @return  Damages region since last refresh.
-   */
-  Region getDamageRegion()
-  {
-    return damageRegion_;
-  }
-  
-
-
-  /**
-   * Add the specified region to the current damage region.
-   * 
-   * @param region  Region to add to damage.
-   */
-  void updateDamageArea (Region region)
-  {
-    damageRegion_.union (region);
-
-    // It doesn't really matter if the damage region is larger than
-    // the actual damage, but we'd like to keep it as small as possible
-    // so we affect as few objects as possible during redraw.
-    // However, this come as a tradeof with region complexity, and if it
-    // becomes to complex we choose to "callapse" it, i.e. exchange it
-    // with its outline extent.
-    if (damageRegion_.getNRectangles() > 100)
-      damageRegion_.collapse();
-  }
-
-  
-
-  /**
-   * Add the specified rectangle to the current damage region.
-   * 
-   * @param rectangle  Rectangle to add to damage.
-   */
-  void updateDamageArea (Rect rectangle)
-  {
-    updateDamageArea (new Region (rectangle));
-  }
-
-  
-
   /**
    * Install the specified interaction on this window. As a window
    * can administrate only one interaction at the time, the current
@@ -401,20 +354,6 @@ public class GWindow
                          GObject.SYMBOLS_VISIBLE    |
                          GObject.WIDGETS_VISIBLE;
 
-    // Check if annotation has changed
-    boolean isAnnotationUpdated = false;
-    for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-      GScene scene = (GScene) i.next();
-      if (!scene.isAnnotationValid()) {
-        isAnnotationUpdated = true;
-        break;
-      }
-    }
-
-    // Return here if nothing has changed
-    if (!isAnnotationUpdated && damageRegion_.isEmpty())
-      return;
-
     // Compute positions of all annotations
     computeTextPositions();
 
@@ -427,15 +366,15 @@ public class GWindow
     canvas_.initRefresh();
 
     // Compute viewPort Region of all GScene and set it as the damage Region
-    damageRegion_ = new Region();
+    Region damageRegion = new Region();
     for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
       GScene scene = (GScene) i.next();
-      damageRegion_.union (scene.getRegion());
+      damageRegion.union (scene.getRegion());
     }
     
 
     // Clear the viewport area in the canvas
-    canvas_.clear (damageRegion_.getExtent());
+    canvas_.clear (damageRegion.getExtent());
 
    
     for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
@@ -619,12 +558,7 @@ public class GWindow
     width_  = width;
     height_ = height;
 
-    // Mark entire window as damaged
-    damageRegion_.clear();
-    Rect allWindow = new Rect (0, 0, width_, height_);
-    damageRegion_.union (allWindow);
-
-    
+   
     // Resize every scene accordingly
     for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
       GScene scene = (GScene) i.next();

@@ -1,6 +1,8 @@
 package straticrush.menu;
 
 
+import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.geometry.Region;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GPosition;
@@ -31,14 +33,7 @@ public class MenuItem extends GObject {
 
 	}
 	
-	 public static int[] createRectangle (int x0, int y0, int width, int height)
-	  {
-	    return new int[] {x0,               y0,
-	                      x0 + (width - 1), y0,
-	                      x0 + (width - 1), y0 + (height - 1),
-	                      x0,               y0 + (height - 1),
-	                      x0,               y0};
-	  }
+	 
 	 
 	 public int[] getBorder(){
 		 return background_.getGeometry();
@@ -49,17 +44,28 @@ public class MenuItem extends GObject {
 	  }
 
 	private void updateGeometry() {
-		
-		 Menu menu = (Menu)getParent();
+
+		Menu menu = (Menu)getParent();
 		int index = getPosition() + offset;
-		  int width  =  menu.getWidth() - 6;
-		  int height =  40 ;
-		  int x0 = menu.getX0() + 3 ;
-		  int y0 = menu.getY0() + 3 + index*height;
+		
+		
+		
+		double width  =  1.0;
+		double height =  0.1 ;
+		double x0 = menu.getX0() ;
+		double y0 = menu.getY0() + index*height;
+		
+		RectD rect = new RectD(x0,y0,x0+width,y0+height);
+		if ( rect.intersect( menu.getScrollableArea() ) ){
+			setVisibility(VISIBLE);
+		}
+		else {
+			setVisibility(INVISIBLE);
+		}
 
 
-		  // Draw background
-		  background_.setGeometry (createRectangle (x0, y0, width, height));
+		// Draw background
+		background_.setGeometryXy( Menu.createRectangle (x0, y0, width, height) );
 	}
 
 	public void scrollDown() {

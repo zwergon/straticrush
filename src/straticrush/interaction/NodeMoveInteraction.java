@@ -7,7 +7,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
-import fr.ifp.jdeform.deformation.NodeMove;
+import fr.ifp.jdeform.deformation.NodeMoveController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GInteraction;
@@ -17,7 +17,7 @@ import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GTransformer;
 
 
-public class NodeMoveInteraction implements GInteraction{
+public class NodeMoveInteraction implements GInteraction {
 
 	private GScene    scene_;
 	private GSegment  selected_segment_;
@@ -47,7 +47,7 @@ public class NodeMoveInteraction implements GInteraction{
 		type_ = NodeMoveType.TRANSLATE;
 	}
 	
-	private NodeMove createNodeMove( Patch patch ){
+	private NodeMoveController createNodeMove( Patch patch ){
 		
 		if ( patch instanceof MeshPatch ){
 			switch( type_ ){
@@ -99,7 +99,7 @@ public class NodeMoveInteraction implements GInteraction{
 				PatchView view = (PatchView)selected_segment_.getOwner();
 				Patch patch = view.getObject();
 
-				NodeMove node_move = createNodeMove(patch);
+				NodeMoveController node_move = createNodeMove(patch);
 
 				GTransformer transformer = view.getTransformer();
 

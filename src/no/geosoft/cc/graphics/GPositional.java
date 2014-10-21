@@ -383,23 +383,9 @@ abstract class GPositional
     if (object != null) object.flagRegionValid (false);
     if (scene  != null) scene.setAnnotationValid (false);
 
-    updateDamage();
   }
 
 
   
-  /**
-   * Mark the extent of this positional as damaged.
-   */
-  void updateDamage()
-  {
-    GObject object = getObject();
-    
-    if (isVisible()           &&
-        rectangle_ != null    &&
-        !rectangle_.isEmpty() &&
-        object != null        &&
-        object.getWindow() != null)
-      object.getWindow().updateDamageArea (rectangle_);
-  }
+ 
 }

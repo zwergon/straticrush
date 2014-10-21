@@ -214,20 +214,11 @@ public class GScene extends GObject
   {
     isViewportFixed_ = true;
 
-    // Flag old viewport as damaged
-    // TODO: If the viewport is moved around in the canvas during
-    // execution (rare), old content outside the new viewport will
-    // remain as redraw is clipped against the new viewport.
-    window_.updateDamageArea (getRegion());
-
     // Update viewport
     viewport_.set (x0, y0, x1, y1, x2, y2);
 
     // Set the new region for this scene
     updateRegion();
-
-    // Flag new viewport as damaged
-    window_.updateDamageArea (getRegion());
     
     adjustCurrentWorldExtent();
     transformer_.update (viewport_, currentWorldExtent_);
@@ -310,9 +301,6 @@ public class GScene extends GObject
     
     adjustCurrentWorldExtent();
     transformer_.update (viewport_, currentWorldExtent_);
-
-    // Flag new viewport as damaged
-    window_.updateDamageArea (getRegion());
 
     redraw (getVisibility());
     
@@ -588,9 +576,6 @@ public class GScene extends GObject
   {
     // Set new world extent
     currentWorldExtent_.set (w0, w1, w2);
-
-    // Flag entire scene as damaged
-    window_.updateDamageArea (getRegion());
     
     // Make sure we keep aspect ratio (if required)
     adjustCurrentWorldExtent();

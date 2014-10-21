@@ -37,7 +37,9 @@ public class ResetGeometryInteraction implements GInteraction {
 					for( CtrlNode node : patch.getNodes() ){
 						node.setPosition( node.getOriginalPos() );
 					}
-					patch.notifyListeners(null);
+					
+					//TODO
+					//patch.notifyListeners(null);
 					scene.refresh();
 					
 				}

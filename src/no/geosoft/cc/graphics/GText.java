@@ -93,7 +93,6 @@ public class GText extends GPositional
     if (object != null) object.flagRegionValid (false);
     if (scene  != null) scene.setAnnotationValid (false);
 
-    updateDamage();
   }
 
   

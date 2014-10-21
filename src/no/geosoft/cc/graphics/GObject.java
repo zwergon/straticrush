@@ -544,7 +544,6 @@ public class GObject
     children_.remove (child);
     add (child, position);
 
-    updateDamage();
   }
 
 
@@ -1106,8 +1105,6 @@ public class GObject
    */
   public void remove (GObject child)
   {
-    // Update damage with removed region
-    child.updateDamage();
 
     children_.remove (child);
     child.parent_ = null;
@@ -1291,12 +1288,6 @@ public class GObject
     if (segment.getOwner() != this)
       return;
 
-    // Update damage
-    Region region = segment.getRegion();
-    GWindow window = getWindow();
-    if (window != null)
-      window.updateDamageArea (region);    
-    
     // If there was texts on this segment, flag annotation to be redone
     if (segment.getTexts() != null) {
       GScene scene = getScene();
@@ -1395,11 +1386,9 @@ public class GObject
       return;
 
     // If we don't intersect with the damage, return
-    if (!region_.isIntersecting (getWindow().getDamageRegion()))
+    if (!region_.isIntersecting (getScene().getRegion()))
       	return;
-      
-
-    
+          
     // Refreshing self
     if (segments_ != null) {
       ICanvas canvas = getWindow().getCanvas();
@@ -1454,7 +1443,7 @@ public class GObject
       return;
 
     // If we don't intersect with damage, return
-    if (!region_.isIntersecting (getWindow().getDamageRegion()))
+    if (!region_.isIntersecting (getScene().getRegion()))
       return;
 
     // Refreshing self
@@ -1499,7 +1488,7 @@ public class GObject
       return;
 
     // If we don't intersect with damage, return
-    if (!region_.isIntersecting (getWindow().getDamageRegion()))
+    if (!region_.isIntersecting (getScene().getRegion()))
       return;
 
     // Refreshing self
@@ -1757,7 +1746,6 @@ public class GObject
       
       // Redo annotation unless this was an empty object
       if (children_.size() > 0 || getNSegments() > 0) {
-        updateDamage();
         // Don't think we need this. Check for errors later.
         // getWindow().computeTextPositions();
       }
@@ -1771,7 +1759,6 @@ public class GObject
       if ((visibilityMask & DATA_VISIBLE) != 0)
         getWindow().computeRegion();
       
-      updateDamage();
     }
   }
 
@@ -1779,7 +1766,6 @@ public class GObject
   
   private void changeSymbolVisibility()
   {
-    updateDamage();
   }
 
 
@@ -1896,19 +1882,6 @@ public class GObject
     }
   }
 
-
-  
-  /**
-   * Update window damage area with the region extent of this object.
-   */
-  private void updateDamage()
-  {
-    GWindow window = getWindow();
-    if (window != null)
-      window.updateDamageArea (region_);    
-  }
-  
-
   
   /**
    * Return parent GObject of this object.
@@ -1953,7 +1926,6 @@ public class GObject
   public void styleChanged (GStyle style)
   {
     updateStyle();
-    updateDamage();
   }
   
   

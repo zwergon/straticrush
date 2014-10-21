@@ -378,7 +378,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         PatchLibrary patchLib = section.findOrCreatePatchLibrary();
       
 
-        MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), patchLib );
+        MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
         plot.removeAll();
 
         // Create a graphic object

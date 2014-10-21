@@ -306,9 +306,6 @@ public class GSegment
     if (rectangle_ != null)
       isVisible_ = owner_.getScene().getRegion().isIntersecting (rectangle_);
 
-    // Update GWindow damage area
-    updateDamage();
-    
     // If segment has text, annotation must be updated
     if (texts_ != null)
       owner_.getScene().setAnnotationValid (false);
@@ -319,22 +316,7 @@ public class GSegment
   }
   
 
-  
-  /**
-   * Flag the geometry part of this GSegment as damaged.
-   */
-  void updateDamage()
-  {
-    if (isVisible_            &&
-        rectangle_ != null    &&
-        !rectangle_.isEmpty() &&
-        owner_ != null        &&
-        owner_.getWindow() != null)
-      owner_.getWindow().updateDamageArea (rectangle_);
-  }
-
-  
-
+ 
   /**
    * Compute the rectangle bounding box of this GSegment.
    */
@@ -396,9 +378,7 @@ public class GSegment
    */
   public void setGeometry (int[] x, int[] y)
   {
-    // Mark old area as damaged
-    updateDamage();
-
+  
     // Update geometry
     if (x == null) {
       x_ = null;
@@ -436,9 +416,7 @@ public class GSegment
    */
   public void setGeometry (int[] xy)
   {
-    // Mark old area as damaged
-    updateDamage();
-
+  
     // Update geometry
     if (xy == null) {
       x_ = null;
@@ -793,13 +771,7 @@ public class GSegment
    * Remove all text elements set on this segment.
    */
   public void removeText()
-  {
-    // Update damage area
-    if (owner_ != null && owner_.getWindow() != null && texts_ != null) {
-      Region damage = findRegion (texts_);
-      owner_.getWindow().updateDamageArea (damage);
-    }
-    
+  {  
     // Nullify texts
     texts_ = null;
   }
@@ -858,12 +830,6 @@ public class GSegment
    */
   public void removeImages()
   {
-    // Update damage area
-    if (owner_ != null && owner_.getWindow() != null && images_ != null) {
-      Region damage = findRegion (images_);
-      owner_.getWindow().updateDamageArea (damage);
-    }
-    
     // Nullify images
     images_ = null;
   }
@@ -947,13 +913,7 @@ public class GSegment
    * @param component
    */
   public void removeComponents()
-  {
-    // Update damage area
-    if (owner_ != null && owner_.getWindow() != null && components_ != null) {
-      Region damage = findRegion (components_);
-      owner_.getWindow().updateDamageArea (damage);
-    }
-    
+  {   
     // Nullify images
     components_ = null;
   }

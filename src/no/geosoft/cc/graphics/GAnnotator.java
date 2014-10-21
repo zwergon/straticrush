@@ -157,11 +157,6 @@ class GAnnotator
 
       // If positional was moved update damage
       if (!oldRectangle.equals (positional.getRectangle())) {
-        if (wasVisible)
-          scene_.getWindow().updateDamageArea (oldRectangle);
-        if (positional.isVisible())
-          scene_.getWindow().updateDamageArea (positional.getRectangle());
-
         if (wasVisible || positional.isVisible())
           segment.getOwner().flagRegionValid (false);
       }
