@@ -112,15 +112,6 @@ public class GObject
     this (null);
   }
   
-  
-  /**
-   * to be able to do some actions when removed.
-   */
-  public void destroy(){
-	  //nothing by default
-  }
-  
-
 
   /**
    * Return name of this graphic object.

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import fr.ifp.kronosflow.controller.Event;
-import fr.ifp.kronosflow.controller.IEventListener;
-import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Patch;
@@ -22,7 +20,7 @@ import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 
 
-public class PatchView extends GObject implements IEventListener {
+public class PatchView extends View {
 	
 	GSegment border = null;
 	
@@ -30,16 +28,14 @@ public class PatchView extends GObject implements IEventListener {
 		
 	}
 	
+	@Override
 	public void setUserData (Object object)
 	{
 		super.setUserData( object );
 	
 		Patch patch = (MeshPatch)object;
 		
-		patch.addListener( this );
-	
 		createGSegments(patch);
-		
 		
 	}
 	
@@ -106,14 +102,7 @@ public class PatchView extends GObject implements IEventListener {
 		
 		setVisibility( GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE );
 	}
-	
-	protected void finalize() throws Throwable {
-		Patch object = getObject();
-		if (null != object ){
-			object.removeListener(this);
-		}
-	}
-	
+
 	
 	
 	private class GPolyline extends GSegment {
@@ -151,6 +140,10 @@ public class PatchView extends GObject implements IEventListener {
 
 
 	public void updateGeometry() {
+		
+		if ( border == null ){
+			return;
+		}
 		
 		for( Object segment : getSegments() ){
 			 if ( segment instanceof GPolyline ){
@@ -194,7 +187,9 @@ public class PatchView extends GObject implements IEventListener {
 	
 	@Override
 	public void objectChanged(Object shape, Event event) {
-		updateGeometry();
+		if ( shape == getObject() ){
+			updateGeometry();
+		}
 	}
 	
 	

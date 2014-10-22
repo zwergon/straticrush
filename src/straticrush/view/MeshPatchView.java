@@ -3,11 +3,11 @@ package straticrush.view;
 
 import java.util.List;
 
+import straticrush.interaction.IViewListener;
+import straticrush.interaction.StratiCrushServices;
 import fr.ifp.kronosflow.controller.Event;
-import fr.ifp.kronosflow.controller.IEventListener;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.implicit.Cell;
 import fr.ifp.kronosflow.model.implicit.Mesh2D;
@@ -18,7 +18,7 @@ import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 
 
-public class MeshPatchView extends GObject implements IEventListener {
+public class MeshPatchView extends View {
 	
 	public MeshPatchView(){
 	}
@@ -28,9 +28,7 @@ public class MeshPatchView extends GObject implements IEventListener {
 		super.setUserData( object );
 	
 		MeshPatch patch = (MeshPatch)object;
-		
-		patch.addListener( this );
-		
+				
 		Mesh2D mesh = patch.getMesh();
 		
 		for( Cell cell : mesh.getCells() ){
@@ -51,12 +49,7 @@ public class MeshPatchView extends GObject implements IEventListener {
 		}*/
 	}
 	
-	protected void finalize() throws Throwable {
-		MeshPatch object = getObject();
-		if (null != object ){
-			object.removeListener(this);
-		}
-	}
+	
 	
 	private class GCell extends GSegment {
 		public GCell( Cell cell ){
@@ -176,34 +169,12 @@ public class MeshPatchView extends GObject implements IEventListener {
 	
 	@Override
 	public void objectChanged( Object shape, Event event) {
-		update_geometry();
+		
+		if ( shape == getObject() ){
+			update_geometry();
+		}
 	}
 	
-	/*
-	public NodeView selectNode( double[] pos ){
-		NodeView nearestView = null;
-		double distance = Double.MAX_VALUE;
-		for( MeshView view : views_  ){
-			if ( view instanceof NodeView ){
-				NodeView nview = (NodeView)view;
-				Node node = nview.getNode();
-				double cur_distance = node.distance(pos);
-				if ( cur_distance < distance ){
-					distance = cur_distance;
-					nearestView = nview;
-				}
-			}
-		}
-
-		return nearestView;
-	}
-	*/
-	
-	/*public void draw( World world, Graphics2D g2d ){
-		for( MeshView view : views_ ){
-			view.draw( world, g2d);
-		}
-	}*/
 
 	
 

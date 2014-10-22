@@ -49,19 +49,20 @@ public class NodeMoveInteraction implements GInteraction {
 	
 	private NodeMoveController createNodeMove( Patch patch ){
 		
+		StratiCrushServices services = StratiCrushServices.getInstance();
 		if ( patch instanceof MeshPatch ){
 			switch( type_ ){
 			default:
 			case TRANSLATE:
-				return new TranslateNodeMove(patch);
+				return (NodeMoveController)services.findOrCreateController("Translate", patch);
 			case CHAINMAIL:
-				return new ChainMeshNodeMove((MeshPatch)patch);
+				return (NodeMoveController)services.findOrCreateController("ChainMail", patch);
 			case SPRINGMASS:
-				return new MassSpringNodeMove((MeshPatch)patch);
+				return (NodeMoveController)services.findOrCreateController("MassSpring", patch);
 			}
 		}
 		else
-			return new TranslateNodeMove(patch);
+			return (NodeMoveController)services.findOrCreateController("Translate", patch);
 	}
 
 	@Override

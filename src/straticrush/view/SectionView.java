@@ -33,15 +33,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import straticrush.interaction.ComputeContactInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
-import straticrush.interaction.TranslateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.interaction.NodeMoveInteraction.NodeMoveType;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
-import straticrush.menu.MenuItem;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
@@ -240,7 +237,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
                 getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 
 
-        translateAction =  new WindowAction( window_, new TranslateInteraction(getPlot()) );
+        translateAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.TRANSLATE ) );
         translateAction.setText("Translate");
         translateAction.setToolTipText("eforme one patch by translation");
         translateAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
@@ -407,7 +404,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
         for( GObject object : copy ){
         	if ( object instanceof ContactView ){
-        		ViewFactory.getInstance().destroyView(plot, object);
+        		ViewFactory.getInstance().destroyView(plot, (View)object);
         	}
         }
         

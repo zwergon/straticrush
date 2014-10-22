@@ -56,7 +56,7 @@ public class GGLFontImpl implements IFontImpl {
    * PGraphics subclass to just use Java's font rendering stuff
    * in situations where that's faster.
    */
-  protected Font font;
+  protected GFont font;
 
  
   /**
@@ -66,12 +66,12 @@ public class GGLFontImpl implements IFontImpl {
    * @nowebref
    * @param charset array of all unicode chars that should be included
    */
-  public GGLFontImpl(Font font, boolean smooth) {
+  public GGLFontImpl( GFont font, boolean smooth ) {
     // save this so that we can use the native version
     this.font = font;
     this.smooth = smooth;
 
-    name = font.getName();
+    name = font.getFontName();
     size = font.getSize();
     
   }
@@ -80,20 +80,7 @@ public class GGLFontImpl implements IFontImpl {
     return name;
   }
 
-  /**
-   * Set the native complement of this font. Might be set internally via the
-   * findFont() function, or externally by a deriveFont() call if the font
-   * is resized by PGraphicsJava2D.
-   */
-  public void setNative(Object font) {
-    this.font = (Font) font;
-  }
-
-
-  public Font getFont() {
-    return font;
-  }
-
+ 
   /**
    * Return size of this font.
    */

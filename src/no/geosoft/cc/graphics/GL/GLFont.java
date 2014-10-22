@@ -59,6 +59,7 @@ public class GLFont{
     //  * versions of characters are only created when prompted by an index() call.
     //  */
     // protected Font lazyFont;
+    protected Font font;
     protected BufferedImage lazyImage;
     protected Graphics2D lazyGraphics;
     protected FontMetrics lazyMetrics;
@@ -66,9 +67,10 @@ public class GLFont{
     
     static final int NCHARACTERS = 256; /* only handle first 280 characters */
     
-    public GLFont( GGLFontImpl font ){
+    public GLFont( GGLFontImpl fontImpl ){
     	
-    	this.fontImpl = font;
+    	this.fontImpl = fontImpl;
+    	this.font = new Font(fontImpl.getName(),Font.BOLD, fontImpl.getSize() ); 
     	
     	init();
     }
@@ -130,7 +132,6 @@ public class GLFont{
     	
     	glyphs = new Glyph[NCHARACTERS];
     	
-    	Font font = fontImpl.font;
 
     	int mbox3 = fontImpl.size * 3;
 
@@ -182,7 +183,6 @@ public class GLFont{
      */
     public Rect getStringBox (String string, GFont gfont)
     {
-    	Font font = fontImpl.font;
     	TextLayout textLayout = new TextLayout (string, font, 
     			lazyGraphics.getFontRenderContext());
     	Rectangle2D bounds = textLayout.getBounds();
@@ -292,8 +292,7 @@ public class GLFont{
      */
     protected int index(char c) {
     	
-    	Font font = fontImpl.font;
-     
+    
         int index = indexActual(c);
         if (index != -1) {
           return index;

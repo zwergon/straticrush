@@ -4,8 +4,9 @@ package straticrush.view;
 import java.util.Iterator;
 import java.util.List;
 
+import straticrush.interaction.IViewListener;
+import straticrush.interaction.StratiCrushServices;
 import fr.ifp.kronosflow.controller.Event;
-import fr.ifp.kronosflow.controller.IEventListener;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
@@ -18,18 +19,11 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 
-public class ContactView extends GObject  implements IEventListener {
+public class ContactView extends View {
 	
 	private GSegment gline;
 	
-	public void destroy() {
-		Patch patch = getPatch();
-		if (null != patch ){
-			patch.removeListener(this);
-		}
-	}
-	
-	
+
 	public void setUserData (Object object)
 	{
 		super.setUserData( object );
@@ -37,10 +31,7 @@ public class ContactView extends GObject  implements IEventListener {
 		Contact contact = (Contact)getUserData();
 
 		PatchInterval interval = contact.getInterval();
-		Patch patch = interval.getPatch();
-		
-		patch.addListener(this);
-		
+			
 		gline = new GSegment();
 		gline.setUserData( interval );
 		addSegment(gline);
@@ -90,8 +81,10 @@ public class ContactView extends GObject  implements IEventListener {
 	}
 	
 	@Override
-	public void objectChanged(Object shape, Event event) {
-		updateGeometry();
+	public void objectChanged(Object object, Event event) {
+		if ( object == getPatch() ){
+			updateGeometry();
+		}
 	}
 
 }

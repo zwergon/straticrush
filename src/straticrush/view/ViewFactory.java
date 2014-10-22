@@ -36,28 +36,29 @@ public class ViewFactory {
 		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
 	}
 	
-	public GObject createView( GScene scene, Object object ){
+	public View createView( GScene scene, Object object ){
 
-		GObject view = null;
+		View view = null;
 	    try {
 	    	/*
 	    	 * TODO go through class inheritance to find the first ascending 
 	    	 * class valid to create a View
 	    	 */
 	    	Class<?> c1 = Class.forName( mapViews.get(object.getClass().getCanonicalName() ) );
-	    	view = (GObject)c1.newInstance();
+	    	view = (View)c1.newInstance();
 	    	if ( null != view ){
 	    		scene.add( view );
 	    		view.setUserData( object );
 	    	}
 	    }
 	    catch( Exception ex){
+	    	System.out.println(ex.toString());
 	    }
 	    
 	    return view;
 	}
 	
-	public void destroyView( GScene scene, GObject view ){
+	public void destroyView( GScene scene, View view ){
 		scene.remove(view);
 		view.destroy();
 	}

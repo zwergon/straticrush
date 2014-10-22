@@ -21,7 +21,6 @@ import no.geosoft.cc.interfaces.IFontImpl;
 import no.geosoft.cc.interfaces.IImageImpl;
 
 public class GFactory {
-
 	
 	static public ICanvas createCanvas( Object parent, GWindow window ){
 		//return new GSwtCanvas(parent, window);
@@ -33,8 +32,8 @@ public class GFactory {
 		//return null;
 	}
 	
-	static public IFontImpl createFont( GFont font ){
-	    return new GGLFontImpl( new Font(font.getFontName(), Font.BOLD, font.getSize()), true);
+	static public IFontImpl createFont( GFont gfont ){
+	    return new GGLFontImpl( gfont, true);
 		//return new GSwtFontImpl(font);
 		//return new GGLBitmapFont();
 	}
