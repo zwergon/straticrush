@@ -23,20 +23,15 @@ public class NodeMoveInteraction implements GInteraction {
 	private GSegment  selected_segment_;
 	private CtrlNode  selected_node_;
 	private int       x0_, y0_;
-	private NodeMoveType type_;
+	NodeMoveController nodeMove = null;
 	
-	public enum NodeMoveType {
-		TRANSLATE,
-		CHAINMAIL,
-		SPRINGMASS
-	}
 	
 
-	public NodeMoveInteraction( GScene scene, NodeMoveType type ){
+	public NodeMoveInteraction( GScene scene, String type ){
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
-		type_ = type;
+		nodeMove = (NodeMoveController)StratiCrushServices.getInstance().createController(type);
 	}
 	
 
@@ -44,31 +39,12 @@ public class NodeMoveInteraction implements GInteraction {
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
-		type_ = NodeMoveType.TRANSLATE;
+		nodeMove = (NodeMoveController)StratiCrushServices.getInstance().createController("Translate");
 	}
 	
-	private NodeMoveController createNodeMove( Patch patch ){
-		
-		StratiCrushServices services = StratiCrushServices.getInstance();
-		if ( patch instanceof MeshPatch ){
-			switch( type_ ){
-			default:
-			case TRANSLATE:
-				return (NodeMoveController)services.findOrCreateController("Translate", patch);
-			case CHAINMAIL:
-				return (NodeMoveController)services.findOrCreateController("ChainMail", patch);
-			case SPRINGMASS:
-				return (NodeMoveController)services.findOrCreateController("MassSpring", patch);
-			}
-		}
-		else
-			return (NodeMoveController)services.findOrCreateController("Translate", patch);
-	}
-
+	
 	@Override
 	public void event(GScene scene, GEvent event) {
-
-
 
 		if ( scene != scene_ ){
 			return;
@@ -98,9 +74,8 @@ public class NodeMoveInteraction implements GInteraction {
 
 
 				PatchView view = (PatchView)selected_segment_.getOwner();
-				Patch patch = view.getObject();
-
-				NodeMoveController node_move = createNodeMove(patch);
+				
+				nodeMove.setObject(view.getObject()); 
 
 				GTransformer transformer = view.getTransformer();
 
@@ -110,8 +85,8 @@ public class NodeMoveInteraction implements GInteraction {
 
 				double[] w_pos = transformer.deviceToWorld(d_pos);
 
-				node_move.setMove( selected_node_, w_pos );
-				node_move.move();
+				nodeMove.setMove( selected_node_, w_pos );
+				nodeMove.move();
 
 
 			}
@@ -124,6 +99,9 @@ public class NodeMoveInteraction implements GInteraction {
 			selected_segment_ = null;
 			break;
 			
+		case GEvent.ABORT:
+			nodeMove.dispose();
+			break;
 		}
 		
 		scene_.refresh();

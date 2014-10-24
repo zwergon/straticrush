@@ -36,7 +36,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
 import straticrush.interaction.ZoomInteraction;
-import straticrush.interaction.NodeMoveInteraction.NodeMoveType;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
 import fr.ifp.kronosflow.geometry.RectD;
@@ -237,19 +236,19 @@ public class SectionView extends ViewPart implements ISelectionListener {
                 getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 
 
-        translateAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.TRANSLATE ) );
+        translateAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), "Translate" ) );
         translateAction.setText("Translate");
         translateAction.setToolTipText("eforme one patch by translation");
         translateAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
-        chainMailAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.CHAINMAIL ) );
+        chainMailAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), "ChainMail" ) );
         chainMailAction.setText("Chainmail");
         chainMailAction.setToolTipText("Deforme one patch by chainmail");
         chainMailAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
-        massSpringAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), NodeMoveType.SPRINGMASS ) );
+        massSpringAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), "SpringMass" ) );
         massSpringAction.setText("SpringMass");
         massSpringAction.setToolTipText("Deforme one patch by spring/mass system");
         massSpringAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
