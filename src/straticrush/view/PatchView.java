@@ -1,10 +1,13 @@
 package straticrush.view;
 
+import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.geology.BodyFeature;
+import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.Patch;
@@ -60,6 +63,24 @@ public class PatchView extends View {
 		return nearest_node;
 	}
 	
+	public GColor getPatchColor() {
+
+		Patch patch = (Patch)getObject();
+
+		GColor patchColor = null;
+		BodyFeature feature = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
+
+		if (feature != null) {
+			Color acolor = feature.getColor();
+			patchColor = new GColor(acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha() );
+		}
+		else {
+			patchColor = new GColor(255, 255, 255);
+		}
+
+		return patchColor;
+	}
+	
 	private static GColor getRandomPastelColor() {
 		Random r = new Random();
 		return GColor.getHSBColor(r.nextFloat(), (float) (0.1 + 0.2 * r.nextFloat()),
@@ -69,7 +90,7 @@ public class PatchView extends View {
 
 	protected void createGSegments(Patch patch) {
 		if ( null != patch.getBorder() ){
-			GColor color = getRandomPastelColor();
+			GColor color = getPatchColor();
 			border = addPolyLine( patch.getBorder(), color );
 			
 			GStyle textStyle = new GStyle();

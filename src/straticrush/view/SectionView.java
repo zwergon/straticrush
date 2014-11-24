@@ -1,7 +1,9 @@
 package straticrush.view;
 
 import java.awt.Insets;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -248,7 +250,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         chainMailAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
-        massSpringAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), "SpringMass" ) );
+        massSpringAction =  new WindowAction( window_, new NodeMoveInteraction(getPlot(), "MassSpring" ) );
         massSpringAction.setText("SpringMass");
         massSpringAction.setToolTipText("Deforme one patch by spring/mass system");
         massSpringAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
@@ -350,8 +352,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
 	private File chooseVolatileFile() {
         FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-        dialog.setFilterExtensions(new String[] { "*.geo" });
-        dialog.setFilterNames(new String[] { "geofile (*.geo)" });
+        dialog.setFilterExtensions(new String[] { "*.txt" });
+        dialog.setFilterNames(new String[] { "geofile (*.txt)" });
 
         String filename = dialog.open();
         if ( filename == null || filename.isEmpty() ){
@@ -364,17 +366,24 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private void load(){
         Plot plot = getPlot();
         if ( plot == null ) return;
+        
+        /*
 
         File file = chooseVolatileFile();
         if ( file == null || !file.exists() ){
             return;
         }
+        */
 
         section = new Section();
         PatchLibrary patchLib = section.findOrCreatePatchLibrary();
       
+        
+     
+        MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.geo", section);
+        MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.unit", section);
 
-        MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
+        //MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
         plot.removeAll();
 
         // Create a graphic object
@@ -389,6 +398,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
         window_.update();
 
     }
+    
+  
     
     private void displayContacts(boolean checked) {
     	

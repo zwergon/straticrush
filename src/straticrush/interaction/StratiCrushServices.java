@@ -5,6 +5,7 @@ import java.util.Map;
 
 import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
+import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import fr.ifp.kronosflow.controller.Event;
 import fr.ifp.kronosflow.controller.IKronosController;
@@ -39,6 +40,7 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener{
 		registerController("Translate", TranslateNodeMove.class);
 		registerController("ChainMail", ChainMeshNodeMove.class);
 		registerController("MassSpring", MassSpringNodeMove.class );
+		registerController("Reset", ResetController.class );
 	}
 	
 	public IKronosController createController( String type ){

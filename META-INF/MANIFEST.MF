@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.ui,
  fr.ifp.kronosflow.model.impl;bundle-version="1.0.0",
  fr.ifp.kronosflow.jdeform;bundle-version="1.0.0",
  javax.media.opengl;bundle-version="2.1.0",
- fr.ifp.kronosflow.filters;bundle-version="1.0.0"
+ fr.ifp.kronosflow.filters;bundle-version="1.0.0",
+ fr.ifp.kronosflow.model.algo;bundle-version="8.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

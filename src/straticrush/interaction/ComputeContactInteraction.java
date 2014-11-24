@@ -2,7 +2,7 @@ package straticrush.interaction;
 
 import straticrush.view.PatchView;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.algos.ComputeContact;
+import fr.ifp.kronosflow.model.algo.ComputeContact;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;

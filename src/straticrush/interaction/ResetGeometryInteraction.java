@@ -1,6 +1,6 @@
 package straticrush.interaction;
 
-import fr.ifp.kronosflow.model.CtrlNode;
+import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.kronosflow.model.Patch;
 import straticrush.view.PatchView;
 import no.geosoft.cc.graphics.GEvent;
@@ -12,15 +12,18 @@ import no.geosoft.cc.graphics.GSegment;
 public class ResetGeometryInteraction implements GInteraction {
 	
 	
-	private GScene scene_;
+	private GScene scene;
+	ResetController<Patch> controller;
 	
+	@SuppressWarnings("unchecked")
 	public ResetGeometryInteraction( GScene scene ) {
-		this.scene_ = scene;
+		this.scene = scene;
+		controller = (ResetController<Patch>)StratiCrushServices.getInstance().createController("Reset");
 	}
 
 	@Override
 	public void event(GScene scene, GEvent event) {
-		if ( scene != scene_ ){
+		if ( scene != this.scene ){
 			return;
 		}
 
@@ -32,16 +35,9 @@ public class ResetGeometryInteraction implements GInteraction {
 				if ( gobject instanceof PatchView ){
 					PatchView view = (PatchView)gobject;
 					Patch patch = view.getObject();
-					
-
-					for( CtrlNode node : patch.getNodes() ){
-						node.setPosition( node.getOriginalPos() );
-					}
-					
-					//TODO
-					//patch.notifyListeners(null);
-					scene.refresh();
-					
+					controller.setObject( patch );
+					controller.move();
+					scene.refresh();		
 				}
 			}
 
