@@ -388,12 +388,13 @@ public class SectionView extends ViewPart implements ISelectionListener {
 
         // Create a graphic object
         for( Patch patch : patchLib.getPatches() ){
-        	ViewFactory.getInstance().createView( plot, patch );
-            
+        	ViewFactory.getInstance().createView( plot, patch );   
         }
+        
+        ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
 
         RectD bbox = patchLib.getBoundingBox();
-        plot.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
+        plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
 
         window_.update();
 

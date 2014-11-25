@@ -39,14 +39,6 @@ public class MeshPatchView extends View {
 			addBorder( patch.getBorder() );
 		}
 		
-		
-		/*
-		for( PolyLine line : object.getLines() ){
-			PolygonView view = new PolygonView( object.getMesh(), line);
-			view.setColor( Color.green );
-			views_.add( view );
-		
-		}*/
 	}
 	
 	
@@ -63,18 +55,7 @@ public class MeshPatchView extends View {
 		private Cell cell_;
 	};
 	
-	private class GBorder extends GSegment {
-		public GBorder( PolyLine line ){
-			line_ = line;
-		}
-		
-		public PolyLine getLine(){
-			return line_;
-		}
-		
-		private PolyLine  line_;
-		
-	};
+	
 
 	private GSegment addCell(Cell cell) {
 		
@@ -93,7 +74,7 @@ public class MeshPatchView extends View {
 	
 	private GSegment addBorder( PolyLine line ) {
 		
-		GSegment gborder = new GBorder( line );
+		GSegment gborder = new GPolyline( line );
 		addSegment(gborder);
 		
 			
@@ -136,29 +117,10 @@ public class MeshPatchView extends View {
 				}	
 				gcell.setGeometry(xpts, ypts);
 			}
-			else if ( segment instanceof GBorder ){
+			else if ( segment instanceof GPolyline ){
 				
-				GBorder gborder = (GBorder)segment;
-				PolyLine line = gborder.getLine();
-				
-				List<CurviPoint> pts = line.getPoints();
-
-				int npts =  pts.size();
-				double[] xpts = new double[npts];
-				double[] ypts = new double[npts];
-
-				double[] w_pt = new double[2];
-				int i = 0;
-				for ( CurviPoint tp : line.getPoints()) {
-
-
-					line.getPosition(tp, w_pt);
-					xpts[i] = w_pt[0];
-					ypts[i] = w_pt[1];
-					i++;
-				}	
-				
-				gborder.setGeometry(xpts, ypts);
+				GPolyline gborder = (GPolyline)segment;
+				gborder.updateGeometry();
 			}
 		}
 	}
