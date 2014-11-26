@@ -4,48 +4,45 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.model.CurviPoint;
+import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GSegment;
 
-public class GPolyline extends GSegment {
-
-
-	public GPolyline( PolyLine line ){
+public class GInterval extends GSegment {
+	
+	public GInterval( PatchInterval line ){
 		setUserData(line);
 	}
 
-	public PolyLine getLine(){
-		return (PolyLine)getUserData();
+	public PatchInterval getPatchInterval(){
+		return (PatchInterval)getUserData();
 	}
 
 	public void updateGeometry(){
 
-		PolyLine line = getLine();
+	
+		PatchInterval pinterval = getPatchInterval();
+		Interval interval = pinterval.getInterval();
+		List<ICurviPoint> pts = interval.getPoints();
+		PolyLine line = interval.getPolyline();
 
-		List<ICurviPoint> pts = line.getPoints();
-
-		int npts =  ( line.isClosed()) ? pts.size()+1 : pts.size();
+		int npts =  pts.size();
 		double[] xpts = new double[npts];
 		double[] ypts = new double[npts];
 
 		double[] w_pt = new double[2];
 		int i = 0;
-		Iterator<ICurviPoint> itr = line.iterator();
+		Iterator<ICurviPoint> itr = pts.iterator();
 		while( itr.hasNext() ){
-			ICurviPoint tp = itr.next();
+			CurviPoint tp = (CurviPoint)itr.next();
 			line.getPosition(tp, w_pt);
 			xpts[i] = w_pt[0];
 			ypts[i] = w_pt[1];
 			i++;
 		}	
-		if ( line.isClosed() ){
-			ICurviPoint tp = pts.get(0);
-			line.getPosition(tp, w_pt);
-			xpts[npts-1] = w_pt[0];
-			ypts[npts-1] = w_pt[1];
-		}
-
+		
 		setGeometry(xpts, ypts);
 
 	}

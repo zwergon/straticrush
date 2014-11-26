@@ -10,7 +10,10 @@ import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
+import fr.ifp.kronosflow.model.FeatureGeolInterval;
+import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
@@ -61,6 +64,22 @@ public class PatchView extends View {
 			}
 		}		
 		return nearest_node;
+	}
+	
+	public PatchInterval selectFeature( int dev_x, int dev_y  ){
+		
+		PatchInterval interval = null;
+		double[] pos = getTransformer().deviceToWorld(dev_x, dev_y);
+		
+		Patch patch = (Patch)getObject();
+		for( KinObject object : patch.getChildren() ){
+			if ( object instanceof FeatureGeolInterval ){
+				
+			}
+		}
+		
+		
+		return interval;
 	}
 	
 	public GColor getPatchColor() {

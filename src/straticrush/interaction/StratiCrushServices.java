@@ -43,6 +43,8 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener{
 		registerController("Reset", ResetController.class );
 	}
 	
+	
+	@SuppressWarnings("rawtypes")
 	public IKronosController createController( String type ){
 
 		IKronosController controller = null;

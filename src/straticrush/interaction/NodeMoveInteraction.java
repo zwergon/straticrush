@@ -4,11 +4,7 @@ package straticrush.interaction;
 import straticrush.view.PatchView;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
-import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
-import fr.ifp.jdeform.deformation.MassSpringNodeMove;
 import fr.ifp.jdeform.deformation.NodeMoveController;
-import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
@@ -23,23 +19,25 @@ public class NodeMoveInteraction implements GInteraction {
 	private GSegment  selected_segment_;
 	private CtrlNode  selected_node_;
 	private int       x0_, y0_;
-	NodeMoveController nodeMove = null;
+	NodeMoveController<Patch> nodeMove = null;
 	
 	
 
+	@SuppressWarnings("unchecked")
 	public NodeMoveInteraction( GScene scene, String type ){
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
-		nodeMove = (NodeMoveController)StratiCrushServices.getInstance().createController(type);
+		nodeMove = (NodeMoveController<Patch>)StratiCrushServices.getInstance().createController(type);
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	public NodeMoveInteraction( GScene scene ){
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
-		nodeMove = (NodeMoveController)StratiCrushServices.getInstance().createController("Translate");
+		nodeMove = (NodeMoveController<Patch>)StratiCrushServices.getInstance().createController("Translate");
 	}
 	
 	
