@@ -7,14 +7,19 @@ import java.util.Random;
 
 import fr.ifp.kronosflow.controller.Event;
 import fr.ifp.kronosflow.geology.BodyFeature;
+import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
+import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GColor;
@@ -69,12 +74,25 @@ public class PatchView extends View {
 	public PatchInterval selectFeature( int dev_x, int dev_y  ){
 		
 		PatchInterval interval = null;
-		double[] pos = getTransformer().deviceToWorld(dev_x, dev_y);
+		Point2D ori = new Point2D( getTransformer().deviceToWorld(dev_x, dev_y) );
+		Point2D dst = new Point2D();
+		
+		double minDist = Double.POSITIVE_INFINITY;
 		
 		Patch patch = (Patch)getObject();
 		for( KinObject object : patch.getChildren() ){
 			if ( object instanceof FeatureGeolInterval ){
-				
+				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
+				BoundaryFeature bf = (BoundaryFeature)fgInterval.getFeature();
+				if ( bf instanceof StratigraphicEvent ){
+					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
+					
+					double dist = pgeom.minimalDistance( ori, dst );
+					if ( dist < minDist ){
+						interval = (PatchInterval)object;
+						minDist = dist;
+					}
+				}
 			}
 		}
 		

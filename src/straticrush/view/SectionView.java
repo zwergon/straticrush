@@ -35,6 +35,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
 import straticrush.interaction.ZoomInteraction;
@@ -85,6 +86,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private Action displaySymbolsAction;
     private Action displayContactsAction;
     private Action openMenuAction;
+    private Action flattenAction;
 
    
     private GWindow   window_;
@@ -187,10 +189,13 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private void fillLocalPullDown(IMenuManager manager) {
 	
     	manager.add(resetAction);
+    	manager.add(new Separator());
         manager.add(translateAction);
         //manager.add(translate_action_);
         manager.add(chainMailAction);
         manager.add(massSpringAction);
+        manager.add(new Separator());
+        manager.add(flattenAction);
 
     }
 
@@ -255,6 +260,11 @@ public class SectionView extends ViewPart implements ISelectionListener {
         massSpringAction.setToolTipText("Deforme one patch by spring/mass system");
         massSpringAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
+        
+        flattenAction =  new WindowAction( window_, new FlattenInteraction(getPlot(), "Flatten" ) );
+        flattenAction.setText("Flatten");
+        flattenAction.setToolTipText("Flatten one horizon");
+        flattenAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
         zoomAction =  new WindowAction( window_, new ZoomInteraction(getPlot()) );
