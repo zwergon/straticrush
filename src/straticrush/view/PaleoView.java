@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GStyle;
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 import fr.ifp.kronosflow.model.Paleobathymetry;
 
 public class PaleoView extends View {
@@ -39,8 +39,8 @@ public class PaleoView extends View {
 	}
 
 	@Override
-	public void objectChanged(Object object, Event event) {
-		if ( object == getUserData() ){
+	public void objectChanged( IControllerEvent<?> event ) {
+		if ( event.getObject() == getUserData() ){
 			gline.updateGeometry();
 		}
 

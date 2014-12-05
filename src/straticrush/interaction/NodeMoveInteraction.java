@@ -73,7 +73,7 @@ public class NodeMoveInteraction implements GInteraction {
 
 				PatchView view = (PatchView)selected_segment_.getOwner();
 				
-				nodeMove.setObject(view.getObject()); 
+				nodeMove.setPatch(view.getObject()); 
 
 				GTransformer transformer = view.getTransformer();
 

@@ -12,6 +12,7 @@ import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.CtrlNode;
+import fr.ifp.kronosflow.model.LinePoint;
 import fr.ifp.kronosflow.model.Paleobathymetry;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
@@ -113,21 +114,21 @@ public class FlattenInteraction implements GInteraction {
 			
 			if ( null != selectedSegment ) {
 				
-				Point2D I = new Point2D();
-				if ( ( null != lineInter ) && 
-						lineInter.getFirstIntersectionPoint(selectedInterval.getInterval(), I) ){
+				LinePoint I = lineInter.getFirstIntersection(selectedInterval.getInterval());
+				if ( null != I ) {
 					
-					flattenController.setObject(view.getObject()); 
+					Point2D pt = I.getPosition();
+					flattenController.setPatch(view.getObject()); 
 					
 					Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
 					flattenController.setFlattenConstraint( new FlattenConstraint(selectedInterval, bathy) );
-					flattenController.setPointConstraint( I, I );
+					flattenController.setPointConstraint( pt, pt );
 					flattenController.move();
 					
 				}
 				else {
 				
-					translateController.setObject(view.getObject()); 
+					translateController.setPatch(view.getObject()); 
 
 					GTransformer transformer = view.getTransformer();
 

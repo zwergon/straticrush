@@ -1,7 +1,6 @@
 package straticrush.view;
 
-
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.topology.Contact;
@@ -48,8 +47,8 @@ public class ContactView extends View {
 	}
 	
 	@Override
-	public void objectChanged(Object object, Event event) {
-		if ( object == getPatch() && null != gline ){
+	public void objectChanged( IControllerEvent<?> event ) {
+		if ( event.getObject() == getPatch() && null != gline ){
 			gline.updateGeometry();
 		}
 	}

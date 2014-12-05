@@ -8,11 +8,11 @@ import fr.ifp.jdeform.deformation.FlattenController;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
 import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
-import fr.ifp.kronosflow.controller.Event;
-import fr.ifp.kronosflow.controller.IKronosController;
-import fr.ifp.kronosflow.controller.IEventListener;
+import fr.ifp.kronosflow.controller.interfaces.ICommandController;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
+import fr.ifp.kronosflow.controller.interfaces.IEventListener;
 
-public class StratiCrushServices extends ViewNotifier implements IEventListener{
+public class StratiCrushServices extends ViewNotifier implements IEventListener {
 	
 	private static StratiCrushServices instance;
 	private Map<String, String> controllersMap = new HashMap<String, String>(); //dictionnary for IController creation
@@ -47,16 +47,16 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener{
 	
 	
 	@SuppressWarnings("rawtypes")
-	public IKronosController createController( String type ){
+	public ICommandController createController( String type ){
 
-		IKronosController controller = null;
+		ICommandController controller = null;
 	    try {
 	    	/*
 	    	 * TODO go through class inheritance to find the first ascending 
 	    	 * class valid to create a View
 	    	 */
 	    	Class<?> c1 = Class.forName( controllersMap.get( type ) );
-	    	controller = (IKronosController)c1.newInstance();
+	    	controller = (ICommandController)c1.newInstance();
 	    	if ( null != controller ){
 	    		controller.addListener(this);
 	    	}
@@ -69,9 +69,12 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener{
 	}
 
 
+
+
 	@Override
-	public void objectChanged(Object object, Event event) {
-		notifyViews(object, event);
+	public void objectChanged(IControllerEvent<?> event) {
+		notifyViews( event );
+		
 	}
 
 

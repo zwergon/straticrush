@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 
 	public class ViewNotifier {
 		
@@ -14,7 +14,7 @@ import fr.ifp.kronosflow.controller.Event;
 		 * 
 		 * @param Event  Describe the change in the Shape.
 		 */
-		public void notifyViews( Object object, Event event )
+		public void notifyViews( IControllerEvent<?> event )
 		{
 			Iterator<WeakListener> i = listeners.iterator();
 			while( i.hasNext() ) {
@@ -24,7 +24,7 @@ import fr.ifp.kronosflow.controller.Event;
 				if (listener == null)
 					i.remove();
 				else
-					listener.objectChanged(object, event);
+					listener.objectChanged(event);
 			}
 		}
 

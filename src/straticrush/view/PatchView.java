@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
@@ -207,8 +207,8 @@ public class PatchView extends View {
 	}
 	
 	@Override
-	public void objectChanged(Object shape, Event event) {
-		if ( shape == getObject() ){
+	public void objectChanged( IControllerEvent<?> event ) {
+		if ( event.getObject() == getObject() ){
 			updateGeometry();
 		}
 	}

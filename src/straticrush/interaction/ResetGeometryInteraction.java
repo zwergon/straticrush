@@ -13,12 +13,12 @@ public class ResetGeometryInteraction implements GInteraction {
 	
 	
 	private GScene scene;
-	ResetController<Patch> controller;
+	ResetController controller;
 	
 	@SuppressWarnings("unchecked")
 	public ResetGeometryInteraction( GScene scene ) {
 		this.scene = scene;
-		controller = (ResetController<Patch>)StratiCrushServices.getInstance().createController("Reset");
+		controller = (ResetController)StratiCrushServices.getInstance().createController("Reset");
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ResetGeometryInteraction implements GInteraction {
 				if ( gobject instanceof PatchView ){
 					PatchView view = (PatchView)gobject;
 					Patch patch = view.getObject();
-					controller.setObject( patch );
+					controller.setPatch( patch );
 					controller.move();
 					scene.refresh();		
 				}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import straticrush.interaction.IViewListener;
 import straticrush.interaction.StratiCrushServices;
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.PolyLine;
@@ -130,9 +130,9 @@ public class MeshPatchView extends View {
 	}
 	
 	@Override
-	public void objectChanged( Object shape, Event event) {
+	public void objectChanged( IControllerEvent<?> event) {
 		
-		if ( shape == getObject() ){
+		if ( event.getObject() == getObject() ){
 			update_geometry();
 		}
 	}

@@ -1,9 +1,9 @@
 package straticrush.interaction;
 
-import fr.ifp.kronosflow.controller.Event;
+import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
 
 public interface IViewListener {
 	
 	void destroy();
-	void objectChanged( Object object, Event event );
+	void objectChanged( IControllerEvent<?> event );
 }
