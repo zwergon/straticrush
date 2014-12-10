@@ -3,8 +3,6 @@ package no.geosoft.cc.graphics;
 
 import java.io.File;
 
-import no.geosoft.cc.graphics.GL.GGLImage;
-import no.geosoft.cc.graphics.awt.GAwtImage;
 import no.geosoft.cc.interfaces.IImageImpl;
 import no.geosoft.graphics.factory.GFactory;
 
@@ -169,7 +167,7 @@ public class GImage extends GPositional {
 	  {
 	    // Set back-end variables to null for laze create
 	    imageData_ = null;
-	    impl_ = GFactory.createImage( this );
+	    impl_ = GFactory.getInstance().createImage( this );
 	  
 	  }
 

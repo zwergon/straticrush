@@ -1,4 +1,4 @@
-package straticrush.view;
+package straticrush.main;
 
 import java.awt.Insets;
 import java.io.BufferedReader;
@@ -47,6 +47,11 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
+import straticrush.view.Annotation;
+import straticrush.view.ContactView;
+import straticrush.view.Plot;
+import straticrush.view.View;
+import straticrush.view.ViewFactory;
 
 
 /**

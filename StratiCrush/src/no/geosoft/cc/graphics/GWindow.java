@@ -1,22 +1,15 @@
 package no.geosoft.cc.graphics;
 
-
-import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GL.GGLCanvas;
-import no.geosoft.cc.graphics.swt.GSwtCanvas;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.graphics.factory.GFactory;
 
-import org.eclipse.swt.widgets.Composite;
-
 import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
 
 
@@ -70,7 +63,7 @@ public class GWindow
     // Rendering engine
     //canvas_ = new GGLCanvas ((Composite)parent, this);
 	//canvas_ = new GAwtCanvas(this);
-	canvas_ = GFactory.createCanvas(parent, this);
+	canvas_ = GFactory.getInstance().createCanvas(parent, this);
     if (backgroundColor != null)
     	canvas_.setBackgroundColor (backgroundColor);
      

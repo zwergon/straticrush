@@ -1017,16 +1017,13 @@ import no.geosoft.graphics.factory.GFactory;
        }
 
 	
-	public IColorImpl getImpl() {
-		if ( null == impl ){
-			impl = GFactory.createColor( this );
-		}
-		
-		return impl;
-	}
+      public IColorImpl getImpl() {
+          if (null == impl) {
+              impl = GFactory.getInstance().createColor(this);
+          }
+
+          return impl;
+      }
    
-   
-     
-      
    }
 

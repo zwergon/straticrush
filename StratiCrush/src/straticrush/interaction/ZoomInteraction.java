@@ -1,11 +1,6 @@
 package straticrush.interaction;
 
 
-
-import javax.swing.SwingUtilities;
-
-import org.eclipse.swt.widgets.Display;
-
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GInteraction;

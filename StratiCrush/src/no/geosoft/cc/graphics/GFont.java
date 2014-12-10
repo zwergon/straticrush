@@ -20,7 +20,7 @@ public  class GFont extends Object {
 		fontSize=14;
 		fontStyle = NORMAL;
 		
-		impl = GFactory.createFont(this);
+		impl = GFactory.getInstance().createFont(this);
 	}
 	
 	public IFontImpl getImpl(){
@@ -61,7 +61,7 @@ public  class GFont extends Object {
 		font.fontName = fontName;
 		font.fontSize = fontSize;
 		font.fontStyle = fontStyle;
-		font.impl =  GFactory.createFont(font);
+		font.impl =  GFactory.getInstance().createFont(font);
 		
 		return font;
 	}
