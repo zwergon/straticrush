@@ -13,6 +13,7 @@ import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.LinePoint;
+import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Paleobathymetry;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
@@ -114,15 +115,14 @@ public class FlattenInteraction implements GInteraction {
 			
 			if ( null != selectedSegment ) {
 				
-				LinePoint I = lineInter.getFirstIntersection(selectedInterval.getInterval());
+				LinePointPair I = lineInter.getFirstIntersection(selectedInterval.getInterval());
 				if ( null != I ) {
 					
-					Point2D pt = I.getPosition();
 					flattenController.setPatch(view.getObject()); 
 					
 					Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
 					flattenController.setFlattenConstraint( new FlattenConstraint(selectedInterval, bathy) );
-					flattenController.setPointConstraint( pt, pt );
+					flattenController.setPointConstraint( I );
 					flattenController.move();
 					
 				}
