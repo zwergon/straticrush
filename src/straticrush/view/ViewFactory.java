@@ -3,7 +3,8 @@ package straticrush.view;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.ifp.kronosflow.model.Paleobathymetry;
+import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.topology.Contact;
@@ -23,6 +24,7 @@ public class ViewFactory {
 		mapViews = new HashMap<String, String>();
 		registerView( Patch.class, PatchView.class );
 		registerView( MeshPatch.class, PatchView.class );
+		registerView( CompositePatch.class, PatchView.class );
 		registerView( Contact.class, ContactView.class );
 		registerView( Paleobathymetry.class, PaleoView.class );
 	}

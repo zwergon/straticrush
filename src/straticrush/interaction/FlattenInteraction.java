@@ -3,20 +3,33 @@ package straticrush.interaction;
 import java.awt.Color;
 
 import straticrush.view.GInterval;
+import straticrush.view.GPolyline;
+import straticrush.view.IUpdateGeometry;
 import straticrush.view.PatchView;
+import straticrush.view.Plot;
+import straticrush.view.View;
+import straticrush.view.ViewFactory;
 import fr.ifp.jdeform.continuousdeformation.FlattenConstraint;
 import fr.ifp.jdeform.deformation.FlattenController;
 import fr.ifp.jdeform.deformation.NodeMoveController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.CtrlNode;
+import fr.ifp.kronosflow.model.FeatureGeolInterval;
+import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.LinePoint;
 import fr.ifp.kronosflow.model.LinePointPair;
-import fr.ifp.kronosflow.model.Paleobathymetry;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.PolyLineGeometry;
+import fr.ifp.kronosflow.model.algo.ComputeBloc;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GEvent;
@@ -30,32 +43,83 @@ import no.geosoft.cc.graphics.GTransformer;
 public class FlattenInteraction implements GInteraction {
 	
 	private GScene    scene_;
-	private GInterval  selectedSegment;
-	private GObject    interaction_;
+	private GInteraction    interaction_;
 	private PatchInterval  selectedInterval;
+	private Patch composite;
 	private int       x0_, y0_;
 	FlattenController<Patch> flattenController = null;
-	PatchView view = null;
-	
+
 	LineIntersection lineInter = null;
 	
 	TranslateNodeMove translateController = null;
+	
+	private class GInteraction extends GObject {
+		public GInteraction(){
+			super("Interaction");
+		}
+		
+		void addInterval( PatchInterval interval ){
+			
+			GInterval selectedSegment = new GInterval(interval);
+			interaction_.addSegment( selectedSegment );
+			
+			BoundaryFeature feature = interval.getInterval().getFeature();
+			GColor color = null;
+			if ( null != feature ){
+				Color bcolor = feature.getColor();
+				color = new GColor( bcolor.getRed(), bcolor.getGreen(), bcolor.getBlue() );
+			}
+			else {
+				color = GColor.CYAN;
+			}
+
+			GStyle style = new GStyle();
+			style.setForegroundColor (color);
+			style.setLineWidth (4);
+			selectedSegment.setStyle (style);
+
+
+			selectedSegment.updateGeometry();
+			
+		}
+		
+		
+		void addOutline( Patch patch ){
+			
+			GPolyline borderLine = new GPolyline(patch.getBorder());
+			interaction_.addSegment( borderLine );
+			
+			GStyle style = new GStyle();
+			style.setBackgroundColor(GColor.CYAN);
+			//style.setLineWidth (4);
+			borderLine.setStyle (style);
+			
+			borderLine.updateGeometry();
+		}
+		
+		@Override
+		public void draw() {
+			for( GSegment gsegment : getSegments() ){
+				if ( gsegment instanceof IUpdateGeometry ){
+					((IUpdateGeometry) gsegment).updateGeometry();
+				}
+			}
+		}
+	
+	}
 	
 	
 
 	@SuppressWarnings("unchecked")
 	public FlattenInteraction( GScene scene, String type ){
 		scene_ = scene;
-		selectedSegment = null;
 		selectedInterval = null;
 		flattenController = (FlattenController<Patch> )StratiCrushServices.getInstance().createController(type);
 		translateController = (TranslateNodeMove)StratiCrushServices.getInstance().createController("Translate");
 		
 		 // Create a graphic node for holding the interaction graphics
-	    interaction_ = new GObject ("Interaction");
+	    interaction_ = new GInteraction();
 	    
-	    
-	  
 	}
 	
 
@@ -71,36 +135,22 @@ public class FlattenInteraction implements GInteraction {
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
 				if ( gobject instanceof PatchView ){
-					
-					
-					view = (PatchView)gobject;
-					selectedInterval = view.selectFeature(event.x, event.y);
-					
-					Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
-					
-					lineInter = new LineIntersection( bathy.getPaleoLine() );
-					scene_.add(interaction_);
-					
-					selectedSegment = new GInterval(selectedInterval);
-					interaction_.addSegment( selectedSegment );
-					
-					BoundaryFeature feature = selectedInterval.getInterval().getFeature();
-					GColor color = null;
-					if ( null != feature ){
-						Color bcolor = feature.getColor();
-						color = new GColor( bcolor.getRed(), bcolor.getGreen(), bcolor.getBlue() );
-					}
-					else {
-						color = GColor.CYAN;
-					}
-					
-					GStyle style = new GStyle();
-					style.setForegroundColor (color);
-					style.setLineWidth (4);
-					selectedSegment.setStyle (style);
-					
-					
-					((GInterval)selectedSegment).updateGeometry();
+				
+					Patch patch = ((PatchView)gobject).getObject();
+				
+					ComputeBloc computeBloc = new ComputeBloc(patch.getPatchLibrary());
+					composite = computeBloc.getBloc( patch );
+									
+					selectedInterval = findFeature( scene.getTransformer().deviceToWorld(event.x, event.y) );
+				
+					if ( null != selectedInterval ){
+						Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
+						lineInter = new LineIntersection( bathy.getPaleoLine() );
+
+						scene_.add(interaction_);
+						interaction_.addOutline( composite );
+						interaction_.addInterval(selectedInterval);
+					}					
 					
 					scene.refresh();
 				}
@@ -113,12 +163,12 @@ public class FlattenInteraction implements GInteraction {
 
 		case GEvent.BUTTON1_DRAG :
 			
-			if ( null != selectedSegment ) {
+			if ( null != selectedInterval ) {
 				
 				LinePointPair I = lineInter.getFirstIntersection(selectedInterval.getInterval());
 				if ( null != I ) {
 					
-					flattenController.setPatch(view.getObject()); 
+					flattenController.setPatch(composite); 
 					
 					Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
 					flattenController.setFlattenConstraint( new FlattenConstraint(selectedInterval, bathy) );
@@ -128,9 +178,9 @@ public class FlattenInteraction implements GInteraction {
 				}
 				else {
 				
-					translateController.setPatch(view.getObject()); 
+					translateController.setPatch(composite); 
 
-					GTransformer transformer = view.getTransformer();
+					GTransformer transformer = scene.getTransformer();
 
 					int[] oldPos = new int[2];
 					oldPos[0] = x0_;  oldPos[1] = y0_;
@@ -140,13 +190,11 @@ public class FlattenInteraction implements GInteraction {
 					double[] d_pos2 = transformer.deviceToWorld(newPos);
 					
 
-					translateController.setTranslation(Vector2D.substract(d_pos2, d_pos1));
+					translateController.setTranslation( Vector2D.substract(d_pos2, d_pos1) );
 					translateController.move();
 					
-					
-					
 				}
-				selectedSegment.updateGeometry();
+				interaction_.draw();;
 				scene.refresh();
 
 			}
@@ -155,10 +203,16 @@ public class FlattenInteraction implements GInteraction {
 			break;
 
 		case GEvent.BUTTON1_UP :
-			interaction_.removeSegment(selectedSegment);
-			interaction_.remove();
-			selectedInterval = null;
-			selectedSegment = null;
+			
+			if ( null != selectedInterval ){
+				
+				composite.remove();
+				interaction_.removeSegments();;
+				interaction_.remove();
+
+				composite = null;
+				selectedInterval = null;
+			}
 			break;
 			
 		case GEvent.ABORT:
@@ -169,6 +223,31 @@ public class FlattenInteraction implements GInteraction {
 		
 		scene_.refresh();
 
+	}
+
+
+	private PatchInterval findFeature( double[] ori ) {
+		
+		PatchInterval interval = null;
+		double minDist = Double.POSITIVE_INFINITY;
+		
+		for( KinObject object : composite.getChildren() ){
+			if ( object instanceof FeatureGeolInterval ){
+				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
+				BoundaryFeature bf = (BoundaryFeature)fgInterval.getFeature();
+				if ( bf instanceof StratigraphicEvent ){
+					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
+					
+					double dist = pgeom.minimalDistance( ori );
+					if ( dist < minDist ){
+						interval = (PatchInterval)object;
+						minDist = dist;
+					}
+				}
+			}
+		}
+		
+		return interval;
 	}
 
 }

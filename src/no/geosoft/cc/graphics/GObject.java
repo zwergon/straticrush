@@ -75,7 +75,7 @@ public class GObject
   private List<GObject> children_;       // of GObject
   private GStyle      style_;          // As specified by application
   private GStyle      actualStyle_;    // Adjusted for inherits
-  private List        segments_;       // of GSegment
+  private List<GSegment> segments_;       // of GSegment
   private boolean     isDrawn_;
   private Object      userData_;       // Application defined
   
@@ -198,7 +198,7 @@ public class GObject
    * 
    * @return  All segments of this object (or null if none).
    */
-  public List getSegments()
+  public List<GSegment> getSegments()
   {
     return segments_;
   }

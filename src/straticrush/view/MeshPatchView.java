@@ -5,7 +5,7 @@ import java.util.List;
 
 import straticrush.interaction.IViewListener;
 import straticrush.interaction.StratiCrushServices;
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
+import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.PolyLine;

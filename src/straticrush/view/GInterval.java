@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.model.CurviPoint;
+import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GSegment;
 
-public class GInterval extends GSegment {
+public class GInterval extends GSegment implements IUpdateGeometry {
 	
 	public GInterval( PatchInterval line ){
 		setUserData(line);
@@ -20,6 +20,7 @@ public class GInterval extends GSegment {
 		return (PatchInterval)getUserData();
 	}
 
+	@Override
 	public void updateGeometry(){
 
 	

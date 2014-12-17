@@ -8,9 +8,9 @@ import fr.ifp.jdeform.deformation.FlattenController;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
 import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
-import fr.ifp.kronosflow.controller.interfaces.ICommandController;
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
-import fr.ifp.kronosflow.controller.interfaces.IEventListener;
+import fr.ifp.kronosflow.controller.ICommandController;
+import fr.ifp.kronosflow.controller.IControllerEvent;
+import fr.ifp.kronosflow.controller.IEventListener;
 
 public class StratiCrushServices extends ViewNotifier implements IEventListener {
 	

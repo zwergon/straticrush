@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
+import fr.ifp.kronosflow.controller.IControllerEvent;
 
 	public class ViewNotifier {
 		

@@ -125,7 +125,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
 	    frame.setBackground(Color.white);
          */
 
-        window_ = new GWindow( parent, GColor.BLACK );
+        window_ = new GWindow( parent, new GColor(0.8f, 0.8f, 0.8f) );
 
         /*AWT
 		frame.add ((GAwtCanvas)window_.getCanvas(), BorderLayout.CENTER);

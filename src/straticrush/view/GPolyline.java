@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.model.CurviPoint;
+import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GSegment;
 
-public class GPolyline extends GSegment {
+public class GPolyline extends GSegment implements IUpdateGeometry {
 
 
 	public GPolyline( PolyLine line ){
@@ -19,6 +19,7 @@ public class GPolyline extends GSegment {
 		return (PolyLine)getUserData();
 	}
 
+	@Override
 	public void updateGeometry(){
 
 		PolyLine line = getLine();

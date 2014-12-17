@@ -2,10 +2,10 @@ package straticrush.view;
 
 import java.awt.Color;
 
+import fr.ifp.kronosflow.controller.IControllerEvent;
+import fr.ifp.kronosflow.geology.Paleobathymetry;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GStyle;
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
-import fr.ifp.kronosflow.model.Paleobathymetry;
 
 public class PaleoView extends View {
 	

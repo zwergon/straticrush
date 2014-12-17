@@ -5,15 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
+import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
+import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
@@ -21,7 +23,6 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
-import fr.ifp.kronosflow.model.interfaces.ICurviPoint;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
@@ -44,7 +45,7 @@ public class PatchView extends View {
 	{
 		super.setUserData( object );
 	
-		Patch patch = (MeshPatch)object;
+		Patch patch = (Patch)object;
 		
 		createGSegments(patch);
 		
@@ -112,7 +113,7 @@ public class PatchView extends View {
 			patchColor = new GColor(acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha() );
 		}
 		else {
-			patchColor = new GColor(255, 255, 255);
+			patchColor = getRandomPastelColor();
 		}
 
 		return patchColor;
@@ -208,6 +209,17 @@ public class PatchView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
+		
+		
+		if ( event.getObject() instanceof CompositePatch ){
+			CompositePatch composite = (CompositePatch)event.getObject();
+			for( Patch patch : composite.getPatchs() ){
+				if ( patch == getObject() ){
+					updateGeometry();
+					return;
+				}
+			}
+		}
 		if ( event.getObject() == getObject() ){
 			updateGeometry();
 		}

@@ -1,6 +1,6 @@
 package straticrush.view;
 
-import fr.ifp.kronosflow.controller.interfaces.IControllerEvent;
+import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.topology.Contact;
