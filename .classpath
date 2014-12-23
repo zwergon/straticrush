@@ -8,6 +8,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/fr.ifp.kronosflow.model.impl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/javax.media.opengl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/fr.ifp.kronosflow.controller.impl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/fr.ifp.kronosflow.mdd"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fr.ifp.kronosflow.controller"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fr.ifp.kronosflow.model"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

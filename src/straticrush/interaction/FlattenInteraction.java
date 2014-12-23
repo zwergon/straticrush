@@ -1,6 +1,8 @@
 package straticrush.interaction;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
@@ -28,11 +30,13 @@ import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.algo.ComputeBloc;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -48,6 +52,7 @@ public class FlattenInteraction implements GInteraction {
 	private Patch composite;
 	private int       x0_, y0_;
 	FlattenController<Patch> flattenController = null;
+	boolean first = true;
 
 	LineIntersection lineInter = null;
 	
@@ -56,12 +61,13 @@ public class FlattenInteraction implements GInteraction {
 	private class GInteraction extends GObject {
 		public GInteraction(){
 			super("Interaction");
+			setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 		}
 		
 		void addInterval( PatchInterval interval ){
 			
 			GInterval selectedSegment = new GInterval(interval);
-			interaction_.addSegment( selectedSegment );
+			addSegment( selectedSegment );
 			
 			BoundaryFeature feature = interval.getInterval().getFeature();
 			GColor color = null;
@@ -87,7 +93,7 @@ public class FlattenInteraction implements GInteraction {
 		void addOutline( Patch patch ){
 			
 			GPolyline borderLine = new GPolyline(patch.getBorder());
-			interaction_.addSegment( borderLine );
+			addSegment( borderLine );
 			
 			GStyle style = new GStyle();
 			style.setBackgroundColor(GColor.CYAN);
@@ -105,6 +111,41 @@ public class FlattenInteraction implements GInteraction {
 				}
 			}
 		}
+		
+		public void clearLines(){
+			for ( GPolyline line : lines ){
+				removeSegment(line);
+			}
+			lines.clear();
+		}
+
+		public void addLine(PolyLine targetLine) {
+			
+			GPolyline gline  = new GPolyline(targetLine);
+			addSegment( gline );
+			
+			GStyle style = new GStyle();
+			style.setForegroundColor(GColor.BLUE);
+			style.setLineWidth (2);
+			gline.setStyle (style);
+			
+			
+			GStyle symbolStyle = new GStyle();
+			symbolStyle.setForegroundColor (new GColor (0, 0, 255));
+			symbolStyle.setBackgroundColor (new GColor (0, 0, 255));
+			GImage square = new GImage (GImage.SYMBOL_SQUARE1);
+			square.setStyle (symbolStyle);
+
+			gline.setVertexImage (square);
+			
+			gline.updateGeometry();
+		
+			
+			lines.add( gline );
+			
+		}
+		
+		List<GPolyline> lines = new ArrayList<GPolyline>();
 	
 	}
 	
@@ -163,7 +204,7 @@ public class FlattenInteraction implements GInteraction {
 
 		case GEvent.BUTTON1_DRAG :
 			
-			if ( null != selectedInterval ) {
+			if ( null != selectedInterval  && first ) {
 				
 				LinePointPair I = lineInter.getFirstIntersection(selectedInterval.getInterval());
 				if ( null != I ) {
@@ -174,6 +215,11 @@ public class FlattenInteraction implements GInteraction {
 					flattenController.setFlattenConstraint( new FlattenConstraint(selectedInterval, bathy) );
 					flattenController.setPointConstraint( I );
 					flattenController.move();
+					
+					interaction_.clearLines();
+					interaction_.addLine( flattenController.getTargetLine() );
+					interaction_.addLine( flattenController.getDebugLine() );
+					first = false;
 					
 				}
 				else {
@@ -212,6 +258,7 @@ public class FlattenInteraction implements GInteraction {
 
 				composite = null;
 				selectedInterval = null;
+				first = true;
 			}
 			break;
 			

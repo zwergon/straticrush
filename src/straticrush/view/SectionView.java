@@ -38,6 +38,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
+import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
@@ -87,6 +88,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
     private Action displayContactsAction;
     private Action openMenuAction;
     private Action flattenAction;
+    private Action triangulateAction;
 
    
     private GWindow   window_;
@@ -196,6 +198,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
         manager.add(massSpringAction);
         manager.add(new Separator());
         manager.add(flattenAction);
+        manager.add(new Separator());
+        manager.add(triangulateAction);
 
     }
 
@@ -265,6 +269,12 @@ public class SectionView extends ViewPart implements ISelectionListener {
         flattenAction.setText("Flatten");
         flattenAction.setToolTipText("Flatten one horizon");
         flattenAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
+
+        
+        triangulateAction =  new WindowAction( window_, new TriangulateInteraction(getPlot(), "Triangulate" ) );
+        triangulateAction.setText("Triangulate");
+        triangulateAction.setToolTipText("Triangulate");
+        triangulateAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
 
         zoomAction =  new WindowAction( window_, new ZoomInteraction(getPlot()) );

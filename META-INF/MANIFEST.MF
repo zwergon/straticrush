@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
  fr.ifp.kronosflow.filters;bundle-version="1.0.0",
  fr.ifp.kronosflow.model.algo;bundle-version="8.0.0",
  fr.ifp.kronosflow.controller.impl;bundle-version="8.0.0",
- fr.ifp.kronosflow.mdd;bundle-version="8.0.0"
+ fr.ifp.kronosflow.model;bundle-version="8.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
