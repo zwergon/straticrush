@@ -11,8 +11,8 @@ import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.CompositePatch;
-import fr.ifp.kronosflow.model.CtrlNode;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.ICurviPoint;
@@ -55,13 +55,13 @@ public class PatchView extends View {
 		return border;
 	}
 	
-	public CtrlNode selectNode( int dev_x, int dev_y  ){
+	public Node selectNode( int dev_x, int dev_y  ){
 		
 		double[] pos = getTransformer().deviceToWorld(dev_x, dev_y);
 		Patch patch = getObject();
 		double distance = Double.MAX_VALUE;
-		CtrlNode nearest_node = null;
-		for( CtrlNode ctl_node : patch.getNodes() ){
+		Node nearest_node = null;
+		for( Node ctl_node : patch.getNodes() ){
 			
 			double cur_distance = ctl_node.distance(pos);
 			if ( cur_distance < distance ){

@@ -2,7 +2,7 @@ package straticrush.interaction;
 
 
 import straticrush.view.PatchView;
-import fr.ifp.kronosflow.model.CtrlNode;
+import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.jdeform.deformation.NodeMoveController;
 import no.geosoft.cc.graphics.GEvent;
@@ -17,7 +17,7 @@ public class NodeMoveInteraction implements GInteraction {
 
 	private GScene    scene_;
 	private GSegment  selected_segment_;
-	private CtrlNode  selected_node_;
+	private Node  selected_node_;
 	private int       x0_, y0_;
 	NodeMoveController<Patch> nodeMove = null;
 	

@@ -1,21 +1,17 @@
 package straticrush.view;
 
 
-import java.util.List;
-
-import straticrush.interaction.IViewListener;
-import straticrush.interaction.StratiCrushServices;
-import fr.ifp.kronosflow.controller.IControllerEvent;
-import fr.ifp.kronosflow.model.CtrlNode;
-import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.implicit.Cell;
-import fr.ifp.kronosflow.model.implicit.Mesh2D;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
+import fr.ifp.kronosflow.controller.IControllerEvent;
+import fr.ifp.kronosflow.mesh.Cell;
+import fr.ifp.kronosflow.mesh.Node;
+import fr.ifp.kronosflow.mesh.Mesh2D;
+import fr.ifp.kronosflow.model.IHandle;
+import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.model.UID;
+import fr.ifp.kronosflow.model.implicit.MeshPatch;
 
 
 public class MeshPatchView extends View {
@@ -31,8 +27,8 @@ public class MeshPatchView extends View {
 				
 		Mesh2D mesh = patch.getMesh();
 		
-		for( Cell cell : mesh.getCells() ){
-			addCell(cell);
+		for( IHandle handle : mesh.getCells() ){
+			addCell( (Cell)handle);
 		}
 		
 		if ( null != patch.getBorder() ){
@@ -104,14 +100,14 @@ public class MeshPatchView extends View {
 				GCell gcell = (GCell)segment;
 				Cell cell = gcell.getCell();
 				
-				int[] nodes = cell.getNodes();
+				UID[] nodes = cell.getNodeIds();
 				
 				int npts = nodes.length+1;
 				double[] xpts = new double[npts];
 				double[] ypts = new double[npts];
 				
 				for( int i=0; i<npts; i++){
-					CtrlNode node = mesh.getNode( cell.getNode(i % nodes.length) );
+					Node node = (Node) mesh.getNode( cell.getNodeId(i % nodes.length) );
 					xpts[i] = node.x();
 					ypts[i] = node.y();
 				}	
