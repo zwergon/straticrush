@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import straticrush.view.PatchView;
+import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.mesh.Triangle;
@@ -20,6 +21,9 @@ import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.algo.ComputeBloc;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.model.sampling.CompactPointSampling;
+import fr.ifp.kronosflow.model.sampling.PointSampling;
+import fr.ifp.kronosflow.model.sampling.RandomPointSampling;
 import fr.ifp.kronosflow.triangulation.Triangulation;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GEvent;
@@ -46,16 +50,9 @@ public class TriangulateInteraction implements GInteraction {
 		static final int nPoints = 200; 
 		RectD bbox;
 		
-		double[] random;
-
 		public PointSet ()
 		{
-			Random rg = new Random();
 			
-			random = new double[2*nPoints];
-			for( int i=0; i<2*nPoints;i++ ){
-				random[i] =  rg.nextDouble();
-			}
 			
 			setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 						
@@ -79,16 +76,16 @@ public class TriangulateInteraction implements GInteraction {
 				node.setFixed(true);
 				triangulation.addNode(node);
 			}
+			
+			PointSampling sampling = new CompactPointSampling(bbox);
+			sampling.sample( nPoints ); 
 
 			
 			PolyLineGeometry geom = new PolyLineGeometry(border);
 
-			for (int i = 0; i < nPoints; i++) {
-				xy[0] =  bbox.left + bbox.width()  *random[2*i];
-				xy[1] =  bbox.top  + bbox.height() *random[2*i+1];
-				
-				if ( geom.isPointInside(xy )){
-					Node node = new Node(xy);
+			for( Point2D pt : sampling.getPoints() ){				
+				if ( geom.isPointInside( pt.getPosition() )){
+					Node node = new Node( pt.getPosition()  );
 					triangulation.addNode( node );
 				}
 			}
