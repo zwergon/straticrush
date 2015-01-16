@@ -10,8 +10,8 @@ import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.UID;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.utils.UID;
 
 
 public class MeshPatchView extends View {

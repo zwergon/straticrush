@@ -214,7 +214,9 @@ public class FlattenInteraction implements GInteraction {
 					Paleobathymetry bathy = selectedInterval.getPatchLibrary().getPaleobathymetry();
 					flattenController.setFlattenConstraint( new FlattenConstraint(selectedInterval, bathy) );
 					flattenController.setPointConstraint( I );
-					flattenController.move();
+					
+					flattenController.computeTargets();
+					
 					
 					interaction_.clearLines();
 					interaction_.addLine( flattenController.getTargetLine() );
@@ -252,6 +254,10 @@ public class FlattenInteraction implements GInteraction {
 			
 			if ( null != selectedInterval ){
 				
+				
+				flattenController.move();
+				
+				flattenController.clear();
 				composite.remove();
 				interaction_.removeSegments();;
 				interaction_.remove();
