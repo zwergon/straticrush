@@ -1,9 +1,13 @@
 package straticrush.interaction;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import straticrush.view.PatchView;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.algo.ComputeCompositePatch;
 import fr.ifp.jdeform.deformation.NodeMoveController;
 import no.geosoft.cc.graphics.GEvent;
 import no.geosoft.cc.graphics.GInteraction;
@@ -55,7 +59,17 @@ public class NodeMoveInteraction implements GInteraction {
 				GObject gobject = selected.getOwner();
 				if ( gobject instanceof PatchView ){
 					PatchView view = (PatchView)gobject;
-					selected_node_ = view.selectNode(event.x, event.y);
+					
+					Set<Patch> set = new HashSet<Patch>();
+					set.add( (Patch)view.getObject() );
+					Patch composite = new ComputeCompositePatch().createComposite(set);
+					
+					GTransformer transformer = view.getTransformer();
+					double[] w_pos = transformer.deviceToWorld(event.x, event.y);
+					
+					nodeMove.setPatch(composite); 
+					
+					selected_node_ = selectNode(composite, w_pos);
 					selected_segment_ = selected;
 				}
 			}
@@ -73,7 +87,6 @@ public class NodeMoveInteraction implements GInteraction {
 
 				PatchView view = (PatchView)selected_segment_.getOwner();
 				
-				nodeMove.setPatch(view.getObject()); 
 
 				GTransformer transformer = view.getTransformer();
 
@@ -104,6 +117,23 @@ public class NodeMoveInteraction implements GInteraction {
 		
 		scene_.refresh();
 
+	}
+	
+	private Node selectNode( Patch patch, double[] pos  ){
+		
+		
+		
+		double distance = Double.MAX_VALUE;
+		Node nearest_node = null;
+		for( Node ctl_node : patch.getNodes() ){
+			
+			double cur_distance = ctl_node.distance(pos);
+			if ( cur_distance < distance ){
+				distance = cur_distance;
+				nearest_node = ctl_node;
+			}
+		}		
+		return nearest_node;
 	}
 	
 }

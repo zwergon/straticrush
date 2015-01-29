@@ -265,7 +265,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         massSpringAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
 
         
-        flattenAction =  new WindowAction( window_, new FlattenInteraction(getPlot(), "Flatten" ) );
+        flattenAction =  new WindowAction( window_, new FlattenInteraction(getPlot(), "SolverDeformation" ) );
         flattenAction.setText("Flatten");
         flattenAction.setToolTipText("Flatten one horizon");
         flattenAction.setImageDescriptor( AbstractUIPlugin.imageDescriptorFromPlugin("StratiCrush", "icons/translate.gif" ) );
@@ -407,8 +407,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
         //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
         //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
 
-        MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
-        MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
+        //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
+        //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
 
 
         //MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );

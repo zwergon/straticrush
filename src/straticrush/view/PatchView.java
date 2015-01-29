@@ -55,51 +55,6 @@ public class PatchView extends View {
 		return border;
 	}
 	
-	public Node selectNode( int dev_x, int dev_y  ){
-		
-		double[] pos = getTransformer().deviceToWorld(dev_x, dev_y);
-		Patch patch = getObject();
-		double distance = Double.MAX_VALUE;
-		Node nearest_node = null;
-		for( Node ctl_node : patch.getNodes() ){
-			
-			double cur_distance = ctl_node.distance(pos);
-			if ( cur_distance < distance ){
-				distance = cur_distance;
-				nearest_node = ctl_node;
-			}
-		}		
-		return nearest_node;
-	}
-	
-	public PatchInterval selectFeature( int dev_x, int dev_y  ){
-		
-		PatchInterval interval = null;
-		Point2D ori = new Point2D( getTransformer().deviceToWorld(dev_x, dev_y) );
-		Point2D dst = new Point2D();
-		
-		double minDist = Double.POSITIVE_INFINITY;
-		
-		Patch patch = (Patch)getObject();
-		for( KinObject object : patch.getChildren() ){
-			if ( object instanceof FeatureGeolInterval ){
-				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				BoundaryFeature bf = (BoundaryFeature)fgInterval.getFeature();
-				if ( bf instanceof StratigraphicEvent ){
-					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
-					
-					double dist = pgeom.minimalDistance( ori, dst );
-					if ( dist < minDist ){
-						interval = (PatchInterval)object;
-						minDist = dist;
-					}
-				}
-			}
-		}
-		
-		
-		return interval;
-	}
 	
 	public GColor getPatchColor() {
 
