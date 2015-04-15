@@ -1,14 +1,12 @@
 package straticrush.view;
 
-import java.util.Iterator;
 import java.util.List;
 
+import no.geosoft.cc.graphics.GSegment;
 import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLine;
-import no.geosoft.cc.graphics.GSegment;
 
 public class GInterval extends GSegment implements IUpdateGeometry {
 	

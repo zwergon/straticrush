@@ -1,22 +1,15 @@
 package no.geosoft.cc.graphics;
 
 
-import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GL.GGLCanvas;
-import no.geosoft.cc.graphics.swt.GSwtCanvas;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.graphics.factory.GFactory;
-
-import org.eclipse.swt.widgets.Composite;
-
 import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
 
 
@@ -288,7 +281,7 @@ public class GWindow
     // Nothing to do if no current interaction
     if (interaction_ == null) return;
     
-    interaction_.event (null, new GEvent(GEvent.ABORT, 0, 0) );
+    interaction_.event (null, new GMouseEvent(GMouseEvent.ABORT, 0, 0) );
     interaction_      = null;
     interactionScene_ = null;    
   }
@@ -433,7 +426,7 @@ public class GWindow
   public void mouseEntered (int x, int y)
   {
     if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GEvent( GEvent.FOCUS_IN, x, y ) );
+    interaction_.event (getScene (x, y), new GMouseEvent( GMouseEvent.FOCUS_IN, x, y ) );
   }
 
 
@@ -448,7 +441,7 @@ public class GWindow
   public void mouseExited (int x, int y)
   {
     if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GEvent(GEvent.FOCUS_OUT, x, y) );
+    interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.FOCUS_OUT, x, y) );
   }
 
 
@@ -459,7 +452,7 @@ public class GWindow
    * 
    * @param event trigging this method.
    */
-  public void mousePressed ( GEvent event )
+  public void mousePressed ( GMouseEvent event )
   {
     if (interaction_ == null) return;
     interactionScene_ = getScene (event.x, event.y);
@@ -474,7 +467,7 @@ public class GWindow
    * 
    * @param event trigging this method.
    */
-  public void mouseReleased ( GEvent event )
+  public void mouseReleased ( GMouseEvent event )
   {
     if (interaction_ == null) return;
     interaction_.event (interactionScene_,  event );
@@ -489,7 +482,7 @@ public class GWindow
    * 
    * @param event trigging this method.
    */
-  public void mouseDragged ( GEvent event )
+  public void mouseDragged ( GMouseEvent event )
   {
     if (interaction_ == null) return;
     interaction_.event (interactionScene_, event );
@@ -502,15 +495,19 @@ public class GWindow
    * 
    * @param event trigging this method.
    */
-  public void wheelMoved ( GEvent event )
+  public void wheelMoved ( GMouseEvent event )
   {
-    if (interaction_ == null) return;
-    interaction_.event (interactionScene_, event );
+	  if (interaction_ == null) return;
+	  interaction_.event (interactionScene_, event );
   }
 
 
+  public void keyPressed( GKeyEvent event ){
+	  if ( interaction_ == null ) return;
+	  interaction_.keyEvent( event);
+  }
 
-  
+
   /**
    * Method called when the mouse is moved inside this window.
    * If an interaction is installed, pass a MOTION event to it.
@@ -521,7 +518,7 @@ public class GWindow
   public void mouseMoved (int x, int y)
   {
     if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GEvent(GEvent.MOTION, x, y) );
+    interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.MOTION, x, y) );
   }
 
 

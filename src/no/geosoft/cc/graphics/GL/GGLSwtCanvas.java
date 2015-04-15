@@ -20,7 +20,8 @@ import javax.media.opengl.glu.GLU;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GSegment;
@@ -32,6 +33,8 @@ import no.geosoft.cc.graphics.swt.GSwtFontImpl;
 import no.geosoft.cc.interfaces.ICanvas;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -61,7 +64,8 @@ public class GGLSwtCanvas extends Composite
 		ICanvas,
 		MouseListener,
 		MouseWheelListener,
-		MouseMoveListener
+		MouseMoveListener,
+		KeyListener
 	{
 	
 	
@@ -75,7 +79,6 @@ public class GGLSwtCanvas extends Composite
     protected GLContext glcontext;
     
 	private Rect             cleared_;
-	private GLUT             glut_;
 	
 	private int mouseMask = 0;
 	
@@ -119,6 +122,20 @@ public class GGLSwtCanvas extends Composite
 			}
 		});
 		
+		glcanvas.addListener( SWT.FocusIn, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				mouseEntered(event);				
+			}
+		});
+		
+		glcanvas.addListener( SWT.FocusOut, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				mouseExited(event);			
+			}
+		});
+		
 
 		glcontext.makeCurrent();
         GL2 gl2 = glcontext.getGL().getGL2();
@@ -132,12 +149,11 @@ public class GGLSwtCanvas extends Composite
 		
 		//associate to GWindow
 		window_ = window;
-				
-		glut_ = new GLUT();
-		
+						
 		glcanvas.addMouseListener( this );
 		glcanvas.addMouseMoveListener(this);
 		glcanvas.addMouseWheelListener( this);
+		glcanvas.addKeyListener(this);
 
 	}
 	
@@ -594,18 +610,17 @@ public class GGLSwtCanvas extends Composite
 	  /**
 		 * map modifiers from AWT event to GEvent modifiers
 		 */
-		private void setModifiers( MouseEvent event, GEvent gevent ){
-			/*		  gevent.modifier = GEvent.NONE;
-			  if ( event.stateMask & SWT.CTRL ){
-				  gevent.setModifier( GEvent.ALT_DOWN_MASK, true );
-			  }
-			  if ( event.isControlDown() ){
-				  gevent.setModifier( GEvent.CTRL_DOWN_MASK, true );
-			  }
-			  if ( event.isMetaDown() ){
-				  gevent.setModifier( GEvent.META_DOWN_MASK, true );
-			  }
-			 */
+		private void setModifiers( MouseEvent event, GMouseEvent gevent ){
+			gevent.modifier = GMouseEvent.NONE;
+			if ( ( event.stateMask & SWT.ALT ) == SWT.ALT ){
+				gevent.setModifier( GMouseEvent.ALT_DOWN_MASK, true );
+			}
+			if ( ( event.stateMask & SWT.CTRL ) == SWT.CTRL  ){
+				gevent.setModifier( GMouseEvent.CTRL_DOWN_MASK, true );
+			}
+			if ( ( event.stateMask & SWT.SHIFT ) == SWT.SHIFT ){
+				gevent.setModifier( GMouseEvent.SHIFT_DOWN_MASK, true );
+			}			 
 		}
 
 
@@ -619,13 +634,13 @@ public class GGLSwtCanvas extends Composite
 		@Override
 		public void mouseScrolled( MouseEvent event ) {
 
-			GEvent gevent = new GEvent( event.x,  getHeight()- event.y );
+			GMouseEvent gevent = new GMouseEvent( event.x,  getHeight()- event.y );
 
 			int notches = event.count;
 			if (notches > 0) {
-				gevent.type = GEvent.WHEEL_MOUSE_UP;
+				gevent.type = GMouseEvent.WHEEL_MOUSE_UP;
 			} else {
-				gevent.type = GEvent.WHEEL_MOUSE_DOWN;
+				gevent.type = GMouseEvent.WHEEL_MOUSE_DOWN;
 			}
 			setModifiers(event, gevent);
 			window_.wheelMoved( gevent );
@@ -637,10 +652,10 @@ public class GGLSwtCanvas extends Composite
 		 * 
 		 * @param event  Mouse event trigging this method.
 		 */
-		/*public void mouseEntered (MouseEvent event)
-		  {
-		    window_.mouseEntered (event.getX(), getHeight() - event.getY());
-		  }*/
+		public void mouseEntered (Event event)
+		{
+			window_.mouseEntered (event.x, getHeight() - event.y);
+		}
 
 
 		/**
@@ -649,10 +664,10 @@ public class GGLSwtCanvas extends Composite
 		 * 
 		 * @param event  Mouse event trigging this method.
 		 */
-		/*public void mouseExited (MouseEvent event)
-		  {
-		    window_.mouseExited (event.getX(), getHeight() - event.getY());
-		  }*/
+		public void mouseExited (Event event)
+		{
+			window_.mouseExited (event.x, getHeight() - event.y);
+		}
 
 		@Override
 		public void mouseMove(MouseEvent event) {
@@ -662,17 +677,16 @@ public class GGLSwtCanvas extends Composite
 				return;
 			}
 
-			int modifiers = event.stateMask;
-			GEvent gevent = new GEvent( event.x, getHeight()- event.y );
+			GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
 
 			if ( ( mouseMask & SWT.BUTTON1 ) == SWT.BUTTON1) {
-				gevent.type = GEvent.BUTTON1_DRAG;
+				gevent.type = GMouseEvent.BUTTON1_DRAG;
 			}
 			else if (( mouseMask & SWT.BUTTON2 ) == SWT.BUTTON2)  {
-				gevent.type = GEvent.BUTTON2_DRAG;
+				gevent.type = GMouseEvent.BUTTON2_DRAG;
 			}
 			else
-				gevent.type = GEvent.BUTTON3_DRAG;
+				gevent.type = GMouseEvent.BUTTON3_DRAG;
 
 
 			setModifiers(event, gevent);
@@ -682,17 +696,16 @@ public class GGLSwtCanvas extends Composite
 
 		@Override
 		public void mouseDown(MouseEvent event) {
-			int modifiers = event.stateMask;
-			GEvent gevent = new GEvent( event.x, getHeight()- event.y );
+			GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
 
 			if ( event.button == 1 ) {
-				gevent.type = GEvent.BUTTON1_DOWN;
+				gevent.type = GMouseEvent.BUTTON1_DOWN;
 			}
 			else if (event.button == 2 ) {
-				gevent.type = GEvent.BUTTON2_DOWN;
+				gevent.type = GMouseEvent.BUTTON2_DOWN;
 			}
 			else
-				gevent.type = GEvent.BUTTON3_DOWN;
+				gevent.type = GMouseEvent.BUTTON3_DOWN;
 
 			setModifiers(event, gevent);
 
@@ -713,20 +726,18 @@ public class GGLSwtCanvas extends Composite
 		@Override
 		public void mouseUp(MouseEvent event) {
 
-
-			int modifiers = event.stateMask;
-			GEvent gevent = new GEvent( event.x, getHeight()- event.y );
+			GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
 
 			if ( event.button == 1 ) {
-				gevent.type = GEvent.BUTTON1_UP;
+				gevent.type = GMouseEvent.BUTTON1_UP;
 				mouseMask &= ~SWT.BUTTON1;
 			}
 			else if (event.button == 2 ) {
-				gevent.type = GEvent.BUTTON2_UP;
+				gevent.type = GMouseEvent.BUTTON2_UP;
 				mouseMask &= ~SWT.BUTTON2;
 			}
 			else {
-				gevent.type = GEvent.BUTTON3_UP;
+				gevent.type = GMouseEvent.BUTTON3_UP;
 				mouseMask &= ~SWT.BUTTON3;
 			}
 
@@ -742,6 +753,19 @@ public class GGLSwtCanvas extends Composite
 		    GGLFontImpl fontImpl = (GGLFontImpl)gfont.getImpl();
 		    return fontImpl.getStringBox(string, gfont);
 	       
+		}
+
+		@Override
+		public void keyPressed(KeyEvent event) {
+			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_PRESSED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			window_.keyPressed(ke);
+		}
+
+		@Override
+		public void keyReleased(KeyEvent event) {
+			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_RELEASED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			window_.keyPressed(ke);
+			
 		}
 
 

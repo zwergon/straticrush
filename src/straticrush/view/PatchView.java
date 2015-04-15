@@ -82,9 +82,17 @@ public class PatchView extends View {
 
 
 	protected void createGSegments(Patch patch) {
+		
 		if ( null != patch.getBorder() ){
+			
+			GStyle style = new GStyle();
+			style.setForegroundColor ( GColor.black );
 			GColor color = getPatchColor();
-			border = addPolyLine( patch.getBorder(), color );
+			style.setBackgroundColor(  color );
+			style.setLineWidth (1);
+			setStyle( style );
+			
+			border = addPolyLine( patch.getBorder()  );
 			
 			GStyle textStyle = new GStyle();
 			textStyle.setForegroundColor (new GColor (100, 100, 150));
@@ -121,17 +129,10 @@ public class PatchView extends View {
 
 
 	
-	protected GSegment addPolyLine( PolyLine line, GColor color ) {
+	protected GSegment addPolyLine( PolyLine line) {
 		
 		GSegment gline = new GPolyline( line );
 		addSegment(gline);
-		
-			
-		GStyle style = new GStyle();
-		style.setForegroundColor ( GColor.black );
-		style.setBackgroundColor(  color );
-		style.setLineWidth (1);
-		gline.setStyle (style);
 		
 		return gline;
 	}

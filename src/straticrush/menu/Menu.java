@@ -1,10 +1,14 @@
 package straticrush.menu;
 
-import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.model.KinObject;
-import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.topology.Contact;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import straticrush.view.Plot;
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
@@ -13,12 +17,20 @@ import no.geosoft.cc.graphics.GTransformer;
 import no.geosoft.cc.graphics.GViewport;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.graphics.GWorldExtent;
+import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.model.IColorProvider;
+import fr.ifp.kronosflow.model.KinObject;
 
-public class Menu extends GScene {
+public class Menu extends GScene implements IMenuItemAction {
 
+	static final int BYCLASS =  0;
+	static final int BYOBJECT =  1;
 
 	private GSegment background_;
-	private GSegment title;
+	
+	int type;
+	
+	private KinObject object;
 
 
 	public Menu( GWindow window )
@@ -96,36 +108,100 @@ public class Menu extends GScene {
 	public void draw()
 	{	
 		// Draw background
-		System.out.println("X,Y " + getX0() + "," + getY0() );
 		background_.setGeometryXy (createRectangle (getX0(), getY0(), getWidth(), getHeight()));
 	}
 
 
 	public void populate(KinObject object) {
-
 		
-		int index = 0;
-		int nChildren = object.getNChildren();
-		for( KinObject children : object.getChildren() ){
+		removeAll();
+		
+		this.object = object;
+		this.type = BYCLASS;
 
-			String label = null;
-			if ( children instanceof Contact ) {
-				label = "Contact";
+		Map<Class<?>, Integer > childByClasses = new HashMap<Class<?>, Integer>();
+		
+		
+		for( KinObject children : object.getChildren() ){
+			
+			Class<?> key = children.getClass();
+			
+			if ( !childByClasses.containsKey(key) ){
+				childByClasses.put( key,  1 );
 			}
 			else {
-				label = "Patch";
+				Integer n = childByClasses.get( key  );
+				childByClasses.put( key,  ++n );
 			}
-
-			label +=  " " + index++;
-
-			GColor color = new GColor( (int)(255*(double)index/(double)nChildren), (int)(255*(double)(nChildren-index)/(double)nChildren), 0, 255  );
-			MenuItem item = new MenuItem( label , color );
-			item.setUserData( children );
-			add( item );
+		}
+		
+		for( Entry<Class<?>, Integer> entry : childByClasses.entrySet() ){
+			GColor color = GColor.darkGray; 
+			
+			int nElt = entry.getValue();
+			Class<?> c = entry.getKey();
+			if ( nElt == 1 ){
+				KinObject child = (KinObject) object.findObject(c);
+				if ( child.getName().isEmpty() ){
+					child.setName( c.getSimpleName()  );
+				}
+				
+				if ( child instanceof IColorProvider ){
+					Color acolor = ((IColorProvider)child).getColor();
+					color = new GColor( acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha() );
+				}
+				String label = child.getName();
+				MenuItem item = new ObjectMenuItem( label , color );
+				item.setUserData( child );
+				add( item );
+			}
+			else {
+				String label = entry.getKey().getSimpleName() + "  (" + entry.getValue() + ")";
+				MenuItem item = new ClassMenuItem( label , color );
+				item.setUserData( entry.getKey() );
+				add( item );
+			}
+			
 		}
 
 
-		MenuTitle title = new MenuTitle("Titre", new GColor(128, 128, 128 ));
+		MenuTitle title = new MenuTitle( object.getClass().getSimpleName(), new GColor(128, 128, 128 ));
+		add(title);
+
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public void populate( Class<?> c ){
+		
+		removeAll();
+		
+		this.type = BYOBJECT;
+
+		List<?> objects = object.findObjects(c);
+
+		int index = 0;
+		for( KinObject children : (List<KinObject>)objects ){
+			GColor color = GColor.darkGray; 
+			if ( children.getName().isEmpty() ){
+				children.setName( c.getSimpleName() + "_" + index );
+			}
+			
+			if ( children instanceof IColorProvider ){
+				Color acolor = ((IColorProvider)children).getColor();
+				color = new GColor( acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha() );
+			}
+			String label = children.getName();
+			MenuItem item = new ObjectMenuItem( label , color );
+			item.setUserData( children );
+			add( item );
+
+			index++;
+		}
+
+		
+		String titleName = object.getName() + " (" + c.getSimpleName() + ")";
+		MenuTitle title = new MenuTitle( titleName, new GColor(128, 128, 128 ));
 		add(title);
 
 	}
@@ -154,5 +230,43 @@ public class Menu extends GScene {
 	}
 
 
+	@Override
+	public void clicked(MenuItem item) {
+		if (item instanceof ClassMenuItem ){
+			Class<?> c = (Class<?>)item.getUserData();
+			populate(c);
+		}
+		if ( item instanceof ObjectMenuItem ){
+			KinObject object = (KinObject)item.getUserData();
+			if ( object.getNChildren() > 0 ){
+				populate(object);
+			}
+		}
+		redraw();
+	}
 
+
+	@Override
+	public void keyPressed(GKeyEvent event) {
+
+		if ( event.getKeyCode() == GKeyEvent.VK_ESCAPE ){
+			switch( type ){
+			case BYCLASS:
+				if ( object.getParent() != null ){
+					object = object.getParent();
+					populate(object);
+				}
+				break;
+			case BYOBJECT:
+				populate(object);
+				break;
+			}
+			redraw();
+		}
+		
+
+	}
+	
+	
+	
 }

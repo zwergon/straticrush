@@ -44,13 +44,25 @@ public class ViewFactory {
 	
 	public View createView( GScene scene, Object object ){
 
+		if ( ( object == null ) || (scene == null ) ) {
+			return null;
+		}
 		View view = null;
 	    try {
 	    	/*
 	    	 * TODO go through class inheritance to find the first ascending 
 	    	 * class valid to create a View
 	    	 */
-	    	Class<?> c1 = Class.forName( mapViews.get(object.getClass().getCanonicalName() ) );
+	    	String key = object.getClass().getCanonicalName();
+	    	
+	    	if ( !mapViews.containsKey(key) ){
+	    		return null;
+	    	}
+	    	
+	    	Class<?> c1 = Class.forName( mapViews.get(key) );
+	    	if ( c1 == null ){
+	    		return null;
+	    	}
 	    	view = (View)c1.newInstance();
 	    	if ( null != view ){
 	    		scene.add( view );

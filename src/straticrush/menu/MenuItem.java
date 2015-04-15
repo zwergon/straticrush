@@ -19,7 +19,7 @@ public class MenuItem extends GObject {
 	public MenuItem( String text, GColor color ){
 		
 		background_ = new GSegment();
-		offset = 0;
+		offset = 1;
 		
 		GText gtext = new GText( text, GPosition.MIDDLE | GPosition.STATIC );
 		background_.setText( gtext  );
@@ -56,7 +56,7 @@ public class MenuItem extends GObject {
 		double y0 = menu.getY0() + index*height;
 		
 		RectD rect = new RectD(x0,y0,x0+width,y0+height);
-		if ( rect.intersect( menu.getScrollableArea() ) ){
+		if ( menu.getScrollableArea().contains( rect  ) ){
 			setVisibility(VISIBLE);
 		}
 		else {

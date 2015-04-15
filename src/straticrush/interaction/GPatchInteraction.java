@@ -9,13 +9,17 @@ import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
+import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.model.IExtension;
+import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.model.PolyLineGeometry;
 
 class GPatchInteraction extends GObject {
 	
@@ -46,6 +50,18 @@ class GPatchInteraction extends GObject {
 
 
 		selectedSegment.updateGeometry();
+		
+		Interval inter = interval.getInterval();
+		PolyLineGeometry geom = new PolyLineGeometry( inter );
+		
+		for( int i = IExtension.BEFORE; i< IExtension.LAST; i++ ){
+			IExtension extension = inter.getExtension(i);
+			GExtension gextension =  new GExtension(extension, geom.length()/5. );
+			addSegment( gextension );
+			
+			gextension.setStyle( style );
+			gextension.updateGeometry();
+		}
 		
 	}
 	

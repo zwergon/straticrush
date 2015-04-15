@@ -26,7 +26,8 @@ import fr.ifp.kronosflow.model.sampling.PointSampling;
 import fr.ifp.kronosflow.model.sampling.RandomPointSampling;
 import fr.ifp.kronosflow.triangulation.Triangulation;
 import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
@@ -211,13 +212,13 @@ public class TriangulateInteraction implements GInteraction {
 	}
 
 	@Override
-	public void event(GScene scene, GEvent event) {
+	public void event(GScene scene, GMouseEvent event) {
 		if ( scene != scene_ ){
 			return;
 		}
 
 		switch (event.type) {
-		case GEvent.BUTTON1_DOWN :
+		case GMouseEvent.BUTTON1_DOWN :
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
@@ -238,10 +239,10 @@ public class TriangulateInteraction implements GInteraction {
 			}
 			break;
 
-		case GEvent.BUTTON1_DRAG :
+		case GMouseEvent.BUTTON1_DRAG :
 			break;
 
-		case GEvent.BUTTON1_UP :
+		case GMouseEvent.BUTTON1_UP :
 			
 			if ( null != composite ){
 				
@@ -254,12 +255,17 @@ public class TriangulateInteraction implements GInteraction {
 			}
 			break;
 			
-		case GEvent.ABORT:
+		case GMouseEvent.ABORT:
 			break;
 		}
 		
 		scene_.refresh();
 
+	}
+	
+	@Override
+	public void keyEvent( GKeyEvent event ) {
+		
 	}
 
 }

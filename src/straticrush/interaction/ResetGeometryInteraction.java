@@ -3,7 +3,8 @@ package straticrush.interaction;
 import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.kronosflow.model.Patch;
 import straticrush.view.PatchView;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -22,13 +23,13 @@ public class ResetGeometryInteraction implements GInteraction {
 	}
 
 	@Override
-	public void event(GScene scene, GEvent event) {
+	public void event(GScene scene, GMouseEvent event) {
 		if ( scene != this.scene ){
 			return;
 		}
 
 		switch (event.type) {
-		case GEvent.BUTTON1_DOWN :
+		case GMouseEvent.BUTTON1_DOWN :
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
@@ -45,6 +46,11 @@ public class ResetGeometryInteraction implements GInteraction {
 		}
 		
 
+	}
+	
+	@Override
+	public void keyEvent( GKeyEvent event ) {
+		
 	}
 
 }

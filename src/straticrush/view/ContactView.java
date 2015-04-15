@@ -27,9 +27,9 @@ public class ContactView extends View {
 
 		
 		GStyle style = new GStyle();
-		style.setForegroundColor ( new GColor( (int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255 )));
+		style.setForegroundColor ( new GColor( interval.getColor().getRGB() ) );
 		style.setLineWidth (3);
-		gline.setStyle (style);	
+		setStyle (style);	
 	}
 	
 	private Patch getPatch(){

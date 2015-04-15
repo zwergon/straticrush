@@ -48,7 +48,7 @@ import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GSegment;
@@ -617,16 +617,16 @@ public class GAwtCanvas extends JComponent
   /**
    * map modifiers from AWT event to GEvent modifiers
    */
-  private void setModifiers( MouseEvent event, GEvent gevent ){
-	  gevent.modifier = GEvent.NONE;
+  private void setModifiers( MouseEvent event, GMouseEvent gevent ){
+	  gevent.modifier = GMouseEvent.NONE;
 	  if ( event.isAltDown() ){
-		  gevent.setModifier( GEvent.ALT_DOWN_MASK, true );
+		  gevent.setModifier( GMouseEvent.ALT_DOWN_MASK, true );
 	  }
 	  if ( event.isControlDown() ){
-		  gevent.setModifier( GEvent.CTRL_DOWN_MASK, true );
+		  gevent.setModifier( GMouseEvent.CTRL_DOWN_MASK, true );
 	  }
 	  if ( event.isMetaDown() ){
-		  gevent.setModifier( GEvent.META_DOWN_MASK, true );
+		  gevent.setModifier( GMouseEvent.SHIFT_DOWN_MASK, true );
 	  }
   }
 
@@ -678,19 +678,19 @@ public class GAwtCanvas extends JComponent
   {
 
 	  int modifiers = event.getModifiers();
-	  GEvent gevent = new GEvent( event.getX(), event.getY() );
+	  GMouseEvent gevent = new GMouseEvent( event.getX(), event.getY() );
 
 	  if ( event.isPopupTrigger() ){
-		  gevent.type = GEvent.CONTEXT_MENU;
+		  gevent.type = GMouseEvent.CONTEXT_MENU;
 	  }
 	  else if ((modifiers & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK) {
-		  gevent.type = GEvent.BUTTON1_DOWN;
+		  gevent.type = GMouseEvent.BUTTON1_DOWN;
 	  }
 	  else if ((modifiers & InputEvent.BUTTON2_MASK) == InputEvent.BUTTON2_MASK) {
-		  gevent.type = GEvent.BUTTON2_DOWN;
+		  gevent.type = GMouseEvent.BUTTON2_DOWN;
 	  }
 	  else
-		  gevent.type = GEvent.BUTTON3_DOWN;
+		  gevent.type = GMouseEvent.BUTTON3_DOWN;
 
 	  setModifiers(event, gevent);
 
@@ -708,16 +708,16 @@ public class GAwtCanvas extends JComponent
   public void mouseReleased (MouseEvent event)
   {
 	  int modifiers = event.getModifiers();
-	  GEvent gevent = new GEvent( event.getX(), event.getY() );
+	  GMouseEvent gevent = new GMouseEvent( event.getX(), event.getY() );
 
 	  if ((modifiers & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK) {
-		  gevent.type = GEvent.BUTTON1_UP;
+		  gevent.type = GMouseEvent.BUTTON1_UP;
 	  }
 	  else if ((modifiers & InputEvent.BUTTON2_MASK) == InputEvent.BUTTON2_MASK) {
-		  gevent.type = GEvent.BUTTON2_UP;
+		  gevent.type = GMouseEvent.BUTTON2_UP;
 	  }
 	  else {
-		  gevent.type = GEvent.BUTTON3_UP;
+		  gevent.type = GMouseEvent.BUTTON3_UP;
 	  }
 	  setModifiers(event, gevent);
 	  window_.mouseReleased ( gevent );
@@ -735,16 +735,16 @@ public class GAwtCanvas extends JComponent
   public void mouseDragged (MouseEvent event)
   {
 	  int modifiers = event.getModifiers();
-	  GEvent gevent = new GEvent( event.getX(), event.getY() );
+	  GMouseEvent gevent = new GMouseEvent( event.getX(), event.getY() );
 
 	  if ((modifiers & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK) {
-		  gevent.type = GEvent.BUTTON1_DRAG;
+		  gevent.type = GMouseEvent.BUTTON1_DRAG;
 	  }
 	  else if ((modifiers & InputEvent.BUTTON2_MASK) == InputEvent.BUTTON2_MASK) {
-		  gevent.type = GEvent.BUTTON2_DRAG;
+		  gevent.type = GMouseEvent.BUTTON2_DRAG;
 	  }
 	  else {
-		  gevent.type = GEvent.BUTTON3_DRAG;
+		  gevent.type = GMouseEvent.BUTTON3_DRAG;
 	  }
 	  setModifiers(event, gevent);
 	  window_.mouseDragged ( gevent );
@@ -754,13 +754,13 @@ public class GAwtCanvas extends JComponent
  
   public void mouseWheelMoved(MouseWheelEvent event ) {
 
-	  GEvent gevent = new GEvent( event.getX(), event.getY() );
+	  GMouseEvent gevent = new GMouseEvent( event.getX(), event.getY() );
 
 	  int notches = event.getWheelRotation();
 	  if (notches < 0) {
-		  gevent.type = GEvent.WHEEL_MOUSE_UP;
+		  gevent.type = GMouseEvent.WHEEL_MOUSE_UP;
 	  } else {
-		  gevent.type = GEvent.WHEEL_MOUSE_DOWN;
+		  gevent.type = GMouseEvent.WHEEL_MOUSE_DOWN;
 	  }
 	  setModifiers(event, gevent);
 	  window_.wheelMoved( gevent );

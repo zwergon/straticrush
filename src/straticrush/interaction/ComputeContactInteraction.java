@@ -3,7 +3,8 @@ package straticrush.interaction;
 import straticrush.view.PatchView;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.algo.ComputeContact;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -20,14 +21,14 @@ public class ComputeContactInteraction implements GInteraction {
 	}
 	
 	@Override
-	public void event(GScene scene, GEvent event) {
+	public void event(GScene scene, GMouseEvent event) {
 		
 		if ( this.scene != scene ){
 			return;
 		}
 
 		switch (event.type) {
-		case GEvent.BUTTON1_DOWN:
+		case GMouseEvent.BUTTON1_DOWN:
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
@@ -42,7 +43,7 @@ public class ComputeContactInteraction implements GInteraction {
 				}
 			}
 			break;
-		case GEvent.BUTTON1_UP:
+		case GMouseEvent.BUTTON1_UP:
 			if ( ( p1 != null )&& ( p2 != null ) ){
 				ComputeContact compute = new ComputeContact(p1);
 				compute.execute(p2);
@@ -51,6 +52,11 @@ public class ComputeContactInteraction implements GInteraction {
 			}
 		}
 
+	}
+	
+	@Override
+	public void keyEvent( GKeyEvent event ) {
+		
 	}
 
 }

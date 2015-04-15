@@ -116,10 +116,10 @@ public class ZoomInteraction
    * @param eventType  Event trigging this method.
    * @param x,y        Pointer location.         
    */
-  public void event (GScene scene,  GEvent event )
+  public void event (GScene scene,  GMouseEvent event )
   {
     switch (event.type) {
-      case GEvent.BUTTON1_DOWN :
+      case GMouseEvent.BUTTON1_DOWN :
         x0_ = event.x;
         y0_ = event.y;
 
@@ -134,7 +134,7 @@ public class ZoomInteraction
         timer_.start();
         break;
           
-      case GEvent.BUTTON1_UP :
+      case GMouseEvent.BUTTON1_UP :
         interaction_.remove();
         rubberBand_.setGeometry ((int []) null);        
 
@@ -153,12 +153,12 @@ public class ZoomInteraction
           scene_.zoom (x0_, y0_, event.x, event.y);
         break;
           
-      case GEvent.BUTTON2_DOWN :
+      case GMouseEvent.BUTTON2_DOWN :
     	  x0_ = event.x;
           y0_ = event.y;
         break;
        
-      case GEvent.BUTTON2_DRAG :
+      case GMouseEvent.BUTTON2_DRAG :
 
     	  dx = event.x - x0_;
     	  dy = event.y - y0_;
@@ -171,7 +171,7 @@ public class ZoomInteraction
     	  break;
       
           
-      case GEvent.BUTTON1_DRAG :
+      case GMouseEvent.BUTTON1_DRAG :
         timer_.stop();
         timer_.removeActionListener (this);
 
@@ -191,7 +191,7 @@ public class ZoomInteraction
         scene_.refresh();
         break;
 
-      case GEvent.BUTTON3_DOWN :
+      case GMouseEvent.BUTTON3_DOWN :
         x0_ = event.x;
         y0_ = event.y;
 
@@ -205,20 +205,24 @@ public class ZoomInteraction
 
         break;
         
-      case GEvent.BUTTON3_UP :
+      case GMouseEvent.BUTTON3_UP :
         timer_.stop();
         timer_.removeActionListener (this);
 
         scene_.zoom (event.x, event.y, zoomFactor_);
         break;
         
-      case GEvent.WHEEL_MOUSE_DOWN:
+      case GMouseEvent.WHEEL_MOUSE_DOWN:
     	  scene_.zoom(ZOOM_FACTOR);
     	  break;
     	  
-      case GEvent.WHEEL_MOUSE_UP:
+      case GMouseEvent.WHEEL_MOUSE_UP:
     	  scene_.zoom(1./ZOOM_FACTOR);
     	  break;
     }
+  }
+  
+  public void keyEvent( GKeyEvent event ){
+	  //do nothing
   }
 }

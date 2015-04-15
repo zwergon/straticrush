@@ -1,19 +1,23 @@
 package straticrush.interaction;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
 import fr.ifp.jdeform.deformation.SolverDeformationController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
+import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
@@ -28,7 +32,6 @@ public abstract class SolverInteraction implements GInteraction {
 	
 	protected GPatchInteraction interaction_;
 	
-	protected PatchInterval  selectedInterval;
 	
 	protected SolverDeformationController<Patch> solverController = null;
 	
@@ -36,31 +39,46 @@ public abstract class SolverInteraction implements GInteraction {
 
 	protected Patch selectedComposite;
 	
+	protected PatchInterval  selectedHorizon;
+	
+	protected PatchInterval  selectedFault;
+	
 	protected List<Patch> surroundedComposites = new ArrayList<Patch>();
+	
+	/** horizons that may be a target for deformation ordered using straticolumn */
+	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
 	
 	protected int       x0_, y0_;
 	
 
 	
 	@Override
-	abstract public void event(GScene scene, GEvent event);
+	abstract public void event(GScene scene, GMouseEvent event);
 	
 	
 	@SuppressWarnings("unchecked")
 	public SolverInteraction( GScene scene, String type ){
 		scene_ = scene;
 		
-		selectedInterval = null;
+		selectedHorizon = null;
+		selectedFault = null;
 		
 		solverController = (SolverDeformationController<Patch> )StratiCrushServices.getInstance().createController(type);
 		
 		translateController = (TranslateNodeMove)StratiCrushServices.getInstance().createController("Translate");
+		translateController.setCollisionsActive(false);
 		
 		 // Create a graphic node for holding the interaction graphics
 	    interaction_ = new GPatchInteraction();    
 	}
 	
-	protected PatchInterval findHorizonFeature( double[] ori ) {
+	
+	/**
+	 * retrieves the {@link PatchInterval} of type c that is nearest of ori.
+	 * @see findHorizonFeature
+	 * @see findFaultFeature 
+	 */
+	protected <T> PatchInterval findFeature( double[] ori, Class<T> c ) {
 		
 		PatchInterval interval = null;
 		double minDist = Double.POSITIVE_INFINITY;
@@ -68,8 +86,7 @@ public abstract class SolverInteraction implements GInteraction {
 		for( KinObject object : selectedComposite.getChildren() ){
 			if ( object instanceof FeatureGeolInterval ){
 				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				BoundaryFeature bf = (BoundaryFeature)fgInterval.getFeature();
-				if ( bf instanceof StratigraphicEvent ){
+				if ( c.isInstance(fgInterval.getFeature()) ){
 					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
 					
 					double dist = pgeom.minimalDistance( ori );
@@ -84,8 +101,16 @@ public abstract class SolverInteraction implements GInteraction {
 		return interval;
 	}
 	
+	protected PatchInterval findHorizonFeature( double[] ori ){
+		return findFeature( ori, StratigraphicEvent.class );
+	}
 	
-	protected void translateComposite(GScene scene, GEvent event) {
+	protected PatchInterval findFaultFeature( double[] ori ){
+		return findFeature( ori, FaultFeature.class );
+	}
+	
+	
+	protected void translateComposite(GScene scene, GMouseEvent event) {
 		translateController.setPatch(selectedComposite); 
 
 		GTransformer transformer = scene.getTransformer();
@@ -102,6 +127,7 @@ public abstract class SolverInteraction implements GInteraction {
 	}
 	
 	
+	
 	protected void createSelectedAndSurrounded(Patch patch) {
 		PatchLibrary library = patch.getPatchLibrary();
 		List<Patch> availablePatches = library.getPatches();
@@ -116,10 +142,28 @@ public abstract class SolverInteraction implements GInteraction {
 				composite = (CompositePatch)computeBloc.getBloc( availablePatches.get(0) );
 				if ( null != composite ){
 					surroundedComposites.add( composite );
+					getPotentialTargets(composite);
 				}
 				availablePatches.removeAll( composite.getPatchs() );
 		}
 	}
 	
+	
+	private void getPotentialTargets( Patch patch ){
+		for( KinObject object : patch.getChildren() ){
+			if ( object instanceof FeatureGeolInterval ){
+				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
+				
+				BoundaryFeature bf = fgInterval.getFeature();
+				
+				if ( bf instanceof StratigraphicEvent ){
+					StratigraphicEvent se = (StratigraphicEvent)bf;
+					potentialHorizonTargets.add( fgInterval );
+				}
+			}
+		}
+		
+		
+	}
 
 }

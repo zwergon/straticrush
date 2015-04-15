@@ -352,8 +352,8 @@ public class SectionView extends ViewPart implements ISelectionListener {
     		// Create a value specific "plot" scene
             menu = new Menu (window_);
             
-            PatchLibrary patchLib = section.findOrCreatePatchLibrary();
-            menu.populate(patchLib);
+            
+            menu.populate(section);
             window_.startInteraction( new MenuInteraction( menu ) );
     		
     	}
@@ -396,7 +396,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         */
 
         section = new Section();
-        PatchLibrary patchLib = section.findOrCreatePatchLibrary();
+        PatchLibrary patchLib = section.getPatchLibrary();
       
         
      
@@ -448,7 +448,7 @@ public class SectionView extends ViewPart implements ISelectionListener {
         }
         
         if ( checked ){
-        	PatchLibrary patchLib = section.findOrCreatePatchLibrary();
+        	PatchLibrary patchLib = section.getPatchLibrary();
         	// Create a graphic object
         	for( Contact contact : patchLib.getContacts() ){
         		ViewFactory.getInstance().createView(plot, contact);

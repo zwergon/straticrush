@@ -59,5 +59,6 @@ public interface GInteraction
    * @param x      X position of cursor.
    * @param y      Y position of cursor.   
    */
-  public void event (GScene scene, GEvent event );
+  public void event (GScene scene, GMouseEvent event );
+  public void keyEvent( GKeyEvent event );
 }

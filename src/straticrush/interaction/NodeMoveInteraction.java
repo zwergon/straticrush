@@ -9,7 +9,8 @@ import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.algo.ComputeCompositePatch;
 import fr.ifp.jdeform.deformation.NodeMoveController;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -46,14 +47,14 @@ public class NodeMoveInteraction implements GInteraction {
 	
 	
 	@Override
-	public void event(GScene scene, GEvent event) {
+	public void event(GScene scene, GMouseEvent event) {
 
 		if ( scene != scene_ ){
 			return;
 		}
 
 		switch (event.type) {
-		case GEvent.BUTTON1_DOWN :
+		case GMouseEvent.BUTTON1_DOWN :
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
@@ -79,7 +80,7 @@ public class NodeMoveInteraction implements GInteraction {
 
 			break;
 
-		case GEvent.BUTTON1_DRAG :
+		case GMouseEvent.BUTTON1_DRAG :
 			int dx = event.x - x0_;
 			int dy = event.y - y0_;
 			if ( null != selected_segment_ ) {
@@ -105,18 +106,23 @@ public class NodeMoveInteraction implements GInteraction {
 			y0_ = event.y;
 			break;
 
-		case GEvent.BUTTON1_UP :
+		case GMouseEvent.BUTTON1_UP :
 			selected_node_ = null;
 			selected_segment_ = null;
 			break;
 			
-		case GEvent.ABORT:
+		case GMouseEvent.ABORT:
 			nodeMove.dispose();
 			break;
 		}
 		
 		scene_.refresh();
 
+	}
+	
+	@Override
+	public void keyEvent( GKeyEvent event ) {
+		
 	}
 	
 	private Node selectNode( Patch patch, double[] pos  ){

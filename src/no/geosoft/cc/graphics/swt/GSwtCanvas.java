@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Listener;
 import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
 import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GSegment;
@@ -258,7 +258,7 @@ MouseMoveListener {
 	/**
 	 * map modifiers from AWT event to GEvent modifiers
 	 */
-	private void setModifiers( MouseEvent event, GEvent gevent ){
+	private void setModifiers( MouseEvent event, GMouseEvent gevent ){
 		/*		  gevent.modifier = GEvent.NONE;
 		  if ( event.stateMask & SWT.CTRL ){
 			  gevent.setModifier( GEvent.ALT_DOWN_MASK, true );
@@ -283,13 +283,13 @@ MouseMoveListener {
 	@Override
 	public void mouseScrolled( MouseEvent event ) {
 
-		GEvent gevent = new GEvent( event.x,  event.y );
+		GMouseEvent gevent = new GMouseEvent( event.x,  event.y );
 
 		int notches = event.count;
 		if (notches > 0) {
-			gevent.type = GEvent.WHEEL_MOUSE_UP;
+			gevent.type = GMouseEvent.WHEEL_MOUSE_UP;
 		} else {
-			gevent.type = GEvent.WHEEL_MOUSE_DOWN;
+			gevent.type = GMouseEvent.WHEEL_MOUSE_DOWN;
 		}
 		setModifiers(event, gevent);
 		window_.wheelMoved( gevent );
@@ -327,16 +327,16 @@ MouseMoveListener {
 		}
 
 		int modifiers = event.stateMask;
-		GEvent gevent = new GEvent( event.x, event.y );
+		GMouseEvent gevent = new GMouseEvent( event.x, event.y );
 
 		if ( ( mouseMask & SWT.BUTTON1 ) == SWT.BUTTON1) {
-			gevent.type = GEvent.BUTTON1_DRAG;
+			gevent.type = GMouseEvent.BUTTON1_DRAG;
 		}
 		else if (( mouseMask & SWT.BUTTON2 ) == SWT.BUTTON2)  {
-			gevent.type = GEvent.BUTTON2_DRAG;
+			gevent.type = GMouseEvent.BUTTON2_DRAG;
 		}
 		else
-			gevent.type = GEvent.BUTTON3_DRAG;
+			gevent.type = GMouseEvent.BUTTON3_DRAG;
 
 
 		setModifiers(event, gevent);
@@ -347,16 +347,16 @@ MouseMoveListener {
 	@Override
 	public void mouseDown(MouseEvent event) {
 		int modifiers = event.stateMask;
-		GEvent gevent = new GEvent( event.x, event.y );
+		GMouseEvent gevent = new GMouseEvent( event.x, event.y );
 
 		if ( event.button == 1 ) {
-			gevent.type = GEvent.BUTTON1_DOWN;
+			gevent.type = GMouseEvent.BUTTON1_DOWN;
 		}
 		else if (event.button == 2 ) {
-			gevent.type = GEvent.BUTTON2_DOWN;
+			gevent.type = GMouseEvent.BUTTON2_DOWN;
 		}
 		else
-			gevent.type = GEvent.BUTTON3_DOWN;
+			gevent.type = GMouseEvent.BUTTON3_DOWN;
 
 		setModifiers(event, gevent);
 
@@ -379,18 +379,18 @@ MouseMoveListener {
 
 
 		int modifiers = event.stateMask;
-		GEvent gevent = new GEvent( event.x, event.y );
+		GMouseEvent gevent = new GMouseEvent( event.x, event.y );
 
 		if ( event.button == 1 ) {
-			gevent.type = GEvent.BUTTON1_UP;
+			gevent.type = GMouseEvent.BUTTON1_UP;
 			mouseMask &= ~SWT.BUTTON1;
 		}
 		else if (event.button == 2 ) {
-			gevent.type = GEvent.BUTTON2_UP;
+			gevent.type = GMouseEvent.BUTTON2_UP;
 			mouseMask &= ~SWT.BUTTON2;
 		}
 		else {
-			gevent.type = GEvent.BUTTON3_UP;
+			gevent.type = GMouseEvent.BUTTON3_UP;
 			mouseMask &= ~SWT.BUTTON3;
 		}
 

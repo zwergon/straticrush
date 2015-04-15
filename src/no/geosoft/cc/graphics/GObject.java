@@ -1619,7 +1619,7 @@ public class GObject
    * 
    * @return  Actual style for this segment.
    */
-  GStyle getActualStyle()
+  public GStyle getActualStyle()
   {
     return actualStyle_;
   }
