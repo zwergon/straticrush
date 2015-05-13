@@ -9,6 +9,7 @@ import straticrush.view.PatchView;
 import fr.ifp.jdeform.continuousdeformation.FlattenConstraint;
 import fr.ifp.jdeform.continuousdeformation.LPPConstraint;
 import fr.ifp.jdeform.deformation.FlattenDeformation;
+import fr.ifp.jdeform.deformation.FlattenSolverDeformation;
 import fr.ifp.jdeform.geometric.OrientedShear;
 import fr.ifp.jdeform.geometric.VerticalShear;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
@@ -24,7 +25,7 @@ public class FlattenInteraction extends SolverInteraction {
 
 	public FlattenInteraction( GScene scene, String type ){
 		super( scene, type );
-		solverController.setDeformation( new OrientedShear(1) );
+		solverController.setDeformation( new FlattenSolverDeformation() );
 	}
 	
 

@@ -2,27 +2,8 @@ package straticrush.view;
 
 import java.awt.Color;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
-import fr.ifp.kronosflow.controller.IControllerEvent;
-import fr.ifp.kronosflow.geology.BodyFeature;
-import fr.ifp.kronosflow.geology.BoundaryFeature;
-import fr.ifp.kronosflow.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.geology.StratigraphicUnit;
-import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.mesh.Node;
-import fr.ifp.kronosflow.model.CompositePatch;
-import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.Interval;
-import fr.ifp.kronosflow.model.KinObject;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
@@ -30,11 +11,25 @@ import no.geosoft.cc.graphics.GPosition;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
+import fr.ifp.kronosflow.controller.IControllerEvent;
+import fr.ifp.kronosflow.geology.BodyFeature;
+import fr.ifp.kronosflow.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.mesh.Cell;
+import fr.ifp.kronosflow.mesh.IMeshProvider;
+import fr.ifp.kronosflow.mesh.Mesh2D;
+import fr.ifp.kronosflow.mesh.Node;
+import fr.ifp.kronosflow.model.CompositePatch;
+import fr.ifp.kronosflow.model.ICurviPoint;
+import fr.ifp.kronosflow.model.IHandle;
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.utils.UID;
 
 
 public class PatchView extends View {
 	
 	GSegment border = null;
+	Mesh2D mesh = null;
 	
 	public PatchView(){
 		
@@ -48,6 +43,16 @@ public class PatchView extends View {
 		Patch patch = (Patch)object;
 		
 		createGSegments(patch);
+		
+		if ( patch instanceof IMeshProvider ){
+			
+			GColor fgColor = getPatchColor();
+			mesh = ((IMeshProvider)patch).getMesh();
+			
+			for( IHandle handle : mesh.getCells() ){
+				addCell( (Cell)handle, fgColor );
+			}
+		}
 		
 	}
 	
@@ -151,8 +156,26 @@ public class PatchView extends View {
 		}
 		
 		for( Object segment : getSegments() ){
-			 if ( segment instanceof GPolyline ){
-				 ((GPolyline)segment).updateGeometry();
+			if ( segment instanceof GPolyline ){
+				((GPolyline)segment).updateGeometry();
+			}
+			else if ( segment instanceof GCell ){
+
+				GCell gcell = (GCell)segment;
+				Cell cell = gcell.getCell();
+
+				UID[] nodes = cell.getNodeIds();
+
+				int npts = nodes.length+1;
+				double[] xpts = new double[npts];
+				double[] ypts = new double[npts];
+
+				for( int i=0; i<npts; i++){
+					Node node = (Node) mesh.getNode( cell.getNodeId(i % nodes.length) );
+					xpts[i] = node.x();
+					ypts[i] = node.y();
+				}	
+				gcell.setGeometry(xpts, ypts);
 			}
 		}
 		
@@ -180,6 +203,37 @@ public class PatchView extends View {
 			updateGeometry();
 		}
 	}
+	
+	
+	private class GCell extends GSegment {
+		public GCell( Cell cell ){
+			cell_ = cell;
+		}
+		
+		public Cell getCell(){
+			return cell_;
+		}
+		
+		private Cell cell_;
+	};
+	
+	
+
+	private GSegment addCell(Cell cell, GColor fgColor ) {
+		
+		GSegment gcell = new GCell( cell );
+		addSegment(gcell);
+		
+		GStyle style = new GStyle();
+		style.setForegroundColor ( GColor.black );
+		style.setBackgroundColor ( fgColor );
+		style.setFillPattern(GStyle.FILL_NONE);
+		style.setLineWidth (1);
+		gcell.setStyle (style);
+		
+		return gcell;
+	}
+	
 	
 	
 

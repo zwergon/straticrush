@@ -9,6 +9,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.topology.Contact;
+import fr.ifp.kronosflow.triangulation.TrglPatch;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 
@@ -27,6 +28,7 @@ public class ViewFactory {
 		registerView( MeshPatch.class, PatchView.class );
 		registerView( ExplicitPatch.class, PatchView.class );
 		registerView( CompositePatch.class, PatchView.class );
+		registerView( TrglPatch.class, PatchView.class );
 		registerView( Contact.class, ContactView.class );
 		registerView( Paleobathymetry.class, PaleoView.class );
 	}
