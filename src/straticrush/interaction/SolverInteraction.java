@@ -9,7 +9,7 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
-import fr.ifp.jdeform.deformation.SolverDeformationController;
+import fr.ifp.jdeform.deformation.TargetsDeformationController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.FaultFeature;
@@ -33,7 +33,7 @@ public abstract class SolverInteraction implements GInteraction {
 	protected GPatchInteraction interaction_;
 	
 	
-	protected SolverDeformationController<Patch> solverController = null;
+	protected TargetsDeformationController<Patch> solverController = null;
 	
 	protected TranslateNodeMove translateController = null;
 
@@ -63,7 +63,7 @@ public abstract class SolverInteraction implements GInteraction {
 		selectedHorizon = null;
 		selectedFault = null;
 		
-		solverController = (SolverDeformationController<Patch> )StratiCrushServices.getInstance().createController(type);
+		solverController = (TargetsDeformationController<Patch> )StratiCrushServices.getInstance().createController(type);
 		
 		translateController = (TranslateNodeMove)StratiCrushServices.getInstance().createController("Translate");
 		translateController.setCollisionsActive(false);

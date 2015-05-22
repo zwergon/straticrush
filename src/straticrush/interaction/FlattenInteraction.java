@@ -6,15 +6,14 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import straticrush.view.PatchView;
-import fr.ifp.jdeform.continuousdeformation.FlattenConstraint;
-import fr.ifp.jdeform.continuousdeformation.LPPConstraint;
-import fr.ifp.jdeform.deformation.FlattenDeformation;
-import fr.ifp.jdeform.deformation.FlattenSolverDeformation;
+import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
+import fr.ifp.jdeform.deformation.constraint.LinePairingItem;
 import fr.ifp.jdeform.geometric.OrientedShear;
 import fr.ifp.jdeform.geometric.VerticalShear;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 
 public class FlattenInteraction extends SolverInteraction {
@@ -25,7 +24,7 @@ public class FlattenInteraction extends SolverInteraction {
 
 	public FlattenInteraction( GScene scene, String type ){
 		super( scene, type );
-		solverController.setDeformation( new FlattenSolverDeformation() );
+		solverController.setDeformation( new TargetsSolverDeformation() );
 	}
 	
 
@@ -93,14 +92,18 @@ public class FlattenInteraction extends SolverInteraction {
 					
 					solverController.setPatch(selectedComposite); 
 					
+					LinePairingItem item = new LinePairingItem( selectedComposite, selectedHorizon, I);
+					
 					Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
-					solverController.addConstraint( new FlattenConstraint(selectedHorizon, bathy.getPolyline()) );
-					solverController.addConstraint( new LPPConstraint(I) );
+					solverController.addDeformationItem( item );
+					
 					
 					solverController.computeTargets();
 				
-					interaction_.addLine( solverController.getTargetLine() );
-					interaction_.addLine( solverController.getDebugLine() );
+					for ( PolyLine line : solverController.getTargetLine()){
+						interaction_.addLine( line );
+					}
+					//interaction_.addLine( solverController.getDebugLine() );
 					
 				}
 				

@@ -400,12 +400,12 @@ public class SectionView extends ViewPart implements ISelectionListener {
       
         
      
-        //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.geo", section);
-        //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.unit", section);
+        MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.geo", section);
+        MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.unit", section);
 
         
-        MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.geo", section);
-        MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.unit", section);
+        //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.geo", section);
+        //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.unit", section);
 
         //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
         //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
-import fr.ifp.jdeform.deformation.SolverDeformationController;
+import fr.ifp.jdeform.deformation.TargetsDeformationController;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
 import fr.ifp.jdeform.deformation.ResetController;
 import fr.ifp.jdeform.deformation.TranslateNodeMove;
@@ -42,7 +42,7 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 		registerController("ChainMail", ChainMeshNodeMove.class);
 		registerController("MassSpring", MassSpringNodeMove.class );
 		registerController("Reset", ResetController.class );
-		registerController("SolverDeformation", SolverDeformationController.class );
+		registerController("SolverDeformation", TargetsDeformationController.class );
 	}
 	
 	

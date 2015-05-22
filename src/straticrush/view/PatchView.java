@@ -222,14 +222,16 @@ public class PatchView extends View {
 	private GSegment addCell(Cell cell, GColor fgColor ) {
 		
 		GSegment gcell = new GCell( cell );
-		addSegment(gcell);
+		
 		
 		GStyle style = new GStyle();
 		style.setForegroundColor ( GColor.black );
-		style.setBackgroundColor ( fgColor );
-		style.setFillPattern(GStyle.FILL_NONE);
+		style.setBackgroundColor ( null );
+		//style.setFillPattern(GStyle.FILL_NONE);
 		style.setLineWidth (1);
 		gcell.setStyle (style);
+		
+		addSegment(gcell);
 		
 		return gcell;
 	}
