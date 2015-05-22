@@ -1,192 +1,191 @@
 package no.geosoft.cc.graphics.GL;
 
 
+
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
-
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
-import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
-import no.geosoft.cc.graphics.GL.GGLNewtCanvas.GLAction;
 import no.geosoft.cc.interfaces.ICanvas;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
-import com.jogamp.opengl.DefaultGLCapabilitiesChooser;
+import com.jogamp.newt.event.MouseEvent;
+import com.jogamp.newt.event.MouseListener;
+import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.newt.swt.NewtCanvasSWT;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLContext;
+import com.jogamp.opengl.GLDrawable;
+import com.jogamp.opengl.GLDrawableFactory;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.swt.GLCanvas;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Region;
 
 
-@SuppressWarnings("serial")
-public class GGLCanvas 
+public class GGLNewtCanvas 
 	implements  
-			GLEventListener, 
-			ICanvas,
-			MouseListener,
-			MouseWheelListener,
-			MouseMoveListener,
-			KeyListener
+		ICanvas,
+		GLEventListener,
+		MouseListener,
+		KeyListener
 	{
 	
-	static private GLCapabilities capabilities_;
 	
-	GLCanvas glCanvas;
 	
 	private final GWindow    window_;
-	private Rect             cleared_;
 	
-	private GColor backgroundColor;
+	/** Widget that displays OpenGL content. */
+    protected GLWindow glcanvas;
+    
+    protected NewtCanvasSWT glcomposite;
+  
+	private Rect             cleared_;
 	
 	private int mouseMask = 0;
 	
+	private List<GLAction> queue= new ArrayList<GGLNewtCanvas.GLAction>(16);
 	
-	private List<GLAction> queue= new ArrayList<GGLCanvas.GLAction>(16);
+	private GColor backgroundColor;
 	
-	
-
-
-	public GGLCanvas( Object parent, GWindow window ) {
+	public GGLNewtCanvas( Object parent, GWindow window ) {
 		
 		backgroundColor = GColor.WHITE;
-
-		// we can't use the default Composite because using the AWT bridge
-		// requires that it have the property of SWT.EMBEDDED
-		Composite compo = new Composite((Composite)parent, SWT.NONE |  SWT.NO_BACKGROUND );
-		compo.setLayout(new FillLayout());
+	
 		
+		GLProfile glprofile = GLProfile.get( GLProfile.GL2 );
+		
+		GLCapabilities capabilities = new GLCapabilities(glprofile);
+		capabilities.setDoubleBuffered(true);
+		capabilities.setHardwareAccelerated(true);
+		capabilities.setStencilBits(8);
+		capabilities.setBackgroundOpaque(false);
+
+		
+		glcanvas = GLWindow.create(capabilities);
+		glcanvas.setAutoSwapBufferMode(true);
+		glcanvas.setUndecorated(true);
+		glcomposite = NewtCanvasSWT.create((Composite) parent, SWT.NO_BACKGROUND , glcanvas );
+		
+		glcanvas.addGLEventListener(this);
+		
+		glcomposite.setFocus();
 		
 		//associate to GWindow
 		window_ = window;
 		
-		GLProfile gprofile = GLProfile.get( GLProfile.GL2 );
-		GLCapabilities capabilities = new GLCapabilities(gprofile);
-		capabilities.setDoubleBuffered(true);
-		capabilities.setHardwareAccelerated(true);
-		capabilities.setStencilBits(8);
-		glCanvas = GLCanvas.create(compo, SWT.NO_BACKGROUND, capabilities, null );
 		
-		//System.setProperty("sun.awt.noerasebackground", "true");
-		
-		// we need the listener so we get the GL events
-		glCanvas.addGLEventListener(this);
-
-	
-		
-		glCanvas.addMouseListener( this );
-		glCanvas.addMouseMoveListener(this);
-		glCanvas.addMouseWheelListener( this);
-
+		glcanvas.addMouseListener(this);
+						
 	}
 	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+	
+	public GL2 getGL2(){
+		return glcanvas.getContext().getGL().getGL2();
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getWidth() {
-		return glCanvas.getSurfaceWidth();
-	}
-
-	@Override
-	public int getHeight() {
-		return glCanvas.getSurfaceHeight();
-	}
-
-
-	@Override
+	
 	public void setBackgroundColor(GColor color) {
 		backgroundColor = color;
 	};
+	
+	@Override
+	public int getWidth() {
+		Rectangle rectangle = glcomposite.getBounds();
+		return rectangle.width;
+	}
+
+
+
+	@Override
+	public int getHeight() {
+		Rectangle rectangle = glcomposite.getBounds();
+		return rectangle.height;
+	}
+	
+	
+	@Override
+	public void init(GLAutoDrawable drawable) {
+		GL2 gl2 = drawable.getGL().getGL2();
+		gl2.setSwapInterval( 0 );
+		gl2.glEnable( GL2.GL_SCISSOR_TEST );
+		gl2.glClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
+		gl2.glDisable(GL2.GL_DEPTH_TEST);
+
+	}
+
+
+	@Override
+	public void dispose(GLAutoDrawable drawable) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
-		execute(drawable);
+		execute( drawable );
 	}
 
-	@Override
-	public void dispose(GLAutoDrawable arg0) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
-	public void init(GLAutoDrawable drawable) {
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
 		
 		GL2 gl2 = drawable.getGL().getGL2();
-		gl2.setSwapInterval( 1 );
-		gl2.glEnable( GL2.GL_SCISSOR_TEST );
-		gl2.glDisable(GL2.GL_DEPTH_TEST);
-				
-	}
-
-	@Override
-	public void reshape(
-			GLAutoDrawable drawable, 
-			int x, int y, 
-			int width, int height) {
 		
-
-		GL2 gl2 = drawable.getGL().getGL2();
+		
+		Rectangle rectangle = glcomposite.getBounds();
+		int iWidth = rectangle.width;
+		int iHeight = Math.max( rectangle.height, 1 );
 		
 		gl2.glMatrixMode( GLMatrixFunc.GL_PROJECTION );
 		gl2.glLoadIdentity();
 
 		GLU glu = new GLU();
-		glu.gluOrtho2D( 0.0f, width, 0.0f, height );
+		glu.gluOrtho2D( 0.0f, iWidth, 0.0f, iHeight );
 
 		gl2.glMatrixMode( GLMatrixFunc.GL_MODELVIEW );
-		gl2.glViewport( 0, 0, width, height );
+		gl2.glViewport( 0, 0, iWidth, iHeight );
 		gl2.glLoadIdentity();
 		
-		cleared_ = new Rect (0, 0, width, height);
+		cleared_ = new Rect (0, 0, iWidth, iHeight);
 		
 		window_.resize();
+		
 	}
-	
+
+
+
 	/**
 	 * Refresh this canvas.
 	 */
@@ -194,16 +193,15 @@ public class GGLCanvas
 	{
 		clear();
 	}
-
+	
 	/**
 	 * Refresh this canvas.
 	 */
 	public void refresh()
 	{
 		if ( null != cleared_ ){
-			glCanvas.redraw(cleared_.x, cleared_.y, cleared_.width, cleared_.height, true );
+			glcomposite.redraw(cleared_.x, cleared_.y, cleared_.width, cleared_.height, true );
 		}
-		
 	}
 	
 	
@@ -215,7 +213,7 @@ public class GGLCanvas
 	   * @param y      Polyline y coordinates.
 	   * @param style  Style used for rendering.
 	   */
-	  public void render ( GSegment segment, GStyle style )
+	  public void render (GSegment segment, GStyle style )
 	  {
 		   add( new XYGLaction(segment.getX(), segment.getY(), style) );
 	  }
@@ -315,36 +313,31 @@ public class GGLCanvas
 		  
 	  }
 	  
-	  private void execute(GLAutoDrawable drawable)
+	  private void execute( GLAutoDrawable drawable)
 	  {
 		  // make a copy of the queue to allow thread safe iteration
 		  ArrayList<GLAction> temp = null;
-		 
-		  
+	
 		  synchronized (queue)
 		  {
 			  // Only make a copy, if the queue has entries
 			  if( queue.size() != 0 )
-			  {
 				  temp = new ArrayList<GLAction>(queue); 
-				  queue.clear();
-			  }
 		  }
 
 		  // iterate outside of the synchronization to avoid blocking the queue
 		  if( temp!=null ){
+			  
+			 
 			  GL2 gl = drawable.getGL().getGL2();
+			  
 			  gl.glDrawBuffer( GL.GL_BACK);
 			  for ( GLAction action : temp ) {
 				  action.execute(gl);
 			  } 
-			  gl.glFlush();
-			  glCanvas.swapBuffers();
+			  //glcanvas.swapBuffers();
 			  
 		  }
-		  
-		  
-
 	  }
 	  
 	  private class ImageGLAction implements GLAction {
@@ -466,7 +459,6 @@ public class GGLCanvas
 	  }
 	  
 	  
-	  
 	 /**
 	  * GLAction to draw GText 
 	  * @author <a href="mailto:Jean-Francois.Lecomte@ifpen.fr">Jef Lecomte</a>
@@ -499,7 +491,7 @@ public class GGLCanvas
 					  (byte)fg.getAlpha() );
 			  
 			  glfont.write( gl2, text.getText(), text.getRectangle().x,  text.getRectangle().y );
-			  
+			
 		  }
 	  }
 	  
@@ -523,7 +515,7 @@ public class GGLCanvas
 
 		  @Override
 		  public void execute(GL target) {
-
+	
 			  GL2 gl2 = target.getGL2();
  
 			  GColor bg = style.getBackgroundColor();
@@ -534,6 +526,13 @@ public class GGLCanvas
 				   * in OpenGL redbook. 
 				   * http://glprogramming.com/red/chapter14.html#name13
 				   * don't forget to set: capabilities_.setStencilBits(8);*/
+				  
+
+				  gl2.glEnable( GL.GL_BLEND);
+				  gl2.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+				  /* Dessin du sprite avec transparence */
+				 
+
 				   
 				  gl2.glEnable(GL2.GL_STENCIL_TEST);
 				  gl2.glClear(GL.GL_STENCIL_BUFFER_BIT);
@@ -554,7 +553,7 @@ public class GGLCanvas
 				  gl2.glColorMask(true, true, true, true);
 				  gl2.glStencilFunc(GL2.GL_NOTEQUAL, 0, 1);
 				  gl2.glStencilOp(GL2.GL_KEEP, GL2.GL_ZERO, GL2.GL_ZERO);
-				  gl2.glColor3ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue());
+				  gl2.glColor4ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue(), (byte)bg.getAlpha());
 				  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
 				  for( int i = 1; i<x.length-2; i++ ){
 					  gl2.glVertex2i( x[0], y[0] );
@@ -564,28 +563,31 @@ public class GGLCanvas
 				  gl2.glEnd();
 				  
 				  gl2.glDisable(GL2.GL_STENCIL_TEST);
+				  gl2.glDisable(GL.GL_BLEND);
 				
 
 			  }
 			  
 			  if ( style.isLineVisible() ){
 				  GColor fg = style.getForegroundColor();
+				  FloatBuffer widthBuffer = FloatBuffer.allocate(1);
+				  gl2.glGetFloatv(GL.GL_LINE_WIDTH, widthBuffer);
+				  gl2.glLineWidth( style.getLineWidth() );
 				  gl2.glColor3ub((byte)fg.getRed(), (byte)fg.getGreen(), (byte)fg.getBlue());
 				  gl2.glBegin( GL2.GL_LINE_STRIP );		//draw polyline
 				  for( int i = 0; i<x.length; i++ ){
 					  gl2.glVertex2i( x[i], y[i] );
 				  }
 				  gl2.glEnd();
+				  gl2.glLineWidth( widthBuffer.get(0) );
 			  }
 		  }
 		  
 	  }
-
 	  
-	  
-	  /**
+	/*  *//**
 	   * map modifiers from SWT event to GEvent modifiers
-	   */
+	   *//*
 	  private void setModifiers( MouseEvent event, GMouseEvent gevent ){
 		  gevent.modifier = GMouseEvent.NONE;
 		  if ( ( event.stateMask & SWT.ALT ) == SWT.ALT ){
@@ -601,145 +603,153 @@ public class GGLCanvas
 
 
 
-	  @Override
-	  public void mouseDoubleClick(MouseEvent arg0) {
-		  // TODO Auto-generated method stub
 
-	  }
+	  }*/
 
-	  @Override
-	  public void mouseScrolled( MouseEvent event ) {
+		@Override
+		public Rect getStringBox(String string, GFont gfont) {
+		  
+		    GGLFontImpl fontImpl = (GGLFontImpl)gfont.getImpl();
+		    return fontImpl.getStringBox(string, gfont);
+	       
+		}
 
-		  GMouseEvent gevent = new GMouseEvent( event.x,  getHeight()- event.y );
+		@Override
+		public void keyPressed(KeyEvent event) {
+			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_PRESSED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			window_.keyPressed(ke);
+		}
 
-		  int notches = event.count;
-		  if (notches > 0) {
-			  gevent.type = GMouseEvent.WHEEL_MOUSE_UP;
-		  } else {
-			  gevent.type = GMouseEvent.WHEEL_MOUSE_DOWN;
-		  }
-		  setModifiers(event, gevent);
-		  window_.wheelMoved( gevent );
-	  }
-
-	  /**
-	   * Method called when the pointer enters this window. If an interaction
-	   * is installed, pass a FOCUS_IN event to it.
-	   * 
-	   * @param event  Mouse event trigging this method.
-	   */
-	  public void mouseEntered (Event event)
-	  {
-		  window_.mouseEntered (event.x, getHeight() - event.y);
-	  }
+		@Override
+		public void keyReleased(KeyEvent event) {
+			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_RELEASED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			window_.keyPressed(ke);
+			
+		}
 
 
-	  /**
-	   * Method called when the pointer exits this window. If an interaction
-	   * is installed, pass a FOCUS_OUT event to it.
-	   * 
-	   * @param event  Mouse event trigging this method.
-	   */
-	  public void mouseExited (Event event)
-	  {
-		  window_.mouseExited (event.x, getHeight() - event.y);
-	  }
-
-	  @Override
-	  public void mouseMove(MouseEvent event) {
-
-		  if ( mouseMask == 0  ){
-			  window_.mouseMoved( event.x, getHeight()- event.y );
-			  return;
-		  }
-
-		  GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
-
-		  if ( ( mouseMask & SWT.BUTTON1 ) == SWT.BUTTON1) {
-			  gevent.type = GMouseEvent.BUTTON1_DRAG;
-		  }
-		  else if (( mouseMask & SWT.BUTTON2 ) == SWT.BUTTON2)  {
-			  gevent.type = GMouseEvent.BUTTON2_DRAG;
-		  }
-		  else
-			  gevent.type = GMouseEvent.BUTTON3_DRAG;
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 
 
-		  setModifiers(event, gevent);
-		  window_.mouseDragged ( gevent );
-
-	  }
-
-	  @Override
-	  public void mouseDown(MouseEvent event) {
-		  GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
-
-		  if ( event.button == 1 ) {
-			  gevent.type = GMouseEvent.BUTTON1_DOWN;
-		  }
-		  else if (event.button == 2 ) {
-			  gevent.type = GMouseEvent.BUTTON2_DOWN;
-		  }
-		  else
-			  gevent.type = GMouseEvent.BUTTON3_DOWN;
-
-		  setModifiers(event, gevent);
-
-		  window_.mousePressed ( gevent );
-
-		  if ( event.button == 1 ) {
-			  mouseMask |= SWT.BUTTON1;
-		  }
-		  else if (event.button == 2 ) {
-			  mouseMask |= SWT.BUTTON2;
-		  }
-		  else
-			  mouseMask |= SWT.BUTTON3;
-
-	  }
+		@Override
+		public void mouseEntered(MouseEvent event) {
+			 window_.mouseEntered(event.getX(), getHeight() - event.getY());
+			
+		}
 
 
-	  @Override
-	  public void mouseUp(MouseEvent event) {
+		@Override
+		public void mouseExited(MouseEvent event) {
+			 window_.mouseExited (event.getX(), getHeight() - event.getY());
+			
+		}
 
-		  GMouseEvent gevent = new GMouseEvent( event.x, getHeight()- event.y );
 
-		  if ( event.button == 1 ) {
-			  gevent.type = GMouseEvent.BUTTON1_UP;
-			  mouseMask &= ~SWT.BUTTON1;
-		  }
-		  else if (event.button == 2 ) {
-			  gevent.type = GMouseEvent.BUTTON2_UP;
-			  mouseMask &= ~SWT.BUTTON2;
-		  }
-		  else {
-			  gevent.type = GMouseEvent.BUTTON3_UP;
-			  mouseMask &= ~SWT.BUTTON3;
-		  }
+		@Override
+		public void mousePressed(MouseEvent event) {
+			 GMouseEvent gevent = new GMouseEvent( event.getX(), getHeight()- event.getY() );
 
-		  setModifiers(event, gevent);
+			  if ( event.getButton() == 1 ) {
+				  gevent.type = GMouseEvent.BUTTON1_DOWN;
+			  }
+			  else if (event.getButton() == 2 ) {
+				  gevent.type = GMouseEvent.BUTTON2_DOWN;
+			  }
+			  else
+				  gevent.type = GMouseEvent.BUTTON3_DOWN;
 
-		  window_.mouseReleased( gevent );
+			  //setModifiers(event, gevent);
 
-	  }
+			  window_.mousePressed ( gevent );
 
-	  /**
-	   * Utility method for computing the rectangle bounding box of
-	   * a rendered string using the specified font.
-	   * 
-	   * @param string  Sample string.
-	   * @param font    Font to use.
-	   * @return        Rectangle bounding box of rendered string.
-	   */
-	  public Rect getStringBox (String string, GFont gfont)
-	  {
-		  GGLFontImpl fontImpl = (GGLFontImpl)gfont.getImpl();
-		  return fontImpl.getStringBox(string, gfont);
-	  }
+			  if ( event.getButton() == 1 ) {
+				  mouseMask |= SWT.BUTTON1;
+			  }
+			  else if (event.getButton() == 2 ) {
+				  mouseMask |= SWT.BUTTON2;
+			  }
+			  else
+				  mouseMask |= SWT.BUTTON3;
+
+			
+		}
+
+
+		@Override
+		public void mouseReleased(MouseEvent event) {
+			 GMouseEvent gevent = new GMouseEvent( event.getX(), getHeight()- event.getY() );
+
+			  if ( event.getButton() == 1 ) {
+				  gevent.type = GMouseEvent.BUTTON1_UP;
+				  mouseMask &= ~SWT.BUTTON1;
+			  }
+			  else if (event.getButton() == 2 ) {
+				  gevent.type = GMouseEvent.BUTTON2_UP;
+				  mouseMask &= ~SWT.BUTTON2;
+			  }
+			  else {
+				  gevent.type = GMouseEvent.BUTTON3_UP;
+				  mouseMask &= ~SWT.BUTTON3;
+			  }
+
+			  //setModifiers(event, gevent);
+
+			  window_.mouseReleased( gevent );
+			
+		}
+
+
+		@Override
+		public void mouseMoved(MouseEvent event) {
+			 window_.mouseMoved( event.getX(), getHeight()- event.getY() );
+			
+		}
+
+
+		@Override
+		public void mouseDragged(MouseEvent event) {
+		
+			GMouseEvent gevent = new GMouseEvent( event.getX(), getHeight()- event.getY() );
+
+			if ( ( mouseMask & SWT.BUTTON1 ) == SWT.BUTTON1) {
+				gevent.type = GMouseEvent.BUTTON1_DRAG;
+			}
+			else if (( mouseMask & SWT.BUTTON2 ) == SWT.BUTTON2)  {
+				gevent.type = GMouseEvent.BUTTON2_DRAG;
+			}
+			else
+				gevent.type = GMouseEvent.BUTTON3_DRAG;
+
+
+			//setModifiers(event, gevent);
+			window_.mouseDragged ( gevent );
+
+		}
+
+
+		@Override
+		public void mouseWheelMoved(MouseEvent event) {
+			GMouseEvent gevent = new GMouseEvent( event.getX(),  getHeight()- event.getY() );
+
+			  float[] rotation = event.getRotation();
+			  //only vertical rotation 
+			  if (rotation[1] > 0) {
+				  gevent.type = GMouseEvent.WHEEL_MOUSE_UP;
+			  } else {
+				  gevent.type = GMouseEvent.WHEEL_MOUSE_DOWN;
+			  }
+			  //setModifiers(event, gevent);
+			  window_.wheelMoved( gevent );
+			
+		}
+
+
+		
 
 	
-	
-
-
 
 }

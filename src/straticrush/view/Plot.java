@@ -10,7 +10,7 @@ public class Plot extends GScene {
 	private Insets   insets_;
 
 
-	Plot (GWindow window, Insets insets)
+	public Plot (GWindow window, Insets insets)
 	{
 		super (window);
 		insets_ = insets;

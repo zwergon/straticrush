@@ -1,0 +1,14 @@
+#org-eclipse-ui-editorss CTabFolder.MPartStack {
+    swt-single: true;
+}
+
+.MPartStack {
+  swt-tab-renderer: null;
+  swt-selected-tabs-background: #FFFFFF #ECE9D8 100%;
+  swt-single: true;
+  swt-tab-height: 0px;
+  swt-mru-visible: false;
+
+swt-maximize-visible: false;
+swt-minimize-visible: false;
+}

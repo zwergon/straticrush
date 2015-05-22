@@ -530,46 +530,46 @@ public class GWindow
    * Called when the window is resized. Reset the dimension variables
    * and resize scenes accordingly.
    */
-  public void resize()
+  public synchronized void resize()
   {
-	  
+
 	  if ( isResizing ){
 		  System.out.println("Already resizing, exit");
 		  return;
 	  }
-	  
+
 	  isResizing = true;
-	  
-    // Get the new window size
-    int width  = canvas_.getWidth();
-    int height = canvas_.getHeight();
 
-    // Refuse to resize to zero as we cannot possible resize back
-    if (width == 0 || height == 0) return;
-    
-    // Compute resize factors
-    double dx = (double) width  / (double) width_;
-    double dy = (double) height / (double) height_;
+	  // Get the new window size
+	  int width  = canvas_.getWidth();
+	  int height = canvas_.getHeight();
 
-    // Set new window size
-    width_  = width;
-    height_ = height;
+	  // Refuse to resize to zero as we cannot possible resize back
+	  if (width == 0 || height == 0) return;
 
-   
-    // Resize every scene accordingly
-    for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-      GScene scene = (GScene) i.next();
-      scene.resize (dx, dy);
-    }
-    
+	  // Compute resize factors
+	  double dx = (double) width  / (double) width_;
+	  double dy = (double) height / (double) height_;
 
-    // Recompute geometry
-    redraw();
+	  // Set new window size
+	  width_  = width;
+	  height_ = height;
 
-    // Render graphics
-    refresh();
-    
-    isResizing = false;
+
+	  // Resize every scene accordingly
+	  for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
+		  GScene scene = (GScene) i.next();
+		  scene.resize (dx, dy);
+	  }
+
+
+	  // Recompute geometry
+	  redraw();
+
+	  // Render graphics
+	  refresh();
+
+	  isResizing = false;
   }
   
   

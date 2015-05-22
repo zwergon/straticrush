@@ -22,7 +22,7 @@ package no.geosoft.cc.graphics.GL;
 
 import java.awt.*;
 
-import javax.media.opengl.GL2;
+import com.jogamp.opengl.GL2;
 
 import fr.ifp.kronosflow.geometry.Rect;
 import no.geosoft.cc.graphics.GFont;

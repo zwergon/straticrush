@@ -13,8 +13,9 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+
+
+import com.jogamp.opengl.GL2;
 
 import no.geosoft.cc.graphics.GFont;
 import fr.ifp.kronosflow.geometry.Rect;
@@ -218,7 +219,7 @@ public class GLFont{
     public void write( GL2 gl, String l_text, float x, float y){
         gl.glPushMatrix();
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glEnable(GL.GL_BLEND);  //blending is important for alpha
+        gl.glEnable(GL2.GL_BLEND);  //blending is important for alpha
         
         gl.glColor4ub( (byte)_color[0], (byte)_color[1], (byte)_color[2], (byte)_color[3] );
         gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
@@ -230,7 +231,7 @@ public class GLFont{
         }
         
         gl.glDisable(GL2.GL_TEXTURE_2D);
-        gl.glDisable(GL.GL_BLEND);  //blending is important for alpha
+        gl.glDisable(GL2.GL_BLEND);  //blending is important for alpha
         gl.glPopMatrix();
      
     }
@@ -257,7 +258,7 @@ public class GLFont{
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
         gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
        
-        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL.GL_RGBA, w, h, 0, GL2.GL_RGBA, GL.GL_UNSIGNED_BYTE, brga);
+        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, w, h, 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, brga);
         
         
         return tex_id;
