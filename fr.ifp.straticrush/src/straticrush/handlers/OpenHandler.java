@@ -16,7 +16,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import straticrush.parts.SamplePart;
+import straticrush.parts.SectionPart;
 public class OpenHandler {
 
 	@Execute
@@ -32,7 +32,7 @@ public class OpenHandler {
 		
 		String basename = file.substring(0, file.lastIndexOf('.'));
 		
-		SamplePart sectionPart = (SamplePart)part.getObject();
+		SectionPart sectionPart = (SectionPart)part.getObject();
 		sectionPart.loadSection(basename);
 	
 	}

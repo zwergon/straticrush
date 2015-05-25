@@ -26,7 +26,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.topology.Contact;
-import straticrush.parts.SamplePart;
+import straticrush.parts.SectionPart;
 import straticrush.view.ContactView;
 import straticrush.view.Plot;
 import straticrush.view.View;
@@ -41,10 +41,10 @@ public class ContactsHandler {
 
 	@Execute
 	public void execute( @Active MPart part, MHandledItem handledItem ) {
-		displayContacts( (SamplePart)part.getObject(), handledItem.isSelected()  );
+		displayContacts( (SectionPart)part.getObject(), handledItem.isSelected()  );
 	}
 	
-	private void displayContacts( SamplePart sectionPart, boolean checked) {
+	private void displayContacts( SectionPart sectionPart, boolean checked) {
 
 		Section section = sectionPart.getSection();
 		if ( sectionPart.getSection() == null ){

@@ -5,7 +5,7 @@
       <children xsi:type="advanced:Perspective" xmi:id="_OmJ55v-gEeSzbZWfsvr3zw">
         <children xsi:type="basic:PartSashContainer" xmi:id="_OmJ55_-gEeSzbZWfsvr3zw">
           <children xsi:type="basic:PartStack" xmi:id="_OmJ56P-gEeSzbZWfsvr3zw">
-            <children xsi:type="basic:Part" xmi:id="_OmJ56f-gEeSzbZWfsvr3zw" contributionURI="bundleclass://StratiCrush/straticrush.parts.SamplePart" label="View"/>
+            <children xsi:type="basic:Part" xmi:id="_OmJ56f-gEeSzbZWfsvr3zw" contributionURI="bundleclass://StratiCrush/straticrush.parts.SectionPart" label="View"/>
           </children>
         </children>
       </children>
@@ -16,6 +16,33 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54f-gEeSzbZWfsvr3zw" label="Save" iconURI="platform:/plugin/StratiCrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54v-gEeSzbZWfsvr3zw" label="Quit" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
       </children>
+      <children xsi:type="menu:Menu" xmi:id="_JHzD0AMOEeWQfLK62v5NBw" label="Deform" iconURI="platform:/plugin/StratiCrush/icons/translate.gif" tooltip="Select on mode of deformation">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_tyYYkAMSEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.reset" label="Reset" iconURI="" command="_ScI2oAMGEeWQfLK62v5NBw">
+          <parameters xmi:id="_vtwgIAMSEeWQfLK62v5NBw" elementId="straticrush.parameter.reset" name="straticrush.commandparameter.interactiontype" value="Reset"/>
+        </children>
+        <children xsi:type="menu:Menu" xmi:id="_wS-QkAMTEeWQfLK62v5NBw" elementId="straticrush.menu.nodemoveto" label="NodeMoveTo">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_1KVoIAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.translate" label="Translate" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_3-w3kAMTEeWQfLK62v5NBw" elementId="straticrush.parameter.translate" name="straticrush.commandparameter.interactiontype" value="Translate"/>
+          </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_9U3ZkAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.chainmail" label="ChainMail" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_Aq3sEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.chainmail" name="straticrush.commandparameter.interactiontype" value="ChainMail"/>
+          </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_DsgREAMUEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.mass.spring" label="Mass/Spring" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_KJtlEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.mass.spring" name="straticrush.commandparameter.interactiontype" value="MassSpring"/>
+          </children>
+        </children>
+        <children xsi:type="menu:Menu" xmi:id="__6osgAMUEeWQfLK62v5NBw" elementId="straticrush.menu.targets" label="Targets">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_JDDpkAMVEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.flatten" label="Flatten" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_L4K1gAMVEeWQfLK62v5NBw" elementId="straticrush.parameter.flatten" name="straticrush.commandparameter.interactiontype" value="Flatten"/>
+          </children>
+        </children>
+      </children>
+      <children xsi:type="menu:Menu" xmi:id="_QEpdAAMVEeWQfLK62v5NBw" elementId="straticrush.menu.meshing" label="Meshing">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_UEKmkAMVEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.triangulation" label="Triangulation" command="_ScI2oAMGEeWQfLK62v5NBw">
+          <parameters xmi:id="_XgQ6AAMVEeWQfLK62v5NBw" elementId="straticrush.parameter.triangulation" name="straticrush.commandparameter.interactiontype" value="Triangulate"/>
+        </children>
+      </children>
+      <children xsi:type="menu:MenuSeparator" xmi:id="_RySqkAMVEeWQfLK62v5NBw" elementId="straticrush.menuseparator.0"/>
       <children xsi:type="menu:Menu" xmi:id="_OmJ54_-gEeSzbZWfsvr3zw" label="Help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ55P-gEeSzbZWfsvr3zw" label="About" command="_OmJS5v-gEeSzbZWfsvr3zw"/>
       </children>
@@ -25,6 +52,11 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57P-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/StratiCrush/icons/sample.png" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57f-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/StratiCrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_WDJL0ACQEeWUMfDcuIo5aQ" elementId="straticrush.toolbarseparator.1"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_AG92IAMGEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.interaction" iconURI="platform:/plugin/StratiCrush/icons/zoomArea.gif" tooltip="Activate zoom manipulator" command="_ScI2oAMGEeWQfLK62v5NBw">
+          <parameters xmi:id="_STt2QAMNEeWQfLK62v5NBw" elementId="straticrush.parameter.zoom" name="straticrush.commandparameter.interactiontype" value="Zoom"/>
+        </children>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E4G_AAMIEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.oneone" iconURI="platform:/plugin/StratiCrush/icons/oneOne.gif" tooltip="Reset view to bounding box" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_gk0okAMGEeWQfLK62v5NBw" elementId="straticrush.toolbarseparator.0"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="__fFa8ACNEeWUMfDcuIo5aQ" elementId="" iconURI="platform:/plugin/StratiCrush/icons/prop_ps.png" tooltip="Display a menu" type="Check" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_AoNHgACAEeWUMfDcuIo5aQ" elementId="contacts.check.item" iconURI="platform:/plugin/StratiCrush/icons/contacts.png" tooltip="Display contacts on the Section" type="Check" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_SmTgQACKEeWUMfDcuIo5aQ" elementId="straticrush.handledtoolitem.nodes" iconURI="platform:/plugin/StratiCrush/icons/allNodes.png" tooltip="Display nodes on the Section" type="Check" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
@@ -38,6 +70,8 @@
   <handlers xmi:id="_-nU_cACAEeWUMfDcuIo5aQ" elementId="straticrush.handler.contactsCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.ContactsHandler" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
   <handlers xmi:id="_d-dEQACKEeWUMfDcuIo5aQ" elementId="straticrush.handler.nodesCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.NodesHandler" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
   <handlers xmi:id="_7dgmcACOEeWUMfDcuIo5aQ" elementId="straticrush.handler.menuCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.MenuHandler" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
+  <handlers xmi:id="_QOTtIAMGEeWQfLK62v5NBw" elementId="straticrush.handler.interaction" contributionURI="bundleclass://StratiCrush/straticrush.handlers.InteractionHandler" command="_ScI2oAMGEeWQfLK62v5NBw"/>
+  <handlers xmi:id="_NMpBAAMIEeWQfLK62v5NBw" elementId="straticrush.handler.oneone" contributionURI="bundleclass://StratiCrush/straticrush.handlers.OneOneHandler" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
   <bindingTables xmi:id="_OmJS3v-gEeSzbZWfsvr3zw" bindingContext="_OmJS2f-gEeSzbZWfsvr3zw">
     <bindings xmi:id="_OmJS3_-gEeSzbZWfsvr3zw" keySequence="M1+Q" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
     <bindings xmi:id="_OmJS4v-gEeSzbZWfsvr3zw" keySequence="M1+O" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
@@ -55,6 +89,10 @@
   <commands xmi:id="_KTGfgACAEeWUMfDcuIo5aQ" elementId="straticrush.contacts" commandName="contactsCommand"/>
   <commands xmi:id="_ZvYbwACKEeWUMfDcuIo5aQ" elementId="straticrush.command.nodes" commandName="nodesCommand"/>
   <commands xmi:id="_2Mq-8ACOEeWUMfDcuIo5aQ" elementId="straticrush.command.menu" commandName="menuCommand"/>
+  <commands xmi:id="_ScI2oAMGEeWQfLK62v5NBw" elementId="straticrush.command.interaction" commandName="InteractionCommand" description="activate zoom manipulator">
+    <parameters xmi:id="_OOzPUAMNEeWQfLK62v5NBw" elementId="straticrush.commandparameter.interactiontype" name="interactionType" optional="false"/>
+  </commands>
+  <commands xmi:id="_Kl3MAAMIEeWQfLK62v5NBw" elementId="straticrush.command.oneone" commandName="OneOneCommand"/>
   <addons xmi:id="_OmJS0v-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_OmJS0_-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_OmJS1P-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

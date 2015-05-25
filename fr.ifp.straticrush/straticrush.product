@@ -3,19 +3,31 @@
 
 <product name="StratiCrush" id="StratiCrush.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
       <programArgs>-consoleLog
       </programArgs>
+      <programArgsWin>-clearPersistentState
+      </programArgsWin>
       <vmArgs>-Dosgi.requiredJavaVersion=1.7 -Xms40m -Xmx512m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
+      <vmArgsWin>-clearPersistentState
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages/>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
 
 
    <vm>

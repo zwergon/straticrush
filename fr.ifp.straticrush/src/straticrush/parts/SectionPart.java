@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GWindow;
@@ -43,6 +44,10 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.utils.LOGGER;
+import straticrush.interaction.FlattenInteraction;
+import straticrush.interaction.NodeMoveInteraction;
+import straticrush.interaction.ResetGeometryInteraction;
+import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
@@ -53,7 +58,7 @@ import straticrush.view.View;
 import straticrush.view.ViewFactory;
 
 
-public class SamplePart {
+public class SectionPart {
 
 	
 	private GWindow   window_;
@@ -149,20 +154,6 @@ public class SamplePart {
 	      MeshObjectFactory.createDummyUnit( basename + ".unit", section);
 
 
-	      //MeshObjectFactory.createDummyGeo( "C:/Users/Jef/Desktop/nigeriamodel.geo", section);
-	      //MeshObjectFactory.createDummyUnit("C:/Users/Jef/Desktop/nigeriamodel.unit", section);
-
-
-
-	      //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.geo", section);
-	      //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.unit", section);
-
-	      //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
-	      //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
-
-
-	      //MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
-
 	      Plot plot = getPlot();
 	      plot.removeAll();
 
@@ -178,5 +169,30 @@ public class SamplePart {
 
 
 	      window_.update();
+	  }
+	  
+	  public void startInteraction( String interactionType ){
+	      
+	      if ( interactionType.equals("Zoom") ){
+	          window_.startInteraction( new ZoomInteraction(getPlot()) );
+	      }
+	      else if ( interactionType.equals("Reset") ){
+	          window_.startInteraction( new ResetGeometryInteraction(getPlot()));
+	      }
+	      else if ( interactionType.equals("Translate") ) {
+	          window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
+	      }
+	      else if ( interactionType.equals("ChainMail") ) {
+              window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
+          }
+	      else if ( interactionType.equals("MassSpring") ) {
+              window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
+          }
+	      else if ( interactionType.equals("Flatten") ) {
+              window_.startInteraction( new FlattenInteraction(getPlot(), interactionType) );
+          }
+	      else if ( interactionType.equals("Triangulate") ) {
+              window_.startInteraction( new TriangulateInteraction(getPlot(), interactionType) );
+          }
 	  }
 }
