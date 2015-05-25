@@ -42,6 +42,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.topology.Contact;
+import fr.ifp.kronosflow.utils.LOGGER;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
@@ -83,35 +84,7 @@ public class SamplePart {
 		plot.shouldWorldExtentFitViewport (false);
 		plot.shouldZoomOnResize (false);   
 		
-		section = new Section();
-		PatchLibrary patchLib = section.getPatchLibrary();
-
-
-		MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.geo", section);
-		MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/nigeriamodel.unit", section);
-
-
-		//MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.geo", section);
-		//MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.unit", section);
-
-		//MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
-		//MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
-
-
-		//MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
-		plot.removeAll();
-
-		// Create a graphic object
-		for( Patch patch : patchLib.getPatches() ){
-			ViewFactory.getInstance().createView( plot, patch );   
-		}
-
-		ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
-
-		RectD bbox = patchLib.getBoundingBox();
-		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
-
-
+	
 		window_.startInteraction (new ZoomInteraction(plot));
 	
 	}
@@ -163,4 +136,47 @@ public class SamplePart {
 	    	window_.update();
 	    		
 		}
+	  
+	  
+	  public void loadSection( String basename ){
+	      
+	      LOGGER.debug("load " + basename , this.getClass() );
+	      
+	      section = new Section();
+	      PatchLibrary patchLib = section.getPatchLibrary();
+
+	      MeshObjectFactory.createDummyGeo( basename + ".geo", section);
+	      MeshObjectFactory.createDummyUnit( basename + ".unit", section);
+
+
+	      //MeshObjectFactory.createDummyGeo( "C:/Users/Jef/Desktop/nigeriamodel.geo", section);
+	      //MeshObjectFactory.createDummyUnit("C:/Users/Jef/Desktop/nigeriamodel.unit", section);
+
+
+
+	      //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.geo", section);
+	      //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/4blocs.unit", section);
+
+	      //MeshObjectFactory.createDummyGeo( "/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.geo", section);
+	      //MeshObjectFactory.createDummyUnit("/home/irsrvhome1/R11/lecomtje/workspace/Data/Geo_Gmsh/model5bloc.unit", section);
+
+
+	      //MeshObjectFactory.createDummyGeo( file.getAbsolutePath(), section );
+
+	      Plot plot = getPlot();
+	      plot.removeAll();
+
+	      // Create a graphic object
+	      for( Patch patch : patchLib.getPatches() ){
+	          ViewFactory.getInstance().createView( plot, patch );   
+	      }
+
+	      ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+
+	      RectD bbox = patchLib.getBoundingBox();
+	      plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
+
+
+	      window_.update();
+	  }
 }
