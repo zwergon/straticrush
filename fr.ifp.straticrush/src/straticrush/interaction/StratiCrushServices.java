@@ -42,7 +42,8 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 		registerController("ChainMail", ChainMeshNodeMove.class);
 		registerController("MassSpring", MassSpringNodeMove.class );
 		registerController("Reset", ResetController.class );
-		registerController("SolverDeformation", TargetsDeformationController.class );
+		registerController("StaticFEASolver", TargetsDeformationController.class );
+		registerController("DynamicFEASolver", TargetsDeformationController.class );
 	}
 	
 	

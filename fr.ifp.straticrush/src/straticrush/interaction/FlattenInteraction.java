@@ -1,5 +1,11 @@
 package straticrush.interaction;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
+
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
@@ -24,7 +30,7 @@ public class FlattenInteraction extends SolverInteraction {
 
 	public FlattenInteraction( GScene scene, String type ){
 		super( scene, type );
-		solverController.setDeformation( new TargetsSolverDeformation() );
+		solverController.setDeformation( new TargetsSolverDeformation( type ) );
 	}
 	
 
@@ -71,6 +77,8 @@ public class FlattenInteraction extends SolverInteraction {
 					}
 					
 					scene.refresh();
+					
+					StratiCrushServices.getInstance().addListener(interaction_);
 				}
 			}
 
@@ -119,7 +127,40 @@ public class FlattenInteraction extends SolverInteraction {
 			
 			if ( null != selectedHorizon ){
 
-				solverController.move();
+				Job job = new Job("Move") {
+					
+					@Override
+					protected IStatus run(IProgressMonitor monitor) {
+						solverController.move();
+						solverClear();
+						return Status.OK_STATUS;
+					}
+				};
+				job.setUser(true);
+				job.schedule();
+				
+				
+			}
+			break;
+			
+		case GMouseEvent.ABORT:
+			/*flattenController.dispose();
+			scene_.remove(interaction_);*/
+			break;
+		}
+		
+		
+
+	}
+
+
+	private void solverClear() {
+		Display.getDefault().asyncExec( new Runnable() {
+			@Override
+			public void run() {
+				
+				StratiCrushServices.getInstance().removeListener(interaction_);
+				
 				solverController.clear();
 				
 				selectedComposite.remove();
@@ -132,17 +173,10 @@ public class FlattenInteraction extends SolverInteraction {
 				surroundedComposites.clear();
 				selectedComposite = null;
 				selectedHorizon = null;
+				scene_.refresh();
 			}
-			break;
-			
-		case GMouseEvent.ABORT:
-			/*flattenController.dispose();
-			scene_.remove(interaction_);*/
-			break;
-		}
+		});
 		
-		scene_.refresh();
-
 	}
 
 

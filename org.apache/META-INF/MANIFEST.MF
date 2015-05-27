@@ -47,4 +47,4 @@ Export-Package: org.apache.commons.logging,
  org.apache.commons.math.stat.regression,
  org.apache.commons.math.transform,
  org.apache.commons.math.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -13,6 +13,7 @@ import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
+import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.IExtension;
 import fr.ifp.kronosflow.model.Interval;
@@ -21,7 +22,7 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 
-class GPatchInteraction extends GObject {
+class GPatchInteraction extends GObject implements IViewListener {
 	
 	public GPatchInteraction(){
 		super("Interaction");
@@ -86,6 +87,10 @@ class GPatchInteraction extends GObject {
 	
 	@Override
 	public void draw() {
+		updateGeometry();
+	}
+
+	private void updateGeometry() {
 		for( GSegment gsegment : getSegments() ){
 			if ( gsegment instanceof IUpdateGeometry ){
 				((IUpdateGeometry) gsegment).updateGeometry();
@@ -127,5 +132,16 @@ class GPatchInteraction extends GObject {
 	}
 	
 	List<GPolyline> lines = new ArrayList<GPolyline>();
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void objectChanged(IControllerEvent<?> event) {
+		updateGeometry();
+	}
 
 }

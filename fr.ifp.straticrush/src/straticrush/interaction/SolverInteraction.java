@@ -70,6 +70,7 @@ public abstract class SolverInteraction implements GInteraction {
 		
 		 // Create a graphic node for holding the interaction graphics
 	    interaction_ = new GPatchInteraction();    
+	    
 	}
 	
 	

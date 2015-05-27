@@ -23,6 +23,7 @@ import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifp.kronosflow.utils.UID;
 
 
@@ -150,7 +151,7 @@ public class PatchView extends View {
 
 
 	public void updateGeometry() {
-		
+				
 		if ( border == null ){
 			return;
 		}
