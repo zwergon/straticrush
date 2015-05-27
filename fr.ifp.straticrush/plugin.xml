@@ -16,6 +16,10 @@
                name="appName"
                value="StratiCrush">
          </property>
+         <property
+               name="windowImages"
+               value="icons/chain_mesh_icon.png">
+         </property>
       </product>
    </extension>
    <extension
