@@ -1,22 +1,26 @@
 package straticrush.interaction;
 
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
+import no.geosoft.cc.graphics.GObject;
+import no.geosoft.cc.graphics.GScene;
+import no.geosoft.cc.graphics.GSegment;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
-import no.geosoft.cc.graphics.GKeyEvent;
-import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GObject;
-import no.geosoft.cc.graphics.GScene;
-import no.geosoft.cc.graphics.GSegment;
 import straticrush.view.PatchView;
+import fr.ifp.jdeform.continuousdeformation.ContinuousDeformation.State;
+import fr.ifp.jdeform.deformation.TargetsDeformationController;
 import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
 import fr.ifp.jdeform.deformation.constraint.LinePairingItem;
-import fr.ifp.jdeform.geometric.OrientedShear;
-import fr.ifp.jdeform.geometric.VerticalShear;
+import fr.ifp.kronosflow.events.DeformEvent;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.mesh.IMeshProvider;
+import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
@@ -24,8 +28,46 @@ import fr.ifp.kronosflow.model.algo.LineIntersection;
 
 public class FlattenInteraction extends SolverInteraction {
 	
+	Runnable timer;
 	
 	LineIntersection lineInter = null;
+	
+	static int refreshDelay = 500;
+	
+	
+	class Annimation implements Runnable {
+
+		TargetsDeformationController<Patch> controller;
+		GScene scene;
+		
+		public Annimation( GScene scene, TargetsDeformationController<Patch> controller ){
+			this.scene = scene;
+			this.controller = controller;
+			
+		}
+		
+		@Override
+		public void run() {
+			
+			State newState = controller.getState();
+					
+			if ( ( newState == State.DEFORMING )  ){
+				scene_.refresh();
+				Display.getDefault().timerExec(refreshDelay, this);
+			}
+		
+			if ( newState == State.DEFORMED){
+				clearSolver();
+			}
+				
+			if ( ( newState == State.PREPARING ) || ( newState == State.PREPARED ) ){
+				Display.getDefault().timerExec(refreshDelay, this);
+			}
+			
+		}
+	}
+	
+	
 	
 
 	public FlattenInteraction( GScene scene, String type ){
@@ -39,9 +81,15 @@ public class FlattenInteraction extends SolverInteraction {
 		if ( scene != scene_ ){
 			return;
 		}
+		
+		//can not interact during run of a simulation
+		if ( solverController.getState() == State.DEFORMING  ){
+			return;
+		}
 
 		switch (event.type) {
 		case GMouseEvent.BUTTON1_DOWN :
+			
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
@@ -77,6 +125,8 @@ public class FlattenInteraction extends SolverInteraction {
 					}
 					
 					scene.refresh();
+					
+					
 					
 					StratiCrushServices.getInstance().addListener(interaction_);
 				}
@@ -125,21 +175,28 @@ public class FlattenInteraction extends SolverInteraction {
 
 		case GMouseEvent.BUTTON1_UP :
 			
-			if ( null != selectedHorizon ){
+			if ( null != selectedHorizon )  {
+				//if solver can be launched
+				if	 ( solverController.getState() == State.PREPARED )  {
 
-				Job job = new Job("Move") {
-					
-					@Override
-					protected IStatus run(IProgressMonitor monitor) {
-						solverController.move();
-						solverClear();
-						return Status.OK_STATUS;
-					}
-				};
-				job.setUser(true);
-				job.schedule();
-				
-				
+					Job job = new Job("Move") {
+
+						@Override
+						protected IStatus run(IProgressMonitor monitor) {
+							solverController.move();
+							return Status.OK_STATUS;
+						}
+					};
+					job.schedule();
+
+					timer = new Annimation(scene,  solverController );
+
+					Display.getDefault().timerExec(refreshDelay, timer);
+
+				}
+				else {
+					clearSolver();
+				}
 			}
 			break;
 			
@@ -153,32 +210,23 @@ public class FlattenInteraction extends SolverInteraction {
 
 	}
 
+	
+	private void clearSolver() {
+		StratiCrushServices.getInstance().removeListener(interaction_);
+		solverController.clear();
 
-	private void solverClear() {
-		Display.getDefault().asyncExec( new Runnable() {
-			@Override
-			public void run() {
-				
-				StratiCrushServices.getInstance().removeListener(interaction_);
-				
-				solverController.clear();
-				
-				selectedComposite.remove();
-				for( Patch surround : surroundedComposites ){
-					surround.remove();
-				}
-				interaction_.removeSegments();;
-				interaction_.remove();
+		selectedComposite.remove();
+		for( Patch surround : surroundedComposites ){
+			surround.remove();
+		}
+		interaction_.removeSegments();;
+		interaction_.remove();
 
-				surroundedComposites.clear();
-				selectedComposite = null;
-				selectedHorizon = null;
-				scene_.refresh();
-			}
-		});
-		
+		surroundedComposites.clear();
+		selectedComposite = null;
+		selectedHorizon = null;
+		scene_.refresh();
 	}
-
 
 	
 

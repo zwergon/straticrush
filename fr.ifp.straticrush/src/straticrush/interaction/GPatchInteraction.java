@@ -7,6 +7,7 @@ import java.util.List;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
+import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import straticrush.view.GExtension;
@@ -15,6 +16,7 @@ import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.IExtension;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
@@ -141,7 +143,19 @@ class GPatchInteraction extends GObject implements IViewListener {
 
 	@Override
 	public void objectChanged(IControllerEvent<?> event) {
-		updateGeometry();
+		
+		GScene scene = getScene();
+
+		synchronized(scene) {
+
+			switch ((EnumEventAction) event.getEventAction()) {
+			case MOVE:
+				updateGeometry();
+				break;
+			default:
+				break;	 
+			}
+		}
 	}
 
 }

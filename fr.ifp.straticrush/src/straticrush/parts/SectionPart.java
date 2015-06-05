@@ -14,28 +14,19 @@ package straticrush.parts;
 import java.awt.Insets;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GWindow;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
-import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 import straticrush.interaction.FlattenInteraction;
-import straticrush.interaction.IViewListener;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
-import straticrush.interaction.StratiCrushServices;
 import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
@@ -43,9 +34,7 @@ import straticrush.menu.MenuInteraction;
 import straticrush.view.Annotation;
 import straticrush.view.Plot;
 import straticrush.view.ViewFactory;
-import fr.ifp.jdeform.continuousdeformation.MeshSolver;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
-import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
@@ -53,9 +42,8 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 
-public class SectionPart implements IViewListener {
+public class SectionPart  {
 
-	
 	private GWindow   window_;
 	Section section;
 
@@ -87,8 +75,6 @@ public class SectionPart implements IViewListener {
 	
 		window_.startInteraction (new ZoomInteraction(plot));
 		
-		StratiCrushServices.getInstance().addListener(this);
-	
 	}
 
 	@Focus
@@ -196,26 +182,4 @@ public class SectionPart implements IViewListener {
           }
 	  }
 	  
-	 
-
-
-	  @Override
-	  public void objectChanged(IControllerEvent<?> event) {
-		  if ( event instanceof MeshSolver.Event ){
-			  Display.getDefault().syncExec( new Runnable() {
-				  @Override
-				  public void run() {
-					  getPlot().refresh();
-				  }
-			  });
-
-		  }
-
-	  }
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
 }

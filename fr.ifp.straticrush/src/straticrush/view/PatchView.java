@@ -8,6 +8,7 @@ import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GPosition;
+import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
@@ -190,19 +191,23 @@ public class PatchView extends View {
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
 		
+		GScene scene = getScene();
 		
-		if ( event.getObject() instanceof CompositePatch ){
-			CompositePatch composite = (CompositePatch)event.getObject();
-			for( Patch patch : composite.getPatchs() ){
-				if ( patch == getObject() ){
-					updateGeometry();
-					return;
+		synchronized(scene) {
+			if ( event.getObject() instanceof CompositePatch ){
+				CompositePatch composite = (CompositePatch)event.getObject();
+				for( Patch patch : composite.getPatchs() ){
+					if ( patch == getObject() ){
+						updateGeometry();
+						return;
+					}
 				}
 			}
+			if ( event.getObject() == getObject() ){
+				updateGeometry();
+			}
 		}
-		if ( event.getObject() == getObject() ){
-			updateGeometry();
-		}
+		
 	}
 	
 	

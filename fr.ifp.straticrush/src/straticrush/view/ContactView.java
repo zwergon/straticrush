@@ -5,6 +5,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.topology.Contact;
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GStyle;
 
 public class ContactView extends View {
@@ -48,8 +49,13 @@ public class ContactView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
-		if ( event.getObject() == getPatch() && null != gline ){
-			gline.updateGeometry();
+		
+		GScene scene = getScene();
+
+		synchronized(scene) {
+			if ( event.getObject() == getPatch() && null != gline ){
+				gline.updateGeometry();
+			}
 		}
 	}
 

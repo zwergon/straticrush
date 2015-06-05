@@ -2,6 +2,7 @@ package straticrush.view;
 
 
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import fr.ifp.kronosflow.controller.IControllerEvent;
@@ -127,9 +128,13 @@ public class MeshPatchView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event) {
-		
-		if ( event.getObject() == getObject() ){
-			update_geometry();
+
+		GScene scene = getScene();
+
+		synchronized(scene) {
+			if ( event.getObject() == getObject() ){
+				update_geometry();
+			}
 		}
 	}
 	
