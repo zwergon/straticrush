@@ -2,7 +2,10 @@ package straticrush.interaction;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
 
+import no.geosoft.cc.graphics.GWindow;
 import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
 import fr.ifp.jdeform.deformation.TargetsDeformationController;
 import fr.ifp.jdeform.deformation.MassSpringNodeMove;
@@ -13,6 +16,9 @@ import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.controller.IEventListener;
 
 public class StratiCrushServices extends ViewNotifier implements IEventListener {
+	
+	
+	private GWindow window;
 	
 	private static StratiCrushServices instance;
 	private Map<String, String> controllersMap = new HashMap<String, String>(); //dictionnary for IController creation
@@ -27,6 +33,10 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 			instance = new StratiCrushServices();
 		}		
 		return instance;
+	}
+	
+	public void setWindow( GWindow window ){
+		this.window = window;
 	}
 	
 	
@@ -73,9 +83,14 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 
 
 	@Override
-	public void objectChanged(IControllerEvent<?> event) {
-		notifyViews( event );
-		
+	public void objectChanged(IControllerEvent<?> event) {	
+		ReadWriteLock lock = window.getLock();
+		lock.writeLock().lock();
+        try {
+        	notifyViews( event );
+        }  finally {
+            lock.writeLock().unlock();
+        }
 	}
 
 

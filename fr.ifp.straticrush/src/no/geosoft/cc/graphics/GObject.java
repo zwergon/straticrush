@@ -1892,11 +1892,9 @@ public class GObject
    */
   public void refresh()
   {
-	  synchronized(this){
-		  GWindow window = getWindow();
-		  if (window != null)
-			  window.refresh();
-	  }
+	  GWindow window = getWindow();
+	  if (window != null)
+		  window.refresh();
   }
   
   

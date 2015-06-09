@@ -191,21 +191,17 @@ public class PatchView extends View {
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
 		
-		GScene scene = getScene();
-		
-		synchronized(scene) {
-			if ( event.getObject() instanceof CompositePatch ){
-				CompositePatch composite = (CompositePatch)event.getObject();
-				for( Patch patch : composite.getPatchs() ){
-					if ( patch == getObject() ){
-						updateGeometry();
-						return;
-					}
+		if ( event.getObject() instanceof CompositePatch ){
+			CompositePatch composite = (CompositePatch)event.getObject();
+			for( Patch patch : composite.getPatchs() ){
+				if ( patch == getObject() ){
+					updateGeometry();
+					return;
 				}
 			}
-			if ( event.getObject() == getObject() ){
-				updateGeometry();
-			}
+		}
+		if ( event.getObject() == getObject() ){
+			updateGeometry();
 		}
 		
 	}

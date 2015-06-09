@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.graphics.factory.GFactory;
@@ -49,6 +51,8 @@ public class GWindow
   private GScene        interactionScene_;
   
   private boolean       isResizing = false;
+  
+  private ReadWriteLock lock = new ReentrantReadWriteLock();
 
 
   
@@ -86,6 +90,11 @@ public class GWindow
   public GWindow( Object parent )
   {
     this (parent, null);
+  }
+  
+  
+  public ReadWriteLock getLock(){
+	  return lock;
   }
   
 
@@ -348,42 +357,49 @@ public class GWindow
                          GObject.WIDGETS_VISIBLE;
 
     // Compute positions of all annotations
-    computeTextPositions();
+    lock.readLock().lock();
+    try {
 
-    // Compute positions of all integrated AWT components
-    computeComponentPositions();
+    	computeTextPositions();
 
-    // Compute region for all elements
-    computeRegion();
-    
-    canvas_.initRefresh();
+    	// Compute positions of all integrated AWT components
+    	computeComponentPositions();
 
-    // Compute viewPort Region of all GScene and set it as the damage Region
-    Region damageRegion = new Region();
-    for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-      GScene scene = (GScene) i.next();
-      damageRegion.union (scene.getRegion());
+    	// Compute region for all elements
+    	computeRegion();
+
+    	canvas_.initRefresh();
+
+    	// Compute viewPort Region of all GScene and set it as the damage Region
+    	Region damageRegion = new Region();
+    	for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
+    		GScene scene = (GScene) i.next();
+    		damageRegion.union (scene.getRegion());
+    	}
+
+
+    	// Clear the viewport area in the canvas
+    	canvas_.clear (damageRegion.getExtent());
+
+
+    	for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
+    		GScene scene = (GScene) i.next();
+    		canvas_.setClipArea (scene.getRegion());
+
+    		// Rendering pass 1: DATA clippend by scene viewport.
+    		scene.refreshData (visibilityMask);
+
+    		// Rendering pass 2: ANNOTATION
+    		scene.refreshAnnotation (visibilityMask);
+    	}
+
+
+    	canvas_.refresh();
+    	
+    } finally {
+    	lock.readLock().unlock();
     }
-    
 
-    // Clear the viewport area in the canvas
-    canvas_.clear (damageRegion.getExtent());
-
-   
-    for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
-        GScene scene = (GScene) i.next();
-        canvas_.setClipArea (scene.getRegion());
-        
-        // Rendering pass 1: DATA clippend by scene viewport.
-        scene.refreshData (visibilityMask);
-
-        // Rendering pass 2: ANNOTATION
-        scene.refreshAnnotation (visibilityMask);
-    }
-
-   
-    canvas_.refresh();
- 
   }
 
 

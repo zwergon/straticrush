@@ -49,13 +49,8 @@ public class ContactView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
-		
-		GScene scene = getScene();
-
-		synchronized(scene) {
-			if ( event.getObject() == getPatch() && null != gline ){
-				gline.updateGeometry();
-			}
+		if ( event.getObject() == getPatch() && null != gline ){
+			gline.updateGeometry();
 		}
 	}
 

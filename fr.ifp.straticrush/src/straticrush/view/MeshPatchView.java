@@ -128,13 +128,8 @@ public class MeshPatchView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event) {
-
-		GScene scene = getScene();
-
-		synchronized(scene) {
-			if ( event.getObject() == getObject() ){
-				update_geometry();
-			}
+		if ( event.getObject() == getObject() ){
+			update_geometry();
 		}
 	}
 	

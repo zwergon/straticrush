@@ -142,19 +142,13 @@ class GPatchInteraction extends GObject implements IViewListener {
 	}
 
 	@Override
-	public void objectChanged(IControllerEvent<?> event) {
-		
-		GScene scene = getScene();
-
-		synchronized(scene) {
-
-			switch ((EnumEventAction) event.getEventAction()) {
-			case MOVE:
-				updateGeometry();
-				break;
-			default:
-				break;	 
-			}
+	public void objectChanged(IControllerEvent<?> event) {		
+		switch ((EnumEventAction) event.getEventAction()) {
+		case MOVE:
+			updateGeometry();
+			break;
+		default:
+			break;	 
 		}
 	}
 

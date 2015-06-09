@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
+import straticrush.interaction.StratiCrushServices;
 import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
@@ -54,6 +55,7 @@ public class SectionPart  {
 		
 		
 		window_ = new GWindow( parent, new GColor(0.8f, 0.8f, 0.8f) );
+		StratiCrushServices.getInstance().setWindow(window_);
 	
 		// Create the graphic canvas
 
