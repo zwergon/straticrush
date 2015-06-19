@@ -6,11 +6,11 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import no.geosoft.cc.graphics.GWindow;
-import fr.ifp.jdeform.deformation.ChainMeshNodeMove;
-import fr.ifp.jdeform.deformation.TargetsDeformationController;
-import fr.ifp.jdeform.deformation.MassSpringNodeMove;
-import fr.ifp.jdeform.deformation.ResetController;
-import fr.ifp.jdeform.deformation.TranslateNodeMove;
+import fr.ifp.jdeform.deformation.ChainMailDeformation;
+import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
+import fr.ifp.jdeform.deformation.ResetDeformation;
+import fr.ifp.jdeform.deformation.TranslateDeformation;
 import fr.ifp.kronosflow.controller.ICommandController;
 import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.controller.IEventListener;
@@ -45,15 +45,13 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 	}
 	
 	
-	
-	
 	protected StratiCrushServices() {	
-		registerController("Translate", TranslateNodeMove.class);
-		registerController("ChainMail", ChainMeshNodeMove.class);
-		registerController("MassSpring", MassSpringNodeMove.class );
-		registerController("Reset", ResetController.class );
-		registerController("StaticFEASolver", TargetsDeformationController.class );
-		registerController("DynamicFEASolver", TargetsDeformationController.class );
+		registerController("Translate", DeformationController.class);
+		registerController("ChainMail", DeformationController.class);
+		registerController("MassSpring", DeformationController.class );
+		registerController("Reset", DeformationController.class );
+		registerController("StaticFEASolver", DeformationController.class );
+		registerController("DynamicFEASolver", DeformationController.class );
 	}
 	
 	

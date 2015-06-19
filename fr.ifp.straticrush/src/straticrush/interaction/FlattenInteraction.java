@@ -1,5 +1,7 @@
 package straticrush.interaction;
 
+import java.util.List;
+
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
@@ -13,20 +15,18 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
 import straticrush.view.PatchView;
-import fr.ifp.jdeform.continuousdeformation.ContinuousDeformation.State;
-import fr.ifp.jdeform.deformation.TargetsDeformationController;
+import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.jdeform.deformation.TargetsDeformation;
 import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
 import fr.ifp.jdeform.deformation.constraint.LinePairingItem;
-import fr.ifp.kronosflow.events.DeformEvent;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
-import fr.ifp.kronosflow.mesh.IMeshProvider;
-import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 
-public class FlattenInteraction extends SolverInteraction {
+public class FlattenInteraction extends DeformationInteraction {
 	
 	Runnable timer;
 	
@@ -37,10 +37,10 @@ public class FlattenInteraction extends SolverInteraction {
 	
 	class Annimation implements Runnable {
 
-		TargetsDeformationController<Patch> controller;
+		DeformationController controller;
 		GScene scene;
 		
-		public Annimation( GScene scene, TargetsDeformationController<Patch> controller ){
+		public Annimation( GScene scene, DeformationController controller ){
 			this.scene = scene;
 			this.controller = controller;
 			
@@ -49,18 +49,18 @@ public class FlattenInteraction extends SolverInteraction {
 		@Override
 		public void run() {
 			
-			State newState = controller.getState();
+			int newState = controller.getState();
 					
-			if ( ( newState == State.DEFORMING )  ){
+			if ( ( newState == Deformation.DEFORMING )  ){
 				scene_.refresh();
 				Display.getDefault().timerExec(refreshDelay, this);
 			}
 		
-			if ( newState == State.DEFORMED){
+			if ( newState == Deformation.DEFORMED){
 				clearSolver();
 			}
 				
-			if ( ( newState == State.PREPARING ) || ( newState == State.PREPARED ) ){
+			if ( ( newState == Deformation.PREPARING ) || ( newState == Deformation.PREPARED ) ){
 				Display.getDefault().timerExec(refreshDelay, this);
 			}
 			
@@ -72,7 +72,7 @@ public class FlattenInteraction extends SolverInteraction {
 
 	public FlattenInteraction( GScene scene, String type ){
 		super( scene, type );
-		solverController.setDeformation( new TargetsSolverDeformation( type ) );
+		deformationController.setDeformation( new TargetsSolverDeformation( type ) );
 	}
 	
 
@@ -83,7 +83,7 @@ public class FlattenInteraction extends SolverInteraction {
 		}
 		
 		//can not interact during run of a simulation
-		if ( solverController.getState() == State.DEFORMING  ){
+		if ( deformationController.getState() == Deformation.DEFORMING  ){
 			return;
 		}
 
@@ -144,21 +144,21 @@ public class FlattenInteraction extends SolverInteraction {
 				
 				translateComposite(scene, event);
 				
-				solverController.clear();
+				deformationController.clear();
 				LinePointPair I = lineInter.getFirstIntersection(selectedHorizon.getInterval());
 				if ( null != I ) {
 					
-					solverController.setPatch(selectedComposite); 
+					deformationController.setPatch(selectedComposite); 
 					
 					LinePairingItem item = new LinePairingItem( selectedComposite, selectedHorizon, I);
 					
 					Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
-					solverController.addDeformationItem( item );
+					deformationController.addDeformationItem( item );
 					
 					
-					solverController.computeTargets();
+					deformationController.prepare();
 				
-					for ( PolyLine line : solverController.getTargetLine()){
+					for ( PolyLine line : getTargetLines()){
 						interaction_.addLine( line );
 					}
 					//interaction_.addLine( solverController.getDebugLine() );
@@ -177,19 +177,19 @@ public class FlattenInteraction extends SolverInteraction {
 			
 			if ( null != selectedHorizon )  {
 				//if solver can be launched
-				if	 ( solverController.getState() == State.PREPARED )  {
+				if	 ( deformationController.getState() == Deformation.PREPARED )  {
 
 					Job job = new Job("Move") {
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
-							solverController.move();
+							deformationController.move();
 							return Status.OK_STATUS;
 						}
 					};
 					job.schedule();
 
-					timer = new Annimation(scene,  solverController );
+					timer = new Annimation(scene,  deformationController );
 
 					Display.getDefault().timerExec(refreshDelay, timer);
 
@@ -211,9 +211,15 @@ public class FlattenInteraction extends SolverInteraction {
 	}
 
 	
+	private List<PolyLine> getTargetLines() {
+		TargetsDeformation deformation = (TargetsDeformation)deformationController.getDeformation();
+		return deformation.getTargetLine();
+	}
+
+
 	private void clearSolver() {
 		StratiCrushServices.getInstance().removeListener(interaction_);
-		solverController.clear();
+		deformationController.clear();
 
 		selectedComposite.remove();
 		for( Patch surround : surroundedComposites ){

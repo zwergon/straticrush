@@ -5,10 +5,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import straticrush.view.PatchView;
+import fr.ifp.kronosflow.controller.interfaces.IDeformationController;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.algo.ComputeCompositePatch;
-import fr.ifp.jdeform.deformation.NodeMoveController;
+import fr.ifp.jdeform.deformation.ChainMailDeformation;
+import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
+import fr.ifp.jdeform.deformation.NodeDeformation;
+import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
+import fr.ifp.jdeform.deformation.TranslateDeformation;
+import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
@@ -18,31 +24,35 @@ import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GTransformer;
 
 
-public class NodeMoveInteraction implements GInteraction {
+public class NodeMoveInteraction extends DeformationInteraction {
 
 	private GScene    scene_;
 	private GSegment  selected_segment_;
 	private Node  selected_node_;
 	private int       x0_, y0_;
-	NodeMoveController<Patch> nodeMove = null;
 	
 	
-
-	@SuppressWarnings("unchecked")
+	GTranslateInteraction interaction_;
+	
+	
 	public NodeMoveInteraction( GScene scene, String type ){
-		scene_ = scene;
-		selected_segment_ = null;
-		selected_node_ = null;
-		nodeMove = (NodeMoveController<Patch>)StratiCrushServices.getInstance().createController(type);
+		super(scene, type);
+		init(scene, type);
 	}
 	
-
-	@SuppressWarnings("unchecked")
 	public NodeMoveInteraction( GScene scene ){
+		super(scene, "Translate");
+		init( scene, "Translate" );
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void init(GScene scene, String type) {
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
-		nodeMove = (NodeMoveController<Patch>)StratiCrushServices.getInstance().createController("Translate");
+		
+		interaction_ = new GTranslateInteraction();
+		deformationController.setDeformation( new MassSpringNodeDeformation() );
 	}
 	
 	
@@ -61,16 +71,19 @@ public class NodeMoveInteraction implements GInteraction {
 				if ( gobject instanceof PatchView ){
 					PatchView view = (PatchView)gobject;
 					
-					Set<Patch> set = new HashSet<Patch>();
-					set.add( (Patch)view.getObject() );
-					Patch composite = new ComputeCompositePatch().createComposite(set);
+					createSelectedAndSurrounded((Patch)view.getObject());
+					
+					//create a composite to have a mesh !
+				
+					deformationController.setPatch(selectedComposite);
 					
 					GTransformer transformer = view.getTransformer();
 					double[] w_pos = transformer.deviceToWorld(event.x, event.y);
+					selected_node_ = selectNode(selectedComposite, w_pos);
 					
-					nodeMove.setPatch(composite); 
+					scene_.add(interaction_);
 					
-					selected_node_ = selectNode(composite, w_pos);
+					interaction_.createMarker(event.x, event.y);
 					selected_segment_ = selected;
 				}
 			}
@@ -81,38 +94,43 @@ public class NodeMoveInteraction implements GInteraction {
 			break;
 
 		case GMouseEvent.BUTTON1_DRAG :
-			int dx = event.x - x0_;
-			int dy = event.y - y0_;
+			
 			if ( null != selected_segment_ ) {
-
-
-				PatchView view = (PatchView)selected_segment_.getOwner();
-				
-
-				GTransformer transformer = view.getTransformer();
-
-				int[] d_pos = transformer.worldToDevice(selected_node_.getPosition());
-				d_pos[0] += dx;
-				d_pos[1] += dy;
-
-				double[] w_pos = transformer.deviceToWorld(d_pos);
-
-				nodeMove.setMove( selected_node_, w_pos );
-				nodeMove.move();
-
-
+				interaction_.moveTo( event.x, event.y );
 			}
 			x0_ = event.x;
 			y0_ = event.y;
 			break;
 
 		case GMouseEvent.BUTTON1_UP :
+			if ( null != selected_segment_ ) {
+
+				PatchView view = (PatchView)selected_segment_.getOwner();
+				GTransformer transformer = view.getTransformer();
+
+				int[] displacement = interaction_.getDisplacement();
+				
+				int[] d_pos = transformer.worldToDevice(selected_node_.getPosition());
+				d_pos[0] += displacement[0];
+				d_pos[1] += displacement[1];
+
+				
+				double[] w_pos = transformer.deviceToWorld(d_pos);
+				
+				NodeMoveItem item = new NodeMoveItem(selected_node_);
+				item.setTarget(w_pos);;
+				deformationController.addDeformationItem( item  );
+				deformationController.prepare();
+				deformationController.move();
+			}
+			
+			interaction_.removeSegments();;
+			interaction_.remove();
 			selected_node_ = null;
 			selected_segment_ = null;
 			break;
 			
 		case GMouseEvent.ABORT:
-			nodeMove.dispose();
 			break;
 		}
 		

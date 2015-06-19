@@ -1,16 +1,15 @@
 package straticrush.interaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
-import fr.ifp.jdeform.deformation.TargetsDeformationController;
-import fr.ifp.jdeform.deformation.TranslateNodeMove;
+import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.jdeform.deformation.TranslateDeformation;
+import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
@@ -26,16 +25,16 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.algo.ComputeBloc;
 
-public abstract class SolverInteraction implements GInteraction {
+public abstract class DeformationInteraction implements GInteraction {
 	
 	protected GScene    scene_;
 	
 	protected GPatchInteraction interaction_;
 	
 	
-	protected TargetsDeformationController<Patch> solverController = null;
+	protected DeformationController deformationController = null;
 	
-	protected TranslateNodeMove translateController = null;
+	protected TranslateDeformation translateDeformation = null;
 
 	protected Patch selectedComposite;
 	
@@ -57,16 +56,16 @@ public abstract class SolverInteraction implements GInteraction {
 	
 	
 	@SuppressWarnings("unchecked")
-	public SolverInteraction( GScene scene, String type ){
+	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
 		
 		selectedHorizon = null;
 		selectedFault = null;
 		
-		solverController = (TargetsDeformationController<Patch> )StratiCrushServices.getInstance().createController(type);
+		deformationController = (DeformationController)StratiCrushServices.getInstance().createController(type);
 		
-		translateController = (TranslateNodeMove)StratiCrushServices.getInstance().createController("Translate");
-		translateController.setCollisionsActive(false);
+		translateDeformation =  new TranslateDeformation();
+		
 		
 		 // Create a graphic node for holding the interaction graphics
 	    interaction_ = new GPatchInteraction();    
@@ -112,7 +111,7 @@ public abstract class SolverInteraction implements GInteraction {
 	
 	
 	protected void translateComposite(GScene scene, GMouseEvent event) {
-		translateController.setPatch(selectedComposite); 
+	
 
 		GTransformer transformer = scene.getTransformer();
 
@@ -123,8 +122,8 @@ public abstract class SolverInteraction implements GInteraction {
 		double[] d_pos1 = transformer.deviceToWorld(oldPos);
 		double[] d_pos2 = transformer.deviceToWorld(newPos);
 		
-		translateController.setTranslation( Vector2D.substract(d_pos2, d_pos1) );
-		translateController.move();
+		translateDeformation.setTranslation( Vector2D.substract(d_pos2, d_pos1) );
+		translateDeformation.deform( selectedComposite );
 	}
 	
 	

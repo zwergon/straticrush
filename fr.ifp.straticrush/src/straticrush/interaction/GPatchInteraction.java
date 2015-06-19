@@ -91,7 +91,7 @@ class GPatchInteraction extends GObject implements IViewListener {
 	public void draw() {
 		updateGeometry();
 	}
-
+	
 	private void updateGeometry() {
 		for( GSegment gsegment : getSegments() ){
 			if ( gsegment instanceof IUpdateGeometry ){
