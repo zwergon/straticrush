@@ -1,15 +1,14 @@
 package straticrush.interaction;
 
-import fr.ifp.jdeform.deformation.DeformationController;
-import fr.ifp.jdeform.deformation.ResetDeformation;
-import fr.ifp.kronosflow.model.Patch;
-import straticrush.view.PatchView;
+import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
+import straticrush.view.PatchView;
+import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.kronosflow.model.Patch;
 
 public class ResetGeometryInteraction implements GInteraction {
 	
@@ -17,11 +16,13 @@ public class ResetGeometryInteraction implements GInteraction {
 	private GScene scene;
 	DeformationController controller;
 	
-	@SuppressWarnings("unchecked")
+
 	public ResetGeometryInteraction( GScene scene ) {
+		
+		StratiCrushServices service = StratiCrushServices.getInstance();
 		this.scene = scene;
-		controller = (DeformationController)StratiCrushServices.getInstance().createController("Reset");
-		controller.setDeformation( new ResetDeformation() );
+		controller = service.createDeformationController();
+		controller.setDeformation( service.createDeformation("Reset") );
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public abstract class DeformationInteraction implements GInteraction {
 		selectedHorizon = null;
 		selectedFault = null;
 		
-		deformationController = (DeformationController)StratiCrushServices.getInstance().createController(type);
+		deformationController = StratiCrushServices.getInstance().createDeformationController();
 		
 		translateDeformation =  new TranslateDeformation();
 		

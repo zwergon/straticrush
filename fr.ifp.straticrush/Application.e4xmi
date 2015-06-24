@@ -43,6 +43,9 @@
           <children xsi:type="menu:HandledMenuItem" xmi:id="_6IJ3YARPEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.flatten.static" label="Flatten ( Static )" command="_ScI2oAMGEeWQfLK62v5NBw">
             <parameters xmi:id="_9Izk8ARPEeWewIwgHRqGcQ" elementId="straticrush.parameter.flatten.static" name="straticrush.commandparameter.interactiontype" value="StaticFEASolver"/>
           </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_efvFABj3EeWdHoThxzjskw" elementId="straticrush.handledmenuitem.flatten.shear" label="Flatten (Vertical Shear )" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_rMoOYBj3EeWdHoThxzjskw" elementId="straticrush.parameter.flatten.vertical.shear" name="straticrush.commandparameter.interactiontype" value="VerticalShear"/>
+          </children>
         </children>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_QEpdAAMVEeWQfLK62v5NBw" elementId="straticrush.menu.meshing" label="Meshing">

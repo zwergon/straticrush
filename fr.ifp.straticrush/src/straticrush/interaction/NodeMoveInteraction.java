@@ -9,6 +9,7 @@ import fr.ifp.kronosflow.controller.interfaces.IDeformationController;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.algo.ComputeCompositePatch;
+import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.deformation.ChainMailDeformation;
 import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
 import fr.ifp.jdeform.deformation.NodeDeformation;
@@ -45,14 +46,15 @@ public class NodeMoveInteraction extends DeformationInteraction {
 		init( scene, "Translate" );
 	}
 	
-	@SuppressWarnings("unchecked")
 	protected void init(GScene scene, String type) {
 		scene_ = scene;
 		selected_segment_ = null;
 		selected_node_ = null;
 		
 		interaction_ = new GTranslateInteraction();
-		deformationController.setDeformation( new MassSpringNodeDeformation() );
+		
+		Deformation deformation = StratiCrushServices.getInstance().createDeformation(type);
+		deformationController.setDeformation( deformation );
 	}
 	
 	

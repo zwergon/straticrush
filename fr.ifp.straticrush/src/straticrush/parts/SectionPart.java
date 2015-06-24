@@ -179,6 +179,9 @@ public class SectionPart  {
 	      else if ( interactionType.equals("DynamicFEASolver") ) {
               window_.startInteraction( new FlattenInteraction(getPlot(), interactionType ) );
           }
+	      else if ( interactionType.equals("VerticalShear") ) {
+              window_.startInteraction( new FlattenInteraction(getPlot(), interactionType ) );
+          }
 	      else if ( interactionType.equals("Triangulate") ) {
               window_.startInteraction( new TriangulateInteraction(getPlot(), interactionType) );
           }
