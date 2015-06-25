@@ -3,6 +3,7 @@ package straticrush.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import straticrush.manipulator.GPatchObject;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
@@ -29,7 +30,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	protected GScene    scene_;
 	
-	protected GPatchInteraction interaction_;
+	protected GPatchObject interaction;
 	
 	
 	protected DeformationController deformationController = null;
@@ -68,7 +69,7 @@ public abstract class DeformationInteraction implements GInteraction {
 		
 		
 		 // Create a graphic node for holding the interaction graphics
-	    interaction_ = new GPatchInteraction();    
+	    interaction = new GPatchObject();    
 	    
 	}
 	

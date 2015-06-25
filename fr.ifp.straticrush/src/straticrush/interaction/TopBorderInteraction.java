@@ -14,8 +14,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
+import straticrush.manipulator.AutoTargetsManipulator;
+import straticrush.manipulator.IStratiManipulator;
 import straticrush.view.PatchView;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.DeformationController;
 import fr.ifp.jdeform.deformation.TargetsDeformation;
 import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
@@ -23,18 +26,22 @@ import fr.ifp.jdeform.deformation.constraint.PatchIntersectionItem;
 import fr.ifp.jdeform.mechanical.ImplicitDynamicSolver;
 import fr.ifp.jdeform.mechanical.ImplicitStaticSolver;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 
-public class FlattenInteraction extends DeformationInteraction {
+public class TopBorderInteraction extends DeformationInteraction {
 	
 	Runnable timer;
 	
 	LineIntersection lineInter = null;
 	
 	static int refreshDelay = 500;
+	
+	IStratiManipulator manipulator;
 	
 	
 	class Annimation implements Runnable {
@@ -72,7 +79,7 @@ public class FlattenInteraction extends DeformationInteraction {
 	
 	
 
-	public FlattenInteraction( GScene scene, String type ){
+	public TopBorderInteraction( GScene scene, String type ){
 		super( scene, type );
 		
 		Deformation deformation = StratiCrushServices.getInstance().createDeformation(type);
@@ -115,36 +122,15 @@ public class FlattenInteraction extends DeformationInteraction {
 				
 					createSelectedAndSurrounded(patch);
 					
-					double[] wc = scene.getTransformer().deviceToWorld(event.x, event.y);
-					selectedHorizon = findHorizonFeature( wc );
-					selectedFault   = findFaultFeature( wc );
-
-					if ( ( null != selectedHorizon ) || ( null != selectedFault ) ){
-						scene_.add(interaction);
-						for( Patch p : surroundedComposites ){
-							interaction.addOutline( p, true );
-						}
-						interaction.addOutline( selectedComposite, false );
+					manipulator = new AutoTargetsManipulator( scene, selectedComposite, surroundedComposites );
+					if ( !manipulator.isActive() ){
+						manipulator.activate();
 					}
 					
-					if ( null != selectedHorizon ){
-						selectedHorizon.getInterval().createExtension();
-						
-						Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
-						lineInter = new LineIntersection( bathy.getPolyline() );
-
-						interaction.addInterval( selectedHorizon );
-					}
-					
-					if ( null != selectedFault ){
-						interaction.addInterval( selectedFault );
-					}
+					manipulator.onMousePress(event);
 					
 					scene.refresh();
 					
-					
-					
-					StratiCrushServices.getInstance().addListener(interaction);
 				}
 			}
 
@@ -154,34 +140,14 @@ public class FlattenInteraction extends DeformationInteraction {
 			break;
 
 		case GMouseEvent.BUTTON1_DRAG :
-			
-			interaction.clearLines();
-			if ( null != selectedHorizon ) {
+		
+			if ( ( null != manipulator ) && manipulator.isActive() ) {
 				
 				translateComposite(scene, event);
 				
-				deformationController.clear();
-				LinePointPair I = lineInter.getFirstIntersection(selectedHorizon.getInterval());
-				if ( null != I ) {
-					
-					deformationController.setPatch(selectedComposite); 
-					
-					PatchIntersectionItem item = new PatchIntersectionItem( selectedHorizon, I);
-					
-					Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
-					deformationController.addDeformationItem( item );
-					
-					
-					deformationController.prepare();
+				manipulator.onMouseMove(event);
 				
-					for ( PolyLine line : getTargetLines()){
-						interaction.addLine( line );
-					}
-					//interaction_.addLine( solverController.getDebugLine() );
-					
-				}
-				
-				interaction.draw();;
+
 				scene.refresh();
 
 			}
@@ -191,7 +157,27 @@ public class FlattenInteraction extends DeformationInteraction {
 
 		case GMouseEvent.BUTTON1_UP :
 			
-			if ( null != selectedHorizon )  {
+			
+			
+			deformationController.clear();
+			deformationController.setPatch(selectedComposite); 
+			
+			for( IDeformationItem item : ((AutoTargetsManipulator)manipulator).getItems() ){
+				deformationController.addDeformationItem( item );
+			}
+			deformationController.prepare();
+			deformationController.move();
+			
+			
+			clearSolver();
+			
+/*			if ( null != selectedHorizon )  {
+				
+				deformationController.clear();
+				deformationController.setPatch(selectedComposite); 
+				deformationController.addDeformationItem( item );
+				deformationController.prepare();
+				
 				//if solver can be launched
 				if	 ( deformationController.getState() == Deformation.PREPARED )  {
 
@@ -213,7 +199,7 @@ public class FlattenInteraction extends DeformationInteraction {
 				else {
 					clearSolver();
 				}
-			}
+			}*/
 			break;
 			
 		case GMouseEvent.ABORT:
@@ -226,24 +212,19 @@ public class FlattenInteraction extends DeformationInteraction {
 
 	}
 
-	
-	private List<PolyLine> getTargetLines() {
-		TargetsDeformation deformation = (TargetsDeformation)deformationController.getDeformation();
-		return deformation.getTargetLine();
-	}
 
 
 	private void clearSolver() {
-		StratiCrushServices.getInstance().removeListener(interaction);
+		
+		manipulator.deactivate();
+		
 		deformationController.clear();
 
 		selectedComposite.remove();
 		for( Patch surround : surroundedComposites ){
 			surround.remove();
 		}
-		interaction.removeSegments();;
-		interaction.remove();
-
+	
 		surroundedComposites.clear();
 		selectedComposite = null;
 		selectedHorizon = null;

@@ -14,6 +14,7 @@ import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
+import fr.ifp.jdeform.flexural.FlexuralSlip;
 import fr.ifp.jdeform.geometric.VerticalShear;
 import fr.ifp.kronosflow.controller.ICommandController;
 import fr.ifp.kronosflow.controller.IControllerEvent;
@@ -57,6 +58,7 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 		registerDeformation("VerticalShear", VerticalShear.class );
 		registerDeformation("DynamicFEASolver", TargetsSolverDeformation.class );
 		registerDeformation("StaticFEASolver", TargetsSolverDeformation.class );
+		registerDeformation("FlexuralSlip", FlexuralSlip.class );
 	}
 	
 	

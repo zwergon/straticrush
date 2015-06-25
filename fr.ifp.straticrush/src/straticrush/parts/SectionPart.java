@@ -28,6 +28,7 @@ import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
 import straticrush.interaction.StratiCrushServices;
+import straticrush.interaction.TopBorderInteraction;
 import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
@@ -156,7 +157,7 @@ public class SectionPart  {
 	      window_.update();
 	  }
 	  
-	  public void startInteraction( String interactionType ){
+	  public void startInteraction( String interactionType, String deformationType ){
 	      
 	      if ( interactionType.equals("Zoom") ){
 	          window_.startInteraction( new ZoomInteraction(getPlot()) );
@@ -164,24 +165,15 @@ public class SectionPart  {
 	      else if ( interactionType.equals("Reset") ){
 	          window_.startInteraction( new ResetGeometryInteraction(getPlot()));
 	      }
-	      else if ( interactionType.equals("Translate") ) {
-	          window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
+	      else if ( interactionType.equals("NodeMoveInteraction") ) {
+              window_.startInteraction( new NodeMoveInteraction(getPlot(), deformationType) );
+          }
+	      else if ( interactionType.equals("FlattenInteraction") ) {
+              window_.startInteraction( new FlattenInteraction(getPlot(), deformationType ) );
 	      }
-	      else if ( interactionType.equals("ChainMail") ) {
-              window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
-          }
-	      else if ( interactionType.equals("MassSpring") ) {
-              window_.startInteraction( new NodeMoveInteraction(getPlot(), interactionType) );
-          }
-	      else if ( interactionType.equals("StaticFEASolver") ) {
-              window_.startInteraction( new FlattenInteraction(getPlot(), interactionType ) );
-          }
-	      else if ( interactionType.equals("DynamicFEASolver") ) {
-              window_.startInteraction( new FlattenInteraction(getPlot(), interactionType ) );
-          }
-	      else if ( interactionType.equals("VerticalShear") ) {
-              window_.startInteraction( new FlattenInteraction(getPlot(), interactionType ) );
-          }
+	      else if ( interactionType.equals("TopBorderInteraction") ) {
+              window_.startInteraction( new TopBorderInteraction(getPlot(), deformationType ) );
+	      }
 	      else if ( interactionType.equals("Triangulate") ) {
               window_.startInteraction( new TriangulateInteraction(getPlot(), interactionType) );
           }

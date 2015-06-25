@@ -27,24 +27,36 @@
         </children>
         <children xsi:type="menu:Menu" xmi:id="_wS-QkAMTEeWQfLK62v5NBw" elementId="straticrush.menu.nodemoveto" label="NodeMoveTo">
           <children xsi:type="menu:HandledMenuItem" xmi:id="_1KVoIAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.translate" label="Translate" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_3-w3kAMTEeWQfLK62v5NBw" elementId="straticrush.parameter.translate" name="straticrush.commandparameter.interactiontype" value="Translate"/>
+            <parameters xmi:id="_3-w3kAMTEeWQfLK62v5NBw" elementId="straticrush.parameter.nodemove.translate.interaction" name="straticrush.commandparameter.interactiontype" value="NodeMoveInteraction"/>
+            <parameters xmi:id="_rcINMBpbEeW6afiUSqqJzw" elementId="straticrush.parameter.nodemove.translate.deformation" name="straticrush.commandparameter.deformationtype" value="Translate"/>
           </children>
           <children xsi:type="menu:HandledMenuItem" xmi:id="_9U3ZkAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.chainmail" label="ChainMail" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_Aq3sEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.chainmail" name="straticrush.commandparameter.interactiontype" value="ChainMail"/>
+            <parameters xmi:id="_Aq3sEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.nodemove.chainmail.interaction" name="straticrush.commandparameter.interactiontype" value="NodeMoveInteraction"/>
+            <parameters xmi:id="_CHKasBpcEeW6afiUSqqJzw" elementId="straticrush.parameter.nodemove.chainmail.deformation" name="straticrush.commandparameter.deformationtype" value="ChainMail"/>
           </children>
           <children xsi:type="menu:HandledMenuItem" xmi:id="_DsgREAMUEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.mass.spring" label="Mass/Spring" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_KJtlEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.mass.spring" name="straticrush.commandparameter.interactiontype" value="MassSpring"/>
+            <parameters xmi:id="_KJtlEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.nodemove.massspring.interaction" name="straticrush.commandparameter.interactiontype" value="NodeMoveInteraction"/>
+            <parameters xmi:id="_KknIIBpcEeW6afiUSqqJzw" elementId="straticrush.parameter.nodemove.massspring.deformation" name="straticrush.commandparameter.deformationtype" value="MassSpring"/>
           </children>
         </children>
-        <children xsi:type="menu:Menu" xmi:id="__6osgAMUEeWQfLK62v5NBw" elementId="straticrush.menu.targets" label="Targets">
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_JDDpkAMVEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.flatten.dynamic" label="Flatten (Dynamic)" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_L4K1gAMVEeWQfLK62v5NBw" elementId="straticrush.parameter.flatten.dynamic" name="straticrush.commandparameter.interactiontype" value="DynamicFEASolver"/>
+        <children xsi:type="menu:Menu" xmi:id="__6osgAMUEeWQfLK62v5NBw" elementId="straticrush.menu.targets" label="Top">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_JDDpkAMVEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.flatten.dynamic" label="Dynamic Solver" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_L4K1gAMVEeWQfLK62v5NBw" elementId="straticrush.parameter.flatten.dynamic.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_WSMwoBpcEeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.dynamic.deformation" name="straticrush.commandparameter.deformationtype" value="DynamicFEASolver"/>
           </children>
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_6IJ3YARPEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.flatten.static" label="Flatten ( Static )" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_9Izk8ARPEeWewIwgHRqGcQ" elementId="straticrush.parameter.flatten.static" name="straticrush.commandparameter.interactiontype" value="StaticFEASolver"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_6IJ3YARPEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.flatten.static" label="Static Solver" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_9Izk8ARPEeWewIwgHRqGcQ" elementId="straticrush.parameter.flatten.static.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_vsQ78Bp3EeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.static.deformation" name="straticrush.commandparameter.deformationtype" value="StaticFEASolver"/>
           </children>
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_efvFABj3EeWdHoThxzjskw" elementId="straticrush.handledmenuitem.flatten.shear" label="Flatten (Vertical Shear )" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_rMoOYBj3EeWdHoThxzjskw" elementId="straticrush.parameter.flatten.vertical.shear" name="straticrush.commandparameter.interactiontype" value="VerticalShear"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_efvFABj3EeWdHoThxzjskw" elementId="straticrush.handledmenuitem.flatten.shear" label="Vertical Shear" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_rMoOYBj3EeWdHoThxzjskw" elementId="straticrush.parameter.flatten.vshear.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_f_orABp3EeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.vshear.deformation" name="straticrush.commandparameter.deformationtype" value="VerticalShear"/>
+          </children>
+        </children>
+        <children xsi:type="menu:Menu" xmi:id="_bsmOsBpaEeW6afiUSqqJzw" elementId="straticrush.menu.topborder" label="Top/Border">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_gnn-QBpaEeW6afiUSqqJzw" elementId="straticrush.handledmenuitem.flexuralSlip" label="Flexural Slip" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_k50zQBpaEeW6afiUSqqJzw" elementId="straticrush.parameter.topborder.flexural.interaction" name="straticrush.commandparameter.interactiontype" value="TopBorderInteraction"/>
+            <parameters xmi:id="_OhOd8Bp4EeW6afiUSqqJzw" elementId="straticrush.parameter.topborder.flexural.deformation" name="straticrush.commandparameter.deformationtype" value="FlexuralSlip"/>
           </children>
         </children>
       </children>
@@ -103,6 +115,7 @@
   <commands xmi:id="_2Mq-8ACOEeWUMfDcuIo5aQ" elementId="straticrush.command.menu" commandName="menuCommand"/>
   <commands xmi:id="_ScI2oAMGEeWQfLK62v5NBw" elementId="straticrush.command.interaction" commandName="InteractionCommand" description="activate zoom manipulator">
     <parameters xmi:id="_OOzPUAMNEeWQfLK62v5NBw" elementId="straticrush.commandparameter.interactiontype" name="interactionType" optional="false"/>
+    <parameters xmi:id="_eTaqgBpbEeW6afiUSqqJzw" elementId="straticrush.commandparameter.deformationtype" name="deformationType"/>
   </commands>
   <commands xmi:id="_Kl3MAAMIEeWQfLK62v5NBw" elementId="straticrush.command.oneone" commandName="OneOneCommand"/>
   <commands xmi:id="_78nFUARUEeWewIwgHRqGcQ" elementId="straticrush.command.meshtype" commandName="MeshType">

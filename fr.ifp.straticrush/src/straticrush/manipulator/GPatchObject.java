@@ -1,4 +1,4 @@
-package straticrush.interaction;
+package straticrush.manipulator;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
+import straticrush.interaction.IViewListener;
 import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
@@ -18,20 +19,21 @@ import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.IExtension;
+import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 
-class GPatchInteraction extends GObject implements IViewListener {
+public class GPatchObject extends GObject implements IViewListener {
 	
-	public GPatchInteraction(){
+	public GPatchObject(){
 		super("Interaction");
 		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 	}
 	
-	void addInterval( PatchInterval interval ){
+	public void addInterval( PatchInterval interval ){
 		
 		GInterval selectedSegment = new GInterval(interval);
 		addSegment( selectedSegment );
@@ -69,7 +71,7 @@ class GPatchInteraction extends GObject implements IViewListener {
 	}
 	
 	
-	void addOutline( Patch patch, boolean surrounding ){
+	public void addOutline( Patch patch, boolean surrounding ){
 		
 		GPolyline borderLine = new GPolyline(patch.getBorder());
 		addSegment( borderLine );
@@ -107,7 +109,7 @@ class GPatchInteraction extends GObject implements IViewListener {
 		lines.clear();
 	}
 
-	public void addLine(PolyLine targetLine) {
+	public void addLine(IPolyline targetLine) {
 		
 		GPolyline gline  = new GPolyline(targetLine);
 		addSegment( gline );
