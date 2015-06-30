@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
+import straticrush.manipulator.CompositeManipulator;
 import straticrush.view.PatchView;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.deformation.DeformationController;
@@ -35,6 +36,8 @@ public class FlattenInteraction extends DeformationInteraction {
 	LineIntersection lineInter = null;
 	
 	static int refreshDelay = 500;
+	
+	Job moveJob;
 	
 	
 	class Annimation implements Runnable {
@@ -58,7 +61,7 @@ public class FlattenInteraction extends DeformationInteraction {
 				Display.getDefault().timerExec(refreshDelay, this);
 			}
 		
-			if ( newState == Deformation.DEFORMED){
+			if ( ( newState == Deformation.DEFORMED) || ( newState == Deformation.CANCELED ) ){
 				clearSolver();
 			}
 				
@@ -195,15 +198,24 @@ public class FlattenInteraction extends DeformationInteraction {
 				//if solver can be launched
 				if	 ( deformationController.getState() == Deformation.PREPARED )  {
 
-					Job job = new Job("Move") {
+					moveJob = new Job("Move") {
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
 							deformationController.move();
 							return Status.OK_STATUS;
 						}
+						
+						
+						@Override
+						protected void canceling() {
+							deformationController.cancel();
+						}
+						
+						
+						
 					};
-					job.schedule();
+					moveJob.schedule();
 
 					timer = new Annimation(scene,  deformationController );
 
@@ -254,7 +266,20 @@ public class FlattenInteraction extends DeformationInteraction {
 
 	@Override
 	public void keyEvent( GKeyEvent event ) {
-		
+		if ( ( event.type == GKeyEvent.KEY_PRESSED ) && 
+			 ( event.getKeyCode() == GKeyEvent.VK_ESCAPE ) && 
+			 ( moveJob != null ) ){
+			
+			moveJob.cancel();
+		}
+	}
+
+
+	@Override
+	public CompositeManipulator createManipulator(GScene scene,
+			Patch selectedComposite, List<Patch> surroundedComposites) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

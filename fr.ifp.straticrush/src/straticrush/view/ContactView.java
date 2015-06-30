@@ -19,7 +19,7 @@ public class ContactView extends View {
 		
 		Contact contact = (Contact)getUserData();
 
-		PatchInterval interval = contact.getInterval();
+		PatchInterval interval = contact.getPatchInterval();
 			
 		gline = new GInterval(interval);
 		addSegment(gline);
@@ -35,7 +35,7 @@ public class ContactView extends View {
 	
 	private Patch getPatch(){
 		Contact contact = (Contact)getUserData();
-		PatchInterval interval = contact.getInterval();
+		PatchInterval interval = contact.getPatchInterval();
 		return interval.getPatch();
 	}
 	

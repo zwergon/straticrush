@@ -39,6 +39,12 @@ public class GKeyEvent extends GEvent {
 	 * Compatible with JDK 1.1+.
 	 */
 	private static final long serialVersionUID = -2352130953028126954L;
+	
+	public static final int  SHIFT_MASK       = 1 <<  0;
+	public static final int  CTRL_MASK        = 1 <<  1;
+	public static final int  META_MASK        = 1 <<  2;
+	public static final int  ALT_MASK         = 1 <<  3;
+	public static final int  ALT_GRAPH_MASK   = 1 <<  4;
 
 	/** This is the first id in the range of event ids used by this class. */
 	public static final int KEY_FIRST = 400;
@@ -1136,6 +1142,18 @@ public class GKeyEvent extends GEvent {
 	public void setModifiers(int modifiers)
 	{
 		this.modifiers = modifiers;
+	}
+	
+	/**
+	 * return the keyboard modifiers.
+	 * {@link #ALT_GRAPH_MASK}, {@link #ALT_MASK},
+	 * {@link #CTRL_MASK}, {@link #SHIFT_MASK}, or
+	 * {@link #META_MASK}.
+	 *
+	 * @return
+	 */
+	public int getKeyModifiers(){
+		return modifiers;
 	}
 
 	/**

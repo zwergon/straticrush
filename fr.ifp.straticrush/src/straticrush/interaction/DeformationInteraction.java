@@ -3,11 +3,22 @@ package straticrush.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Display;
+
+import straticrush.manipulator.AutoTargetsManipulator;
+import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.GPatchObject;
+import straticrush.manipulator.IStratiManipulator;
+import straticrush.view.PatchView;
 import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
+import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
+import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GTransformer;
+import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.DeformationController;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
 import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
@@ -28,10 +39,11 @@ import fr.ifp.kronosflow.model.algo.ComputeBloc;
 
 public abstract class DeformationInteraction implements GInteraction {
 	
+	static int refreshDelay = 500;
+	
 	protected GScene    scene_;
 	
 	protected GPatchObject interaction;
-	
 	
 	protected DeformationController deformationController = null;
 	
@@ -50,12 +62,15 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	protected int       x0_, y0_;
 	
+	CompositeManipulator manipulator;
+	
+	
+	public abstract CompositeManipulator createManipulator( 
+			GScene scene, 
+			Patch selectedComposite, 
+			List<Patch> surroundedComposites );
+	
 
-	
-	@Override
-	abstract public void event(GScene scene, GMouseEvent event);
-	
-	
 	@SuppressWarnings("unchecked")
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
@@ -72,6 +87,129 @@ public abstract class DeformationInteraction implements GInteraction {
 	    interaction = new GPatchObject();    
 	    
 	}
+
+	@Override
+	public void event(GScene scene, GMouseEvent event) {
+		if ( scene != scene_ ){
+			return;
+		}
+		
+		//can not interact during run of a simulation
+		if ( deformationController.getState() == Deformation.DEFORMING  ){
+			return;
+		}
+
+		switch (event.type) {
+		case GMouseEvent.BUTTON1_DOWN :
+			
+			GSegment selected = scene.findSegment (event.x, event.y);
+			if ( selected !=  null ){
+				GObject gobject = selected.getOwner();
+				if ( gobject instanceof PatchView ){
+				
+					Patch patch = ((PatchView)gobject).getObject();
+				
+					createSelectedAndSurrounded(patch);
+					
+					manipulator = createManipulator( scene, selectedComposite, surroundedComposites );
+					if ( !manipulator.isActive() ){
+						manipulator.activate();
+					}
+					
+					manipulator.onMousePress(event);
+					
+					scene.refresh();
+					
+				}
+			}
+
+			x0_ = event.x;
+			y0_ = event.y;
+
+			break;
+
+		case GMouseEvent.BUTTON1_DRAG :
+		
+			if ( ( null != manipulator ) && manipulator.isActive() ) {
+				
+				translateComposite(scene, event);
+				
+				manipulator.onMouseMove(event);
+				
+
+				scene.refresh();
+
+			}
+			x0_ = event.x;
+			y0_ = event.y;
+			break;
+
+		case GMouseEvent.BUTTON1_UP :
+			
+			
+			if ( ( null != manipulator ) && manipulator.isActive() ) {
+				manipulator.onMouseRelease(event);
+				
+				deformationController.clear();
+				deformationController.setPatch(selectedComposite); 
+
+				for( IDeformationItem item : ((CompositeManipulator)manipulator).getItems() ){
+					deformationController.addDeformationItem( item );
+				}
+				deformationController.prepare();
+				deformationController.move();
+			}
+			
+			
+			clearSolver();
+			
+/*			if ( null != selectedHorizon )  {
+				
+				deformationController.clear();
+				deformationController.setPatch(selectedComposite); 
+				deformationController.addDeformationItem( item );
+				deformationController.prepare();
+				
+				//if solver can be launched
+				if	 ( deformationController.getState() == Deformation.PREPARED )  {
+
+					Job job = new Job("Move") {
+
+						@Override
+						protected IStatus run(IProgressMonitor monitor) {
+							deformationController.move();
+							return Status.OK_STATUS;
+						}
+					};
+					job.schedule();
+
+					timer = new Annimation(scene,  deformationController );
+
+					Display.getDefault().timerExec(refreshDelay, timer);
+
+				}
+				else {
+					clearSolver();
+				}
+			}*/
+			break;
+			
+		case GMouseEvent.ABORT:
+			/*flattenController.dispose();
+			scene_.remove(interaction_);*/
+			break;
+		}
+		
+		
+
+	}
+	
+
+	@Override
+	public void keyEvent( GKeyEvent event ) {
+	}
+
+	
 	
 	
 	/**
@@ -124,7 +262,8 @@ public abstract class DeformationInteraction implements GInteraction {
 		double[] d_pos2 = transformer.deviceToWorld(newPos);
 		
 		translateDeformation.setTranslation( Vector2D.substract(d_pos2, d_pos1) );
-		translateDeformation.deform( selectedComposite );
+		translateDeformation.setPatch(selectedComposite);
+		translateDeformation.deform();
 	}
 	
 	
@@ -165,6 +304,58 @@ public abstract class DeformationInteraction implements GInteraction {
 		}
 		
 		
+	}
+	
+	
+	class Annimation implements Runnable {
+
+		DeformationController controller;
+		GScene scene;
+		
+		public Annimation( GScene scene, DeformationController controller ){
+			this.scene = scene;
+			this.controller = controller;
+			
+		}
+		
+		@Override
+		public void run() {
+			
+			int newState = controller.getState();
+					
+			if ( ( newState == Deformation.DEFORMING )  ){
+				scene_.refresh();
+				Display.getDefault().timerExec(refreshDelay, this);
+			}
+		
+			if ( newState == Deformation.DEFORMED){
+				clearSolver();
+			}
+				
+			if ( ( newState == Deformation.PREPARING ) || ( newState == Deformation.PREPARED ) ){
+				Display.getDefault().timerExec(refreshDelay, this);
+			}
+			
+		}
+	}
+	
+	
+	
+	private void clearSolver() {
+
+		manipulator.deactivate();
+
+		deformationController.clear();
+
+		selectedComposite.remove();
+		for( Patch surround : surroundedComposites ){
+			surround.remove();
+		}
+
+		surroundedComposites.clear();
+		selectedComposite = null;
+		selectedHorizon = null;
+		scene_.refresh();
 	}
 
 }

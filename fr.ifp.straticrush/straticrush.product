@@ -3,35 +3,23 @@
 
 <product name="StratiCrush" id="StratiCrush.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
       <programArgs>-consoleLog -nosplash -clearPersistedState
       </programArgs>
-      <programArgsWin>-clearPersistentState
-      </programArgsWin>
-      <vmArgs>-Dosgi.requiredJavaVersion=1.7 -Xms40m -Xmx512m
+      <vmArgs>-Dosgi.requiredJavaVersion=1.7 -XX:MaxPermSize=256m -Xms40m -Xmx512m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
-      <vmArgsWin>-clearPersistentState
-      </vmArgsWin>
    </launcherArgs>
 
-   <windowImages i128="/StratiCrush/icons/chain_mesh_icon.png"/>
-
-   <launcher>
-      <solaris/>
-      <win useIco="false">
-         <bmp/>
-      </win>
-   </launcher>
+   <windowImages i16="icons/chain_mesh_icon.png"/>
 
 
    <vm>
-      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</windows>
+      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</linux>
    </vm>
 
    <plugins>
@@ -39,7 +27,6 @@
       <plugin id="com.ibm.icu"/>
       <plugin id="com.jogamp.jogl"/>
       <plugin id="com.jogamp.jogl-linux-amd64" fragment="true"/>
-      <plugin id="commons-logging"/>
       <plugin id="fr.ifp.kronosflow.controller"/>
       <plugin id="fr.ifp.kronosflow.controller.impl"/>
       <plugin id="fr.ifp.kronosflow.filters"/>
@@ -52,7 +39,6 @@
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
-      <plugin id="javax.transaction" fragment="true"/>
       <plugin id="javax.xml"/>
       <plugin id="org.apache"/>
       <plugin id="org.apache.batik.css"/>
@@ -113,122 +99,6 @@
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
-      <plugin id="org.w3c.css.sac"/>
-      <plugin id="org.w3c.dom.events"/>
-      <plugin id="org.w3c.dom.smil"/>
-      <plugin id="org.w3c.dom.svg"/>
-   </plugins>
-
-   <configurations>
-      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1" />
-      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="-1" />
-   </configurations>
-
-</product>
-<?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.5"?>
-
-<product name="StratiCrush" id="StratiCrush.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
-
-   <configIni use="default">
-   </configIni>
-
-   <launcherArgs>
-      <programArgs>-consoleLog
-      </programArgs>
-      <vmArgs>-Dosgi.requiredJavaVersion=1.7 -Xms40m -Xmx512m
-      </vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
-      </vmArgsMac>
-   </launcherArgs>
-
-   <windowImages i16="icons/chain_mesh_icon.png"/>
-
-
-   <vm>
-      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
-   </vm>
-
-   <plugins>
-      <plugin id="StratiCrush"/>
-      <plugin id="com.ibm.icu"/>
-      <plugin id="com.jogamp.jogl"/>
-      <plugin id="com.jogamp.jogl.win64" fragment="true"/>
-      <plugin id="fr.ifp.kronosflow.controller"/>
-      <plugin id="fr.ifp.kronosflow.controller.impl"/>
-      <plugin id="fr.ifp.kronosflow.filters"/>
-      <plugin id="fr.ifp.kronosflow.geometry"/>
-      <plugin id="fr.ifp.kronosflow.geoscheduler"/>
-      <plugin id="fr.ifp.kronosflow.jdeform"/>
-      <plugin id="fr.ifp.kronosflow.model"/>
-      <plugin id="fr.ifp.kronosflow.model.algo"/>
-      <plugin id="fr.ifp.kronosflow.model.impl"/>
-      <plugin id="javax.annotation"/>
-      <plugin id="javax.inject"/>
-      <plugin id="javax.servlet"/>
-      <plugin id="javax.xml"/>
-      <plugin id="org.apache"/>
-      <plugin id="org.apache.batik.css"/>
-      <plugin id="org.apache.batik.util"/>
-      <plugin id="org.apache.batik.util.gui"/>
-      <plugin id="org.eclipse.ant.core"/>
-      <plugin id="org.eclipse.core.commands"/>
-      <plugin id="org.eclipse.core.contenttype"/>
-      <plugin id="org.eclipse.core.databinding"/>
-      <plugin id="org.eclipse.core.databinding.observable"/>
-      <plugin id="org.eclipse.core.databinding.property"/>
-      <plugin id="org.eclipse.core.expressions"/>
-      <plugin id="org.eclipse.core.filesystem"/>
-      <plugin id="org.eclipse.core.filesystem.java7" fragment="true"/>
-      <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.core.jobs"/>
-      <plugin id="org.eclipse.core.resources"/>
-      <plugin id="org.eclipse.core.resources.win32.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.core.runtime"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
-      <plugin id="org.eclipse.core.variables"/>
-      <plugin id="org.eclipse.e4.core.commands"/>
-      <plugin id="org.eclipse.e4.core.contexts"/>
-      <plugin id="org.eclipse.e4.core.di"/>
-      <plugin id="org.eclipse.e4.core.di.extensions"/>
-      <plugin id="org.eclipse.e4.core.services"/>
-      <plugin id="org.eclipse.e4.ui.bindings"/>
-      <plugin id="org.eclipse.e4.ui.css.core"/>
-      <plugin id="org.eclipse.e4.ui.css.swt"/>
-      <plugin id="org.eclipse.e4.ui.css.swt.theme"/>
-      <plugin id="org.eclipse.e4.ui.di"/>
-      <plugin id="org.eclipse.e4.ui.model.workbench"/>
-      <plugin id="org.eclipse.e4.ui.services"/>
-      <plugin id="org.eclipse.e4.ui.widgets"/>
-      <plugin id="org.eclipse.e4.ui.workbench"/>
-      <plugin id="org.eclipse.e4.ui.workbench.addons.swt"/>
-      <plugin id="org.eclipse.e4.ui.workbench.renderers.swt"/>
-      <plugin id="org.eclipse.e4.ui.workbench.swt"/>
-      <plugin id="org.eclipse.e4.ui.workbench3"/>
-      <plugin id="org.eclipse.emf.common"/>
-      <plugin id="org.eclipse.emf.ecore"/>
-      <plugin id="org.eclipse.emf.ecore.change"/>
-      <plugin id="org.eclipse.emf.ecore.xmi"/>
-      <plugin id="org.eclipse.equinox.app"/>
-      <plugin id="org.eclipse.equinox.bidi"/>
-      <plugin id="org.eclipse.equinox.common"/>
-      <plugin id="org.eclipse.equinox.ds"/>
-      <plugin id="org.eclipse.equinox.event"/>
-      <plugin id="org.eclipse.equinox.preferences"/>
-      <plugin id="org.eclipse.equinox.registry"/>
-      <plugin id="org.eclipse.equinox.util"/>
-      <plugin id="org.eclipse.help"/>
-      <plugin id="org.eclipse.jface"/>
-      <plugin id="org.eclipse.jface.databinding"/>
-      <plugin id="org.eclipse.osgi"/>
-      <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
-      <plugin id="org.eclipse.osgi.services"/>
-      <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.ui"/>
-      <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>

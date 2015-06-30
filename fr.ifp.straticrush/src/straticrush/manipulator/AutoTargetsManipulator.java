@@ -24,65 +24,17 @@ import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 
-public class AutoTargetsManipulator implements IStratiManipulator {
+public class AutoTargetsManipulator  extends CompositeManipulator {
 	
-	
-
-
-	protected GScene scene;
-	
-	protected GPatchObject interaction;
 	
 	protected PatchInterval  selectedHorizon = null;
 	
 	protected PatchInterval  selectedFault = null;
 	
-	protected Patch selectedComposite;
-	
-	protected List<Patch> surroundedComposites;
-	
-	List<LinePairingItem> items =  new ArrayList<LinePairingItem>();
-	
-	
+
 	public AutoTargetsManipulator( GScene scene, Patch selectedComposite, List<Patch> surroundedComposites ){
-		this.scene = scene;
-		this.selectedComposite = selectedComposite;
-		this.surroundedComposites = surroundedComposites;
+		 super( scene, selectedComposite, surroundedComposites );
 	}
-	
-	@Override
-	public boolean isActive(){
-		return (interaction != null );
-	}
-	
-
-	@Override
-	public void activate() {
-		if ( null != selectedComposite ){
-			interaction = new GPatchObject();
-			scene.add(interaction);
-			for( Patch p : surroundedComposites ){
-				interaction.addOutline( p, true );
-			}
-			interaction.addOutline( selectedComposite, false );
-		}	
-		StratiCrushServices.getInstance().addListener(interaction);
-	}
-
-	@Override
-	public void deactivate() {
-		StratiCrushServices.getInstance().removeListener(interaction);
-		scene.remove(interaction);
-		interaction.removeSegments();;
-		interaction.remove();
-		interaction = null;
-	}
-
-	@Override
-	public GObject getInteraction() {
-		return interaction;
-	}
-	
 	
 	@Override
 	public void onMousePress( GMouseEvent event ){
@@ -144,47 +96,7 @@ public class AutoTargetsManipulator implements IStratiManipulator {
 		
 	}
 	
-	public List<LinePairingItem> getItems() {
-		return items;
-	}
-	
-	
-	/**
-	 * retrieves the {@link PatchInterval} of type c that is nearest of ori.
-	 * @see findHorizonFeature
-	 * @see findFaultFeature 
-	 */
-	protected <T> PatchInterval findFeature( double[] ori, Class<T> c ) {
-		
-		PatchInterval interval = null;
-		double minDist = Double.POSITIVE_INFINITY;
-		
-		for( KinObject object : selectedComposite.getChildren() ){
-			if ( object instanceof FeatureGeolInterval ){
-				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				if ( c.isInstance(fgInterval.getFeature()) ){
-					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
-					
-					double dist = pgeom.minimalDistance( ori );
-					if ( dist < minDist ){
-						interval = (PatchInterval)object;
-						minDist = dist;
-					}
-				}
-			}
-		}
-		
-		return interval;
-	}
-	
-	protected PatchInterval findHorizonFeature( double[] ori ){
-		return findFeature( ori, StratigraphicEvent.class );
-	}
-	
-	protected PatchInterval findFaultFeature( double[] ori ){
-		return findFeature( ori, FaultFeature.class );
-	}
-	
+
 	
 	/**
 	 * Create a vertical {@link IPolyline} from intersection point I to bottom

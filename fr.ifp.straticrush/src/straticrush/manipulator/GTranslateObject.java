@@ -1,4 +1,4 @@
-package straticrush.interaction;
+package straticrush.manipulator;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
@@ -6,18 +6,18 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 
-public class GTranslateInteraction extends GObject {
+public class GTranslateObject extends GObject {
 
 	GSegment line;
 	
 	int[] xy = new int[4];
 	
-	public GTranslateInteraction(){
+	public GTranslateObject(){
 		super("Translate");
 		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 	}
 	
-	int[] getDisplacement(){
+	public int[] getDisplacement(){
 		int[] displacement = new int[2];
 		displacement[0] = xy[2]-xy[0];
 		displacement[1] = xy[3]-xy[1];

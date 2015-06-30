@@ -23,8 +23,6 @@ import no.geosoft.cc.interfaces.ICanvas;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.opengl.GLCanvas;
@@ -33,6 +31,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 import com.jogamp.newt.opengl.GLWindow;
@@ -106,6 +106,7 @@ public class GGLNewtCanvas
 		
 		
 		glcanvas.addMouseListener(this);
+		glcanvas.addKeyListener(this);
 						
 	}
 	
@@ -585,26 +586,22 @@ public class GGLNewtCanvas
 		  
 	  }
 	  
-	/*  *//**
+	  /**
 	   * map modifiers from SWT event to GEvent modifiers
-	   *//*
+	   */
 	  private void setModifiers( MouseEvent event, GMouseEvent gevent ){
 		  gevent.modifier = GMouseEvent.NONE;
-		  if ( ( event.stateMask & SWT.ALT ) == SWT.ALT ){
+		  if ( ( event.getModifiers() & MouseEvent.ALT_MASK ) == MouseEvent.ALT_MASK ){
 			  gevent.setModifier( GMouseEvent.ALT_DOWN_MASK, true );
 		  }
-		  if ( ( event.stateMask & SWT.CTRL ) == SWT.CTRL  ){
+		  if ( ( event.getModifiers() & MouseEvent.CTRL_MASK ) == MouseEvent.CTRL_MASK  ){
 			  gevent.setModifier( GMouseEvent.CTRL_DOWN_MASK, true );
 		  }
-		  if ( ( event.stateMask & SWT.SHIFT ) == SWT.SHIFT ){
+		  if ( ( event.getModifiers() & MouseEvent.SHIFT_MASK ) == MouseEvent.SHIFT_MASK ){
 			  gevent.setModifier( GMouseEvent.SHIFT_DOWN_MASK, true );
 		  }			 
 	  }
 
-
-
-
-	  }*/
 
 		@Override
 		public Rect getStringBox(String string, GFont gfont) {
@@ -616,13 +613,23 @@ public class GGLNewtCanvas
 
 		@Override
 		public void keyPressed(KeyEvent event) {
-			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_PRESSED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			GKeyEvent ke = new GKeyEvent(
+					GKeyEvent.KEY_PRESSED, 
+					event.getModifiers(), 
+					event.getKeyCode(), 
+					event.getKeyChar(),
+					GKeyEvent.KEY_LOCATION_STANDARD );
+
 			window_.keyPressed(ke);
 		}
 
 		@Override
 		public void keyReleased(KeyEvent event) {
-			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_RELEASED, event.stateMask, event.keyCode, event.character, event.keyLocation );
+			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_RELEASED,
+					event.getModifiers(), 
+					event.getKeyCode(), 
+					event.getKeyChar(),
+					GKeyEvent.KEY_LOCATION_STANDARD );
 			window_.keyPressed(ke);
 			
 		}
@@ -662,7 +669,7 @@ public class GGLNewtCanvas
 			  else
 				  gevent.type = GMouseEvent.BUTTON3_DOWN;
 
-			  //setModifiers(event, gevent);
+			  setModifiers(event, gevent);
 
 			  window_.mousePressed ( gevent );
 
@@ -696,7 +703,7 @@ public class GGLNewtCanvas
 				  mouseMask &= ~SWT.BUTTON3;
 			  }
 
-			  //setModifiers(event, gevent);
+			  setModifiers(event, gevent);
 
 			  window_.mouseReleased( gevent );
 			
