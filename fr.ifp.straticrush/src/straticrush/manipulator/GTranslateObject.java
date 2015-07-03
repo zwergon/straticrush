@@ -17,6 +17,20 @@ public class GTranslateObject extends GObject {
 		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 	}
 	
+	public int[] getStart(){
+		int[] start = new int[2];
+		start[0] = xy[0];
+		start[1] = xy[1];
+		return start;
+	}
+	
+	public int[] getEnd(){
+		int[] end = new int[2];
+		end[0] = xy[2];
+		end[1] = xy[3];
+		return end;
+	}
+	
 	public int[] getDisplacement(){
 		int[] displacement = new int[2];
 		displacement[0] = xy[2]-xy[0];

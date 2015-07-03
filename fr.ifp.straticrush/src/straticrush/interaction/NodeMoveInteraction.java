@@ -26,6 +26,7 @@ public class NodeMoveInteraction extends DeformationInteraction {
 	protected void init(GScene scene, String type) {		
 		Deformation deformation = StratiCrushServices.getInstance().createDeformation(type);
 		deformationController.setDeformation( deformation );
+		withMarkerTranslation = false;
 	}
 
 	@Override

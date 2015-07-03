@@ -6,6 +6,7 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
 import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
+import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.Patch;
 
@@ -79,17 +80,15 @@ public class Vector2DManipulator extends CompositeManipulator {
 		items.clear();
 		
 		GTransformer transformer = scene.getTransformer();
-		int[] displacement = translateMarker.getDisplacement();
+		int[] start = translateMarker.getStart();
+		double[] wStart = transformer.deviceToWorld(start);
 		
-		int[] d_pos = transformer.worldToDevice(selected_node_.getPosition());
-		d_pos[0] += displacement[0];
-		d_pos[1] += displacement[1];
-
+		int[] end = translateMarker.getEnd();
+		double[] wEnd = transformer.deviceToWorld(end);
 		
-		double[] w_pos = transformer.deviceToWorld(d_pos);
 		
 		NodeMoveItem item = new NodeMoveItem(selected_node_);
-		item.setTarget(w_pos);
+		item.setDisplacement(Vector2D.substract(wEnd, wStart));
 		
 		items.add( item );
 		

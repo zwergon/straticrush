@@ -3,13 +3,6 @@ package straticrush.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Display;
-
-import straticrush.manipulator.AutoTargetsManipulator;
-import straticrush.manipulator.CompositeManipulator;
-import straticrush.manipulator.GPatchObject;
-import straticrush.manipulator.IStratiManipulator;
-import straticrush.view.PatchView;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
@@ -17,11 +10,19 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GTransformer;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
+import straticrush.manipulator.CompositeManipulator;
+import straticrush.manipulator.GPatchObject;
+import straticrush.view.PatchView;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.DeformationController;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
-import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
@@ -39,21 +40,18 @@ import fr.ifp.kronosflow.model.algo.ComputeBloc;
 
 public abstract class DeformationInteraction implements GInteraction {
 	
-	static int refreshDelay = 500;
+	
+	Job moveJob;
 	
 	protected GScene    scene_;
 	
-	protected GPatchObject interaction;
+	protected boolean withMarkerTranslation = true;
 	
 	protected DeformationController deformationController = null;
 	
 	protected TranslateDeformation translateDeformation = null;
 
 	protected Patch selectedComposite;
-	
-	protected PatchInterval  selectedHorizon;
-	
-	protected PatchInterval  selectedFault;
 	
 	protected List<Patch> surroundedComposites = new ArrayList<Patch>();
 	
@@ -74,19 +72,34 @@ public abstract class DeformationInteraction implements GInteraction {
 	@SuppressWarnings("unchecked")
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
-		
-		selectedHorizon = null;
-		selectedFault = null;
-		
+			
 		deformationController = StratiCrushServices.getInstance().createDeformationController();
 		
 		translateDeformation =  new TranslateDeformation();
-		
-		
-		 // Create a graphic node for holding the interaction graphics
-	    interaction = new GPatchObject();    
-	    
+
 	}
+	
+	public void clearSolver() {
+
+		manipulator.deactivate();
+
+		deformationController.clear();
+
+		selectedComposite.remove();
+		for( Patch surround : surroundedComposites ){
+			surround.remove();
+		}
+
+		surroundedComposites.clear();
+		selectedComposite = null;
+		scene_.refresh();
+	}
+
+
+	public DeformationController getController() {
+		return deformationController;
+	}
+
 
 	@Override
 	public void event(GScene scene, GMouseEvent event) {
@@ -132,7 +145,8 @@ public abstract class DeformationInteraction implements GInteraction {
 		
 			if ( ( null != manipulator ) && manipulator.isActive() ) {
 				
-				translateComposite(scene, event);
+				if ( withMarkerTranslation )
+					translateComposite(scene, event);
 				
 				manipulator.onMouseMove(event);
 				
@@ -150,48 +164,45 @@ public abstract class DeformationInteraction implements GInteraction {
 			if ( ( null != manipulator ) && manipulator.isActive() ) {
 				manipulator.onMouseRelease(event);
 				
-				deformationController.clear();
-				deformationController.setPatch(selectedComposite); 
+				CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
 
-				for( IDeformationItem item : ((CompositeManipulator)manipulator).getItems() ){
-					deformationController.addDeformationItem( item );
+				if ( compositeManipulator.getItems().isEmpty() ){
+					clearSolver();
 				}
-				deformationController.prepare();
-				deformationController.move();
-			}
-			
-			
-			clearSolver();
-			
-/*			if ( null != selectedHorizon )  {
-				
-				deformationController.clear();
-				deformationController.setPatch(selectedComposite); 
-				deformationController.addDeformationItem( item );
-				deformationController.prepare();
-				
-				//if solver can be launched
-				if	 ( deformationController.getState() == Deformation.PREPARED )  {
-
-					Job job = new Job("Move") {
+				else {
+					moveJob = new Job("Move") {
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
+							
+							CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
+
+							deformationController.clear();
+							deformationController.setPatch(selectedComposite); 
+
+							for( IDeformationItem item : compositeManipulator.getItems() ){
+								deformationController.addDeformationItem( item );
+							}
+							deformationController.prepare();
 							deformationController.move();
 							return Status.OK_STATUS;
 						}
+
+
+						@Override
+						protected void canceling() {
+							deformationController.cancel();
+						}
+
 					};
-					job.schedule();
+					moveJob.schedule();
 
-					timer = new Annimation(scene,  deformationController );
-
-					Display.getDefault().timerExec(refreshDelay, timer);
+					DeformationAnimation.start( scene, this );
 
 				}
-				else {
-					clearSolver();
-				}
-			}*/
+
+			}
+
 			break;
 			
 		case GMouseEvent.ABORT:
@@ -207,6 +218,12 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	@Override
 	public void keyEvent( GKeyEvent event ) {
+		if ( ( event.type == GKeyEvent.KEY_PRESSED ) && 
+			 ( event.getKeyCode() == GKeyEvent.VK_ESCAPE ) && 
+			 ( moveJob != null ) ){
+			
+			moveJob.cancel();
+		}
 	}
 
 	
@@ -302,60 +319,9 @@ public abstract class DeformationInteraction implements GInteraction {
 				}
 			}
 		}
-		
-		
 	}
 	
-	
-	class Annimation implements Runnable {
 
-		DeformationController controller;
-		GScene scene;
-		
-		public Annimation( GScene scene, DeformationController controller ){
-			this.scene = scene;
-			this.controller = controller;
-			
-		}
-		
-		@Override
-		public void run() {
-			
-			int newState = controller.getState();
-					
-			if ( ( newState == Deformation.DEFORMING )  ){
-				scene_.refresh();
-				Display.getDefault().timerExec(refreshDelay, this);
-			}
-		
-			if ( newState == Deformation.DEFORMED){
-				clearSolver();
-			}
-				
-			if ( ( newState == Deformation.PREPARING ) || ( newState == Deformation.PREPARED ) ){
-				Display.getDefault().timerExec(refreshDelay, this);
-			}
-			
-		}
-	}
 	
 	
-	
-	private void clearSolver() {
-
-		manipulator.deactivate();
-
-		deformationController.clear();
-
-		selectedComposite.remove();
-		for( Patch surround : surroundedComposites ){
-			surround.remove();
-		}
-
-		surroundedComposites.clear();
-		selectedComposite = null;
-		selectedHorizon = null;
-		scene_.refresh();
-	}
-
 }
