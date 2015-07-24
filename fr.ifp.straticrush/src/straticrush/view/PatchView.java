@@ -158,26 +158,8 @@ public class PatchView extends View {
 		}
 		
 		for( Object segment : getSegments() ){
-			if ( segment instanceof GPolyline ){
-				((GPolyline)segment).updateGeometry();
-			}
-			else if ( segment instanceof GCell ){
-
-				GCell gcell = (GCell)segment;
-				Cell cell = gcell.getCell();
-
-				UID[] nodes = cell.getNodeIds();
-
-				int npts = nodes.length+1;
-				double[] xpts = new double[npts];
-				double[] ypts = new double[npts];
-
-				for( int i=0; i<npts; i++){
-					Node node = (Node) mesh.getNode( cell.getNodeId(i % nodes.length) );
-					xpts[i] = node.x();
-					ypts[i] = node.y();
-				}	
-				gcell.setGeometry(xpts, ypts);
+			if ( segment instanceof IUpdateGeometry ){
+				((IUpdateGeometry)segment).updateGeometry();
 			}
 		}
 		
@@ -207,24 +189,12 @@ public class PatchView extends View {
 	}
 	
 	
-	private class GCell extends GSegment {
-		public GCell( Cell cell ){
-			cell_ = cell;
-		}
-		
-		public Cell getCell(){
-			return cell_;
-		}
-		
-		private Cell cell_;
-	};
 	
 	
 
 	private GSegment addCell(Cell cell, GColor fgColor ) {
 		
-		GSegment gcell = new GCell( cell );
-		
+		GSegment gcell = new GCell( mesh, cell );
 		
 		GStyle style = new GStyle();
 		style.setForegroundColor ( GColor.black );

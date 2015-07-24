@@ -11,22 +11,28 @@ import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import straticrush.interaction.IViewListener;
+import straticrush.view.GCell;
 import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
+import fr.ifp.kronosflow.mesh.Cell;
+import fr.ifp.kronosflow.mesh.IMeshProvider;
+import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.IExtension;
+import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 
 public class GPatchObject extends GObject implements IViewListener {
+	
+	boolean withPatchGrid = false;
 	
 	public GPatchObject(){
 		super("Interaction");
@@ -66,6 +72,17 @@ public class GPatchObject extends GObject implements IViewListener {
 			
 			gextension.setStyle( style );
 			gextension.updateGeometry();
+		}
+		
+		if ( withPatchGrid ){
+			Patch patch = interval.getPatch();
+			if ( patch instanceof IMeshProvider ){
+				Mesh2D mesh = ((IMeshProvider)patch).getMesh();
+
+				for( IHandle handle : mesh.getCells() ){
+					addCell( mesh, (Cell)handle );
+				}
+			}
 		}
 		
 	}
@@ -130,7 +147,6 @@ public class GPatchObject extends GObject implements IViewListener {
 		
 		gline.updateGeometry();
 	
-		
 		lines.add( gline );
 		
 	}
@@ -140,7 +156,23 @@ public class GPatchObject extends GObject implements IViewListener {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
+	}
+	
+
+	private GSegment addCell( Mesh2D mesh, Cell cell ) {
 		
+		GSegment gcell = new GCell( mesh, cell );
+		
+		GStyle style = new GStyle();
+		style.setForegroundColor ( GColor.BLUE );
+		style.setBackgroundColor ( null );
+		style.setFillPattern(GStyle.FILL_NONE);
+		style.setLineWidth (1);
+		gcell.setStyle (style);
+		
+		addSegment(gcell);
+		
+		return gcell;
 	}
 
 	@Override

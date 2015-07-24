@@ -24,6 +24,7 @@ import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
 import fr.ifp.jdeform.deformation.constraint.PatchIntersectionItem;
 import fr.ifp.jdeform.mechanical.ImplicitDynamicSolver;
 import fr.ifp.jdeform.mechanical.ImplicitStaticSolver;
+import fr.ifp.jdeform.mechanical.ImplicitStaticSolverLS;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
@@ -47,7 +48,7 @@ public class FlattenInteraction extends DeformationInteraction {
 				solverDeformation.setSolver( new ImplicitDynamicSolver(solverDeformation) );
 			}
 			else {
-				solverDeformation.setSolver( new ImplicitStaticSolver(solverDeformation) );
+				solverDeformation.setSolver( new ImplicitStaticSolverLS(solverDeformation) );
 			}
 		}
 		
