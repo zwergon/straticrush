@@ -12,10 +12,12 @@
 package straticrush.parts;
 
 import java.awt.Insets;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GWindow;
@@ -38,6 +40,7 @@ import straticrush.view.Plot;
 import straticrush.view.ViewFactory;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
 import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
@@ -133,11 +136,14 @@ public class SectionPart  {
 	      
 	      LOGGER.debug("load " + basename , this.getClass() );
 	      
-	      section = new Section();
+	      section = new GeoschedulerSection();
+	      
+	      StratiCrushServices.getInstance().setSection(section);
+	      
 	      PatchLibrary patchLib = section.getPatchLibrary();
 
-	      MeshObjectFactory.createDummyGeo( basename + ".geo", section);
-	      MeshObjectFactory.createDummyUnit( basename + ".unit", section);
+	      Map<String,String> unitMap = MeshObjectFactory.createDummyGeo( basename + ".geo", section);
+	      MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
 
 
 	      Plot plot = getPlot();
@@ -159,24 +165,32 @@ public class SectionPart  {
 	  
 	  public void startInteraction( String interactionType, String deformationType ){
 	      
+		  
+		  GInteraction interaction = null;
 	      if ( interactionType.equals("Zoom") ){
-	          window_.startInteraction( new ZoomInteraction(getPlot()) );
+	         interaction = new ZoomInteraction(getPlot());
 	      }
 	      else if ( interactionType.equals("Reset") ){
-	          window_.startInteraction( new ResetGeometryInteraction(getPlot()));
+	          interaction = new ResetGeometryInteraction(getPlot());
 	      }
 	      else if ( interactionType.equals("NodeMoveInteraction") ) {
-              window_.startInteraction( new NodeMoveInteraction(getPlot(), deformationType) );
+              interaction = new NodeMoveInteraction(getPlot(), deformationType) ;
           }
 	      else if ( interactionType.equals("FlattenInteraction") ) {
-              window_.startInteraction( new FlattenInteraction(getPlot(), deformationType ) );
+              interaction = new FlattenInteraction(getPlot(), deformationType ) ;
 	      }
 	      else if ( interactionType.equals("TopBorderInteraction") ) {
-              window_.startInteraction( new TopBorderInteraction(getPlot(), deformationType ) );
+             interaction = new TopBorderInteraction(getPlot(), deformationType );
 	      }
 	      else if ( interactionType.equals("Triangulate") ) {
-              window_.startInteraction( new TriangulateInteraction(getPlot(), interactionType) );
+               interaction = new TriangulateInteraction(getPlot(), interactionType);
           }
+	      
+	      if ( interaction == null ){
+	    	  return;
+	      }
+	      
+	      window_.startInteraction( interaction );
 	  }
 	  
 }

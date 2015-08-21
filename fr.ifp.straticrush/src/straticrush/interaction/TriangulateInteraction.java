@@ -74,8 +74,7 @@ public class TriangulateInteraction implements GInteraction {
 			for( ICurviPoint cp : border.getPoints() ){
 				border.getPosition(cp, xy );
 				Node node = new Node(xy);
-				node.setFixed(true);
-				triangulation.addNode(node);
+				triangulation.addFixedNode(node);
 			}
 			
 			PointSampling sampling = new CompactPointSampling(bbox);

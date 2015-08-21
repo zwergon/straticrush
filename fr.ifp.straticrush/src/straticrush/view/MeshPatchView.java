@@ -5,13 +5,13 @@ import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
-import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 import fr.ifp.kronosflow.utils.UID;
 
 

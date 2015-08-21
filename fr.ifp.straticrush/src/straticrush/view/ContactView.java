@@ -1,12 +1,12 @@
 package straticrush.view;
 
-import fr.ifp.kronosflow.controller.IControllerEvent;
+
+import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GStyle;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 import fr.ifp.kronosflow.topology.Contact;
-import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GScene;
-import no.geosoft.cc.graphics.GStyle;
 
 public class ContactView extends View {
 	

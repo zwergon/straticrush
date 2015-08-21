@@ -7,22 +7,22 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import straticrush.view.PatchView;
-import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.kronosflow.model.Patch;
 
 public class ResetGeometryInteraction implements GInteraction {
 	
 	
 	private GScene scene;
-	DeformationController controller;
+	DeformationControllerCaller controllerCaller;
 	
 
 	public ResetGeometryInteraction( GScene scene ) {
 		
 		StratiCrushServices service = StratiCrushServices.getInstance();
 		this.scene = scene;
-		controller = service.createDeformationController();
-		controller.setDeformation( service.createDeformation("Reset") );
+		controllerCaller = service.createDeformationCaller();
+		controllerCaller.setDeformation( service.createDeformation("Reset") );
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class ResetGeometryInteraction implements GInteraction {
 				if ( gobject instanceof PatchView ){
 					PatchView view = (PatchView)gobject;
 					Patch patch = view.getObject();
-					controller.setPatch( patch );
-					controller.move();
+					controllerCaller.setPatch( patch );
+					controllerCaller.applyAndNotify();;
 					scene.refresh();		
 				}
 			}

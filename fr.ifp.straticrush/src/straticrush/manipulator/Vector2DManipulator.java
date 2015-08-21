@@ -1,14 +1,12 @@
 package straticrush.manipulator;
 
-import java.util.List;
-
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
-import fr.ifp.jdeform.deformation.constraint.NodeMoveItem;
+import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.mesh.Node;
-import fr.ifp.kronosflow.model.Patch;
 
 public class Vector2DManipulator extends CompositeManipulator {
 	
@@ -17,11 +15,10 @@ public class Vector2DManipulator extends CompositeManipulator {
 	private Node  selected_node_;
 
 	public Vector2DManipulator(
-			GScene scene, 
-			Patch selectedComposite,
-			List<Patch> surroundedComposites) {
-		super(scene, selectedComposite, surroundedComposites);
-		
+			GScene scene,
+			DeformationControllerCaller caller ) {
+		super(scene, caller );
+		withTranslateMarker = false;
 	}
 	
 	@Override

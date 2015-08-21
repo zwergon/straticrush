@@ -8,24 +8,20 @@ import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GPosition;
-import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
-import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 
 public class PatchView extends View {
@@ -182,6 +178,7 @@ public class PatchView extends View {
 				}
 			}
 		}
+		
 		if ( event.getObject() == getObject() ){
 			updateGeometry();
 		}

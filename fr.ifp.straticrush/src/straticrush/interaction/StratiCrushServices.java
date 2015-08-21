@@ -3,27 +3,29 @@ package straticrush.interaction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import no.geosoft.cc.graphics.GWindow;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.continuousdeformation.IDeformation;
+import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ChainMailDeformation;
-import fr.ifp.jdeform.deformation.DeformationController;
 import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
 import fr.ifp.jdeform.flexural.FlexuralSlip;
 import fr.ifp.jdeform.geometric.VerticalShear;
-import fr.ifp.kronosflow.controller.ICommandController;
-import fr.ifp.kronosflow.controller.IControllerEvent;
-import fr.ifp.kronosflow.controller.IEventListener;
+import fr.ifp.kronosflow.controllers.ControllerEventList;
+import fr.ifp.kronosflow.controllers.IControllerService;
+import fr.ifp.kronosflow.model.EnumEventAction;
+import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 
-public class StratiCrushServices extends ViewNotifier implements IEventListener {
+public class StratiCrushServices extends ViewNotifier implements IControllerService {
 	
 	
 	private GWindow window;
+	
+	private Section section;
 	
 	private static StratiCrushServices instance;
 	private Map<String, String> deformationMap = new HashMap<String, String>(); //dictionnary for IController creation
@@ -61,16 +63,9 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 		registerDeformation("FlexuralSlip", FlexuralSlip.class );
 	}
 	
-	
-	public DeformationController createDeformationController(){
-		
-		DeformationController controller = new DeformationController();
-		controller.addListener(this);
-		
-	    return controller;
+	public DeformationControllerCaller createDeformationCaller(){
+	    return new DeformationControllerCaller( this ) ;
 	}
-	
-	
 	
 	@SuppressWarnings("rawtypes")
 	public Deformation createDeformation( String type ){
@@ -93,18 +88,40 @@ public class StratiCrushServices extends ViewNotifier implements IEventListener 
 	    return deformation;
 	}
 
-
-
+	
 
 	@Override
-	public void objectChanged(IControllerEvent<?> event) {	
-		ReadWriteLock lock = window.getLock();
-		lock.writeLock().lock();
-        try {
-        	notifyViews( event );
-        }  finally {
-            lock.writeLock().unlock();
-        }
+	public Section getSection() {
+		return section;
+	}
+	
+	public void setSection( Section section ){
+		this.section = section;
+	}
+
+	@Override
+	public void handleEvents( ControllerEventList eventList ) {
+		
+		//test if one Move Event to trigger view redraw.
+		IControllerEvent<?> moveEvent = null;
+		for( IControllerEvent<?> event : eventList ){
+			if ( event.getEventAction() == EnumEventAction.MOVE ){
+				moveEvent = event;
+				break;
+			}
+		}
+		
+		if ( moveEvent != null ){
+			ReadWriteLock lock = window.getLock();
+			lock.writeLock().lock();
+			try {
+				notifyViews( moveEvent );
+
+			}  finally {
+				lock.writeLock().unlock();
+			}
+		}
+
 	}
 
 

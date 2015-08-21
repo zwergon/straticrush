@@ -7,7 +7,6 @@ import java.util.List;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GObject;
-import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import straticrush.interaction.IViewListener;
@@ -16,7 +15,6 @@ import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
-import fr.ifp.kronosflow.controller.IControllerEvent;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
@@ -29,6 +27,7 @@ import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends GObject implements IViewListener {
 	

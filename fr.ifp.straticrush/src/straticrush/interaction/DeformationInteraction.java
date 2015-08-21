@@ -17,44 +17,33 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 import straticrush.manipulator.CompositeManipulator;
-import straticrush.manipulator.GPatchObject;
 import straticrush.view.PatchView;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
-import fr.ifp.jdeform.deformation.DeformationController;
+import fr.ifp.jdeform.continuousdeformation.IDeformation;
+import fr.ifp.jdeform.controllers.DeformationController;
+import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
+import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
-import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Vector2D;
-import fr.ifp.kronosflow.model.CompositePatch;
+import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
-import fr.ifp.kronosflow.model.algo.ComputeBloc;
+import fr.ifp.kronosflow.model.Section;
 
 public abstract class DeformationInteraction implements GInteraction {
-	
 	
 	Job moveJob;
 	
 	protected GScene    scene_;
-	
-	protected boolean withMarkerTranslation = true;
-	
-	protected DeformationController deformationController = null;
-	
-	protected TranslateDeformation translateDeformation = null;
-
-	protected Patch selectedComposite;
-	
-	protected List<Patch> surroundedComposites = new ArrayList<Patch>();
-	
+			
+	protected GeoschedulerLink link = null;
+		
 	/** horizons that may be a target for deformation ordered using straticolumn */
 	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
 	
@@ -65,39 +54,44 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	public abstract CompositeManipulator createManipulator( 
 			GScene scene, 
-			Patch selectedComposite, 
-			List<Patch> surroundedComposites );
+			DeformationControllerCaller caller );
 	
 
 	@SuppressWarnings("unchecked")
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
 			
-		deformationController = StratiCrushServices.getInstance().createDeformationController();
 		
-		translateDeformation =  new TranslateDeformation();
+		Geoscheduler scheduler = getScheduler();
+		link = new GeoschedulerLink( 
+				scheduler.getCurrent(), 
+				StratiCrushServices.getInstance().createDeformationCaller() );
+	
+	}
+	
+	
+	public Geoscheduler getScheduler(){
+		
+		Section section = StratiCrushServices.getInstance().getSection();
+		if ( section instanceof GeoschedulerSection ){
+			return ((GeoschedulerSection)section).getGeoscheduler();
+		}
+		
+		return null;
 
 	}
 	
-	public void clearSolver() {
+	public void clearManipulator() {
 
-		manipulator.deactivate();
-
-		deformationController.clear();
-
-		selectedComposite.remove();
-		for( Patch surround : surroundedComposites ){
-			surround.remove();
-		}
-
-		surroundedComposites.clear();
-		selectedComposite = null;
+		manipulator.deactivate();	
 		scene_.refresh();
+		moveJob = null;
+		
 	}
 
-
-	public DeformationController getController() {
-		return deformationController;
+	
+	public DeformationControllerCaller getCaller(){
+		return (DeformationControllerCaller)link.getCaller();
 	}
 
 
@@ -107,8 +101,15 @@ public abstract class DeformationInteraction implements GInteraction {
 			return;
 		}
 		
+		if ( (moveJob != null ) && (moveJob.getState() != Job.NONE) ){
+			return;
+		}
+		
+		IDeformation deformation = getCaller().getDeformation();
+		
+		
 		//can not interact during run of a simulation
-		if ( deformationController.getState() == Deformation.DEFORMING  ){
+		if ( deformation.isRunning() ){
 			return;
 		}
 
@@ -122,16 +123,20 @@ public abstract class DeformationInteraction implements GInteraction {
 				
 					Patch patch = ((PatchView)gobject).getObject();
 				
-					createSelectedAndSurrounded(patch);
+					DeformationControllerCaller caller = getCaller();
+					caller.revertAndNotify();
 					
-					manipulator = createManipulator( scene, selectedComposite, surroundedComposites );
+					caller.clear();
+					caller.setPatch(patch);
+					
+					manipulator = createManipulator( scene, caller );
 					if ( !manipulator.isActive() ){
 						manipulator.activate();
 					}
 					
 					manipulator.onMousePress(event);
 					
-					scene.refresh();
+					scene.redraw();
 					
 				}
 			}
@@ -145,12 +150,11 @@ public abstract class DeformationInteraction implements GInteraction {
 		
 			if ( ( null != manipulator ) && manipulator.isActive() ) {
 				
-				if ( withMarkerTranslation )
-					translateComposite(scene, event);
+				
+				translateComposite(scene, event);
 				
 				manipulator.onMouseMove(event);
 				
-
 				scene.refresh();
 
 			}
@@ -166,32 +170,25 @@ public abstract class DeformationInteraction implements GInteraction {
 				
 				CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
 
-				if ( compositeManipulator.getItems().isEmpty() ){
-					clearSolver();
-				}
-				else {
+				if ( compositeManipulator.canDeform() ){
 					moveJob = new Job("Move") {
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
 							
 							CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
-
-							deformationController.clear();
-							deformationController.setPatch(selectedComposite); 
-
-							for( IDeformationItem item : compositeManipulator.getItems() ){
-								deformationController.addDeformationItem( item );
-							}
-							deformationController.prepare();
-							deformationController.move();
+							
+							DeformationControllerCaller deformationCaller = getCaller();
+							deformationCaller.addItems( compositeManipulator.getItems() );
+							deformationCaller.apply();
+							
 							return Status.OK_STATUS;
 						}
 
 
 						@Override
 						protected void canceling() {
-							deformationController.cancel();
+							getCaller().cancel();
 						}
 
 					};
@@ -199,6 +196,9 @@ public abstract class DeformationInteraction implements GInteraction {
 
 					DeformationAnimation.start( scene, this );
 
+				}
+				else {
+					clearManipulator();
 				}
 
 			}
@@ -225,50 +225,9 @@ public abstract class DeformationInteraction implements GInteraction {
 			moveJob.cancel();
 		}
 	}
-
-	
-	
-	
-	/**
-	 * retrieves the {@link PatchInterval} of type c that is nearest of ori.
-	 * @see findHorizonFeature
-	 * @see findFaultFeature 
-	 */
-	protected <T> PatchInterval findFeature( double[] ori, Class<T> c ) {
-		
-		PatchInterval interval = null;
-		double minDist = Double.POSITIVE_INFINITY;
-		
-		for( KinObject object : selectedComposite.getChildren() ){
-			if ( object instanceof FeatureGeolInterval ){
-				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				if ( c.isInstance(fgInterval.getFeature()) ){
-					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
-					
-					double dist = pgeom.minimalDistance( ori );
-					if ( dist < minDist ){
-						interval = (PatchInterval)object;
-						minDist = dist;
-					}
-				}
-			}
-		}
-		
-		return interval;
-	}
-	
-	protected PatchInterval findHorizonFeature( double[] ori ){
-		return findFeature( ori, StratigraphicEvent.class );
-	}
-	
-	protected PatchInterval findFaultFeature( double[] ori ){
-		return findFeature( ori, FaultFeature.class );
-	}
-	
 	
 	protected void translateComposite(GScene scene, GMouseEvent event) {
 	
-
 		GTransformer transformer = scene.getTransformer();
 
 		int[] oldPos = new int[2];
@@ -277,33 +236,13 @@ public abstract class DeformationInteraction implements GInteraction {
 		newPos[0] = event.x;  newPos[1] = event.y;
 		double[] d_pos1 = transformer.deviceToWorld(oldPos);
 		double[] d_pos2 = transformer.deviceToWorld(newPos);
+	
+		double[] translation = Vector2D.substract(d_pos2, d_pos1);
 		
-		translateDeformation.setTranslation( Vector2D.substract(d_pos2, d_pos1) );
-		translateDeformation.setPatch(selectedComposite);
-		translateDeformation.deform();
+		manipulator.addTranslation(translation);
+		
 	}
 	
-	
-	
-	protected void createSelectedAndSurrounded(Patch patch) {
-		PatchLibrary library = patch.getPatchLibrary();
-		List<Patch> availablePatches = library.getPatches();
-		
-		ComputeBloc computeBloc = new ComputeBloc(library);
-		
-		CompositePatch composite = (CompositePatch)computeBloc.getBloc( patch );
-		selectedComposite = composite;
-		
-		availablePatches.removeAll( composite.getPatchs() );
-		while( !availablePatches.isEmpty() ){
-				composite = (CompositePatch)computeBloc.getBloc( availablePatches.get(0) );
-				if ( null != composite ){
-					surroundedComposites.add( composite );
-					getPotentialTargets(composite);
-				}
-				availablePatches.removeAll( composite.getPatchs() );
-		}
-	}
 	
 	
 	private void getPotentialTargets( Patch patch ){

@@ -14,13 +14,14 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.di,
  org.eclipse.e4.core.contexts,
  com.jogamp.jogl,
- fr.ifp.kronosflow.controller,
- fr.ifp.kronosflow.controller.impl,
  fr.ifp.kronosflow.filters,
  fr.ifp.kronosflow.geometry,
  fr.ifp.kronosflow.jdeform,
  fr.ifp.kronosflow.model,
  fr.ifp.kronosflow.model.algo,
  fr.ifp.kronosflow.model.impl,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ fr.ifp.kronosflow.controllers,
+ fr.ifp.kronosflow.geoscheduler,
+ fr.ifp.kronosflow.events
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

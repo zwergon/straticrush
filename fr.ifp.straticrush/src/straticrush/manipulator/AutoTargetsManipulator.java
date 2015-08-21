@@ -4,23 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
-import straticrush.interaction.StratiCrushServices;
-import fr.ifp.jdeform.deformation.constraint.LinePairingItem;
-import fr.ifp.jdeform.deformation.constraint.PatchIntersectionItem;
-import fr.ifp.kronosflow.geology.FaultFeature;
+import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.items.LinePairingItem;
+import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
-import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.IPolyline;
-import fr.ifp.kronosflow.model.Interval;
-import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 
@@ -32,8 +25,8 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 	protected PatchInterval  selectedFault = null;
 	
 
-	public AutoTargetsManipulator( GScene scene, Patch selectedComposite, List<Patch> surroundedComposites ){
-		 super( scene, selectedComposite, surroundedComposites );
+	public AutoTargetsManipulator( GScene scene, DeformationControllerCaller caller ){
+		 super( scene, caller );
 	}
 	
 	@Override

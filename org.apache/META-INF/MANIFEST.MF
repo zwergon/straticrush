@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache
-Bundle-SymbolicName: org.apache
+Bundle-SymbolicName: commons-logging
 Bundle-Version: 2.2.0
 Bundle-ClassPath: commons-math-2.2.jar,
  commons-logging-1.2.jar
