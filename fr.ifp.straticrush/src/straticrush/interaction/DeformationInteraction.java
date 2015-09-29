@@ -9,7 +9,6 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
-import no.geosoft.cc.graphics.GTransformer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -19,13 +18,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.view.PatchView;
 import fr.ifp.jdeform.continuousdeformation.IDeformation;
-import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.TranslateDeformation;
-import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
@@ -40,15 +35,16 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	Job moveJob;
 	
+	private static final double  ZOOM_FACTOR = 0.9;
+	private int     x0_, y0_;
+	
 	protected GScene    scene_;
 			
 	protected GeoschedulerLink link = null;
 		
 	/** horizons that may be a target for deformation ordered using straticolumn */
 	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
-	
-	protected int       x0_, y0_;
-	
+		
 	CompositeManipulator manipulator;
 	
 	
@@ -57,7 +53,6 @@ public abstract class DeformationInteraction implements GInteraction {
 			DeformationControllerCaller caller );
 	
 
-	@SuppressWarnings("unchecked")
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
 			
@@ -115,6 +110,8 @@ public abstract class DeformationInteraction implements GInteraction {
 
 		switch (event.type) {
 		case GMouseEvent.BUTTON1_DOWN :
+			x0_ = event.x;
+			y0_ = event.y;
 			
 			GSegment selected = scene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
@@ -141,25 +138,15 @@ public abstract class DeformationInteraction implements GInteraction {
 				}
 			}
 
-			x0_ = event.x;
-			y0_ = event.y;
-
 			break;
 
 		case GMouseEvent.BUTTON1_DRAG :
 		
 			if ( ( null != manipulator ) && manipulator.isActive() ) {
-				
-				
-				translateComposite(scene, event);
-				
 				manipulator.onMouseMove(event);
-				
 				scene.refresh();
-
 			}
-			x0_ = event.x;
-			y0_ = event.y;
+			
 			break;
 
 		case GMouseEvent.BUTTON1_UP :
@@ -209,8 +196,35 @@ public abstract class DeformationInteraction implements GInteraction {
 			/*flattenController.dispose();
 			scene_.remove(interaction_);*/
 			break;
+			
+		case GMouseEvent.WHEEL_MOUSE_DOWN:
+			scene_.zoom(ZOOM_FACTOR);
+			break;
+
+		case GMouseEvent.WHEEL_MOUSE_UP:
+			scene_.zoom(1./ZOOM_FACTOR);
+			break;
+			
+		case GMouseEvent.BUTTON2_DOWN :
+			x0_ = event.x;
+			y0_ = event.y;
+			break;
+
+		case GMouseEvent.BUTTON2_DRAG :
+
+			int dx = event.x - x0_;
+			int dy = event.y - y0_;
+
+			scene_.pan( dx, dy);
+
+			x0_ = event.x;
+			y0_ = event.y;
+
+			break;
+				
 		}
 		
+	 
 		
 
 	}
@@ -226,24 +240,7 @@ public abstract class DeformationInteraction implements GInteraction {
 		}
 	}
 	
-	protected void translateComposite(GScene scene, GMouseEvent event) {
-	
-		GTransformer transformer = scene.getTransformer();
 
-		int[] oldPos = new int[2];
-		oldPos[0] = x0_;  oldPos[1] = y0_;
-		int[] newPos = new int[2];
-		newPos[0] = event.x;  newPos[1] = event.y;
-		double[] d_pos1 = transformer.deviceToWorld(oldPos);
-		double[] d_pos2 = transformer.deviceToWorld(newPos);
-	
-		double[] translation = Vector2D.substract(d_pos2, d_pos1);
-		
-		manipulator.addTranslation(translation);
-		
-	}
-	
-	
 	
 	private void getPotentialTargets( Patch patch ){
 		for( KinObject object : patch.getChildren() ){

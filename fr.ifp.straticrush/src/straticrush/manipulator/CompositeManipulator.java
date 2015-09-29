@@ -11,13 +11,12 @@ import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.TranslateDeformation;
 import fr.ifp.jdeform.deformation.items.NodeMoveItem;
-import fr.ifp.jdeform.deformation.items.TranslateItem;
 import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.mesh.Node;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
+import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
@@ -33,9 +32,7 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	protected List<Patch> surroundedComposites;
 	
 	protected boolean withTranslateMarker = true;
-	
-	protected TranslateItem translateItem;
-	
+		
 	List<IDeformationItem> items =  new ArrayList<IDeformationItem>();
 		
 	public CompositeManipulator( 
@@ -64,11 +61,7 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	
 
 	public List<IDeformationItem> getItems() {
-		List<IDeformationItem> itemsAll  = new ArrayList<IDeformationItem>(items);
-		if ( withTranslateMarker && ( translateItem != null ) ){
-			itemsAll.add(translateItem);
-		}
-		return itemsAll;
+		return items;
 	}
 	
 
@@ -81,11 +74,6 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 				interaction.addOutline( p, true );
 			}
 			interaction.addOutline( selectedComposite, false );
-			
-			if ( withTranslateMarker){
-				translateItem = new TranslateItem();
-			}
-				
 		}	
 		StratiCrushServices.getInstance().addListener(interaction);
 	}
@@ -97,7 +85,6 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		interaction.removeSegments();;
 		interaction.remove();
 		interaction = null;		
-		translateItem = null;
 		items.clear();
 	}
 	
@@ -154,18 +141,17 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		return findFeature( ori, FaultFeature.class );
 	}
 	
-	public void addTranslation( double[] t ){
-		if ( null != translateItem ){
-			translateItem.addDisplacement(t);
-			DeformationController translateController = new DeformationController();
-			translateController.setDeformation( new TranslateDeformation() );
-			translateController.addDeformationItem( 
-					new NodeMoveItem( t )
-					);
-			translateController.setPatch( selectedComposite );
-			translateController.prepare();
-			translateController.move();
-		}
+	protected void translateTo( double[] t ){
+
+		DeformationController translateController = new DeformationController();
+		translateController.setDeformation( new TranslateDeformation() );
+		translateController.addDeformationItem( 
+				new NodeMoveItem( t )
+				);
+		translateController.setPatch( selectedComposite );
+		translateController.prepare();
+		translateController.move();
+
 	}
 
 }

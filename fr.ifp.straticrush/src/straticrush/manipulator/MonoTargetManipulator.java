@@ -6,6 +6,7 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.items.LinePairingItem;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
@@ -13,6 +14,10 @@ import fr.ifp.kronosflow.model.algo.LineIntersection;
 public class MonoTargetManipulator extends CompositeManipulator  {
 	
 	protected PatchInterval  selectedHorizon = null;
+	
+	double[] start;
+	
+	double[] prev;
 
 	public MonoTargetManipulator( GScene scene, DeformationControllerCaller caller ){
 		 super( scene, caller );
@@ -25,8 +30,10 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 			return;
 		}
 		
-		double[] wc = scene.getTransformer().deviceToWorld(event.x, event.y);
-		selectedHorizon = findHorizonFeature( wc );
+		start = scene.getTransformer().deviceToWorld(event.x, event.y);
+		prev  = Vector2D.copy(start);
+		
+		selectedHorizon = findHorizonFeature( start );
 		
 		
 		if ( null != selectedHorizon ){
@@ -42,6 +49,13 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 		if ( !isActive() ){
 			return;
 		}
+		
+		
+		double[] wc = scene.getTransformer().deviceToWorld(event.x, event.y);
+		
+		double[] t = Vector2D.substract(wc, prev);
+		
+		translateTo(t);
 
 		interaction.clearLines();
 		
@@ -54,6 +68,8 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 		}
 		
 		interaction.draw();
+		
+		prev = wc;
 	}
 
 	@Override
@@ -76,6 +92,10 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 		}	
 		
 		interaction.draw();
+		
+		
+		double[] t = Vector2D.substract(start, prev);
+		translateTo(t);
 	}
 	
 

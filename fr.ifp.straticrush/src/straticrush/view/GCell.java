@@ -4,7 +4,7 @@ import no.geosoft.cc.graphics.GSegment;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.mesh.Node;
+import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.utils.UID;
 
 public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {

@@ -19,18 +19,7 @@ public class FlattenInteraction extends DeformationInteraction {
 		Deformation deformation = StratiCrushServices.getInstance().createDeformation(type);
 		
 		getCaller().setDeformation( deformation );
-		
-		if ( deformation instanceof TargetsSolverDeformation ){
-			TargetsSolverDeformation solverDeformation = (TargetsSolverDeformation)deformation;
-
-			if ( type.equals("DynamicFEASolver") ){
-				solverDeformation.setSolver( new ImplicitDynamicSolver(solverDeformation) );
-			}
-			else {
-				solverDeformation.setSolver( new ImplicitStaticSolverLS(solverDeformation) );
-			}
-		}
-		
+			
 	}
 	
 

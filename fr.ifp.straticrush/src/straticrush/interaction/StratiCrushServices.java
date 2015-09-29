@@ -6,6 +6,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 
 import no.geosoft.cc.graphics.GWindow;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
+import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ChainMailDeformation;
 import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
@@ -18,6 +20,8 @@ import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.style.Style;
+import fr.ifp.kronosflow.model.style.StyleManager;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class StratiCrushServices extends ViewNotifier implements IControllerService {
@@ -28,7 +32,6 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	private Section section;
 	
 	private static StratiCrushServices instance;
-	private Map<String, String> deformationMap = new HashMap<String, String>(); //dictionnary for IController creation
 	
 	
 	static {
@@ -46,46 +49,45 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 		this.window = window;
 	}
 	
-	
-	void registerDeformation( String type, Class<?> view_class ){
-		deformationMap.put( type, view_class.getCanonicalName() );
-	}
-	
-	
 	protected StratiCrushServices() {	
-		registerDeformation("Translate", TranslateDeformation.class);
-		registerDeformation("ChainMail", ChainMailDeformation.class);
-		registerDeformation("MassSpring", MassSpringNodeDeformation.class );
-		registerDeformation("Reset", ResetDeformation.class );
-		registerDeformation("VerticalShear", VerticalShear.class );
-		registerDeformation("DynamicFEASolver", TargetsSolverDeformation.class );
-		registerDeformation("StaticFEASolver", TargetsSolverDeformation.class );
-		registerDeformation("FlexuralSlip", FlexuralSlip.class );
+		
+		DeformationFactory factory = DeformationFactory.getInstance();
+		factory.register( Kind.DEFORMATION, "Reset", ResetDeformation.class );
 	}
 	
 	public DeformationControllerCaller createDeformationCaller(){
 	    return new DeformationControllerCaller( this ) ;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public Deformation createDeformation( String type ){
-
-		Deformation deformation = null;
-	    try {
-	    	/*
-	    	 * TODO go through class inheritance to find the first ascending 
-	    	 * class valid to create a View
-	    	 */
-	    	Class<?> c1 = Class.forName( deformationMap.get( type ) );
-	    	deformation = (Deformation)c1.newInstance();
-	    	
-	    	
-	    }
-	    catch( Exception ex){
-	    	System.out.println("exception createDeformation" + ex.toString());
-	    }
-	    
-	    return deformation;
+		
+		StyleManager styleManager = StyleManager.getInstance();
+		Style style = styleManager.createStyle();
+		if ( type.equals("Reset") ||
+			 type.equals("ChainMail") ||
+			 type.equals("MassSpring") ||
+			 type.equals("Translate") ||
+			 type.equals("VerticalShear") ||
+			 type.equals("FlexuralSlip") ){
+			style.setAttribute( Kind.DEFORMATION.toString(), type );
+		}
+		else {
+			style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );
+			if ( type.equals("StaticFEASolver") ){
+				style.setAttribute( Kind.SOLVER.toString(), "ImplicitStatic" );
+			}
+			else {
+				style.setAttribute( Kind.SOLVER.toString(), "ImplicitDynamic" );
+			}
+		}
+	
+	
+		Deformation deformation = (Deformation)DeformationFactory.getInstance().createDeformation(style);
+		
+		
+		styleManager.deleteStyle(style);
+		
+		return deformation;
 	}
 
 	

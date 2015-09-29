@@ -6,7 +6,7 @@ import no.geosoft.cc.graphics.GTransformer;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
-import fr.ifp.kronosflow.mesh.Node;
+import fr.ifp.kronosflow.model.Node;
 
 public class Vector2DManipulator extends CompositeManipulator {
 	
