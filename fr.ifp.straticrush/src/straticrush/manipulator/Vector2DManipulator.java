@@ -7,6 +7,7 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Node;
+import fr.ifp.kronosflow.model.Patch;
 
 public class Vector2DManipulator extends CompositeManipulator {
 	
@@ -40,14 +41,19 @@ public class Vector2DManipulator extends CompositeManipulator {
 
 	@Override
 	public void onMousePress(GMouseEvent event) {
+		
+		Patch selected = scene.getSelected();
+		if ( null == selected ){
+			return;
+		}
 
-		GTransformer transformer = scene.getTransformer();
+		GTransformer transformer = gscene.getTransformer();
 		double[] w_pos = transformer.deviceToWorld(event.x, event.y);
-		selected_node_ = selectNode(selectedComposite, w_pos);
+		selected_node_ = selectNode(selected, w_pos);
 		
 		
 		translateMarker.createMarker(event.x, event.y);
-		scene.add(translateMarker);
+		gscene.add(translateMarker);
 		
 	}
 
@@ -72,11 +78,11 @@ public class Vector2DManipulator extends CompositeManipulator {
 		
 		
 		translateMarker.removeSegments();
-		scene.remove(translateMarker);
+		gscene.remove(translateMarker);
 		
 		items.clear();
 		
-		GTransformer transformer = scene.getTransformer();
+		GTransformer transformer = gscene.getTransformer();
 		int[] start = translateMarker.getStart();
 		double[] wStart = transformer.deviceToWorld(start);
 		

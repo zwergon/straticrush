@@ -11,6 +11,7 @@ import no.geosoft.cc.graphics.GPosition;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
+import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.mesh.Cell;
@@ -168,6 +169,12 @@ public class PatchView extends View {
 	
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
+	
+		
+	/*	
+		 * if a composite changed, test if this is a view associated
+		 * to a patch contained in this composite
+		 
 		
 		if ( event.getObject() instanceof CompositePatch ){
 			CompositePatch composite = (CompositePatch)event.getObject();
@@ -179,9 +186,18 @@ public class PatchView extends View {
 			}
 		}
 		
+		 * if the Scene changed, all patches are impacted.
+		 
+		else if ( event.getObject() instanceof Scene ){
+			updateGeometry();
+			
+		}
+		
 		if ( event.getObject() == getObject() ){
 			updateGeometry();
-		}
+		}*/
+		
+		 updateGeometry();
 		
 	}
 	

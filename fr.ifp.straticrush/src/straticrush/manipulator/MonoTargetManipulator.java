@@ -30,7 +30,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 			return;
 		}
 		
-		start = scene.getTransformer().deviceToWorld(event.x, event.y);
+		start = gscene.getTransformer().deviceToWorld(event.x, event.y);
 		prev  = Vector2D.copy(start);
 		
 		selectedHorizon = findHorizonFeature( start );
@@ -51,7 +51,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 		}
 		
 		
-		double[] wc = scene.getTransformer().deviceToWorld(event.x, event.y);
+		double[] wc = gscene.getTransformer().deviceToWorld(event.x, event.y);
 		
 		double[] t = Vector2D.substract(wc, prev);
 		

@@ -36,7 +36,7 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 			return;
 		}
 		
-		double[] wc = scene.getTransformer().deviceToWorld(event.x, event.y);
+		double[] wc = gscene.getTransformer().deviceToWorld(event.x, event.y);
 		selectedHorizon = findHorizonFeature( wc );
 		selectedFault   = findFaultFeature( wc );
 
@@ -97,7 +97,8 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 	 */
 	private ExplicitPolyLine createDefaultTarget(LinePointPair I) {
 		
-		double length = 1.5*selectedComposite.getBorder().getBoundingBox().height();
+		Patch selected = scene.getSelected();
+		double length = 1.5*selected.getBorder().getBoundingBox().height();
 		List<Point2D> pts = new ArrayList<Point2D>();
 		Point2D origin = I.getPoint().getPosition();
 		Point2D target = new Point2D(origin);
