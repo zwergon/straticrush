@@ -5,6 +5,7 @@ import no.geosoft.cc.graphics.GScene;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.Vector2DManipulator;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 
 
@@ -27,8 +28,8 @@ public class NodeMoveInteraction extends DeformationInteraction {
 	}
 
 	@Override
-	public CompositeManipulator createManipulator(GScene scene, DeformationControllerCaller caller ) {
-		return new Vector2DManipulator(scene, caller);
+	public CompositeManipulator createManipulator(GScene gscene, DeformationControllerCaller caller ) {
+		return new Vector2DManipulator(gscene, caller);
 	}
 	
 	

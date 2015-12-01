@@ -45,6 +45,14 @@
             <parameters xmi:id="_rMoOYBj3EeWdHoThxzjskw" elementId="straticrush.parameter.flatten.vshear.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
             <parameters xmi:id="_f_orABp3EeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.vshear.deformation" name="straticrush.commandparameter.deformationtype" value="VerticalShear"/>
           </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_Dq9QoJdLEeW74azmHu89vg" elementId="straticrush.handledmenuitem.flatten.movingLS" label="Moving LS" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_PcYQQJdLEeW74azmHu89vg" elementId="straticrush.parameter.flatten.movingls.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_Z6spQJdLEeW74azmHu89vg" elementId="straticrush.parameter.flatten.movingls.deformation" name="straticrush.commandparameter.deformationtype" value="MovingLS"/>
+          </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_Mt9FsJdMEeW74azmHu89vg" elementId="straticrush.handledmenuitem.flatten.flexural" label="Flexural Slip" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_RjU5MJdMEeW74azmHu89vg" elementId="straticrush.parameter.flatten.flexural.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_VP6fsJdMEeW74azmHu89vg" elementId="straticrush.parameter.flatten.flexural.deformation" name="straticrush.commandparameter.deformationtype" value="FlexuralSlip"/>
+          </children>
         </children>
         <children xsi:type="menu:Menu" xmi:id="_bsmOsBpaEeW6afiUSqqJzw" elementId="straticrush.menu.topborder" label="Top/Border">
           <children xsi:type="menu:HandledMenuItem" xmi:id="_gnn-QBpaEeW6afiUSqqJzw" elementId="straticrush.handledmenuitem.flexuralSlip" label="Flexural Slip" command="_ScI2oAMGEeWQfLK62v5NBw">

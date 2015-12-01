@@ -10,7 +10,7 @@ public interface IStratiManipulator {
 	public void activate();
 	public void deactivate();
 	
-	public GObject getInteraction();
+	public GObject getGraphic();
 	
 	public void onMousePress( GMouseEvent event );
 	public void onMouseMove( GMouseEvent event );

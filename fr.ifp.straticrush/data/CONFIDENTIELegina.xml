@@ -1,0 +1,120 @@
+<!DOCTYPE xml>
+<Study Name="Study">
+ <StratiScale>
+  <Unit Name="above_SeaBed" id="0" baseId="0" Color="#ff7256"/>
+  <Age Name="SeaBed" id="0" physLineId="3" time="0" Color="#daaa00"/>
+  <Unit topId="0" physSurfId="3" Name="SeaBed" id="1" baseId="1" Color="#ffd648"/>
+  <Age Name="a1" id="1" physLineId="15" time="0" Color="#800000"/>
+  <Unit topId="1" physSurfId="4" Name="a1" id="2" baseId="2" Color="#bf0000"/>
+  <Age Name="a2" id="2" physLineId="6" time="0" Color="#ff7256"/>
+  <Unit topId="2" physSurfId="5" Name="a2" id="3" baseId="3" Color="#ffddd6"/>
+  <Age Name="a3" id="3" physLineId="16" time="0" Color="#509e69"/>
+  <Unit topId="3" physSurfId="6" Name="a3" id="4" baseId="4" Color="#77ef9e"/>
+  <Age Name="a4" id="4" physLineId="19" time="0" Color="#00003f"/>
+  <Unit topId="4" physSurfId="25" Name="a4" id="5" baseId="5" Color="#00005d"/>
+  <Age Name="a5" id="5" physLineId="40" time="0" Color="#95522d"/>
+  <Unit topId="5" physSurfId="48" Name="a5" id="6" baseId="6" Color="#e17b42"/>
+  <Age Name="H200" id="6" physLineId="34" time="0" Color="#ff7256"/>
+  <Unit topId="6" physSurfId="33" Name="H200" id="7" baseId="7" Color="#ffddd6"/>
+  <Age Name="b1" id="7" physLineId="45" time="0" Color="#c6a546"/>
+  <Unit topId="7" physSurfId="32" Name="b1" id="8" baseId="8" Color="#ffe183"/>
+  <Age Name="b2" id="8" physLineId="21" time="0" Color="#8080bf"/>
+  <Unit topId="8" physSurfId="47" Name="b2" id="9" baseId="9" Color="#cbcbff"/>
+  <Age Name="b3" id="9" physLineId="54" time="0" Color="#80003f"/>
+  <Unit topId="9" physSurfId="49" Name="b3" id="10" baseId="10" Color="#bf0060"/>
+  <Age Name="b4" id="10" physLineId="23" time="0" Color="#dfdfdf"/>
+  <Unit topId="10" physSurfId="8" Name="b4" id="11" baseId="11" Color="#ffffff"/>
+  <Age Name="b5" id="11" physLineId="24" time="0" Color="#0080ff"/>
+  <Unit topId="11" physSurfId="10" Name="b5" id="12" baseId="12" Color="#7ebfff"/>
+  <Age Name="b6" id="12" physLineId="26" time="0" Color="#80ff3f"/>
+  <Unit topId="12" physSurfId="11" Name="b6" id="13" baseId="13" Color="#d4ffbf"/>
+  <Age Name="b7" id="13" physLineId="20" time="0" Color="#ff4400"/>
+  <Unit topId="13" physSurfId="43" Name="b7" id="14" baseId="14" Color="#ffa17e"/>
+  <Age Name="b8" id="14" physLineId="51" time="0" Color="#18ccdf"/>
+  <Unit topId="14" physSurfId="42" Name="b8" id="15" baseId="15" Color="#6bf0ff"/>
+  <Age Name="b9" id="15" physLineId="28" time="0" Color="#9c3dcd"/>
+  <Unit topId="15" physSurfId="13" Name="b9" id="16" baseId="16" Color="#d483ff"/>
+  <Age Name="b10" id="16" physLineId="27" time="0" Color="#ffff00"/>
+  <Unit topId="16" physSurfId="12" Name="b10" id="17" baseId="17" Color="#ffff7e"/>
+  <Age Name="H1100" id="17" physLineId="13" time="0" Color="#509e69"/>
+  <Unit topId="17" physSurfId="37" Name="H1100" id="18" baseId="18" Color="#77ef9e"/>
+  <Age Name="c1" id="18" physLineId="47" time="0" Color="#00bf00"/>
+  <Unit topId="18" physSurfId="36" Name="c1" id="19" baseId="19" Color="#1fff1f"/>
+  <Age Name="c2" id="19" physLineId="32" time="0" Color="#daaa00"/>
+  <Unit topId="19" physSurfId="44" Name="c2" id="20" baseId="20" Color="#ffd648"/>
+  <Age Name="c3" id="20" physLineId="52" time="0" Color="#ff7256"/>
+  <Unit topId="20" physSurfId="53" Name="c3" id="21" baseId="21" Color="#ffddd6"/>
+  <Age Name="c4" id="21" physLineId="56" time="0" Color="#509e69"/>
+  <Unit topId="21" physSurfId="52" Name="c4" id="22" baseId="22" Color="#77ef9e"/>
+  <Age Name="c5" id="22" physLineId="14" time="0" Color="#00003f"/>
+  <Unit topId="22" physSurfId="17" Name="c5" id="23" baseId="23" Color="#00005d"/>
+  <Age Name="H1200" id="23" physLineId="35" time="0" Color="#00003f"/>
+  <Unit topId="23" physSurfId="39" Name="H1200" id="24" baseId="24" Color="#00005d"/>
+  <Age Name="d1" id="24" physLineId="48" time="0" Color="#95522d"/>
+  <Unit topId="24" physSurfId="38" Name="d1" id="25" baseId="25" Color="#e17b42"/>
+  <Age Name="d2" id="25" physLineId="37" time="0" Color="#7c97d3"/>
+  <Unit topId="25" physSurfId="20" Name="d2" id="26" baseId="26" Color="#d4e2ff"/>
+  <Age Name="d3" id="26" physLineId="31" time="0" Color="#3f3f3f"/>
+  <Unit topId="26" physSurfId="18" Name="d3" id="27" baseId="27" Color="#606060"/>
+  <Age Name="d4" id="27" physLineId="36" time="0" Color="#ef83ef"/>
+  <Unit topId="27" physSurfId="19" Name="d4" id="28" baseId="28" Color="#fff4ff"/>
+  <Age Name="H1270" id="28" physLineId="7" time="0" Color="#95522d"/>
+  <Unit topId="28" physSurfId="1" Name="H1270" id="29" baseId="29" Color="#e17b42"/>
+  <Age Name="e1" id="29" physLineId="11" time="0" Color="#f4ddb3"/>
+  <Unit topId="29" physSurfId="24" Name="e1" id="30" baseId="30" Color="#ffffff"/>
+  <Age Name="e2" id="30" physLineId="39" time="0" Color="#bc52bc"/>
+  <Unit topId="30" physSurfId="23" Name="e2" id="31" baseId="31" Color="#ff8aff"/>
+  <Age Name="e3" id="31" physLineId="25" time="0" Color="#80ff3f"/>
+  <Unit topId="31" physSurfId="9" Name="e3" id="32" baseId="32" Color="#d4ffbf"/>
+  <Age Name="H1290" id="32" physLineId="18" time="0" Color="#7c97d3"/>
+  <Unit topId="32" physSurfId="34" Name="H1290" id="33" baseId="33" Color="#d4e2ff"/>
+  <Age Name="g1" id="33" physLineId="46" time="0" Color="#ff4400"/>
+  <Unit topId="33" physSurfId="35" Name="g1" id="34" baseId="34" Color="#ffa17e"/>
+  <Age Name="g2" id="34" physLineId="29" time="0" Color="#18ccdf"/>
+  <Unit topId="34" physSurfId="28" Name="g2" id="35" baseId="35" Color="#6bf0ff"/>
+  <Age Name="g3" id="35" physLineId="43" time="0" Color="#9c3dcd"/>
+  <Unit topId="35" physSurfId="29" Name="g3" id="36" baseId="36" Color="#d483ff"/>
+  <Age Name="g4" id="36" physLineId="9" time="0" Color="#ffff00"/>
+  <Unit topId="36" physSurfId="0" Name="g4" id="37" baseId="37" Color="#ffff7e"/>
+  <Age Name="H1350" id="37" physLineId="5" time="0" Color="#3f3f3f"/>
+  <Unit topId="37" physSurfId="40" Name="H1350" id="38" baseId="38" Color="#606060"/>
+  <Age Name="h1" id="38" physLineId="49" time="0" Color="#c6a546"/>
+  <Unit topId="38" physSurfId="41" Name="h1" id="39" baseId="39" Color="#ffe183"/>
+  <Age Name="h2" id="39" physLineId="50" time="0" Color="#8080bf"/>
+  <Unit topId="39" physSurfId="46" Name="h2" id="40" baseId="40" Color="#cbcbff"/>
+  <Age Name="h3" id="40" physLineId="53" time="0" Color="#80003f"/>
+  <Unit topId="40" physSurfId="45" Name="h3" id="41" baseId="41" Color="#bf0060"/>
+  <Age Name="h4" id="41" physLineId="17" time="0" Color="#dfdfdf"/>
+  <Unit topId="41" physSurfId="15" Name="h4" id="42" baseId="42" Color="#ffffff"/>
+  <Age Name="h5" id="42" physLineId="30" time="0" Color="#0080ff"/>
+  <Unit topId="42" physSurfId="14" Name="h5" id="43" baseId="43" Color="#7ebfff"/>
+  <Age Name="h6" id="43" physLineId="10" time="0" Color="#00bf00"/>
+  <Unit topId="43" physSurfId="26" Name="h6" id="44" baseId="44" Color="#1fff1f"/>
+  <Age Name="h7" id="44" physLineId="42" time="0" Color="#daaa00"/>
+  <Unit topId="44" physSurfId="27" Name="h7" id="45" baseId="45" Color="#ffd648"/>
+  <Age Name="H1500" id="45" physLineId="22" time="0" Color="#ef83ef"/>
+  <Unit topId="45" physSurfId="7" Name="H1500" id="46" baseId="46" Color="#fff4ff"/>
+  <Age Name="i1" id="46" physLineId="4" time="0" Color="#ff7256"/>
+  <Unit topId="46" physSurfId="2" Name="i1" id="47" baseId="47" Color="#ffddd6"/>
+  <Age Name="i2" id="47" physLineId="12" time="0" Color="#509e69"/>
+  <Unit topId="47" physSurfId="21" Name="i2" id="48" baseId="48" Color="#77ef9e"/>
+  <Age Name="i3" id="48" physLineId="38" time="0" Color="#00003f"/>
+  <Unit topId="48" physSurfId="22" Name="i3" id="49" baseId="49" Color="#00005d"/>
+  <Age Name="i4" id="49" physLineId="41" time="0" Color="#95522d"/>
+  <Unit topId="49" physSurfId="50" Name="i4" id="50" baseId="50" Color="#e17b42"/>
+  <Age Name="i5" id="50" physLineId="55" time="0" Color="#7c97d3"/>
+  <Unit topId="50" physSurfId="51" Name="i5" id="51" baseId="51" Color="#d4e2ff"/>
+  <Age Name="basement" id="51" physLineId="8" time="0" Color="#f4ddb3"/>
+  <Unit topId="51" physSurfId="16" Name="basement" id="52" baseId="52" Color="#ffffff"/>
+  <Age Name="j1" id="52" physLineId="33" time="0" Color="#3f3f3f"/>
+  <Unit topId="52" physSurfId="31" Name="j1" id="53" baseId="53" Color="#606060"/>
+  <Age Name="bottom" id="53" physLineId="44" time="0" Color="#ff4400"/>
+  <Unit topId="53" physSurfId="30" Name="bottom" id="54" Color="#ffa17e"/>
+ </StratiScale>
+ <Fault Name="F12" id="0" physLineId="0" Color="#0000ff"/>
+ <Fault Name="F14" id="1" physLineId="1" Color="#0000ff"/>
+ <Fault Name="F15" id="2" physLineId="2" Color="#0000ff"/>
+ <Border Name="left_border" id="0" physLineId="57" Color="#ff0000"/>
+ <Border Name="bottom_border" id="1" physLineId="58" Color="#ff0000"/>
+ <Border Name="right_border" id="2" physLineId="59" Color="#ff0000"/>
+</Study>

@@ -49,7 +49,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	
 	public abstract CompositeManipulator createManipulator( 
-			GScene scene, 
+			GScene gscene, 
 			DeformationControllerCaller caller );
 	
 
@@ -167,6 +167,8 @@ public abstract class DeformationInteraction implements GInteraction {
 							
 							DeformationControllerCaller deformationCaller = getCaller();
 							deformationCaller.addItems( compositeManipulator.getItems() );
+							deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
+
 							deformationCaller.apply();
 							
 							return Status.OK_STATUS;

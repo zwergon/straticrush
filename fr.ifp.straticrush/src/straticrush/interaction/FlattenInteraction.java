@@ -5,9 +5,6 @@ import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.MonoTargetManipulator;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
-import fr.ifp.jdeform.mechanical.ImplicitDynamicSolver;
-import fr.ifp.jdeform.mechanical.ImplicitStaticSolverLS;
 
 public class FlattenInteraction extends DeformationInteraction {
 	
@@ -25,10 +22,9 @@ public class FlattenInteraction extends DeformationInteraction {
 
 
 	@Override
-	public CompositeManipulator createManipulator(GScene scene, DeformationControllerCaller caller ) {		
-		return new MonoTargetManipulator(scene, caller);
+	public CompositeManipulator createManipulator(GScene gscene, DeformationControllerCaller caller ) {		
+		return new MonoTargetManipulator(gscene, caller );
 	}
-	
 
 
 

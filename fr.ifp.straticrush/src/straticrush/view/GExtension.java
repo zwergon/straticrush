@@ -1,6 +1,7 @@
 package straticrush.view;
 
 import no.geosoft.cc.graphics.GSegment;
+import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.kronosflow.extensions.RayExtension;
 import fr.ifp.kronosflow.model.IExtension;
 import fr.ifp.kronosflow.model.LinePoint;
@@ -16,6 +17,16 @@ public class GExtension extends GSegment implements IUpdateGeometry {
 
 		public IExtension getExtension(){
 			return (IExtension)getUserData();
+		}
+
+		@Override
+		public boolean canDeform() {
+			return true;
+		}
+
+		@Override
+		public void setDeformation(Deformation deformation) {
+		// TODO Auto-generated method stub		
 		}
 
 		@Override

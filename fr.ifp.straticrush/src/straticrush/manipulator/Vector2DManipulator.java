@@ -1,8 +1,12 @@
 package straticrush.manipulator;
 
+import java.util.ArrayList;
+
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GTransformer;
+import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
+import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
@@ -16,9 +20,9 @@ public class Vector2DManipulator extends CompositeManipulator {
 	private Node  selected_node_;
 
 	public Vector2DManipulator(
-			GScene scene,
+			GScene gscene,
 			DeformationControllerCaller caller ) {
-		super(scene, caller );
+		super(gscene, caller );
 		withTranslateMarker = false;
 	}
 	
@@ -38,10 +42,30 @@ public class Vector2DManipulator extends CompositeManipulator {
 		selected_node_ = null;
 		super.deactivate();
 	};
+	
+	@Override
+	public boolean canDeform() {
+		
+		items = new ArrayList<IDeformationItem>();
+		GTransformer transformer = gscene.getTransformer();
+		int[] start = translateMarker.getStart();
+		double[] wStart = transformer.deviceToWorld(start);
+		
+		int[] end = translateMarker.getEnd();
+		double[] wEnd = transformer.deviceToWorld(end);
+		
+		
+		NodeMoveItem item = new NodeMoveItem(selected_node_);
+		item.setDisplacement(Vector2D.substract(wEnd, wStart));
+		
+		items.add( item );
+		return super.canDeform();
+	}
 
 	@Override
 	public void onMousePress(GMouseEvent event) {
 		
+		Scene scene = deformationCaller.getScene();
 		Patch selected = scene.getSelected();
 		if ( null == selected ){
 			return;
@@ -66,7 +90,6 @@ public class Vector2DManipulator extends CompositeManipulator {
 	
 		translateMarker.moveTo( event.x, event.y );
 
-
 	}
 
 	@Override
@@ -78,22 +101,13 @@ public class Vector2DManipulator extends CompositeManipulator {
 		
 		
 		translateMarker.removeSegments();
-		gscene.remove(translateMarker);
+		gscene.remove(translateMarker);		
 		
-		items.clear();
-		
-		GTransformer transformer = gscene.getTransformer();
-		int[] start = translateMarker.getStart();
-		double[] wStart = transformer.deviceToWorld(start);
-		
-		int[] end = translateMarker.getEnd();
-		double[] wEnd = transformer.deviceToWorld(end);
-		
-		
-		NodeMoveItem item = new NodeMoveItem(selected_node_);
-		item.setDisplacement(Vector2D.substract(wEnd, wStart));
-		
-		items.add( item );
+	}
+
+	@Override
+	protected void computeTargets() {
+		// Nothing to do
 		
 	}
 

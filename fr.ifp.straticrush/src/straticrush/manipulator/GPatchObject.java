@@ -15,6 +15,7 @@ import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
+import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
@@ -31,11 +32,25 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends GObject implements IViewListener {
 	
-	boolean withPatchGrid = false;
+	boolean withPatchGrid = true;
+	
+	Deformation deformation = null;
 	
 	public GPatchObject(){
 		super("Interaction");
-		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
+		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );	
+	}
+	
+	public void setDeformation(Deformation deformation ){
+		this.deformation = deformation; 
+		List<GSegment> segments =  getSegments();
+		if ( null != segments ){
+			for( GSegment segment : segments ){
+				if ( segment instanceof IUpdateGeometry ){
+					((IUpdateGeometry)segment).setDeformation(deformation);
+				}
+			}
+		}
 	}
 	
 	public void addInterval( PatchInterval interval ){
@@ -95,9 +110,11 @@ public class GPatchObject extends GObject implements IViewListener {
 		GStyle style = new GStyle();
 		if ( !surrounding ){
 			style.setBackgroundColor(GColor.CYAN);
+			
 		}
 		else {
 			style.setBackgroundColor(GColor.ORANGE);
+			borderLine.enableDeformation(false);
 		}
 		//style.setLineWidth (4);
 		borderLine.setStyle (style);
@@ -160,8 +177,9 @@ public class GPatchObject extends GObject implements IViewListener {
 
 	private GSegment addCell( Mesh2D mesh, Cell cell ) {
 		
-		GSegment gcell = new GCell( mesh, cell );
+		GCell gcell = new GCell( mesh, cell );
 		
+		gcell.setDeformation(deformation);
 		GStyle style = new GStyle();
 		style.setForegroundColor ( GColor.BLUE );
 		style.setBackgroundColor ( null );

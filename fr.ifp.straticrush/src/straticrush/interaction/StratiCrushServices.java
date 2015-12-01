@@ -1,7 +1,5 @@
 package straticrush.interaction;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 
 import no.geosoft.cc.graphics.GWindow;
@@ -9,13 +7,7 @@ import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.ChainMailDeformation;
-import fr.ifp.jdeform.deformation.MassSpringNodeDeformation;
 import fr.ifp.jdeform.deformation.ResetDeformation;
-import fr.ifp.jdeform.deformation.TargetsSolverDeformation;
-import fr.ifp.jdeform.deformation.TranslateDeformation;
-import fr.ifp.jdeform.flexural.FlexuralSlip;
-import fr.ifp.jdeform.geometric.VerticalShear;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.model.EnumEventAction;
@@ -68,7 +60,8 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 			 type.equals("MassSpring") ||
 			 type.equals("Translate") ||
 			 type.equals("VerticalShear") ||
-			 type.equals("FlexuralSlip") ){
+			 type.equals("FlexuralSlip") ||
+			 type.equals("MovingLS")){
 			style.setAttribute( Kind.DEFORMATION.toString(), type );
 		}
 		else {
