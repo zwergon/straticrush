@@ -73,15 +73,18 @@ public abstract class DeformationInteraction implements GInteraction {
 		}
 		
 		return null;
-
 	}
 	
-	public void clearManipulator() {
-
-		manipulator.deactivate();	
+	public void update(){
+		manipulator.updateGraphics();
 		scene_.refresh();
+	}	
+	
+	public void end() {
+		getCaller().publish();
+		manipulator.deactivate();	
 		moveJob = null;
-		
+		scene_.refresh();
 	}
 
 	
@@ -121,7 +124,7 @@ public abstract class DeformationInteraction implements GInteraction {
 					Patch patch = ((PatchView)gobject).getObject();
 				
 					DeformationControllerCaller caller = getCaller();
-					caller.revertAndNotify();
+					//caller.revert();
 					
 					caller.clear();
 					caller.setPatch(patch);
@@ -166,6 +169,7 @@ public abstract class DeformationInteraction implements GInteraction {
 							CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
 							
 							DeformationControllerCaller deformationCaller = getCaller();
+							deformationCaller.hasPostDeform(false);
 							deformationCaller.addItems( compositeManipulator.getItems() );
 							deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
 
@@ -183,11 +187,11 @@ public abstract class DeformationInteraction implements GInteraction {
 					};
 					moveJob.schedule();
 
-					DeformationAnimation.start( scene, this );
+					DeformationAnimation.start( this );
 
 				}
 				else {
-					clearManipulator();
+					end();
 				}
 
 			}
@@ -234,12 +238,25 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	@Override
 	public void keyEvent( GKeyEvent event ) {
-		if ( ( event.type == GKeyEvent.KEY_PRESSED ) && 
-			 ( event.getKeyCode() == GKeyEvent.VK_ESCAPE ) && 
-			 ( moveJob != null ) ){
-			
-			moveJob.cancel();
-		}
+		if ( event.type == GKeyEvent.KEY_PRESSED ) {
+			switch( event.getKeyCode() ){
+			case GKeyEvent.VK_ESCAPE:
+				if ( moveJob != null ) {
+					moveJob.cancel();
+				}
+				break;
+			case GKeyEvent.VK_Z:
+				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
+					 ( moveJob == null ) ){	
+					getCaller().revert();
+					getCaller().publish();
+					scene_.refresh();
+				}
+				break;
+			default:
+				break;	
+			}
+		}	
 	}
 	
 

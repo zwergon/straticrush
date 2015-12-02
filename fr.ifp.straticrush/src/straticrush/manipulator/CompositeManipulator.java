@@ -5,11 +5,9 @@ import java.util.List;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
-import straticrush.interaction.StratiCrushServices;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.continuousdeformation.IRigidItem;
-import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
@@ -134,7 +132,6 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		}	
 		
 		if ( null != selectedPatchGraphic ){
-			StratiCrushServices.getInstance().addListener(selectedPatchGraphic);
 			selectedPatchGraphic.setDeformation( (Deformation)deformationCaller.getDeformation() );
 		}
 	}
@@ -143,11 +140,17 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	public void deactivate() {
 		if ( null != selectedPatchGraphic ){
 			selectedPatchGraphic.setDeformation( null );
-			StratiCrushServices.getInstance().removeListener(selectedPatchGraphic);
 			gscene.remove(selectedPatchGraphic);
 			selectedPatchGraphic.removeSegments();;
 			selectedPatchGraphic.remove();
 			selectedPatchGraphic = null;	
+		}
+	}
+	
+	
+	public void updateGraphics(){
+		if ( null != selectedPatchGraphic ){
+			selectedPatchGraphic.updateGeometry();
 		}
 	}
 	

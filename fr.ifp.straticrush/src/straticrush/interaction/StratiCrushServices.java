@@ -18,7 +18,6 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class StratiCrushServices extends ViewNotifier implements IControllerService {
 	
-	
 	private GWindow window;
 	
 	private Section section;
@@ -77,13 +76,10 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	
 		Deformation deformation = (Deformation)DeformationFactory.getInstance().createDeformation(style);
 		
-		
 		styleManager.deleteStyle(style);
 		
 		return deformation;
 	}
-
-	
 
 	@Override
 	public Section getSection() {

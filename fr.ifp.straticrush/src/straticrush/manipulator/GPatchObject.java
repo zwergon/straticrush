@@ -127,7 +127,7 @@ public class GPatchObject extends GObject implements IViewListener {
 		updateGeometry();
 	}
 	
-	private void updateGeometry() {
+	public void updateGeometry() {
 		for( GSegment gsegment : getSegments() ){
 			if ( gsegment instanceof IUpdateGeometry ){
 				((IUpdateGeometry) gsegment).updateGeometry();

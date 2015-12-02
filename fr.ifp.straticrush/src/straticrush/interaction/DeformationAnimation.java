@@ -1,7 +1,5 @@
 package straticrush.interaction;
 
-import no.geosoft.cc.graphics.GScene;
-
 import org.eclipse.swt.widgets.Display;
 
 import fr.ifp.jdeform.continuousdeformation.Deformation;
@@ -13,11 +11,10 @@ class DeformationAnimation implements Runnable {
 	private int refreshDelay = 100;
 
 	DeformationInteraction interaction;
-	GScene scene;
 	
 	
-	static public DeformationAnimation start(GScene scene, DeformationInteraction interaction){
-		DeformationAnimation animation = new DeformationAnimation(scene,  interaction );
+	static public DeformationAnimation start(DeformationInteraction interaction){
+		DeformationAnimation animation = new DeformationAnimation(interaction );
 
 		Display.getDefault().timerExec(animation.refreshDelay, animation);
 		
@@ -25,8 +22,7 @@ class DeformationAnimation implements Runnable {
 	}
 	
 	
-	public DeformationAnimation( GScene scene, DeformationInteraction interaction ){
-		this.scene = scene;
+	private DeformationAnimation( DeformationInteraction interaction ){
 		this.interaction = interaction;
 	}
 	
@@ -37,20 +33,18 @@ class DeformationAnimation implements Runnable {
 		DeformationControllerCaller caller = interaction.getCaller();
 		
 		IDeformation deformation = caller.getDeformation();
-	
-		caller.publish();
-		
+			
 		int newState = deformation.getState();
 				
 		if ( ( newState == Deformation.DEFORMING )  ){
-			scene.refresh();
+			interaction.update( );
 			Display.getDefault().timerExec(refreshDelay, this);
 		}
 	
 		if (  ( newState == Deformation.DEFORMED) || 
 			  ( newState == Deformation.CANCELED ) || 
 			  ( newState == Deformation.FAILED )){
-			interaction.clearManipulator();
+			interaction.end();
 		}
 			
 		if ( ( newState == Deformation.PREPARING ) || ( newState == Deformation.PREPARED ) ){
