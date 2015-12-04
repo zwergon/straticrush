@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Display;
 
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.IDeformation;
+import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 
 class DeformationAnimation implements Runnable {
@@ -15,9 +16,7 @@ class DeformationAnimation implements Runnable {
 	
 	static public DeformationAnimation start(DeformationInteraction interaction){
 		DeformationAnimation animation = new DeformationAnimation(interaction );
-
 		Display.getDefault().timerExec(animation.refreshDelay, animation);
-		
 		return animation;
 	}
 	
@@ -32,22 +31,26 @@ class DeformationAnimation implements Runnable {
 		
 		DeformationControllerCaller caller = interaction.getCaller();
 		
-		IDeformation deformation = caller.getDeformation();
+		DeformationController controller = caller.getController();
 			
-		int newState = deformation.getState();
+		int newState = controller.getState();
 				
-		if ( ( newState == Deformation.DEFORMING )  ){
-			interaction.update( );
+		if ( ( newState == DeformationController.DEFORMING )  ){
+			
+			synchronized(caller.getScene()){
+				interaction.update( );
+			}
 			Display.getDefault().timerExec(refreshDelay, this);
 		}
 	
-		if (  ( newState == Deformation.DEFORMED) || 
-			  ( newState == Deformation.CANCELED ) || 
-			  ( newState == Deformation.FAILED )){
-			interaction.end();
+		if (  ( newState == DeformationController.DEFORMED) || 
+			  ( newState == DeformationController.CANCELED ) || 
+			  ( newState == DeformationController.FAILED )){
+				interaction.end();
 		}
 			
-		if ( ( newState == Deformation.PREPARING ) || ( newState == Deformation.PREPARED ) ){
+		if ( ( newState == DeformationController.PREPARING ) || 
+			 ( newState == DeformationController.PREPARED ) ){
 			Display.getDefault().timerExec(refreshDelay, this);
 		}
 		

@@ -2,6 +2,8 @@ package straticrush.interaction;
 
 import java.util.concurrent.locks.ReadWriteLock;
 
+import org.eclipse.swt.widgets.Display;
+
 import no.geosoft.cc.graphics.GWindow;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
@@ -102,7 +104,10 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 			}
 		}
 		
-		if ( moveEvent != null ){
+		
+		Display.getDefault().asyncExec(  new NotifyRunnable(moveEvent) );
+		
+		/*if ( moveEvent != null ){
 			ReadWriteLock lock = window.getLock();
 			lock.writeLock().lock();
 			try {
@@ -111,8 +116,23 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 			}  finally {
 				lock.writeLock().unlock();
 			}
+		}*/
+
+	}
+	
+	class NotifyRunnable implements Runnable {
+		IControllerEvent<?> moveEvent;
+		
+		
+		public NotifyRunnable(IControllerEvent<?> moveEvent) {
+			this.moveEvent = moveEvent;
 		}
 
+		@Override
+		public void run() {
+			notifyViews( moveEvent );
+		}
+		
 	}
 
 

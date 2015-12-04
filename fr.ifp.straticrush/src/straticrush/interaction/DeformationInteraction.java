@@ -9,16 +9,12 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.view.PatchView;
-import fr.ifp.jdeform.continuousdeformation.IDeformation;
+import fr.ifp.jdeform.controllers.DeformEvent;
+import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.dummy.SvgExportPolylines;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
@@ -33,7 +29,10 @@ import fr.ifp.kronosflow.model.Section;
 
 public abstract class DeformationInteraction implements GInteraction {
 	
-	Job moveJob;
+
+	DeformationThread moveJob;
+	
+	protected boolean isJobFinished = false;
 	
 	private static final double  ZOOM_FACTOR = 0.9;
 	private int     x0_, y0_;
@@ -80,11 +79,11 @@ public abstract class DeformationInteraction implements GInteraction {
 		scene_.refresh();
 	}	
 	
-	public void end() {
-		getCaller().publish();
+	public void end() {			
+		moveJob = null;	
 		manipulator.deactivate();	
-		moveJob = null;
-		scene_.refresh();
+		scene_.refresh();	
+		
 	}
 
 	
@@ -94,20 +93,20 @@ public abstract class DeformationInteraction implements GInteraction {
 
 
 	@Override
-	public void event(GScene scene, GMouseEvent event) {
+	public void event(final GScene scene, GMouseEvent event) {
 		if ( scene != scene_ ){
 			return;
 		}
 		
-		if ( (moveJob != null ) && (moveJob.getState() != Job.NONE) ){
+		if ( moveJob != null  ){
 			return;
 		}
 		
-		IDeformation deformation = getCaller().getDeformation();
+		DeformationController controller = getCaller().getController();
 		
 		
 		//can not interact during run of a simulation
-		if ( deformation.isRunning() ){
+		if ( controller.isRunning() ){
 			return;
 		}
 
@@ -160,42 +159,24 @@ public abstract class DeformationInteraction implements GInteraction {
 				
 				CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
 
-				if ( compositeManipulator.canDeform() ){
-					moveJob = new Job("Move") {
-
-						@Override
-						protected IStatus run(IProgressMonitor monitor) {
-							
-							CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
-							
-							DeformationControllerCaller deformationCaller = getCaller();
-							deformationCaller.hasPostDeform(false);
-							deformationCaller.addItems( compositeManipulator.getItems() );
-							deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
-
-							deformationCaller.apply();
-							
-							return Status.OK_STATUS;
-						}
-
-
-						@Override
-						protected void canceling() {
-							getCaller().cancel();
-						}
-
-					};
-					moveJob.schedule();
+				if ( compositeManipulator.canDeform() ){	
+					
+					DeformationControllerCaller deformationCaller = getCaller();
+					deformationCaller.hasPostDeform(false);
+					deformationCaller.addItems( compositeManipulator.getItems() );
+					deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
+				
+					moveJob = new DeformationThread(deformationCaller);						
+					moveJob.start();
 
 					DeformationAnimation.start( this );
-
+					
 				}
 				else {
 					end();
 				}
 
 			}
-
 			break;
 			
 		case GMouseEvent.ABORT:
@@ -253,11 +234,32 @@ public abstract class DeformationInteraction implements GInteraction {
 					scene_.refresh();
 				}
 				break;
+			
+			case GKeyEvent.VK_Y:
+				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
+					 ( moveJob == null ) ){	
+					getCaller().getEventList().add( new DeformEvent(getCaller().getScene()) );
+					getCaller().publish();
+					scene_.refresh();
+				}
+				break;
+			case GKeyEvent.VK_P:
+				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
+					 ( moveJob == null ) ){	
+					SvgExportPolylines exporter = new SvgExportPolylines("/tmp/section.svg");
+					for( Patch patch : getCaller().getPatch().getPatchLibrary().getPatches() ){
+						exporter.add(patch.getBorder(),null,50,null);
+					}
+					exporter.export();
+				}
+				break;
 			default:
 				break;	
 			}
+			
 		}	
 	}
+
 	
 
 	
@@ -273,6 +275,27 @@ public abstract class DeformationInteraction implements GInteraction {
 					potentialHorizonTargets.add( fgInterval );
 				}
 			}
+		}
+	}
+	
+	
+	class DeformationThread extends Thread {
+		
+		
+		DeformationControllerCaller deformationCaller;
+		
+		public DeformationThread( DeformationControllerCaller deformationCaller ) {
+			this.deformationCaller = deformationCaller;
+		}
+		
+		@Override
+		public void run() {
+			deformationCaller.apply();
+			deformationCaller.publish();
+		}
+		
+		public void cancel(){
+			deformationCaller.cancel();
 		}
 	}
 	

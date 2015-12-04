@@ -147,11 +147,12 @@ public class PatchView extends View {
 
 
 	public void updateGeometry() {
+	
 				
 		if ( border == null ){
 			return;
 		}
-		
+	
 		for( Object segment : getSegments() ){
 			if ( segment instanceof IUpdateGeometry ){
 				((IUpdateGeometry)segment).updateGeometry();
@@ -168,6 +169,7 @@ public class PatchView extends View {
 	@Override
 	public void objectChanged( IControllerEvent<?> event ) {
 	
+		
 		
 	/*	
 		 * if a composite changed, test if this is a view associated
