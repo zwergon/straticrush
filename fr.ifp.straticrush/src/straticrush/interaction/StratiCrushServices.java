@@ -104,20 +104,8 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 			}
 		}
 		
+		notifyViews( moveEvent );
 		
-		Display.getDefault().asyncExec(  new NotifyRunnable(moveEvent) );
-		
-		/*if ( moveEvent != null ){
-			ReadWriteLock lock = window.getLock();
-			lock.writeLock().lock();
-			try {
-				notifyViews( moveEvent );
-
-			}  finally {
-				lock.writeLock().unlock();
-			}
-		}*/
-
 	}
 	
 	class NotifyRunnable implements Runnable {

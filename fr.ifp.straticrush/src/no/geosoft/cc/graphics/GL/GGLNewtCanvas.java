@@ -616,7 +616,7 @@ public class GGLNewtCanvas
 			GKeyEvent ke = new GKeyEvent(
 					GKeyEvent.KEY_PRESSED, 
 					event.getModifiers(), 
-					event.getKeyCode(), 
+					event.getKeySymbol(), 
 					event.getKeyChar(),
 					GKeyEvent.KEY_LOCATION_STANDARD );
 
@@ -627,7 +627,7 @@ public class GGLNewtCanvas
 		public void keyReleased(KeyEvent event) {
 			GKeyEvent ke = new GKeyEvent(GKeyEvent.KEY_RELEASED,
 					event.getModifiers(), 
-					event.getKeyCode(), 
+					event.getKeySymbol(), 
 					event.getKeyChar(),
 					GKeyEvent.KEY_LOCATION_STANDARD );
 			window_.keyPressed(ke);

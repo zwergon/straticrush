@@ -79,8 +79,11 @@ public abstract class DeformationInteraction implements GInteraction {
 		scene_.refresh();
 	}	
 	
-	public void end() {			
-		moveJob = null;	
+	public void end() {
+		if ( moveJob != null ) {
+			getCaller().publish();
+			moveJob = null;
+		}
 		manipulator.deactivate();	
 		scene_.refresh();	
 		
@@ -281,7 +284,6 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	class DeformationThread extends Thread {
 		
-		
 		DeformationControllerCaller deformationCaller;
 		
 		public DeformationThread( DeformationControllerCaller deformationCaller ) {
@@ -291,7 +293,6 @@ public abstract class DeformationInteraction implements GInteraction {
 		@Override
 		public void run() {
 			deformationCaller.apply();
-			deformationCaller.publish();
 		}
 		
 		public void cancel(){
