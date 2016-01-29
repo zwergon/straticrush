@@ -10,9 +10,9 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
 import no.geosoft.graphics.factory.GFactory;
 import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 
@@ -371,7 +371,7 @@ public class GWindow
     	canvas_.initRefresh();
 
     	// Compute viewPort Region of all GScene and set it as the damage Region
-    	Region damageRegion = new Region();
+    	GRegion damageRegion = new GRegion();
     	for (Iterator i = scenes_.iterator(); i.hasNext(); ) {
     		GScene scene = (GScene) i.next();
     		damageRegion.union (scene.getRegion());

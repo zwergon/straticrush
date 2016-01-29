@@ -10,15 +10,19 @@ import java.util.TreeSet;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import straticrush.view.PatchView;
+import fr.ifp.jdeform.controllers.scene.Scene;
+import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
+import fr.ifp.kronosflow.model.ICurviPoint.CoordType;
 import fr.ifp.kronosflow.model.algo.ComputeBloc;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.sampling.CompactPointSampling;
@@ -34,10 +38,11 @@ import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
+import no.geosoft.cc.utils.GParameters;
 
 public class TriangulateInteraction implements GInteraction {
 	
-	private GScene    scene_;
+	private GScene    gscene;
 	private GInteraction    interaction_;
 	private Patch composite;
 	
@@ -68,46 +73,9 @@ public class TriangulateInteraction implements GInteraction {
 			this.bbox = border.getBoundingBox();
 			
 			removeSegments();
-			triangulation = new Triangulation();
-			
-			double[] xy = new double[2];
-			for( ICurviPoint cp : border.getPoints() ){
-				border.getPosition(cp, xy );
-				Node node = new Node(xy);
-				triangulation.addFixedNode(node);
-			}
-			
-			PointSampling sampling = new CompactPointSampling(bbox);
-			sampling.sample( nPoints ); 
-
-			
-			PolyLineGeometry geom = new PolyLineGeometry(border);
-
-			for( Point2D pt : sampling.getPoints() ){				
-				if ( geom.isPointInside( pt.getPosition() )){
-					Node node = new Node( pt.getPosition()  );
-					triangulation.addNode( node );
-				}
-			}
-			
-			double dmax = ( bbox.width() > bbox.height() ) ? bbox.width() : bbox.height();
-			triangulation.setThresholdDistance( dmax / 100. );
-
+			triangulation = new Triangulation( border );
 			triangulation.execute();
-		
-			//remove triangles outside of border.
-			List<Triangle> toRemove = new ArrayList<Triangle>();
-			for( IHandle handle : triangulation.getCells() ){
-				Triangle trgl = (Triangle)handle;
-				double[] bary = trgl.barycenter( triangulation );
-				if ( !geom.isPointInside(bary) ){
-					toRemove.add(trgl);
-				}
-			}
-			for( Triangle trgl : toRemove ){
-				triangulation.removeCell(trgl);
-			}
-			
+					
 			Collection<IHandle> triangles = triangulation.getCells();
 			System.out.println("n triangles " + triangles.size() );
 			
@@ -204,36 +172,36 @@ public class TriangulateInteraction implements GInteraction {
 	
 	
 	public TriangulateInteraction( GScene scene, String type ){
-		scene_ = scene;
+		gscene = scene;
 		 // Create a graphic node for holding the interaction graphics
 	    interaction_ = new GInteraction();
 	    
 	}
 
 	@Override
-	public void event(GScene scene, GMouseEvent event) {
-		if ( scene != scene_ ){
+	public void event(GScene gscene, GMouseEvent event) {
+		if ( this.gscene != gscene ){
 			return;
 		}
 
 		switch (event.type) {
 		case GMouseEvent.BUTTON1_DOWN :
-			GSegment selected = scene.findSegment (event.x, event.y);
+			GSegment selected = gscene.findSegment (event.x, event.y);
 			if ( selected !=  null ){
 				GObject gobject = selected.getOwner();
 				if ( gobject instanceof PatchView ){
 				
 					Patch patch = ((PatchView)gobject).getObject();
-				
-					ComputeBloc computeBloc = new ComputeBloc(patch.getPatchLibrary());
-					composite = computeBloc.getBloc( patch );
+					
+					Scene scene = SceneBuilder.createDefaultScene(patch, GParameters.getStyle() );
+					composite = scene.getSelected();
 								
-					scene_.add(interaction_);
+					gscene.add(interaction_);
 					interaction_.addOutline(composite);
 					
 					interaction_.draw();
 					
-					scene.refresh();
+					gscene.refresh();
 				}
 			}
 			break;
@@ -258,7 +226,7 @@ public class TriangulateInteraction implements GInteraction {
 			break;
 		}
 		
-		scene_.refresh();
+		gscene.refresh();
 
 	}
 	

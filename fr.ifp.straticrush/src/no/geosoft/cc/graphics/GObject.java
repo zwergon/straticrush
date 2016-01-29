@@ -3,14 +3,14 @@ package no.geosoft.cc.graphics;
 
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
 import fr.ifp.kronosflow.geometry.Box;
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 
@@ -68,7 +68,7 @@ public class GObject
   public  static final int  INVISIBLE            = 240;
 
   private String      name_;
-  private Region      region_;         // Including all children
+  private GRegion      region_;         // Including all children
   private boolean     isRegionValid_;  // Has it been computed?
   private GObject     parent_;         // Immediate ancestor
   private int         visibilityMask_;    
@@ -91,7 +91,7 @@ public class GObject
   {
     name_           = name;
     parent_         = null;
-    region_         = new Region();
+    region_         = new GRegion();
     children_       = new ArrayList<GObject>();
     isRegionValid_  = true;
     segments_       = null;
@@ -186,7 +186,7 @@ public class GObject
    * 
    * @return  The region of this graphic object.
    */
-  Region getRegion()
+  GRegion getRegion()
   {
     return region_;
   }

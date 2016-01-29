@@ -6,8 +6,8 @@ import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
+import no.geosoft.cc.utils.GRegion;
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 public interface ICanvas {
 	
@@ -16,7 +16,7 @@ public interface ICanvas {
 	
 	public void initRefresh();
 	public void refresh();
-	public void setClipArea(Region damageRegion);
+	public void setClipArea(GRegion damageRegion);
 	public void clear(Rect extent);
 	
 	public void setBackgroundColor( GColor color );

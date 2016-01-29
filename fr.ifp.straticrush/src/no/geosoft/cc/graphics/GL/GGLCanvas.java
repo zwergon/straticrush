@@ -6,23 +6,17 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
-
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
-import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
-import no.geosoft.cc.graphics.GL.GGLNewtCanvas.GLAction;
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -31,12 +25,10 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseWheelListener;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
-import com.jogamp.opengl.DefaultGLCapabilitiesChooser;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -46,10 +38,8 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.swt.GLCanvas;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 @SuppressWarnings("serial")
@@ -277,7 +267,7 @@ public class GGLCanvas
 	   * 
 	   * @param region  Region to use as clip area.
 	   */
-	  public void setClipArea (Region region)
+	  public void setClipArea (GRegion region)
 	  {
 		  add( new ClipGlAction(region) );
 	  }
@@ -436,7 +426,7 @@ public class GGLCanvas
 	  private class ClipGlAction implements GLAction {
 		 Rect clip;
 		  
-		public ClipGlAction( Region region ) {
+		public ClipGlAction( GRegion region ) {
 			clip = region.getExtent();
 		}
 		  

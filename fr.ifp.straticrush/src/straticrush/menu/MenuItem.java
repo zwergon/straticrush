@@ -1,14 +1,13 @@
 package straticrush.menu;
 
 
-import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.geometry.Region;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GPosition;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
+import fr.ifp.kronosflow.geometry.RectD;
 
 
 public class MenuItem extends GObject {

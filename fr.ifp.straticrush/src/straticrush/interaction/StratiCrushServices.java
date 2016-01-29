@@ -5,15 +5,20 @@ import java.util.concurrent.locks.ReadWriteLock;
 import org.eclipse.swt.widgets.Display;
 
 import no.geosoft.cc.graphics.GWindow;
+import no.geosoft.cc.utils.GParameters;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
+import fr.ifp.jdeform.continuousdeformation.DeformationStyle;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
+import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.style.StyleManager;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
@@ -54,31 +59,39 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	
 	public Deformation createDeformation( String type ){
 		
-		StyleManager styleManager = StyleManager.getInstance();
-		Style style = styleManager.createStyle();
+		
+		Style style = GParameters.getStyle();
+		
+		SceneStyle sceneStyle = new SceneStyle(style);
+		
 		if ( type.equals("Reset") ||
-			 type.equals("ChainMail") ||
-			 type.equals("MassSpring") ||
 			 type.equals("Translate") ||
 			 type.equals("VerticalShear") ||
 			 type.equals("FlexuralSlip") ||
 			 type.equals("MovingLS")){
 			style.setAttribute( Kind.DEFORMATION.toString(), type );
+			sceneStyle.setGridType(GridType.LINE);
+			sceneStyle.setNatureType(NatureType.EXPLICIT);
 		}
 		else {
-			style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );
-			if ( type.equals("StaticFEASolver") ){
-				style.setAttribute( Kind.SOLVER.toString(), "ImplicitStatic" );
+			sceneStyle.setGridType(GridType.GRID2D);
+			sceneStyle.setNatureType(NatureType.IMPLICIT);
+			
+			if ( !type.equals("ChainMail") && !type.equals("MassSpring") ){
+				style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );
+				if ( type.equals("StaticFEASolver") ){
+					style.setAttribute( Kind.SOLVER.toString(), "ImplicitStatic" );
+				}
+				else {
+					style.setAttribute( Kind.SOLVER.toString(), "ImplicitDynamic" );
+				}
 			}
 			else {
-				style.setAttribute( Kind.SOLVER.toString(), "ImplicitDynamic" );
+				style.setAttribute( Kind.DEFORMATION.toString(), type );
 			}
 		}
 	
-	
 		Deformation deformation = (Deformation)DeformationFactory.getInstance().createDeformation(style);
-		
-		styleManager.deleteStyle(style);
 		
 		return deformation;
 	}
@@ -91,10 +104,9 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	public void setSection( Section section ){
 		this.section = section;
 	}
-
+	
 	@Override
-	public void handleEvents( ControllerEventList eventList ) {
-		
+	public void handleEvents(ControllerEventList eventList) {
 		//test if one Move Event to trigger view redraw.
 		IControllerEvent<?> moveEvent = null;
 		for( IControllerEvent<?> event : eventList ){
@@ -105,6 +117,15 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 		}
 		
 		notifyViews( moveEvent );
+		
+	}
+
+	@Override
+	public void handleEvents( 
+			ControllerEventList eventList, 
+			boolean forceRefresh ) {
+		
+		handleEvents(eventList);
 		
 	}
 	
@@ -123,7 +144,6 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 		
 	}
 
-
-
+	
 
 }

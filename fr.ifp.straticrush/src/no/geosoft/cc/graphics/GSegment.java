@@ -7,10 +7,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import no.geosoft.cc.utils.GRegion;
 import fr.ifp.kronosflow.geometry.Box;
 import fr.ifp.kronosflow.geometry.Geometry;
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 
@@ -222,9 +222,9 @@ public class GSegment
    * 
    * @return  Region of this GSegment includings its sub components.
    */
-  Region getRegion()
+  GRegion getRegion()
   {
-    Region region = new Region();
+    GRegion region = new GRegion();
 
     // First add geometry part
     if (rectangle_ != null)
@@ -685,9 +685,9 @@ public class GSegment
    * @param positionals  Positionals to find region of.
    * @return             Region of specified positionals.
    */
-  private Region findRegion (Collection<? extends GPositional> positionals)
+  private GRegion findRegion (Collection<? extends GPositional> positionals)
   {
-    Region region = new Region();
+    GRegion region = new GRegion();
 
     for (Iterator<?> i = positionals.iterator(); i.hasNext(); ) {
       GPositional positional = (GPositional)i.next();

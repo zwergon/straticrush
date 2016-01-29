@@ -2,26 +2,19 @@ package no.geosoft.cc.graphics.awt;
 
 
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.TexturePaint;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
@@ -33,30 +26,31 @@ import java.awt.event.MouseWheelListener;
 import java.awt.font.TextLayout;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.swing.JComponent;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.RepaintManager;
 
-import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GComponent;
-import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.cc.io.GifEncoder;
+import no.geosoft.cc.utils.GRegion;
+import fr.ifp.kronosflow.geometry.Rect;
 
 
 
@@ -266,7 +260,7 @@ public class GAwtCanvas extends JComponent
    * 
    * @param region  Region to use as clip area.
    */
-  public void setClipArea (Region region)
+  public void setClipArea (GRegion region)
   {
     clipArea_ = region == null || region.isEmpty() ? null : createArea(region);
   }
@@ -831,7 +825,7 @@ public class GAwtCanvas extends JComponent
    * 
    * @return  Area equivalent of this rectangle.
    */
-  public java.awt.geom.Area createArea( Region region )
+  public java.awt.geom.Area createArea( GRegion region )
   {
 	  
 	  int nRectangles = region.getNRectangles();

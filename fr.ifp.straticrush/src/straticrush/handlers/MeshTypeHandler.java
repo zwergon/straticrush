@@ -10,6 +10,7 @@ public class MeshTypeHandler {
 	@Execute
 	public void execute( MHandledItem handledItem ) {
 		
+		/*
 		if ( handledItem.getElementId().equals("straticrush.handledmenuitem.line.grid") ){
 			ModelFactory.setFactoryType("LineGridImplicit");
 		}
@@ -18,7 +19,7 @@ public class MeshTypeHandler {
 		}
 		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.grid.grid") ){
 			ModelFactory.setFactoryType("GridGridImplicit");
-		}
+		}*/
 
 
 		

@@ -136,7 +136,7 @@ public class SectionPart  {
 	      
 	      LOGGER.debug("load " + basename , this.getClass() );
 	      
-	      section = new GeoschedulerSection();
+	      section = new GeoschedulerSection(basename);
 	      
 	      StratiCrushServices.getInstance().setSection(section);
 	      

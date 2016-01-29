@@ -9,11 +9,13 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
+import no.geosoft.cc.utils.GParameters;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.view.PatchView;
 import fr.ifp.jdeform.controllers.DeformEvent;
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.jdeform.dummy.SvgExportPolylines;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
@@ -54,12 +56,7 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
-			
-		
-		Geoscheduler scheduler = getScheduler();
-		link = new GeoschedulerLink( 
-				scheduler.getCurrent(), 
-				StratiCrushServices.getInstance().createDeformationCaller() );
+		link = new GeoschedulerLink( StratiCrushServices.getInstance().createDeformationCaller() );
 	
 	}
 	
@@ -129,7 +126,7 @@ public abstract class DeformationInteraction implements GInteraction {
 					//caller.revert();
 					
 					caller.clear();
-					caller.setPatch(patch);
+					caller.setScene( SceneBuilder.createDefaultScene(patch, GParameters.getStyle() ) );
 					
 					manipulator = createManipulator( scene, caller );
 					if ( !manipulator.isActive() ){
@@ -249,8 +246,9 @@ public abstract class DeformationInteraction implements GInteraction {
 			case GKeyEvent.VK_P:
 				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
 					 ( moveJob == null ) ){	
+					Section section = StratiCrushServices.getInstance().getSection();
 					SvgExportPolylines exporter = new SvgExportPolylines("/tmp/section.svg");
-					for( Patch patch : getCaller().getPatch().getPatchLibrary().getPatches() ){
+					for( Patch patch : section.getPatchLibrary().getPatches() ){
 						exporter.add(patch.getBorder(),null,50,null);
 					}
 					exporter.export();

@@ -1,6 +1,17 @@
 package no.geosoft.cc.graphics.swt;
 
 
+import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GFont;
+import no.geosoft.cc.graphics.GImage;
+import no.geosoft.cc.graphics.GMouseEvent;
+import no.geosoft.cc.graphics.GSegment;
+import no.geosoft.cc.graphics.GStyle;
+import no.geosoft.cc.graphics.GText;
+import no.geosoft.cc.graphics.GWindow;
+import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -16,16 +27,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
-import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GFont;
-import no.geosoft.cc.graphics.GImage;
-import no.geosoft.cc.graphics.GSegment;
-import no.geosoft.cc.graphics.GStyle;
-import no.geosoft.cc.graphics.GText;
-import no.geosoft.cc.graphics.GWindow;
-import no.geosoft.cc.interfaces.ICanvas;
 
 public class GSwtCanvas  extends Composite 
 implements ICanvas,
@@ -106,7 +107,7 @@ MouseMoveListener {
 	}
 
 	@Override
-	public void setClipArea(Region damageRegion) {
+	public void setClipArea(GRegion damageRegion) {
 		Rect clip = damageRegion.getExtent();
 		gc.setClipping(clip.x, clip.y, clip.width, clip.height);
 

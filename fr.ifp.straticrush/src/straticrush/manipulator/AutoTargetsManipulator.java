@@ -7,8 +7,8 @@ import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
 import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.continuousdeformation.IRigidItem;
-import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.items.LinePairingItem;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
@@ -84,6 +84,7 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 			items.add( item );*/
 		}
 
+		Patch selectedPatch = deformationCaller.getScene().getSelected();
 		rigidItems.add(new TranslateItem(selectedPatch, Vector2D.substract(prev, start)));
 
 		// then restore initial geometry

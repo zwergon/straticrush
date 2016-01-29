@@ -32,7 +32,7 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends GObject implements IViewListener {
 	
-	boolean withPatchGrid = true;
+	boolean withPatchGrid = false;
 	
 	Deformation deformation = null;
 	

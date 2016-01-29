@@ -8,9 +8,9 @@ import no.geosoft.cc.graphics.GScene;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
 import fr.ifp.jdeform.continuousdeformation.IRigidItem;
-import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Vector2D;
@@ -25,9 +25,7 @@ import fr.ifp.kronosflow.model.PolyLineGeometry;
 public abstract class CompositeManipulator implements IStratiManipulator {
 	
 	protected GScene gscene;
-	
-	Patch selectedPatch;
-	
+		
 	protected GPatchObject selectedPatchGraphic;
 	
 	double[] start;
@@ -53,6 +51,7 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		
 		translateController = new TranslationController();
 		translateController.setScene(caller.getScene());
+		
 
 	}
 	

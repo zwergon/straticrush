@@ -4,7 +4,6 @@ import no.geosoft.cc.graphics.GScene;
 import straticrush.manipulator.AutoTargetsManipulator;
 import straticrush.manipulator.CompositeManipulator;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.controllers.Scene;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 
 public class TopBorderInteraction extends DeformationInteraction {

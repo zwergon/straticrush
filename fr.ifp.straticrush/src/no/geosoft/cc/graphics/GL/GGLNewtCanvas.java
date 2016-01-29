@@ -19,17 +19,11 @@ import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.opengl.GLCanvas;
-import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
@@ -41,16 +35,12 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLContext;
-import com.jogamp.opengl.GLDrawable;
-import com.jogamp.opengl.GLDrawableFactory;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 public class GGLNewtCanvas 
@@ -276,7 +266,7 @@ public class GGLNewtCanvas
 	   * 
 	   * @param region  Region to use as clip area.
 	   */
-	  public void setClipArea (Region region)
+	  public void setClipArea (GRegion region)
 	  {
 		  add( new ClipGlAction(region) );
 	  }
@@ -430,7 +420,7 @@ public class GGLNewtCanvas
 	  private class ClipGlAction implements GLAction {
 		 Rect clip;
 		  
-		public ClipGlAction( Region region ) {
+		public ClipGlAction( GRegion region ) {
 			clip = region.getExtent();
 		}
 		  

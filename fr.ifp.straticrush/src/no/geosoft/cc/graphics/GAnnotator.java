@@ -5,9 +5,9 @@ package no.geosoft.cc.graphics;
 import java.util.Collection;
 import java.util.Iterator;
 
+import no.geosoft.cc.utils.GRegion;
 import fr.ifp.kronosflow.geometry.Geometry;
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 import fr.ifp.kronosflow.geometry.Vector2D;
 
 
@@ -24,7 +24,7 @@ class GAnnotator
   private static final double  DLENGTH     = 8.0;
     
   private final GScene  scene_;   
-  private final Region  region_;  // Annotation region
+  private final GRegion  region_;  // Annotation region
 
   // Precomputed viewport numbers for speed
   private int     vx0_, vy0_;
@@ -46,7 +46,7 @@ class GAnnotator
    */
   GAnnotator (GScene scene)
   {
-    region_  = new Region();
+    region_  = new GRegion();
     scene_ = scene;
   }
 

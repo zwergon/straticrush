@@ -19,10 +19,9 @@ import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.GRegion;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -46,7 +45,6 @@ import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 
 import fr.ifp.kronosflow.geometry.Rect;
-import fr.ifp.kronosflow.geometry.Region;
 
 
 public class GGLSwtCanvas extends Composite 
@@ -288,7 +286,7 @@ public class GGLSwtCanvas extends Composite
 	   * 
 	   * @param region  Region to use as clip area.
 	   */
-	  public void setClipArea (Region region)
+	  public void setClipArea (GRegion region)
 	  {
 		  add( new ClipGlAction(region) );
 	  }
@@ -444,7 +442,7 @@ public class GGLSwtCanvas extends Composite
 	  private class ClipGlAction implements GLAction {
 		 Rect clip;
 		  
-		public ClipGlAction( Region region ) {
+		public ClipGlAction( GRegion region ) {
 			clip = region.getExtent();
 		}
 		  
