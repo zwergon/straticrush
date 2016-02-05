@@ -44,8 +44,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 			LinePairingItem item = new PatchIntersectionItem(selectedHorizon, I);
 			items.add(item);
 		}
-
-		
+				
 		Patch selectedPatch = deformationCaller.getScene().getSelected();
 		rigidItems.add(new TranslateItem(selectedPatch, Vector2D.substract(prev, start)));
 

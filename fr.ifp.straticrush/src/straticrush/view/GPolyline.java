@@ -64,9 +64,7 @@ public class GPolyline extends GSegment implements IUpdateGeometry {
 		double[] w_pt = new double[2];
 		
 		int i = 0;
-		Iterator<ICurviPoint> itr = line.iterator();
-		while( itr.hasNext() ){
-			ICurviPoint tp = itr.next();
+		for( ICurviPoint tp : pts ){
 			line.getPosition(tp, w_pt);
 			xpts[i] = w_pt[0];
 			ypts[i] = w_pt[1];

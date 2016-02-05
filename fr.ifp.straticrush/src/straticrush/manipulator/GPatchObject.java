@@ -32,9 +32,11 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends GObject implements IViewListener {
 	
-	boolean withPatchGrid = false;
+	boolean withPatchGrid = true;
 	
 	Deformation deformation = null;
+	
+	
 	
 	public GPatchObject(){
 		super("Interaction");

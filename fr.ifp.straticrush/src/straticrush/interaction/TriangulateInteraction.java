@@ -73,8 +73,8 @@ public class TriangulateInteraction implements GInteraction {
 			this.bbox = border.getBoundingBox();
 			
 			removeSegments();
-			triangulation = new Triangulation( border );
-			triangulation.execute();
+			triangulation = new Triangulation();
+			triangulation.execute(border.getPoints2D());
 					
 			Collection<IHandle> triangles = triangulation.getCells();
 			System.out.println("n triangles " + triangles.size() );
