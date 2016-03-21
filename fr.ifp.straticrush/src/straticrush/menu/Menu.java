@@ -142,7 +142,7 @@ public class Menu extends GScene implements IMenuItemAction {
 			Class<?> c = entry.getKey();
 			if ( nElt == 1 ){
 				KinObject child = (KinObject) object.findObject(c);
-				if ( child.getName().isEmpty() ){
+				if ( (child.getName() == null) || child.getName().isEmpty() ){
 					child.setName( c.getSimpleName()  );
 				}
 				

@@ -25,3 +25,5 @@ Require-Bundle: javax.inject,
  fr.ifp.kronosflow.geoscheduler,
  fr.ifp.kronosflow.events
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: .,
+ jars/mysql-connector-java-5.1.38-bin.jar

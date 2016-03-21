@@ -11,22 +11,37 @@
  *******************************************************************************/
 package straticrush.handlers;
 
-import org.eclipse.e4.core.di.annotations.CanExecute;
+import static java.lang.System.currentTimeMillis;
+
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
+import straticrush.archive.DBArchiver;
+import straticrush.archive.DBStub;
+import straticrush.interaction.StratiCrushServices;
+
 public class SaveHandler {
 
-	@CanExecute
-	public boolean canExecute(EPartService partService) {
-		if (partService != null) {
-			return !partService.getDirtyParts().isEmpty();
-		}
-		return false;
-	}
+	private static void withinTimer(String name, Runnable runnable) {
+        final long start = currentTimeMillis();
+        runnable.run();
+        System.out.printf("%20s: %d ms\n", name, currentTimeMillis() - start);
+    }
+
 
 	@Execute
 	public void execute(EPartService partService) {
-		partService.saveAll(false);
+		withinTimer( "save Section", new Runnable( ){
+			@Override
+			public void run() {
+				DBArchiver archiver = new DBArchiver();
+				archiver.open();
+				archiver.write( new DBStub(StratiCrushServices.getInstance().getSection()) );
+				archiver.close();
+				
+			}
+		});
+		
+		
 	}
 }
