@@ -1,0 +1,42 @@
+
+drop table if exists KinObjects, IPolylines, ICurviPoints, Nodes;
+
+create table KinObjects( 
+	Id BIGINT PRIMARY KEY NOT NULL, 
+	parentId BIGINT, 
+        Class VARCHAR(64), 
+	Style LONGTEXT 
+	) ENGINE="myISAM";
+
+create table IPolylines(
+ 	Id BIGINT PRIMARY KEY NOT NULL, 
+	parentId BIGINT, 
+        Class VARCHAR(64),
+	featureId BIGINT,
+	closed BOOLEAN, 
+	s1 FLOAT,
+	s2 FLOAT,
+	e1 BIGINT,
+	e2 BIGINT,
+	mesh BIGINT,
+	FOREIGN KEY(parentId) REFERENCES KinObjects(Id) ON DELETE CASCADE 
+	) ENGINE= "myISAM";
+
+create table ICurviPoints( 
+	Id BIGINT PRIMARY KEY NOT NULL, 
+	parentId BIGINT, 
+	Class VARCHAR(64) NOT NULL, 
+	Curvilinear FLOAT, 
+	CoordType INT, 
+	FOREIGN KEY(parentId) REFERENCES KinObjects(Id) ON DELETE CASCADE 
+	) ENGINE="myISAM";
+
+create table Nodes( 
+	Id BIGINT PRIMARY KEY NOT NULL, 
+	parentId BIGINT, 
+	Class VARCHAR(64), 
+	ORIX FLOAT, ORIZ FLOAT, 
+	X FLOAT, Z FLOAT, 
+	Idx BIGINT,
+	FOREIGN KEY(parentId) REFERENCES KinObjects(Id) ON DELETE CASCADE ) ENGINE="myISAM";
+
