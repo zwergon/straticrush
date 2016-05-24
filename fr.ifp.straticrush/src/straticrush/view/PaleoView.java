@@ -13,9 +13,9 @@ public class PaleoView extends View {
 	GPolyline gline = null;
 	
 	@Override
-	public void setUserData (Object object)
+	public void setModel (Object object)
 	{
-		super.setUserData( object );
+		setUserData( object );
 		
 		createGSegment( (Paleobathymetry)object );	
 	}

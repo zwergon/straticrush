@@ -1024,4 +1024,15 @@ public class GSegment
   {
     updateStyle();
   }
+  
+  
+  /**
+   * return tooltip to be displayed.
+   * no tooltip by default, return null.
+   * Override this method to defined a tooltip for your GSegment.
+   * @return
+   */
+  public GTooltipInfo getTooltipInfo(){
+	  return null;
+  }
 }

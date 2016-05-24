@@ -8,6 +8,8 @@ import no.geosoft.cc.graphics.GStyle;
 
 
 public abstract class View extends GObject implements IViewListener {
+	
+		
 
 	public void useSelectedStyle(){
 		GStyle gstyle = getStyle();
@@ -27,12 +29,13 @@ public abstract class View extends GObject implements IViewListener {
 	public void destroy() {
 		StratiCrushServices.getInstance().removeListener(this);	
 	}
-
+	
 	@Override
-	public void setUserData (Object object)
-	{
-		super.setUserData(object);
+	public void setUserData( Object userData ) {
+		super.setUserData(userData);
 		StratiCrushServices.getInstance().addListener(this);	
 	}
 	
+	public abstract void setModel( Object object );
+
 }

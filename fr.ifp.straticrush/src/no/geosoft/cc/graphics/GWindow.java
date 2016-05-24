@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.management.timer.TimerMBean;
 
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.cc.utils.GRegion;
 import no.geosoft.graphics.factory.GFactory;
 import fr.ifp.kronosflow.geometry.Geometry;
+import fr.ifp.kronosflow.utils.LOGGER;
 
 
 
@@ -39,7 +43,7 @@ import fr.ifp.kronosflow.geometry.Geometry;
  * 
  * @author <a href="mailto:jacob.dreyer@geosoft.no">Jacob Dreyer</a>
  */   
-public class GWindow
+public class GWindow implements ITooltipAction
 {
  
   private final ICanvas  canvas_;
@@ -53,8 +57,11 @@ public class GWindow
   private boolean       isResizing = false;
   
   private ReadWriteLock lock = new ReentrantReadWriteLock();
-
-
+  
+  
+  GTooltipTimer timer;
+  
+  
   
   /**
    * Create a new graphic window with the specified background color.
@@ -80,6 +87,9 @@ public class GWindow
     // Cannot set 0 initially as resize is computed relative to current
     width_  = 500;
     height_ = 500;
+    
+    timer = null;
+    
   }
 
 
@@ -441,8 +451,16 @@ public class GWindow
    */
   public void mouseEntered (int x, int y)
   {
+	  
+	  if ( null == timer ){
+		  timer = new GTooltipTimer();
+		  timer.setAction(this);
+		  timer.setPos(x, y);
+		  timer.start();
+	  }
     if (interaction_ == null) return;
     interaction_.event (getScene (x, y), new GMouseEvent( GMouseEvent.FOCUS_IN, x, y ) );
+    
   }
 
 
@@ -456,8 +474,21 @@ public class GWindow
    */
   public void mouseExited (int x, int y)
   {
-    if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.FOCUS_OUT, x, y) );
+	 
+	  if (interaction_ == null) return;
+	  interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.FOCUS_OUT, x, y) );
+	  
+	  try {
+		  if ( ( timer != null ) && ( timer.isAlive() ) ){
+			  timer.canStop();
+			  timer.wait();
+		  }
+	  }
+	  catch(Exception ex ){
+	  }
+	  finally {
+		  timer = null;
+	  }
   }
 
 
@@ -470,6 +501,11 @@ public class GWindow
    */
   public void mousePressed ( GMouseEvent event )
   {
+	  if ( timer != null ){
+		  timer.reset();
+		  timer.setPos(event.x, event.y);
+	  }
+	
     if (interaction_ == null) return;
     interactionScene_ = getScene (event.x, event.y);
     interaction_.event (interactionScene_, event );
@@ -485,8 +521,15 @@ public class GWindow
    */
   public void mouseReleased ( GMouseEvent event )
   {
+	  
+	  if ( timer != null ){
+		  timer.reset();
+	  }
+	  
     if (interaction_ == null) return;
     interaction_.event (interactionScene_,  event );
+    
+    
   }
 
   
@@ -499,7 +542,11 @@ public class GWindow
    * @param event trigging this method.
    */
   public void mouseDragged ( GMouseEvent event )
-  {
+  { 
+	  if ( timer != null ){
+		  timer.reset();
+	  }
+	  
     if (interaction_ == null) return;
     interaction_.event (interactionScene_, event );
   }
@@ -513,12 +560,22 @@ public class GWindow
    */
   public void wheelMoved ( GMouseEvent event )
   {
+	  
+	  if ( timer != null ){
+		  timer.reset();
+	  }
+  
 	  if (interaction_ == null) return;
 	  interaction_.event (interactionScene_, event );
   }
 
 
   public void keyPressed( GKeyEvent event ){
+
+	  if ( timer != null ){
+		  timer.reset();
+	  }
+	  
 	  if ( interaction_ == null ) return;
 	  interaction_.keyEvent( event);
   }
@@ -533,8 +590,15 @@ public class GWindow
    */
   public void mouseMoved (int x, int y)
   {
-    if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.MOTION, x, y) );
+
+	  if (interaction_ == null) return;
+	  interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.MOTION, x, y) );
+	  
+	  if ( timer != null ){
+		  timer.reset();
+		  timer.setPos(x,y);
+	  }
+	  
   }
 
 
@@ -613,4 +677,29 @@ public class GWindow
   {
     //TODO canvas_.saveAsGif (file);
   }
+
+
+
+  @Override
+  public void show(int x, int y) {
+	  
+	  GScene scene = getScene(x, y);
+	  if ( scene != null ) {
+		  GSegment segment = scene.findSegment(x, y);
+		  if ( segment != null ){
+			  GTooltipInfo info = segment.getTooltipInfo();
+			  if ( info != null ){
+				  LOGGER.debug( info.getInfo(), getClass() ); 
+			  }
+		  }
+	  }
+	  
+
+  }
+
+  @Override
+  public void hide() {
+	  //LOGGER.debug("Hide tooltip ", getClass() );
+  }
+
 }

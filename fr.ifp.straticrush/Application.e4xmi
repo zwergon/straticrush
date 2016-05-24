@@ -9,9 +9,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54v-gEeSzbZWfsvr3zw" label="Quit" iconURI="platform:/plugin/StratiCrush/icons/stock-quit.png" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_wyzfUARUEeWewIwgHRqGcQ" elementId="straticrush.menu.data" label="Data" iconURI="platform:/plugin/StratiCrush/icons/geogrid.gif">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_0egVAARUEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.trgl.trgl" label="TrglTrgl" type="Radio" command="_78nFUARUEeWewIwgHRqGcQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_CPs0AARVEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.line.grid" label="LineGrid" selected="true" type="Radio" command="_78nFUARUEeWewIwgHRqGcQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_hrY-0ARVEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.grid.grid" label="GridGrid" type="Radio" command="_78nFUARUEeWewIwgHRqGcQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_0egVAARUEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.freefem" label="FreeFem" command="_78nFUARUEeWewIwgHRqGcQ"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_JHzD0AMOEeWQfLK62v5NBw" label="Deform" iconURI="platform:/plugin/StratiCrush/icons/translate.gif" tooltip="Select on mode of deformation">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ppOKMCCzEeWmaIR2kdljOA" elementId="straticrush.handledmenuitem.parameters" label="Options" command="_xyxEMCCzEeWmaIR2kdljOA"/>
@@ -67,6 +65,9 @@
         </children>
       </children>
       <children xsi:type="menu:MenuSeparator" xmi:id="_RySqkAMVEeWQfLK62v5NBw" elementId="straticrush.menuseparator.0"/>
+      <children xsi:type="menu:Menu" xmi:id="_8TdqQCGlEeaRcv2wtMGulg" elementId="straticrush.menu.properties" label="Properties">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_AxHhUCGmEeaRcv2wtMGulg" elementId="straticrush.handledmenuitem.properties.surface" label="Surface" command="_IMPPECGmEeaRcv2wtMGulg"/>
+      </children>
       <children xsi:type="menu:Menu" xmi:id="_OmJ54_-gEeSzbZWfsvr3zw" label="Help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ55P-gEeSzbZWfsvr3zw" label="About" command="_OmJS5v-gEeSzbZWfsvr3zw"/>
       </children>
@@ -98,6 +99,7 @@
   <handlers xmi:id="_NMpBAAMIEeWQfLK62v5NBw" elementId="straticrush.handler.oneone" contributionURI="bundleclass://StratiCrush/straticrush.handlers.OneOneHandler" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
   <handlers xmi:id="_QcebwARVEeWewIwgHRqGcQ" elementId="straticrush.handler.mesh.type" contributionURI="bundleclass://StratiCrush/straticrush.handlers.MeshTypeHandler" command="_78nFUARUEeWewIwgHRqGcQ"/>
   <handlers xmi:id="_4DATMCCzEeWmaIR2kdljOA" elementId="straticrush.handler.parameters" contributionURI="bundleclass://StratiCrush/straticrush.handlers.ParametersHandler" command="_xyxEMCCzEeWmaIR2kdljOA"/>
+  <handlers xmi:id="_M4kbUCGmEeaRcv2wtMGulg" elementId="straticrush.handler.properties" contributionURI="bundleclass://StratiCrush/straticrush.handlers.PropertiesHandler" command="_IMPPECGmEeaRcv2wtMGulg"/>
   <bindingTables xmi:id="_OmJS3v-gEeSzbZWfsvr3zw" bindingContext="_OmJS2f-gEeSzbZWfsvr3zw">
     <bindings xmi:id="_OmJS3_-gEeSzbZWfsvr3zw" keySequence="M1+Q" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
     <bindings xmi:id="_OmJS4v-gEeSzbZWfsvr3zw" keySequence="M1+O" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
@@ -124,6 +126,7 @@
     <parameters xmi:id="_-AGAAARUEeWewIwgHRqGcQ" elementId="straticrush.commandparameter.meshtype" name="meshType"/>
   </commands>
   <commands xmi:id="_xyxEMCCzEeWmaIR2kdljOA" elementId="straticrush.command.parameters" commandName="ParametersCommand"/>
+  <commands xmi:id="_IMPPECGmEeaRcv2wtMGulg" elementId="straticrush.command.properties" commandName="PropertiesCommand"/>
   <addons xmi:id="_OmJS0v-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_OmJS0_-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_OmJS1P-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

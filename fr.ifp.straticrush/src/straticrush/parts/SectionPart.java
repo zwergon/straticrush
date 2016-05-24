@@ -192,5 +192,33 @@ public class SectionPart  {
 	      
 	      window_.startInteraction( interaction );
 	  }
+
+	public void loadMesh(String basename) {
+		 LOGGER.debug("load " + basename , this.getClass() );
+	      
+	      section = new GeoschedulerSection(basename);
+	      
+	      StratiCrushServices.getInstance().setSection(section);
+	      
+	      PatchLibrary patchLib = section.getPatchLibrary();
+	      
+	      MeshObjectFactory.createDummyMesh( basename + ".msh", section);
+	      
+	      Plot plot = getPlot();
+	      plot.removeAll();
+
+	      // Create a graphic object
+	      for( Patch patch : patchLib.getPatches() ){
+	          ViewFactory.getInstance().createView( plot, patch );   
+	      }
+
+	      ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+
+	      RectD bbox = patchLib.getBoundingBox();
+	      plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
+	      
+	      window_.update();
+		
+	}
 	  
 }

@@ -29,13 +29,12 @@ public class PatchView extends View {
 	Mesh2D mesh = null;
 	
 	public PatchView(){
-		
 	}
 	
 	@Override
-	public void setUserData (Object object)
+	public void setModel (Object object)
 	{
-		super.setUserData( object );
+		setUserData( object );
 	
 		Patch patch = (Patch)object;
 		

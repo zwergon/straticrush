@@ -13,9 +13,9 @@ public class ContactView extends View {
 	private GInterval gline;
 	
 
-	public void setUserData (Object object)
+	public void setModel (Object object)
 	{
-		super.setUserData( object );
+		setUserData( object );
 		
 		Contact contact = (Contact)getUserData();
 

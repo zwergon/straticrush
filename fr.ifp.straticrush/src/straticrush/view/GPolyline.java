@@ -25,8 +25,7 @@ public class GPolyline extends GSegment implements IUpdateGeometry {
 	
 	@Override
 	public boolean canDeform() {
-		// TODO Auto-generated method stub
-		return false;
+		return enabledDeformation;
 	}
 	
 	public void enableDeformation( boolean canDeform ){
