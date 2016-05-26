@@ -149,12 +149,22 @@ public class GGLSwtCanvas extends Composite
 	};
 	
 	@Override
+	public int getX() {
+		Rectangle rectangle = glcanvas.getClientArea();
+		return rectangle.x;
+	}
+
+	@Override
+	public int getY() {
+		Rectangle rectangle = glcanvas.getClientArea();
+		return rectangle.y;
+	}
+	
+	@Override
 	public int getWidth() {
 		Rectangle rectangle = glcanvas.getClientArea();
 		return rectangle.width;
 	}
-
-
 
 	@Override
 	public int getHeight() {

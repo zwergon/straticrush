@@ -1,6 +1,7 @@
 package straticrush.view;
 
 import no.geosoft.cc.graphics.GSegment;
+import no.geosoft.cc.graphics.GTooltipInfo;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
@@ -69,6 +70,13 @@ public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {
 		}
 		setGeometry(xpts, ypts);
 		
+	}
+	
+	@Override
+	public GTooltipInfo getTooltipInfo() {
+		GTooltipInfo info = new GTooltipInfo();
+		info.setInfo( new String( "Cell uid: " + cell.getUID() + "\n toto meuh") );
+		return info;
 	}
 
 

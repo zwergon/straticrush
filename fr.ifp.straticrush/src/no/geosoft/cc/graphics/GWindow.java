@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.management.timer.TimerMBean;
 
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.interfaces.ITooltip;
 import no.geosoft.cc.utils.GRegion;
 import no.geosoft.graphics.factory.GFactory;
 import fr.ifp.kronosflow.geometry.Geometry;
@@ -59,6 +60,7 @@ public class GWindow implements ITooltipAction
   private ReadWriteLock lock = new ReentrantReadWriteLock();
   
   
+  ITooltip tooltip;
   GTooltipTimer timer;
   
   
@@ -451,16 +453,16 @@ public class GWindow implements ITooltipAction
    */
   public void mouseEntered (int x, int y)
   {
-	  
+
 	  if ( null == timer ){
 		  timer = new GTooltipTimer();
 		  timer.setAction(this);
 		  timer.setPos(x, y);
 		  timer.start();
 	  }
-    if (interaction_ == null) return;
-    interaction_.event (getScene (x, y), new GMouseEvent( GMouseEvent.FOCUS_IN, x, y ) );
-    
+	  if (interaction_ == null) return;
+	  interaction_.event (getScene (x, y), new GMouseEvent( GMouseEvent.FOCUS_IN, x, y ) );
+
   }
 
 
@@ -501,14 +503,14 @@ public class GWindow implements ITooltipAction
    */
   public void mousePressed ( GMouseEvent event )
   {
+	  resetTooltip();
 	  if ( timer != null ){
-		  timer.reset();
 		  timer.setPos(event.x, event.y);
 	  }
-	
-    if (interaction_ == null) return;
-    interactionScene_ = getScene (event.x, event.y);
-    interaction_.event (interactionScene_, event );
+
+	  if (interaction_ == null) return;
+	  interactionScene_ = getScene (event.x, event.y);
+	  interaction_.event (interactionScene_, event );
   }
 
 
@@ -521,15 +523,13 @@ public class GWindow implements ITooltipAction
    */
   public void mouseReleased ( GMouseEvent event )
   {
-	  
-	  if ( timer != null ){
-		  timer.reset();
-	  }
-	  
-    if (interaction_ == null) return;
-    interaction_.event (interactionScene_,  event );
-    
-    
+
+	  resetTooltip();
+
+	  if (interaction_ == null) return;
+	  interaction_.event (interactionScene_,  event );
+
+
   }
 
   
@@ -543,9 +543,7 @@ public class GWindow implements ITooltipAction
    */
   public void mouseDragged ( GMouseEvent event )
   { 
-	  if ( timer != null ){
-		  timer.reset();
-	  }
+	  resetTooltip();
 	  
     if (interaction_ == null) return;
     interaction_.event (interactionScene_, event );
@@ -561,9 +559,7 @@ public class GWindow implements ITooltipAction
   public void wheelMoved ( GMouseEvent event )
   {
 	  
-	  if ( timer != null ){
-		  timer.reset();
-	  }
+	  resetTooltip();
   
 	  if (interaction_ == null) return;
 	  interaction_.event (interactionScene_, event );
@@ -572,9 +568,7 @@ public class GWindow implements ITooltipAction
 
   public void keyPressed( GKeyEvent event ){
 
-	  if ( timer != null ){
-		  timer.reset();
-	  }
+	  resetTooltip();
 	  
 	  if ( interaction_ == null ) return;
 	  interaction_.keyEvent( event);
@@ -594,8 +588,8 @@ public class GWindow implements ITooltipAction
 	  if (interaction_ == null) return;
 	  interaction_.event (getScene (x, y), new GMouseEvent(GMouseEvent.MOTION, x, y) );
 	  
+	  resetTooltip();
 	  if ( timer != null ){
-		  timer.reset();
 		  timer.setPos(x,y);
 	  }
 	  
@@ -689,17 +683,31 @@ public class GWindow implements ITooltipAction
 		  if ( segment != null ){
 			  GTooltipInfo info = segment.getTooltipInfo();
 			  if ( info != null ){
-				  LOGGER.debug( info.getInfo(), getClass() ); 
+				  info.setXY(x, y);
+				  
+				  
+				  tooltip = GFactory.createTooltip(this, info);
+				  tooltip.show();
 			  }
 		  }
 	  }
-	  
-
   }
-
+  
   @Override
   public void hide() {
-	  //LOGGER.debug("Hide tooltip ", getClass() );
+	 if ( null != tooltip ){
+		tooltip.hide();
+	 }
   }
 
+  
+  private void resetTooltip(){
+	  if ( ( null != tooltip ) && tooltip.isVisible() ){
+		  tooltip.hide();
+	  }
+	  
+	  if ( timer != null ){
+		  timer.reset();
+	  }
+  }
 }

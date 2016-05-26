@@ -119,16 +119,8 @@ public class PatchView extends View {
 			border.setVertexImage (square);
 		}
 		
-		/*for( PolyLine line : patch.getLines() ){
-			addPolyLine( line, GColor.green );
-		}*/
-		
 		setVisibility( GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE );
 	}
-
-	
-
-
 	
 	protected GSegment addPolyLine( PolyLine line) {
 		
@@ -146,8 +138,7 @@ public class PatchView extends View {
 
 
 	public void updateGeometry() {
-	
-				
+		
 		if ( border == null ){
 			return;
 		}
@@ -157,8 +148,6 @@ public class PatchView extends View {
 				((IUpdateGeometry)segment).updateGeometry();
 			}
 		}
-		
-		
 	}
 	
 	public Patch getObject(){
@@ -166,43 +155,9 @@ public class PatchView extends View {
 	}
 	
 	@Override
-	public void objectChanged( IControllerEvent<?> event ) {
-	
-		
-		
-	/*	
-		 * if a composite changed, test if this is a view associated
-		 * to a patch contained in this composite
-		 
-		
-		if ( event.getObject() instanceof CompositePatch ){
-			CompositePatch composite = (CompositePatch)event.getObject();
-			for( Patch patch : composite.getPatchs() ){
-				if ( patch == getObject() ){
-					updateGeometry();
-					return;
-				}
-			}
-		}
-		
-		 * if the Scene changed, all patches are impacted.
-		 
-		else if ( event.getObject() instanceof Scene ){
-			updateGeometry();
-			
-		}
-		
-		if ( event.getObject() == getObject() ){
-			updateGeometry();
-		}*/
-		
+	public void objectChanged( IControllerEvent<?> event ) {	
 		 updateGeometry();
-		
 	}
-	
-	
-	
-	
 
 	private GSegment addCell(Cell cell, GColor fgColor ) {
 		

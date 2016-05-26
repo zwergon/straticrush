@@ -78,10 +78,20 @@ MouseMoveListener {
 		}
 	}
 	
-	 @Override
-	  public void setBackgroundColor(GColor color) {
-		  //TODO set background color
-	  };
+	@Override
+	public void setBackgroundColor(GColor color) {
+		//TODO set background color
+	};
+
+	@Override
+	public int getX() {
+		return getClientArea().x;
+	}
+
+	@Override
+	public int getY() {
+		return getClientArea().y;
+	}
 
 	@Override
 	public int getWidth() {

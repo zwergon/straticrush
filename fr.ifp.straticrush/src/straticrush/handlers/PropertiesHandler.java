@@ -5,9 +5,9 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
 import org.eclipse.swt.widgets.Shell;
 
-import fr.ifp.kronosflow.properties.PropertyComputer;
-import fr.ifp.kronosflow.properties.SurfacePropertyComputer;
+import straticrush.interaction.StratiCrushServices;
 import straticrush.parts.SectionPart;
+import fr.ifp.kronosflow.property.controllers.PropertyControllerCaller;
 
 public class PropertiesHandler {
 	
@@ -15,14 +15,15 @@ public class PropertiesHandler {
 	public void execute(Shell shell, MPart part, MHandledItem handledItem ){
 	    
 		
-		SectionPart sectionPart = (SectionPart)part.getObject();
-		
-		PropertyComputer computer = null;
+		PropertyControllerCaller caller = new PropertyControllerCaller( StratiCrushServices.getInstance() );
 		if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.surface") ){
-			computer = new SurfacePropertyComputer( sectionPart.getSection() );
+			caller.setPropertyKey("Surface");
 		}
 		
-		computer.compute();
+		caller.applyAndNotify();
+		
+		 SectionPart sectionPart = (SectionPart)part.getObject();
+		 sectionPart.getPlot().refresh();
 
 	}
 

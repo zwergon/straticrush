@@ -114,6 +114,16 @@ public class GGLCanvas
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public int getX() {
+		return glCanvas.getBounds().x;
+	}
+
+	@Override
+	public int getY() {
+		return glCanvas.getBounds().x;
+	}
 
 	@Override
 	public int getWidth() {

@@ -1,5 +1,7 @@
 package straticrush.interaction;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 
 import org.eclipse.swt.widgets.Display;
@@ -14,6 +16,7 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
+import fr.ifp.kronosflow.controllers.handlers.RefreshSummary;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
@@ -106,17 +109,18 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	}
 	
 	@Override
-	public void handleEvents(ControllerEventList eventList) {
+	public void handleEvents( ControllerEventList eventList ) {
 		//test if one Move Event to trigger view redraw.
-		IControllerEvent<?> moveEvent = null;
+		
+		Map< EnumEventAction, IControllerEvent<?> > summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
+		
 		for( IControllerEvent<?> event : eventList ){
-			if ( event.getEventAction() == EnumEventAction.MOVE ){
-				moveEvent = event;
-				break;
-			}
+			summary.put(  event.getEventAction(), event );
 		}
 		
-		notifyViews( moveEvent );
+		for( IControllerEvent<?> event : summary.values() ){
+			notifyViews(event);
+		}
 		
 	}
 
@@ -124,26 +128,8 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	public void handleEvents( 
 			ControllerEventList eventList, 
 			boolean forceRefresh ) {
-		
 		handleEvents(eventList);
-		
 	}
-	
-	class NotifyRunnable implements Runnable {
-		IControllerEvent<?> moveEvent;
-		
-		
-		public NotifyRunnable(IControllerEvent<?> moveEvent) {
-			this.moveEvent = moveEvent;
-		}
-
-		@Override
-		public void run() {
-			notifyViews( moveEvent );
-		}
-		
-	}
-
 	
 
 }

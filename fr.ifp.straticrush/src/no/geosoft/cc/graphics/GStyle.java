@@ -75,7 +75,7 @@ public class GStyle
   private static final int  MASK_CAPSTYLE        = 1 << 6;
   private static final int  MASK_JOINSTYLE       = 1 << 7;
   private static final int  MASK_ANTIALIAS       = 1 << 8;
-  private static final int  MASK_GRADIENT        = 1 << 9;
+  private static final int  MASK_COLORMAP        = 1 << 9;
 
   public static final int   LINESTYLE_SOLID      = 1;
   public static final int   LINESTYLE_DASHED     = 2;
@@ -96,8 +96,8 @@ public class GStyle
   private final Collection     listeners_;
 
   private int            validMask_;
-  private GColor          foregroundColor_;
-  private GColor          backgroundColor_;  
+  private GColor         foregroundColor_;
+  private GColor         backgroundColor_;  
   private int            lineWidth_;
   private float          dashPattern_[];
   private float          dashOffset_;
@@ -113,9 +113,7 @@ public class GStyle
   private int            joinStyle_;
   private float          miterLimit_;
   private boolean        isAntialiased_;
-  private GColor          gradientColor1_;
-  private GColor          gradientColor2_;  
-
+  private GColorMap      colormap_;
   
 
   /**
@@ -144,8 +142,7 @@ public class GStyle
     dashOffset_      = (float) 0.0;
     isLineVisible_   = true;
     isAntialiased_   = true;
-    gradientColor1_  = null;
-    gradientColor2_  = null;
+    colormap_        = null;
   }
 
 
@@ -206,8 +203,8 @@ public class GStyle
     style.dashOffset_     = dashOffset_;
     style.isLineVisible_  = isLineVisible_;
     style.isAntialiased_  = isAntialiased_;
-    style.gradientColor1_ = gradientColor1_;
-    style.gradientColor2_ = gradientColor2_;
+    style.colormap_       = new GColorMap();
+    style.colormap_.initFrom(colormap_);
     
     return style;
   }
@@ -249,8 +246,8 @@ public class GStyle
       setJoinStyle (style.joinStyle_);
     if (style.isValid (MASK_ANTIALIAS))
       setAntialiased (style.isAntialiased_);
-    if (style.isValid (MASK_GRADIENT))
-      setGradient (style.gradientColor1_, style.gradientColor2_);
+    if (style.isValid (MASK_COLORMAP))
+      setColormap (style.colormap_);
   }
 
 
@@ -611,16 +608,12 @@ public class GStyle
   
 
   /**
-   * TODO: This code is experimental and should not yet be used.
    * 
-   * @param color1
-   * @param color2
    */
-  public void setGradient (GColor color1, GColor color2)
+  public void setColormap ( GColorMap colormap )
   {
-    gradientColor1_ = color1;
-    gradientColor2_ = color2;
-    setValid (MASK_GRADIENT);
+    colormap_ = colormap;
+    setValid (MASK_COLORMAP);
 
     paint_ = null;
     
@@ -632,7 +625,7 @@ public class GStyle
   
   public void unsetGradient()
   {
-    setInvalid (MASK_GRADIENT);
+    setInvalid (MASK_COLORMAP);
 
     // Notify all owners
     notifyListeners();

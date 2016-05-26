@@ -22,6 +22,7 @@ Require-Bundle: javax.inject,
  fr.ifp.kronosflow.model.impl,
  org.eclipse.ui.forms,
  fr.ifp.kronosflow.controllers,
+ fr.ifp.kronosflow.properties,
  fr.ifp.kronosflow.geoscheduler,
  fr.ifp.kronosflow.events
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

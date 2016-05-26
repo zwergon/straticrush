@@ -1,5 +1,7 @@
 package no.geosoft.cc.graphics;
 
+import org.eclipse.swt.widgets.Display;
+
 
 
 /**
@@ -50,18 +52,29 @@ public class GTooltipTimer extends Thread {
 		
 		try {
 			while( goOn ){
-				
+
 				if ( ( timeElapsed == 0 ) && (visible) ){
 					if ( null != toolipAction ){
-						toolipAction.hide();
+						Display.getDefault().asyncExec( new Runnable() {
+							@Override
+							public void run() {
+								toolipAction.hide();
+							}
+						});
+
 					}
 					visible = false;
 				}
-				
+
 				if ( timeElapsed > timeToShow )  {
 					if ( !visible ){
 						if ( null != toolipAction ){
-							toolipAction.show(x, y);
+							Display.getDefault().asyncExec( new Runnable() {
+								@Override
+								public void run() {
+									toolipAction.show(x, y);
+								}
+							});
 						}
 						visible = true;
 					}
@@ -69,12 +82,12 @@ public class GTooltipTimer extends Thread {
 				else {
 					timeElapsed += delay;
 				}
-				
-						
+
+
 				sleep(delay);
 			}
-			
-			
+
+
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -71,6 +71,7 @@ public class GSegment
 {
   private GObject      owner_;       // Owner
   private int          x_[], y_[];
+  private double       values_[];
   private GImage       vertexImage_;
   private Rect         rectangle_;   // Bounding box
   private Object       userData_;    // Whatever app assoc with graphics
@@ -91,6 +92,7 @@ public class GSegment
     owner_       = null;
     x_           = null;
     y_           = null;
+    values_       = null;
     rectangle_   = null;
     texts_       = null;
     images_      = null;
@@ -187,7 +189,19 @@ public class GSegment
   {
     return y_;
   }
+  
+  
+  /**
+   * return values associated at each (x,y) point.
+   */
+  public double[] getValues(){
+	  return values_;
+  }
 
+  
+  public void setValues( double[] values ){
+	  values_ = values;
+  }
 
 
   /**

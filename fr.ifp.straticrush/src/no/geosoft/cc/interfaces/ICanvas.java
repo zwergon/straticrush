@@ -11,6 +11,9 @@ import fr.ifp.kronosflow.geometry.Rect;
 
 public interface ICanvas {
 	
+	
+	public int getX();
+	public int getY();
 	public int getWidth();
 	public int getHeight();
 	

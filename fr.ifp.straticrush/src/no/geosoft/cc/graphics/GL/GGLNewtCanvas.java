@@ -24,6 +24,7 @@ import no.geosoft.cc.utils.GRegion;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
@@ -108,14 +109,24 @@ public class GGLNewtCanvas
 	public void setBackgroundColor(GColor color) {
 		backgroundColor = color;
 	};
+		
+	@Override
+	public int getX() {
+		Rectangle rectangle = glcomposite.getBounds();
+		return glcomposite.toDisplay(rectangle.x, rectangle.y).x;
+	}
+
+	@Override
+	public int getY() {
+		Rectangle rectangle = glcomposite.getBounds();
+		return glcomposite.toDisplay(rectangle.x, rectangle.y).y;
+	}
 	
 	@Override
 	public int getWidth() {
 		Rectangle rectangle = glcomposite.getBounds();
 		return rectangle.width;
 	}
-
-
 
 	@Override
 	public int getHeight() {
