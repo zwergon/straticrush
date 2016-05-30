@@ -66,16 +66,16 @@ import javax.imageio.ImageIO;
 public class GStyle
   implements Cloneable
 {
-  private static final int  MASK_FOREGROUNDCOLOR = 1 << 0;
-  private static final int  MASK_BACKGROUNDCOLOR = 1 << 1;  
-  private static final int  MASK_LINEWIDTH       = 1 << 2;
-  private static final int  MASK_FONT            = 1 << 3;
-  private static final int  MASK_FILLPATTERN     = 1 << 4;
-  private static final int  MASK_LINESTYLE       = 1 << 5;
-  private static final int  MASK_CAPSTYLE        = 1 << 6;
-  private static final int  MASK_JOINSTYLE       = 1 << 7;
-  private static final int  MASK_ANTIALIAS       = 1 << 8;
-  private static final int  MASK_COLORMAP        = 1 << 9;
+	public static final int  MASK_FOREGROUNDCOLOR = 1 << 0;
+	public static final int  MASK_BACKGROUNDCOLOR = 1 << 1;  
+	public static final int  MASK_LINEWIDTH       = 1 << 2;
+	public static final int  MASK_FONT            = 1 << 3;
+	public static final int  MASK_FILLPATTERN     = 1 << 4;
+	public static final int  MASK_LINESTYLE       = 1 << 5;
+	public static final int  MASK_CAPSTYLE        = 1 << 6;
+	public static final int  MASK_JOINSTYLE       = 1 << 7;
+	public static final int  MASK_ANTIALIAS       = 1 << 8;
+	public static final int  MASK_COLORMAP        = 1 << 9;
 
   public static final int   LINESTYLE_SOLID      = 1;
   public static final int   LINESTYLE_DASHED     = 2;
@@ -282,7 +282,7 @@ public class GStyle
    * @param validMask  Identifier of style element to check (MASK_...)
    * @return           True if it is valid, false otherwise.
    */
-  private boolean isValid (int validMask)
+  public boolean isValid (int validMask)
   {
     return (validMask_ & validMask) != 0;
   }
@@ -620,10 +620,12 @@ public class GStyle
     // Notify all owners
     notifyListeners();
   }
-
-
   
-  public void unsetGradient()
+  public GColorMap getColormap() {
+	  return colormap_;
+  }
+  
+  public void unsetColormap()
   {
     setInvalid (MASK_COLORMAP);
 
@@ -947,7 +949,8 @@ public class GStyle
   {
     return fillPattern_     != null ||
            fillData_        != null ||
-           backgroundColor_ != null;
+           backgroundColor_ != null ||
+           colormap_        != null;
   }
 
 
@@ -1009,4 +1012,7 @@ public class GStyle
       }
     }
   }
+
+
+
 }

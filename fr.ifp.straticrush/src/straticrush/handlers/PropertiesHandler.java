@@ -13,17 +13,20 @@ public class PropertiesHandler {
 	
 	@Execute
 	public void execute(Shell shell, MPart part, MHandledItem handledItem ){
-	    
-		
+
+
 		PropertyControllerCaller caller = new PropertyControllerCaller( StratiCrushServices.getInstance() );
 		if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.surface") ){
 			caller.setPropertyKey("Surface");
 		}
-		
+		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.xy") ){
+			caller.setPropertyKey("XY");
+		}
+
 		caller.applyAndNotify();
-		
-		 SectionPart sectionPart = (SectionPart)part.getObject();
-		 sectionPart.getPlot().refresh();
+
+		SectionPart sectionPart = (SectionPart)part.getObject();
+		sectionPart.getPlot().refresh();
 
 	}
 

@@ -75,7 +75,14 @@ public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {
 	@Override
 	public GTooltipInfo getTooltipInfo() {
 		GTooltipInfo info = new GTooltipInfo();
-		info.setInfo( new String( "Cell uid: " + cell.getUID() + "\n toto meuh") );
+		String msg = new String( "Cell uid: " + cell.getUID() );
+		double[] values = getValues();
+		if ( values != null ){
+			for( int i=0; i<values.length; i++ ){
+				msg += "\n("+i+") " + String.format("%.3f",values[i]) ;
+			}
+		}
+		info.setInfo( msg  );
 		return info;
 	}
 

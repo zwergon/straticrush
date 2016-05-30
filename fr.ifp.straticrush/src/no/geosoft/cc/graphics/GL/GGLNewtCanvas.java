@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GColorMap;
 import no.geosoft.cc.graphics.GComponent;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.graphics.GImage;
@@ -217,7 +218,7 @@ public class GGLNewtCanvas
 	   */
 	  public void render (GSegment segment, GStyle style )
 	  {
-		   add( new XYGLaction(segment.getX(), segment.getY(), style) );
+		   add( new XYGLaction(segment.getX(), segment.getY(), segment.getValues(), style) );
 	  }
 	  
 	  /**
@@ -507,11 +508,13 @@ public class GGLNewtCanvas
 		  
 		  int[] x;
 		  int[] y;
+		  double[] values;
 		  GStyle style;
 		  
-		  XYGLaction( int x[], int y[], GStyle style ){
+		  XYGLaction( int x[], int y[], double[] values, GStyle style ){
 			  this.x = x;
 			  this.y = y;
+			  this.values = values;
 			  this.style = style;  
 		  }
 
@@ -519,55 +522,16 @@ public class GGLNewtCanvas
 		  public void execute(GL target) {
 	
 			  GL2 gl2 = target.getGL2();
- 
-			  GColor bg = style.getBackgroundColor();
-			  if ( null != bg ){
-				  
-				  
-				  /*  see "Drawing Filled, Concave Polygons Using the Stencil Buffer
-				   * in OpenGL redbook. 
-				   * http://glprogramming.com/red/chapter14.html#name13
-				   * don't forget to set: capabilities_.setStencilBits(8);*/
-				  
-
-				  gl2.glEnable( GL.GL_BLEND);
-				  gl2.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-				  /* Dessin du sprite avec transparence */
-				 
-
-				   
-				  gl2.glEnable(GL2.GL_STENCIL_TEST);
-				  gl2.glClear(GL.GL_STENCIL_BUFFER_BIT);
-				  gl2.glColorMask( false, false, false, false);
-				  gl2.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL); 
-				  gl2.glStencilFunc(GL.GL_NEVER, 0, 1);
-				  gl2.glStencilOp(GL.GL_INVERT, GL.GL_INVERT, GL.GL_INVERT);
-
-
-				  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
-				  for( int i = 1; i<x.length-2; i++ ){
-					  gl2.glVertex2i( x[0], y[0] );
-					  gl2.glVertex2i( x[i], y[i] );
-					  gl2.glVertex2i( x[i+1], y[i+1] );
+			  
+			  GColorMap cmap = style.getColormap();
+			  if (( cmap != null ) && ( values != null ) ) {
+				  drawPainted(gl2, cmap);
+			  }
+			  else {
+				  GColor bg = style.getBackgroundColor();
+				  if ( bg != null ){
+					  drawFilled( gl2, bg );
 				  }
-				  gl2.glEnd();
-
-				  gl2.glColorMask(true, true, true, true);
-				  gl2.glStencilFunc(GL2.GL_NOTEQUAL, 0, 1);
-				  gl2.glStencilOp(GL2.GL_KEEP, GL2.GL_ZERO, GL2.GL_ZERO);
-				  gl2.glColor4ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue(), (byte)bg.getAlpha());
-				  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
-				  for( int i = 1; i<x.length-2; i++ ){
-					  gl2.glVertex2i( x[0], y[0] );
-					  gl2.glVertex2i( x[i], y[i] );
-					  gl2.glVertex2i( x[i+1], y[i+1] );
-				  }
-				  gl2.glEnd();
-				  
-				  gl2.glDisable(GL2.GL_STENCIL_TEST);
-				  gl2.glDisable(GL.GL_BLEND);
-				
-
 			  }
 			  
 			  if ( style.isLineVisible() ){
@@ -584,6 +548,115 @@ public class GGLNewtCanvas
 				  gl2.glLineWidth( widthBuffer.get(0) );
 			  }
 		  }
+
+		private void drawPainted(GL2 gl2, GColorMap cmap) {
+			 /*  see "Drawing Filled, Concave Polygons Using the Stencil Buffer
+			   * in OpenGL redbook. 
+			   * http://glprogramming.com/red/chapter14.html#name13
+			   * don't forget to set: capabilities_.setStencilBits(8);*/
+			  
+
+			  gl2.glEnable( GL.GL_BLEND);
+			  gl2.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+			  /* Dessin du sprite avec transparence */
+			 
+
+			   
+			  gl2.glEnable(GL2.GL_STENCIL_TEST);
+			  gl2.glClear(GL.GL_STENCIL_BUFFER_BIT);
+			  gl2.glColorMask( false, false, false, false);
+			  gl2.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL); 
+			  gl2.glStencilFunc(GL.GL_NEVER, 0, 1);
+			  gl2.glStencilOp(GL.GL_INVERT, GL.GL_INVERT, GL.GL_INVERT);
+
+
+			  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
+			  for( int i = 1; i<x.length-2; i++ ){
+				  gl2.glVertex2i( x[0], y[0] );
+				  gl2.glVertex2i( x[i], y[i] );
+				  gl2.glVertex2i( x[i+1], y[i+1] );
+			  }
+			  gl2.glEnd();
+			  
+			
+
+			  gl2.glColorMask(true, true, true, true);
+			  gl2.glStencilFunc(GL2.GL_NOTEQUAL, 0, 1);
+			  gl2.glStencilOp(GL2.GL_KEEP, GL2.GL_ZERO, GL2.GL_ZERO);
+			  			  
+			  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
+			  for( int i = 1; i<x.length-2; i++ ){
+
+				  GColor color = cmap.getColor( values[0] );
+				  gl2.glColor4ub((byte)color.getRed(), (byte)color.getGreen(), (byte)color.getBlue(), (byte)color.getAlpha());
+				  gl2.glVertex2i( x[0], y[0] );
+
+				  color = cmap.getColor( values[i] );
+				  gl2.glColor4ub((byte)color.getRed(), (byte)color.getGreen(), (byte)color.getBlue(), (byte)color.getAlpha());
+				  gl2.glVertex2i( x[i], y[i] );
+
+				  color = cmap.getColor( values[i+1] );
+				  gl2.glColor4ub((byte)color.getRed(), (byte)color.getGreen(), (byte)color.getBlue(), (byte)color.getAlpha());
+				  gl2.glVertex2i( x[i+1], y[i+1] );
+			  }
+			  gl2.glEnd();
+				  
+			  gl2.glDisable(GL2.GL_STENCIL_TEST);
+			  gl2.glDisable(GL.GL_BLEND);
+
+		}
+
+		private void drawFilled( GL2 gl2, GColor bg ) {
+			 
+			  /*  see "Drawing Filled, Concave Polygons Using the Stencil Buffer
+			   * in OpenGL redbook. 
+			   * http://glprogramming.com/red/chapter14.html#name13
+			   * don't forget to set: capabilities_.setStencilBits(8);*/
+			  
+
+			  gl2.glEnable( GL.GL_BLEND);
+			  gl2.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+			  /* Dessin du sprite avec transparence */
+			 
+
+			   
+			  gl2.glEnable(GL2.GL_STENCIL_TEST);
+			  gl2.glClear(GL.GL_STENCIL_BUFFER_BIT);
+			  gl2.glColorMask( false, false, false, false);
+			  gl2.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL); 
+			  gl2.glStencilFunc(GL.GL_NEVER, 0, 1);
+			  gl2.glStencilOp(GL.GL_INVERT, GL.GL_INVERT, GL.GL_INVERT);
+
+
+			  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
+			  for( int i = 1; i<x.length-2; i++ ){
+				  gl2.glVertex2i( x[0], y[0] );
+				  gl2.glVertex2i( x[i], y[i] );
+				  gl2.glVertex2i( x[i+1], y[i+1] );
+			  }
+			  gl2.glEnd();
+			  
+			
+
+			  gl2.glColorMask(true, true, true, true);
+			  gl2.glStencilFunc(GL2.GL_NOTEQUAL, 0, 1);
+			  gl2.glStencilOp(GL2.GL_KEEP, GL2.GL_ZERO, GL2.GL_ZERO);
+			  
+				  
+			  gl2.glColor4ub((byte)bg.getRed(), (byte)bg.getGreen(), (byte)bg.getBlue(), (byte)bg.getAlpha());
+			  gl2.glBegin( GL2.GL_TRIANGLE_FAN );		
+			  for( int i = 1; i<x.length-2; i++ ){
+				  gl2.glVertex2i( x[0], y[0] );
+				  gl2.glVertex2i( x[i], y[i] );
+				  gl2.glVertex2i( x[i+1], y[i+1] );
+			  }
+			  gl2.glEnd();
+
+				  
+			  gl2.glDisable(GL2.GL_STENCIL_TEST);
+			  gl2.glDisable(GL.GL_BLEND);
+			
+		}
 		  
 	  }
 	  

@@ -67,6 +67,7 @@
       <children xsi:type="menu:MenuSeparator" xmi:id="_RySqkAMVEeWQfLK62v5NBw" elementId="straticrush.menuseparator.0"/>
       <children xsi:type="menu:Menu" xmi:id="_8TdqQCGlEeaRcv2wtMGulg" elementId="straticrush.menu.properties" label="Properties">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_AxHhUCGmEeaRcv2wtMGulg" elementId="straticrush.handledmenuitem.properties.surface" label="Surface" command="_IMPPECGmEeaRcv2wtMGulg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_VNz1UCZDEeaaWNJHMYlDWA" elementId="straticrush.handledmenuitem.properties.xy" label="XY" command="_IMPPECGmEeaRcv2wtMGulg"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_OmJ54_-gEeSzbZWfsvr3zw" label="Help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ55P-gEeSzbZWfsvr3zw" label="About" command="_OmJS5v-gEeSzbZWfsvr3zw"/>

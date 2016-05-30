@@ -12,10 +12,17 @@ import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
+import fr.ifp.kronosflow.property.IPropertyAccessor;
+import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDouble;
+import fr.ifp.kronosflow.property.PropertyInfo;
+import fr.ifp.kronosflow.property.PropertyInfo.Support;
+import fr.ifp.kronosflow.property.PropertyNoData;
 import fr.ifp.kronosflow.property.PropertyStatistic;
 import fr.ifp.kronosflow.property.PropertyStyle;
+import fr.ifp.kronosflow.property.PropertyValue;
+import fr.ifp.kronosflow.property.PropertyVector;
 import fr.ifp.kronosflow.utils.UID;
 
 
@@ -41,12 +48,8 @@ public class MeshPatchView extends PatchView {
 		
 		section = patch.getPatchLibrary().getSection();
 		
-		currentProp = null;
-		getCurrentProp();
+		currentProp = getCurrentProp();
 		
-		
-		
-				
 		Mesh2D mesh = patch.getMesh();
 		
 		
@@ -60,21 +63,36 @@ public class MeshPatchView extends PatchView {
 		
 	}
 
-	private void getCurrentProp() {
+	private Property getCurrentProp() {
+		
+		Property property = null;
 		PropertyStyle propStyle = new PropertyStyle(section.getStyle());
 		UID currentPropUID = propStyle.getCurrent();
 		if ( currentPropUID != null ){
-			currentProp = section.getPropertyDB().findByUID(currentPropUID);
+			property = section.getPropertyDB().findByUID(currentPropUID);
 			
-			if ( null != currentProp ){
-				PropertyStatistic stat = PropertyStatistic.create(currentProp);
-				stat.compute();
-				
-				PropertyDouble min = (PropertyDouble)stat.min();
-				PropertyDouble max = (PropertyDouble)stat.max();
-				colormap.setMinMax( min.getValue(), max.getValue() );
+			if ( null != property ){
+				updateColormap(property);
 			}
 		}
+		
+		return property;
+	}
+
+	private void updateColormap(Property property ) {
+		
+		PropertyStatistic stat = PropertyStatistic.create(property);
+		
+		if ( stat == null ){
+			return;
+		}
+		
+		stat.compute();
+		
+		IPropertyValue min = stat.min();
+		IPropertyValue max = stat.max();
+		
+		colormap.setMinMax( min.real(), max.real() );
 	}
 	
 	public MeshPatch getObject(){
@@ -100,17 +118,7 @@ public class MeshPatchView extends PatchView {
 		return gcell;
 	}
 
-	private GColor getColor(Cell cell) {
-		GColor color = null;
-		if ( null != currentProp ){
-			PropertyDouble val = (PropertyDouble)currentProp.getAccessor().getValue( cell.getUID() );
-			color = colormap.getColor( val.getValue() );
-		}
-		else {
-			color = getPatchColor();
-		}
-		return color;
-	}
+	
 	
 	private void addBorder( PolyLine line ) {
 		
@@ -147,23 +155,75 @@ public class MeshPatchView extends PatchView {
 
 	private void updateColors() {
 		
-		getCurrentProp();
-
+		currentProp = getCurrentProp();
+		
+		PropertyInfo pinfo = currentProp.getPropertyInfo();
+		switch( pinfo.getSupport() ){
+		case NodeProperty:
+			updateColorsFromMap();
+			break;
+		case BackgroundProperty:
+		default:
+			updateColorsFromBg();
+			break;
+			
+		}
+	}
+				
+	private void updateColorsFromBg() {
 		for( Object segment : getSegments() ){
 			if ( segment instanceof GCell ){
 				GCell gcell = (GCell)segment;
 				GStyle style = gcell.getStyle();
-				
 				Cell cell = gcell.getCell();
 				GColor color = getColor(cell);
+				style.unsetColormap();
 				style.setBackgroundColor(color);
 			}
 		}
-		
+	}
+
+	private void updateColorsFromMap() {
+		for( Object segment : getSegments() ){
+			if ( segment instanceof GCell ){
+				GCell gcell = (GCell)segment;
+				
+				GStyle style = gcell.getStyle();
+				
+				Cell cell = gcell.getCell();
+				
+				IPropertyAccessor accessor = currentProp.getAccessor();
+				UID[] uids = cell.getNodeIds();
+				double[] values = new double[uids.length];
+				for( int i =0; i<uids.length; i++ ){
+					values[i] = accessor.getValue(uids[i]).real();
+				}
+				
+				gcell.setValues(values);
+				style.setColormap(colormap);
+				style.unsetBackgroundColor();
+
+				
+			}
+		}
 	}
 	
+	private GColor getColor(Cell cell) {
+		GColor color = null;
+		if ( null != currentProp ){
+			IPropertyValue val = currentProp.getAccessor().getValue( cell.getUID() );
+			
+			if ( val instanceof PropertyNoData ){
+				color = new GColor(0,0,0,0);
+			}
+			else {
+				color = colormap.getColor( val.real() );
+			}
+		}
+		else {
+			color = getPatchColor();
+		}
+		return color;
+	}
 
-	
-
-	
 }
