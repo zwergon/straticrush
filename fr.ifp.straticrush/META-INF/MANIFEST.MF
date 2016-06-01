@@ -3,6 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: StratiCrush
 Bundle-SymbolicName: StratiCrush;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .,
+ jars/mysql-connector-java-5.1.38-bin.jar
 Require-Bundle: javax.inject,
  org.eclipse.core.runtime,
  org.eclipse.swt,
@@ -24,7 +26,8 @@ Require-Bundle: javax.inject,
  fr.ifp.kronosflow.controllers,
  fr.ifp.kronosflow.properties,
  fr.ifp.kronosflow.geoscheduler,
- fr.ifp.kronosflow.events
+ fr.ifp.kronosflow.events,
+ javax.annotation,
+ org.eclipse.e4.core.services,
+ fr.ifp.kronosflow.fem2d
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ClassPath: .,
- jars/mysql-connector-java-5.1.38-bin.jar

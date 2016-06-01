@@ -20,6 +20,10 @@
                name="windowImages"
                value="icons/chain_mesh_icon.png">
          </property>
+         <property
+               name="lifeCycleURI"
+               value="bundleclass://StratiCrush/straticrush.parts.LifeCycleManager">
+         </property>
       </product>
    </extension>
    <extension

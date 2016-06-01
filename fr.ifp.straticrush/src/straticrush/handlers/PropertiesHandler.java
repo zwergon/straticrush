@@ -22,6 +22,9 @@ public class PropertiesHandler {
 		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.xy") ){
 			caller.setPropertyKey("XY");
 		}
+		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.poisson") ){
+			caller.setPropertyKey("Poisson");
+		}
 
 		caller.applyAndNotify();
 
