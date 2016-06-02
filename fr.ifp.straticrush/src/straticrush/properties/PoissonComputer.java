@@ -18,11 +18,13 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
+import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.property.computers.PropertyComputer;
+import fr.ifp.kronosflow.utils.UID;
 
 public class PoissonComputer extends PropertyComputer {
 	
@@ -60,8 +62,7 @@ public class PoissonComputer extends PropertyComputer {
 		
 		List<Patch> patches = patchLib.getPatches();
 		if ( !patches.isEmpty() ){
-			Patch patch = patches.get(0);
-			solvePoisson( patch );
+			solvePoisson( patches.get(0), accessor );
 		}
 		
 		
@@ -82,7 +83,7 @@ public class PoissonComputer extends PropertyComputer {
 	}
 	
 
-	private void solvePoisson(Patch patch) {
+	private boolean solvePoisson(Patch patch, IPropertyAccessor accessor ) {
 		
 		if ( patch instanceof IMeshProvider ){
 			
@@ -103,9 +104,16 @@ public class PoissonComputer extends PropertyComputer {
 			
 			solver.compute();
 			
+			for( UID uid : mesh.getNodeIds() ){
+				double temperature = solver.getValue( uid );
+				accessor.setValue( uid, new PropertyDouble(temperature) );
+			}
 			
+			return true;
 			
 		}
+		
+		return false;
 		
 	}
 

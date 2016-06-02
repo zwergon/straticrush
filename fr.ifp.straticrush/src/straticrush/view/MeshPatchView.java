@@ -36,7 +36,7 @@ public class MeshPatchView extends PatchView {
 	
 	public MeshPatchView(){
 		colormap = new GColorMap();
-		colormap.createFromName("Africa");
+		colormap.createDefaultColormap();
 	}
 	
 	@Override
