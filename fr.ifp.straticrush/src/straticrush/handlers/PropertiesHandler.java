@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import straticrush.interaction.StratiCrushServices;
 import straticrush.parts.SectionPart;
-import fr.ifp.kronosflow.property.controllers.PropertyControllerCaller;
+import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
 
 public class PropertiesHandler {
 	

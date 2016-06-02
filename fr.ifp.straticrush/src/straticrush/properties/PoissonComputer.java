@@ -8,6 +8,7 @@ import fr.ifp.fem2d.solve.HeatConductionSolver;
 import fr.ifp.fem2d.solve.ImposedTemperatureFunction;
 import fr.ifp.fem2d.solve.InternalLoad;
 import fr.ifp.fem2d.solve.LoadCondition;
+import fr.ifp.kronosflow.controllers.property.PropertyComputer;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.regions.Region;
@@ -23,7 +24,6 @@ import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.computers.PropertyComputer;
 import fr.ifp.kronosflow.utils.UID;
 
 public class PoissonComputer extends PropertyComputer {
