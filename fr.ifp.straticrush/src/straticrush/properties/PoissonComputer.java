@@ -77,7 +77,7 @@ public class PoissonComputer extends PropertyComputer {
 	class CstFunction implements IFunction {
 		@Override
 		public double value(double[] xy) {
-			return 1;
+			return xy[0];
 		}
 		
 	}
