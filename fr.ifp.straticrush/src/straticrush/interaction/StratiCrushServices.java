@@ -26,13 +26,15 @@ import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.style.StyleManager;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
 
-public class StratiCrushServices extends ViewNotifier implements IControllerService {
+public class StratiCrushServices  implements IControllerService {
 	
 	private GWindow window;
 	
 	private Section section;
 	
 	private static StratiCrushServices instance;
+	
+	ViewNotifier notifier;
 	
 	
 	static {
@@ -106,10 +108,16 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 	
 	public void setSection( Section section ){
 		this.section = section;
+		this.notifier = new ViewNotifier();
 	}
 	
 	@Override
 	public void handleEvents( ControllerEventList eventList ) {
+		
+		if ( null == notifier ){
+			return;
+		}
+		
 		//test if one Move Event to trigger view redraw.
 		
 		Map< EnumEventAction, IControllerEvent<?> > summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
@@ -119,7 +127,7 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 		}
 		
 		for( IControllerEvent<?> event : summary.values() ){
-			notifyViews(event);
+			notifier.notifyViews(event);
 		}
 		
 	}
@@ -130,6 +138,17 @@ public class StratiCrushServices extends ViewNotifier implements IControllerServ
 			boolean forceRefresh ) {
 		handleEvents(eventList);
 	}
-	
 
+	public void removeListener(IViewListener view) {
+		if ( null != notifier ){
+			notifier.removeListener(view);
+		}
+	}
+
+	public void addListener(IViewListener view) {
+		if ( null != notifier ){
+			notifier.addListener(view);
+		}	
+	}
+	
 }

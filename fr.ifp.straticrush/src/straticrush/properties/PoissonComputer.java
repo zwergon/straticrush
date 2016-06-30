@@ -3,9 +3,9 @@ package straticrush.properties;
 import java.util.List;
 
 import fr.ifp.fem2d.elements.IFunction;
+import fr.ifp.fem2d.heat.HeatConductionSolver;
+import fr.ifp.fem2d.heat.ImposedTemperatureFunction;
 import fr.ifp.fem2d.solve.FEMSolver;
-import fr.ifp.fem2d.solve.HeatConductionSolver;
-import fr.ifp.fem2d.solve.ImposedTemperatureFunction;
 import fr.ifp.fem2d.solve.InternalLoad;
 import fr.ifp.fem2d.solve.LoadCondition;
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
@@ -75,9 +75,20 @@ public class PoissonComputer extends PropertyComputer {
 	
 	
 	class CstFunction implements IFunction {
+		
+		double value;
+		
+		public CstFunction() {
+			this.value = 0.0;
+		}
+		
+		public CstFunction( double value ) {
+			this.value = value;
+		}
+		
 		@Override
 		public double value(double[] xy) {
-			return xy[0];
+			return value;
 		}
 		
 	}
@@ -91,14 +102,14 @@ public class PoissonComputer extends PropertyComputer {
 			
 			FEMSolver solver = new HeatConductionSolver( mesh ) ;
 			
-			LoadCondition load = new InternalLoad( new CstFunction() );
+			LoadCondition load = new InternalLoad( solver.getMapping(), new CstFunction(1.) );
 			solver.addLoadCondition( load );
 			
 			
 			RegionDB regionDB = mesh.getRegionDB();
 			Region region = regionDB.findByName("boundary");
 			if ( region != null ){
-				load = new ImposedTemperatureFunction(region, new CstFunction() ); 
+				load = new ImposedTemperatureFunction( solver.getMapping(), region, new CstFunction(0) ); 
 				solver.addLoadCondition(load);
 			}
 			
