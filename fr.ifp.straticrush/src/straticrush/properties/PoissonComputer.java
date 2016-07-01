@@ -102,14 +102,14 @@ public class PoissonComputer extends PropertyComputer {
 			
 			FEMSolver solver = new HeatConductionSolver( mesh ) ;
 			
-			LoadCondition load = new InternalLoad( solver.getMapping(), new CstFunction(1.) );
+			LoadCondition load = new InternalLoad( solver.getMapping(), new CstFunction(2.) );
 			solver.addLoadCondition( load );
 			
 			
 			RegionDB regionDB = mesh.getRegionDB();
 			Region region = regionDB.findByName("boundary");
 			if ( region != null ){
-				load = new ImposedTemperatureFunction( solver.getMapping(), region, new CstFunction(0) ); 
+				load = new ImposedTemperatureFunction( solver.getMapping(), region, new CstFunction(5.) ); 
 				solver.addLoadCondition(load);
 			}
 			

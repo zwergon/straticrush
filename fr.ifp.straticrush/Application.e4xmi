@@ -39,6 +39,10 @@
             <parameters xmi:id="_9Izk8ARPEeWewIwgHRqGcQ" elementId="straticrush.parameter.flatten.static.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
             <parameters xmi:id="_vsQ78Bp3EeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.static.deformation" name="straticrush.commandparameter.deformationtype" value="StaticFEASolver"/>
           </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_DkDzsD-aEeadVqQJg23Tnw" elementId="straticrush.handledmenuitem.elasticity" label="FEM2D Elasticity" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_OE58QD-aEeadVqQJg23Tnw" elementId="straticrush.parameter.flatten.elasticity.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
+            <parameters xmi:id="_b1QGsD-aEeadVqQJg23Tnw" elementId="straticrush.parameter.flatten.elasticity.deformation" name="straticrush.commandparameter.deformationtype" value="FEM2D"/>
+          </children>
           <children xsi:type="menu:HandledMenuItem" xmi:id="_efvFABj3EeWdHoThxzjskw" elementId="straticrush.handledmenuitem.flatten.shear" label="Vertical Shear" command="_ScI2oAMGEeWQfLK62v5NBw">
             <parameters xmi:id="_rMoOYBj3EeWdHoThxzjskw" elementId="straticrush.parameter.flatten.vshear.interaction" name="straticrush.commandparameter.interactiontype" value="FlattenInteraction"/>
             <parameters xmi:id="_f_orABp3EeW6afiUSqqJzw" elementId="straticrush.parameter.flatten.vshear.deformation" name="straticrush.commandparameter.deformationtype" value="VerticalShear"/>
