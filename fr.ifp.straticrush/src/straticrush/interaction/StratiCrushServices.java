@@ -2,28 +2,22 @@ package straticrush.interaction;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-
-import org.eclipse.swt.widgets.Display;
 
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.utils.GParameters;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
-import fr.ifp.jdeform.continuousdeformation.DeformationStyle;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
-import fr.ifp.kronosflow.controllers.handlers.RefreshSummary;
 import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.model.style.StyleManager;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class StratiCrushServices  implements IControllerService {
@@ -79,8 +73,8 @@ public class StratiCrushServices  implements IControllerService {
 			sceneStyle.setNatureType(NatureType.EXPLICIT);
 		}
 		else {
-			sceneStyle.setGridType(GridType.TRGL );
-			sceneStyle.setNatureType(NatureType.EXPLICIT);
+			sceneStyle.setGridType(GridType.GRID2D );
+			sceneStyle.setNatureType(NatureType.IMPLICIT);
 			
 			if ( !type.equals("ChainMail") && !type.equals("MassSpring") ){
 				style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );

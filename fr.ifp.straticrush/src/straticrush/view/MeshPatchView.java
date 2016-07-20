@@ -15,14 +15,10 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
-import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyNoData;
 import fr.ifp.kronosflow.property.PropertyStatistic;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyValue;
-import fr.ifp.kronosflow.property.PropertyVector;
 import fr.ifp.kronosflow.utils.UID;
 
 

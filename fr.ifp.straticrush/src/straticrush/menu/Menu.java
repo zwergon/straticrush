@@ -183,7 +183,7 @@ public class Menu extends GScene implements IMenuItemAction {
 		int index = 0;
 		for( KinObject children : (List<KinObject>)objects ){
 			GColor color = GColor.darkGray; 
-			if ( children.getName().isEmpty() ){
+			if ( ( children.getName() == null) || children.getName().isEmpty() ){
 				children.setName( c.getSimpleName() + "_" + index );
 			}
 			

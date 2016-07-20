@@ -7,8 +7,9 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
 import fr.ifp.kronosflow.topology.Contact;
+import fr.ifp.kronosflow.topology.PartitionLine;
 
-public class ContactView extends View {
+public class PartitionLineView extends View {
 	
 	private GInterval gline;
 	
@@ -17,9 +18,9 @@ public class ContactView extends View {
 	{
 		setUserData( object );
 		
-		Contact contact = (Contact)getUserData();
+		PartitionLine partition = (PartitionLine)getUserData();
 
-		PatchInterval interval = contact.getPatchInterval();
+		PatchInterval interval = partition.getPatchInterval();
 			
 		gline = new GInterval(interval);
 		addSegment(gline);
@@ -34,8 +35,8 @@ public class ContactView extends View {
 	}
 	
 	private Patch getPatch(){
-		Contact contact = (Contact)getUserData();
-		PatchInterval interval = contact.getPatchInterval();
+		PartitionLine pLine = (PartitionLine)getUserData();
+		PatchInterval interval = pLine.getPatchInterval();
 		return interval.getPatch();
 	}
 	

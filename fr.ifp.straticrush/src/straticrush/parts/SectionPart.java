@@ -12,6 +12,7 @@
 package straticrush.parts;
 
 import java.awt.Insets;
+import java.io.File;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -143,7 +144,18 @@ public class SectionPart  {
 	      PatchLibrary patchLib = section.getPatchLibrary();
 
 	      Map<String,String> unitMap = MeshObjectFactory.createDummyGeo( basename + ".geo", section);
-	      MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
+	      File f = new File(basename + ".xml");
+	      if(f.exists() && !f.isDirectory()) { 
+	    	  MeshObjectFactory.createDummyUnit( basename + ".xml", section, unitMap);
+	      }
+	      else {
+	    	  f = new File(basename + ".unit");
+	    	  if(f.exists() && !f.isDirectory()) { 
+		    	  MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
+		      }
+	      }
+	      
+	      
 
 
 	      Plot plot = getPlot();

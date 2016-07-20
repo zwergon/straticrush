@@ -27,7 +27,7 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.topology.Contact;
 import straticrush.parts.SectionPart;
-import straticrush.view.ContactView;
+import straticrush.view.PartitionLineView;
 import straticrush.view.Plot;
 import straticrush.view.View;
 import straticrush.view.ViewFactory;
@@ -57,7 +57,7 @@ public class ContactsHandler {
 
 		List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
 		for( GObject object : copy ){
-			if ( object instanceof ContactView ){
+			if ( object instanceof PartitionLineView ){
 				ViewFactory.getInstance().destroyView(plot, (View)object);
 			}
 		}
