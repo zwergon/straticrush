@@ -45,15 +45,23 @@ public class OptionsDialog extends Dialog {
 			
 		TabFolder tabFolder = new TabFolder(area, SWT.BORDER);
 		
+
+		ViewAttribute view = new ViewAttribute();
+		TabItem item = new TabItem (tabFolder, SWT.NONE);
+		item.setText ( view.getLabel() );
+		item.setControl ( view.createUI(tabFolder, SWT.NONE) );
+		
+		attributes.add( view );
+		
 		
 		DynamicAttribute dynamic = new DynamicAttribute();
 
-		TabItem item = new TabItem (tabFolder, SWT.NONE);
+		item = new TabItem (tabFolder, SWT.NONE);
 		item.setText ( dynamic.getLabel() );
 		item.setControl ( dynamic.createUI(tabFolder, SWT.NONE) );
 		
 		attributes.add( dynamic );
-
+		
 		tabFolder.pack ();
 		
 		

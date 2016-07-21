@@ -12,6 +12,7 @@ public class LifeCycleManager {
 	
 	@PostContextCreate
 	public void startup(IEclipseContext context) {
+		
 		PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
 		PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
 		PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder() );

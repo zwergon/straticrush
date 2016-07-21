@@ -25,6 +25,10 @@ public abstract class View extends GObject implements IViewListener {
 		redraw();
 	}
 	
+	public Plot getPlot(){
+		return (Plot)getScene();
+	}
+	
 	@Override
 	public void destroy() {
 		StratiCrushServices.getInstance().removeListener(this);	

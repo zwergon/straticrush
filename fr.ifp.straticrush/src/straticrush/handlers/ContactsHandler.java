@@ -51,7 +51,7 @@ public class ContactsHandler {
 			return;
 		}
 
-		Plot plot = sectionPart.getPlot();
+		Plot plot = sectionPart.getWindow().getPlot();
 		if ( plot == null ) return;
 
 

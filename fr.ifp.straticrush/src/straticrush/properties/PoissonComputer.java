@@ -144,6 +144,21 @@ public class PoissonComputer extends PropertyComputer {
 		
 	}
 	
+	class RampFunction implements IFunction {
+
+		double value;
+
+		public RampFunction( double value ) {
+			this.value = value;
+		}
+
+		@Override
+		public double value(double[] xy) {
+			return value*(xy[0]+xy[1]);
+		}
+
+	}
+
 	
 	int pair = 0;
 	
@@ -151,7 +166,7 @@ public class PoissonComputer extends PropertyComputer {
 
 		PatchInterval master;
 		PatchInterval slave;
-		if ( pair % 2 ==  0 ){
+		if ( pair % 2 ==  1 ){
 			master = contact.getPatchInterval();
 			slave  = contact.getMate();
 		}
@@ -160,7 +175,7 @@ public class PoissonComputer extends PropertyComputer {
 			slave = contact.getPatchInterval();
 			master  = contact.getMate();
 		}
-		pair++;
+		//pair++;
 			
 		Interval interval = master.getInterval();
 		MeshPatch patch = (MeshPatch)master.getPatch();
@@ -225,7 +240,7 @@ public class PoissonComputer extends PropertyComputer {
 			
 		FEMSolver solver = new HeatConductionSolver( mesh ) ;
 
-		LoadCondition load = new InternalLoad( solver.getMapping(), new CstFunction(2.) );
+		LoadCondition load = new InternalLoad( solver.getMapping(), new CstFunction(2) );
 		solver.addLoadCondition( load );
 
 
@@ -239,7 +254,7 @@ public class PoissonComputer extends PropertyComputer {
 		solver.compute();
 
 		for( UID uid : mesh.getNodeIds() ){
-			double temperature = solver.getValue( uid );
+			double temperature = solver.getValue( uid, 0 );
 			accessor.setValue( uid, new PropertyDouble(temperature) );
 		}
 

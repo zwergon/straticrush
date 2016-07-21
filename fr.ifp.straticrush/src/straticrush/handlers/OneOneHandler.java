@@ -14,7 +14,7 @@ public class OneOneHandler {
 
 
         SectionPart sectionPart = (SectionPart)part.getObject();
-        Plot scene = sectionPart.getPlot();
+        Plot scene = sectionPart.getWindow().getPlot();
         scene.unzoom();
 
     }

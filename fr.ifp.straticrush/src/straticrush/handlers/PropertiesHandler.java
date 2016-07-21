@@ -29,7 +29,7 @@ public class PropertiesHandler {
 		caller.applyAndNotify();
 
 		SectionPart sectionPart = (SectionPart)part.getObject();
-		sectionPart.getPlot().refresh();
+		sectionPart.getWindow().getPlot().refresh();
 
 	}
 

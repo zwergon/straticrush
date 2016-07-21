@@ -27,7 +27,7 @@ public class ViewFactory {
 	private ViewFactory(){
 		mapViews = new HashMap<String, String>();
 		registerView( Patch.class, PatchView.class );
-		registerView( MeshPatch.class, PatchView.class );
+		registerView( MeshPatch.class, MeshPatchView.class );
 		registerView( ExplicitPatch.class, PatchView.class );
 		registerView( CompositePatch.class, PatchView.class );
 		registerView( FileMeshPatch.class, MeshPatchView.class );

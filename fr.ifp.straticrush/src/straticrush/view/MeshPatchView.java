@@ -24,15 +24,12 @@ import fr.ifp.kronosflow.utils.UID;
 
 public class MeshPatchView extends PatchView {
 	
-	GColorMap colormap;
-	
 	Property currentProp;
-	
-	Section section;
+	GColorMap colormap;
+		
 	
 	public MeshPatchView(){
-		colormap = new GColorMap();
-		colormap.createDefaultColormap();
+		
 	}
 	
 	@Override
@@ -42,12 +39,7 @@ public class MeshPatchView extends PatchView {
 	
 		MeshPatch patch = (MeshPatch)object;
 		
-		section = patch.getPatchLibrary().getSection();
-		
-		currentProp = getCurrentProp();
-		
 		Mesh2D mesh = patch.getMesh();
-		
 		
 		for( IHandle handle : mesh.getCells() ){
 			addCell( mesh, (Cell)handle );
@@ -59,37 +51,6 @@ public class MeshPatchView extends PatchView {
 		
 	}
 
-	private Property getCurrentProp() {
-		
-		Property property = null;
-		PropertyStyle propStyle = new PropertyStyle(section.getStyle());
-		UID currentPropUID = propStyle.getCurrent();
-		if ( currentPropUID != null ){
-			property = section.getPropertyDB().findByUID(currentPropUID);
-			
-			if ( null != property ){
-				updateColormap(property);
-			}
-		}
-		
-		return property;
-	}
-
-	private void updateColormap(Property property ) {
-		
-		PropertyStatistic stat = PropertyStatistic.create(property);
-		
-		if ( stat == null ){
-			return;
-		}
-		
-		stat.compute();
-		
-		IPropertyValue min = stat.min();
-		IPropertyValue max = stat.max();
-		
-		colormap.setMinMax( min.real(), max.real() );
-	}
 	
 	public MeshPatch getObject(){
 		return (MeshPatch)getUserData();
@@ -120,8 +81,7 @@ public class MeshPatchView extends PatchView {
 		
 		border = new GPolyline( line );
 		addSegment(border);
-		
-			
+				
 		GStyle style = new GStyle();
 		style.setForegroundColor ( GColor.red );
 	
@@ -151,7 +111,11 @@ public class MeshPatchView extends PatchView {
 
 	private void updateColors() {
 		
-		currentProp = getCurrentProp();
+		Plot plot = getPlot();
+		
+		currentProp = plot.getCurrentProp();
+		
+		colormap = plot.getColorMap();
 		
 		PropertyInfo pinfo = currentProp.getPropertyInfo();
 		switch( pinfo.getSupport() ){
@@ -180,6 +144,7 @@ public class MeshPatchView extends PatchView {
 	}
 
 	private void updateColorsFromMap() {
+		
 		for( Object segment : getSegments() ){
 			if ( segment instanceof GCell ){
 				GCell gcell = (GCell)segment;
@@ -199,12 +164,18 @@ public class MeshPatchView extends PatchView {
 				style.setColormap(colormap);
 				style.unsetBackgroundColor();
 
-				
 			}
 		}
 	}
 	
 	private GColor getColor(Cell cell) {
+		
+
+		Plot plot = getPlot();
+		
+		Property currentProp = plot.getCurrentProp();
+		
+		
 		GColor color = null;
 		if ( null != currentProp ){
 			IPropertyValue val = currentProp.getAccessor().getValue( cell.getUID() );

@@ -132,7 +132,23 @@ public class GColorMap {
 		this.cmin = min;
 	}
 	
-	public void setCurrentMax( double cmax ){
+	public double getCurrentMin(){
+		return cmin;
+	}
+	
+	public double getCurrentMax(){
+		return cmax;
+	}
+	
+	public double getMin(){
+		return min;
+	}
+	
+	public double getMax(){
+		return max;
+	}
+	
+	public void setCurrentMax( double max ){
 		this.cmax = max;
 	}
 	

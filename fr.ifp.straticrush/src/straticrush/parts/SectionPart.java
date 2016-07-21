@@ -21,7 +21,6 @@ import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
-import no.geosoft.cc.graphics.GWindow;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
@@ -38,6 +37,7 @@ import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
 import straticrush.view.Annotation;
 import straticrush.view.Plot;
+import straticrush.view.StratiWindow;
 import straticrush.view.ViewFactory;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
 import fr.ifp.kronosflow.geometry.RectD;
@@ -50,18 +50,17 @@ import fr.ifp.kronosflow.utils.LOGGER;
 
 public class SectionPart  {
 
-	private GWindow   window_;
+	private StratiWindow   window_;
 	Section section;
 
 	private Menu      menu;
 
 	@PostConstruct
 	public void createComposite(Composite parent) {
-		
-		
-		window_ = new GWindow( parent, new GColor(0.8f, 0.8f, 0.8f) );
-		StratiCrushServices.getInstance().setWindow(window_);
-	
+
+		window_ = new StratiWindow( parent, new GColor(0.8f, 0.8f, 0.8f) );
+
+
 		// Create the graphic canvas
 
 		// Definition of exact chart location inside window
@@ -78,159 +77,151 @@ public class SectionPart  {
 		annotationScene.setUserData (plot);
 		plot.shouldWorldExtentFitViewport (false);
 		plot.shouldZoomOnResize (false);   
-		
-	
+
+
 		window_.startInteraction (new ZoomInteraction(plot));
-		
+
 	}
 
 	@Focus
 	public void setFocus() {
-		
+
 	}
 
 	@Persist
 	public void save() {
 	}
-	
-	
+
+
 	public Section getSection(){
 		return section;
 	}
 	
-	public Plot getPlot() {
-		Plot scene = null;
+	public StratiWindow getWindow(){
+		return window_;
+	}
 
-		for( GScene sc : window_.getScenes() ){
-			if ( sc instanceof Plot ) {
-				scene = (Plot)sc;
-				break;
+
+	public void openMenu(boolean checked) {
+
+		if ( checked ){
+			// Create a value specific "plot" scene
+			menu = new Menu (window_);
+
+
+			menu.populate(section);
+			window_.startInteraction( new MenuInteraction( menu ) );
+
+		}
+		else {
+			window_.stopInteraction();
+			menu.removeAll();
+			window_.removeScene(menu);
+		}
+
+		window_.update();
+
+	}
+
+
+	public void loadSection( String basename ){
+
+		LOGGER.debug("load " + basename , this.getClass() );
+
+		section = new GeoschedulerSection(basename);
+
+		StratiCrushServices.getInstance().setSection(section);
+
+		PatchLibrary patchLib = section.getPatchLibrary();
+
+		Map<String,String> unitMap = MeshObjectFactory.createDummyGeo( basename + ".geo", section);
+		File f = new File(basename + ".xml");
+		if(f.exists() && !f.isDirectory()) { 
+			MeshObjectFactory.createDummyUnit( basename + ".xml", section, unitMap);
+		}
+		else {
+			f = new File(basename + ".unit");
+			if(f.exists() && !f.isDirectory()) { 
+				MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
 			}
 		}
 
-		return scene;
-	}
-	
-	  public void openMenu(boolean checked) {
-			
-	    	if ( checked ){
-	    		// Create a value specific "plot" scene
-	            menu = new Menu (window_);
-	            
-	            
-	            menu.populate(section);
-	            window_.startInteraction( new MenuInteraction( menu ) );
-	    		
-	    	}
-	    	else {
-	    		window_.stopInteraction();
-	    		menu.removeAll();
-	    		window_.removeScene(menu);
-	    	}
-	    	
-	    	window_.update();
-	    		
+
+		Plot plot = window_.getPlot();
+		plot.removeAll();
+
+		// Create a graphic object
+		for( Patch patch : patchLib.getPatches() ){
+			ViewFactory.getInstance().createView( plot, patch );   
 		}
-	  
-	  
-	  public void loadSection( String basename ){
-	      
-	      LOGGER.debug("load " + basename , this.getClass() );
-	      
-	      section = new GeoschedulerSection(basename);
-	      
-	      StratiCrushServices.getInstance().setSection(section);
-	      
-	      PatchLibrary patchLib = section.getPatchLibrary();
 
-	      Map<String,String> unitMap = MeshObjectFactory.createDummyGeo( basename + ".geo", section);
-	      File f = new File(basename + ".xml");
-	      if(f.exists() && !f.isDirectory()) { 
-	    	  MeshObjectFactory.createDummyUnit( basename + ".xml", section, unitMap);
-	      }
-	      else {
-	    	  f = new File(basename + ".unit");
-	    	  if(f.exists() && !f.isDirectory()) { 
-		    	  MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
-		      }
-	      }
-	      
-	      
+		ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+
+		RectD bbox = patchLib.getBoundingBox();
+		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
 
 
-	      Plot plot = getPlot();
-	      plot.removeAll();
+		window_.update();
+	}
 
-	      // Create a graphic object
-	      for( Patch patch : patchLib.getPatches() ){
-	          ViewFactory.getInstance().createView( plot, patch );   
-	      }
-
-	      ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
-
-	      RectD bbox = patchLib.getBoundingBox();
-	      plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
+	public void startInteraction( String interactionType, String deformationType ){
 
 
-	      window_.update();
-	  }
-	  
-	  public void startInteraction( String interactionType, String deformationType ){
-	      
-		  
-		  GInteraction interaction = null;
-	      if ( interactionType.equals("Zoom") ){
-	         interaction = new ZoomInteraction(getPlot());
-	      }
-	      else if ( interactionType.equals("Reset") ){
-	          interaction = new ResetGeometryInteraction(getPlot());
-	      }
-	      else if ( interactionType.equals("NodeMoveInteraction") ) {
-              interaction = new NodeMoveInteraction(getPlot(), deformationType) ;
-          }
-	      else if ( interactionType.equals("FlattenInteraction") ) {
-              interaction = new FlattenInteraction(getPlot(), deformationType ) ;
-	      }
-	      else if ( interactionType.equals("TopBorderInteraction") ) {
-             interaction = new TopBorderInteraction(getPlot(), deformationType );
-	      }
-	      else if ( interactionType.equals("Triangulate") ) {
-               interaction = new TriangulateInteraction(getPlot(), interactionType);
-          }
-	      
-	      if ( interaction == null ){
-	    	  return;
-	      }
-	      
-	      window_.startInteraction( interaction );
-	  }
+		Plot plot = window_.getPlot();
+		
+		GInteraction interaction = null;
+		if ( interactionType.equals("Zoom") ){
+			interaction = new ZoomInteraction(plot);
+		}
+		else if ( interactionType.equals("Reset") ){
+			interaction = new ResetGeometryInteraction(plot);
+		}
+		else if ( interactionType.equals("NodeMoveInteraction") ) {
+			interaction = new NodeMoveInteraction(plot, deformationType) ;
+		}
+		else if ( interactionType.equals("FlattenInteraction") ) {
+			interaction = new FlattenInteraction(plot, deformationType ) ;
+		}
+		else if ( interactionType.equals("TopBorderInteraction") ) {
+			interaction = new TopBorderInteraction(plot, deformationType );
+		}
+		else if ( interactionType.equals("Triangulate") ) {
+			interaction = new TriangulateInteraction(plot, interactionType);
+		}
+
+		if ( interaction == null ){
+			return;
+		}
+
+		window_.startInteraction( interaction );
+	}
 
 	public void loadMesh(String basename) {
-		 LOGGER.debug("load " + basename , this.getClass() );
-	      
-	      section = new GeoschedulerSection(basename);
-	      
-	      StratiCrushServices.getInstance().setSection(section);
-	      
-	      PatchLibrary patchLib = section.getPatchLibrary();
-	      
-	      MeshObjectFactory.createDummyMesh( basename + ".msh", section);
-	      
-	      Plot plot = getPlot();
-	      plot.removeAll();
+		LOGGER.debug("load " + basename , this.getClass() );
 
-	      // Create a graphic object
-	      for( Patch patch : patchLib.getPatches() ){
-	          ViewFactory.getInstance().createView( plot, patch );   
-	      }
+		section = new GeoschedulerSection(basename);
 
-	      ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+		StratiCrushServices.getInstance().setSection(section);
 
-	      RectD bbox = patchLib.getBoundingBox();
-	      plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
-	      
-	      window_.update();
-		
+		PatchLibrary patchLib = section.getPatchLibrary();
+
+		MeshObjectFactory.createDummyMesh( basename + ".msh", section);
+
+		Plot plot = window_.getPlot();
+		plot.removeAll();
+
+		// Create a graphic object
+		for( Patch patch : patchLib.getPatches() ){
+			ViewFactory.getInstance().createView( plot, patch );   
+		}
+
+		ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+
+		RectD bbox = patchLib.getBoundingBox();
+		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
+
+		window_.update();
+
 	}
-	  
+
 }

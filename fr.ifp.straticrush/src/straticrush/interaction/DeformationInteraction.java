@@ -15,6 +15,7 @@ import straticrush.view.PatchView;
 import fr.ifp.jdeform.controllers.DeformEvent;
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.jdeform.dummy.SvgExportPolylines;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
@@ -28,6 +29,7 @@ import fr.ifp.kronosflow.model.Interval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.implicit.MeshPatch;
 
 public abstract class DeformationInteraction implements GInteraction {
 	
@@ -126,7 +128,7 @@ public abstract class DeformationInteraction implements GInteraction {
 					//caller.revert();
 					
 					caller.clear();
-					caller.setScene( SceneBuilder.createDefaultScene(patch, GParameters.getStyle() ) );
+					caller.setScene( createScene(patch) );
 					
 					manipulator = createManipulator( scene, caller );
 					if ( !manipulator.isActive() ){
@@ -261,7 +263,16 @@ public abstract class DeformationInteraction implements GInteraction {
 		}	
 	}
 
-	
+	private Scene createScene( Patch patch ){
+		
+		if ( ( patch.getPatchLibrary().getPatches().size() == 1 ) &&
+			 ( patch instanceof MeshPatch ) ){
+			return new Scene(patch);
+		}
+		
+		
+		return SceneBuilder.createDefaultScene(patch, GParameters.getStyle() );
+	}
 
 	
 	private void getPotentialTargets( Patch patch ){

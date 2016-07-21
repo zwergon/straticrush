@@ -3,6 +3,7 @@ package straticrush.interaction;
 import java.util.HashMap;
 import java.util.Map;
 
+import straticrush.view.StratiWindow;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.utils.GParameters;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
@@ -22,7 +23,7 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class StratiCrushServices  implements IControllerService {
 	
-	private GWindow window;
+	private StratiWindow window;
 	
 	private Section section;
 	
@@ -42,12 +43,15 @@ public class StratiCrushServices  implements IControllerService {
 		return instance;
 	}
 	
-	public void setWindow( GWindow window ){
+	public void setWindow( StratiWindow window ){
 		this.window = window;
 	}
 	
+	public StratiWindow getWindow(){
+		return window;
+	}
+	
 	protected StratiCrushServices() {	
-		
 		DeformationFactory factory = DeformationFactory.getInstance();
 		factory.register( Kind.DEFORMATION, "Reset", ResetDeformation.class );
 	}
@@ -78,11 +82,17 @@ public class StratiCrushServices  implements IControllerService {
 			
 			if ( !type.equals("ChainMail") && !type.equals("MassSpring") ){
 				style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );
-				if ( type.equals("StaticFEASolver") ){
-					style.setAttribute( Kind.SOLVER.toString(), "ImplicitStatic" );
+				if ( type.equals("Dynamic") ){
+					style.setAttribute( Kind.SOLVER.toString(), "Dynamic" );
 				}
-				else {
-					style.setAttribute( Kind.SOLVER.toString(), "ImplicitDynamic" );
+				else if ( type.equals("Static") ){
+					style.setAttribute( Kind.SOLVER.toString(), "Static" );
+				}
+				else if ( type.equals("StaticLS") ){
+					style.setAttribute( Kind.SOLVER.toString(), "StaticLS" );
+				}
+				else if ( type.equals("FEM2D") ){
+					style.setAttribute( Kind.SOLVER.toString(), "FEM2D" );
 				}
 			}
 			else {

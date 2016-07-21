@@ -19,7 +19,7 @@ public class NodesHandler {
 		
 		boolean checked = handledItem.isSelected();
 
-		Plot scene = sectionPart.getPlot();
+		Plot scene = sectionPart.getWindow().getPlot();
 		for ( GObject gobject : scene.getChildren() ){
 			gobject.setVisibility( (checked)? GObject.SYMBOLS_VISIBLE : GObject.SYMBOLS_INVISIBLE );
 		}
