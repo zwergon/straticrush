@@ -1,0 +1,36 @@
+<!DOCTYPE xml>
+<Study Name="Study">
+ <StratiScale>
+  <Age Name="SeaBottom" id="0" physLineId="16" time="0" Color="#daaa00"/>
+  <Unit topId="0" physSurfId="9" Name="SeaBottom" id="0" baseId="1" Color="#ffd648"/>
+  <Age Name="Pleistocene" id="1" physLineId="15" time="0" Color="#ff7256"/>
+  <Unit topId="1" physSurfId="8" Name="Pleistocene" id="1" baseId="2" Color="#ffddd6"/>
+  <Age Name="MiddleMiocene" id="2" physLineId="14" time="0" Color="#509e69"/>
+  <Unit topId="2" physSurfId="7" Name="MiddleMiocene" id="2" baseId="3" Color="#77ef9e"/>
+  <Age Name="LowerMiocene" id="3" physLineId="13" time="0" Color="#00003f"/>
+  <Unit topId="3" physSurfId="6" Name="LowerMiocene" id="3" baseId="4" Color="#00005d"/>
+  <Age Name="LowerOligocene" id="4" physLineId="12" time="0" Color="#95522d"/>
+  <Unit topId="4" physSurfId="5" Name="LowerOligocene" id="4" baseId="5" Color="#e17b42"/>
+  <Age Name="Eocene" id="5" physLineId="11" time="0" Color="#7c97d3"/>
+  <Unit topId="5" physSurfId="4" Name="Eocene" id="5" baseId="6" Color="#d4e2ff"/>
+  <Age Name="Maastrichtian" id="6" physLineId="10" time="0" Color="#3f3f3f"/>
+  <Unit topId="6" physSurfId="3" Name="Maastrichtian" id="6" baseId="7" Color="#606060"/>
+  <Age Name="Santonian" id="7" physLineId="9" time="0" Color="#ef83ef"/>
+  <Unit topId="7" physSurfId="1" Name="Santonian" id="7" baseId="8" Color="#fff4ff"/>
+  <Age Name="Albian" id="8" physLineId="8" time="0" Color="#f4ddb3"/>
+  <Unit topId="8" physSurfId="2" Name="Albian" id="8" baseId="9" Color="#ffffff"/>
+  <Age Name="SaltTop" id="9" physLineId="7" time="0" Color="#bc52bc"/>
+  <Unit topId="9" physSurfId="10" Name="SaltTop" id="9" baseId="10" Color="#ff8aff"/>
+  <Age Name="SaltBase" id="10" physLineId="6" time="0" Color="#80ff3f"/>
+  <Unit topId="10" physSurfId="0" Name="SaltBase" id="10" Color="#d4ffbf"/>
+ </StratiScale>
+ <Fault Name="f1" id="0" physLineId="0" Color="#0000ff"/>
+ <Fault Name="f2" id="1" physLineId="1" Color="#0000ff"/>
+ <Fault Name="f3" id="2" physLineId="2" Color="#0000ff"/>
+ <Fault Name="f4" id="3" physLineId="3" Color="#0000ff"/>
+ <Fault Name="f5" id="4" physLineId="4" Color="#0000ff"/>
+ <Fault Name="f6" id="5" physLineId="5" Color="#0000ff"/>
+ <Border Name="left_border" id="0" physLineId="17" Color="#ff0000"/>
+ <Border Name="bottom_border" id="1" physLineId="18" Color="#ff0000"/>
+ <Border Name="right_border" id="2" physLineId="19" Color="#ff0000"/>
+</Study>

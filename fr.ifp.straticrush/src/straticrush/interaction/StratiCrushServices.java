@@ -3,9 +3,8 @@ package straticrush.interaction;
 import java.util.HashMap;
 import java.util.Map;
 
-import straticrush.view.StratiWindow;
-import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.utils.GParameters;
+import straticrush.view.StratiWindow;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
@@ -68,7 +67,6 @@ public class StratiCrushServices  implements IControllerService {
 		SceneStyle sceneStyle = new SceneStyle(style);
 		
 		if ( type.equals("Reset") ||
-			 type.equals("Translate") ||
 			 type.equals("VerticalShear") ||
 			 type.equals("FlexuralSlip") ||
 			 type.equals("MovingLS")){
@@ -81,7 +79,7 @@ public class StratiCrushServices  implements IControllerService {
 			sceneStyle.setNatureType(NatureType.IMPLICIT);
 			
 			if ( !type.equals("ChainMail") && !type.equals("MassSpring") ){
-				style.setAttribute( Kind.DEFORMATION.toString(), "TargetsSolverDeformation" );
+				style.setAttribute( Kind.DEFORMATION.toString(), "NodeLinksDeformation" );
 				if ( type.equals("Dynamic") ){
 					style.setAttribute( Kind.SOLVER.toString(), "Dynamic" );
 				}

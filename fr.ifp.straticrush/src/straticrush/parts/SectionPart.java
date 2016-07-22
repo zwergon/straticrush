@@ -26,6 +26,7 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.swt.widgets.Composite;
 
+import straticrush.interaction.DilatationInteraction;
 import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
@@ -181,6 +182,9 @@ public class SectionPart  {
 		}
 		else if ( interactionType.equals("FlattenInteraction") ) {
 			interaction = new FlattenInteraction(plot, deformationType ) ;
+		}
+		else if ( interactionType.equals("DilatationInteraction") ) {
+			interaction = new DilatationInteraction(plot, deformationType ) ;
 		}
 		else if ( interactionType.equals("TopBorderInteraction") ) {
 			interaction = new TopBorderInteraction(plot, deformationType );

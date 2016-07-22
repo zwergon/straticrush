@@ -1,44 +1,28 @@
 package straticrush.interaction;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 
-import straticrush.view.GPolyline;
-import straticrush.view.IUpdateGeometry;
-import straticrush.view.PatchView;
-import fr.ifp.jdeform.controllers.scene.Scene;
-import fr.ifp.jdeform.controllers.scene.SceneBuilder;
-import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.mesh.Triangle;
-import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.Node;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
-import fr.ifp.kronosflow.model.ICurviPoint.CoordType;
-import fr.ifp.kronosflow.model.algo.ComputeBloc;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.model.sampling.CompactPointSampling;
-import fr.ifp.kronosflow.model.sampling.PointSampling;
-import fr.ifp.kronosflow.model.sampling.RandomPointSampling;
-import fr.ifp.kronosflow.triangulation.Triangulation;
 import no.geosoft.cc.graphics.GColor;
-import no.geosoft.cc.graphics.GKeyEvent;
-import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.utils.GParameters;
+import straticrush.view.GPolyline;
+import straticrush.view.IUpdateGeometry;
+import straticrush.view.PatchView;
+import fr.ifp.jdeform.controllers.scene.Scene;
+import fr.ifp.jdeform.controllers.scene.SceneBuilder;
+import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.model.IHandle;
+import fr.ifp.kronosflow.model.Node;
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.triangulation.Triangulation;
 
 public class TriangulateInteraction implements GInteraction {
 	
@@ -53,24 +37,18 @@ public class TriangulateInteraction implements GInteraction {
 	
 	private class PointSet extends GObject {
 		private GSegment[] lines_;
-		static final int nPoints = 200; 
-		RectD bbox;
+
 		
 		public PointSet ()
 		{
-			
-			
 			setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 						
 			// Add style to object itself so it is inherited by segments
 			GStyle lineStyle = new GStyle();
 			setStyle (lineStyle);
-
-		
 		}
 		
 		public void setPoints( PolyLine border ){
-			this.bbox = border.getBoundingBox();
 			
 			removeSegments();
 			triangulation = new Triangulation();

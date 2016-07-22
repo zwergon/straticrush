@@ -17,10 +17,6 @@
           <parameters xmi:id="_vtwgIAMSEeWQfLK62v5NBw" elementId="straticrush.parameter.reset" name="straticrush.commandparameter.interactiontype" value="Reset"/>
         </children>
         <children xsi:type="menu:Menu" xmi:id="_wS-QkAMTEeWQfLK62v5NBw" elementId="straticrush.menu.nodemoveto" label="NodeMoveTo">
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_1KVoIAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.translate" label="Translate" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_3-w3kAMTEeWQfLK62v5NBw" elementId="straticrush.parameter.nodemove.translate.interaction" name="straticrush.commandparameter.interactiontype" value="NodeMoveInteraction"/>
-            <parameters xmi:id="_rcINMBpbEeW6afiUSqqJzw" elementId="straticrush.parameter.nodemove.translate.deformation" name="straticrush.commandparameter.deformationtype" value="Translate"/>
-          </children>
           <children xsi:type="menu:HandledMenuItem" xmi:id="_9U3ZkAMTEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.chainmail" label="ChainMail" command="_ScI2oAMGEeWQfLK62v5NBw">
             <parameters xmi:id="_Aq3sEAMUEeWQfLK62v5NBw" elementId="straticrush.parameter.nodemove.chainmail.interaction" name="straticrush.commandparameter.interactiontype" value="NodeMoveInteraction"/>
             <parameters xmi:id="_CHKasBpcEeW6afiUSqqJzw" elementId="straticrush.parameter.nodemove.chainmail.deformation" name="straticrush.commandparameter.deformationtype" value="ChainMail"/>
@@ -66,6 +62,12 @@
           <children xsi:type="menu:HandledMenuItem" xmi:id="_gnn-QBpaEeW6afiUSqqJzw" elementId="straticrush.handledmenuitem.flexuralSlip" label="Flexural Slip" command="_ScI2oAMGEeWQfLK62v5NBw">
             <parameters xmi:id="_k50zQBpaEeW6afiUSqqJzw" elementId="straticrush.parameter.topborder.flexural.interaction" name="straticrush.commandparameter.interactiontype" value="TopBorderInteraction"/>
             <parameters xmi:id="_OhOd8Bp4EeW6afiUSqqJzw" elementId="straticrush.parameter.topborder.flexural.deformation" name="straticrush.commandparameter.deformationtype" value="FlexuralSlip"/>
+          </children>
+        </children>
+        <children xsi:type="menu:Menu" xmi:id="_G-WzwFAWEeaTas4vi4NdPw" elementId="straticrush.menu.dilatation" label="Dilatation ">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_Qu1PUFAWEeaTas4vi4NdPw" elementId="straticrush.handledmenuitem.fem" label="FEM" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_VWsLQFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.fem.interactiontype" name="straticrush.commandparameter.interactiontype" value="DilatationInteraction"/>
+            <parameters xmi:id="_ayLjkFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.fem.deformationtype" name="straticrush.commandparameter.deformationtype" value="DilatationDeformation"/>
           </children>
         </children>
       </children>

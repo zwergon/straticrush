@@ -137,7 +137,7 @@ public abstract class DeformationInteraction implements GInteraction {
 					
 					manipulator.onMousePress(event);
 					
-					scene.redraw();
+					scene_.refresh();
 					
 				}
 			}

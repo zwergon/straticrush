@@ -18,12 +18,21 @@ public class Vector2DManipulator extends CompositeManipulator {
 	GTranslateObject translateMarker;
 	
 	private Node  selected_node_;
+	
+	private boolean canTranslate = true;
 
 	public Vector2DManipulator(
 			GScene gscene,
 			DeformationControllerCaller caller ) {
 		super(gscene, caller );
-		withTranslateMarker = false;
+	}
+	
+	/**
+	 * during mouse drag, marker stay at the same position, usefull
+	 * to select one fixed node.
+	 */
+	protected void enableTranslate( boolean canTranslate ){
+		this.canTranslate = canTranslate;
 	}
 	
 	@Override
@@ -76,7 +85,8 @@ public class Vector2DManipulator extends CompositeManipulator {
 		selected_node_ = selectNode(selected, w_pos);
 		
 		
-		translateMarker.createMarker(event.x, event.y);
+		int[] d_pos = transformer.worldToDevice(selected_node_.x(), selected_node_.y() );
+		translateMarker.createMarker( d_pos[0], d_pos[1] );
 		gscene.add(translateMarker);
 		
 	}
@@ -88,7 +98,9 @@ public class Vector2DManipulator extends CompositeManipulator {
 			return;
 		}
 	
-		translateMarker.moveTo( event.x, event.y );
+		if ( canTranslate ){
+			translateMarker.moveTo( event.x, event.y );
+		}
 
 	}
 

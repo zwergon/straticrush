@@ -31,9 +31,7 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	double[] start;
 
 	double[] prev;
-	
-	protected boolean withTranslateMarker = true;
-	
+		
 	protected DeformationControllerCaller deformationCaller;
 		
 	List<IDeformationItem> items;

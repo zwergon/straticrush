@@ -90,17 +90,6 @@ public class GPatchObject extends GObject implements IViewListener {
 			gextension.updateGeometry();
 		}
 		
-		if ( withPatchGrid ){
-			Patch patch = interval.getPatch();
-			if ( patch instanceof IMeshProvider ){
-				Mesh2D mesh = ((IMeshProvider)patch).getMesh();
-
-				for( IHandle handle : mesh.getCells() ){
-					addCell( mesh, (Cell)handle );
-				}
-			}
-		}
-		
 	}
 	
 	
@@ -122,6 +111,14 @@ public class GPatchObject extends GObject implements IViewListener {
 		borderLine.setStyle (style);
 		
 		borderLine.updateGeometry();
+		
+		if ( withPatchGrid &&  ( patch instanceof IMeshProvider ) ){
+				Mesh2D mesh = ((IMeshProvider)patch).getMesh();
+				for( IHandle handle : mesh.getCells() ){
+					addCell( mesh, (Cell)handle );
+				}
+		}
+		
 	}
 	
 	@Override
@@ -190,6 +187,8 @@ public class GPatchObject extends GObject implements IViewListener {
 		gcell.setStyle (style);
 		
 		addSegment(gcell);
+		
+		gcell.updateGeometry();
 		
 		return gcell;
 	}

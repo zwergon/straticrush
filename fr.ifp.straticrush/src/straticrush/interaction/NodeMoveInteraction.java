@@ -16,11 +16,6 @@ public class NodeMoveInteraction extends DeformationInteraction {
 		init(scene, type);
 	}
 	
-	public NodeMoveInteraction( GScene scene ){
-		super(scene, "Translate");
-		init( scene, "Translate" );
-	}
-	
 	protected void init(GScene scene, String type) {		
 		Deformation deformation = StratiCrushServices.getInstance().createDeformation(type);
 		getCaller().setDeformation( deformation );
