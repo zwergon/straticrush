@@ -59,6 +59,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
 		link = new GeoschedulerLink( StratiCrushServices.getInstance().createDeformationCaller() );
+		manipulator = null;
 	
 	}
 	
@@ -83,7 +84,8 @@ public abstract class DeformationInteraction implements GInteraction {
 			getCaller().publish();
 			moveJob = null;
 		}
-		manipulator.deactivate();	
+		manipulator.deactivate();
+		manipulator = null;
 		scene_.refresh();	
 		
 	}
@@ -117,31 +119,34 @@ public abstract class DeformationInteraction implements GInteraction {
 			x0_ = event.x;
 			y0_ = event.y;
 			
-			GSegment selected = scene.findSegment (event.x, event.y);
-			if ( selected !=  null ){
-				GObject gobject = selected.getOwner();
-				if ( gobject instanceof PatchView ){
-				
-					Patch patch = ((PatchView)gobject).getObject();
-				
-					DeformationControllerCaller caller = getCaller();
-					//caller.revert();
-					
-					caller.clear();
-					caller.setScene( createScene(patch) );
-					
-					manipulator = createManipulator( scene, caller );
-					if ( !manipulator.isActive() ){
+			
+			if ( manipulator == null ){
+				GSegment selected = scene.findSegment (event.x, event.y);
+				if ( selected !=  null ){
+					GObject gobject = selected.getOwner();
+					if ( gobject instanceof PatchView ){
+
+						Patch patch = ((PatchView)gobject).getObject();
+
+
+
+						DeformationControllerCaller caller = getCaller();
+						//caller.revert();
+
+						caller.clear();
+						caller.setScene( createScene(patch) );
+						manipulator = createManipulator( scene, caller );
 						manipulator.activate();
 					}
-					
-					manipulator.onMousePress(event);
-					
-					scene_.refresh();
-					
 				}
 			}
+			
+			if ( ( manipulator != null )  && manipulator.isActive() ){
+				manipulator.onMousePress(event);
+			}
 
+			scene_.refresh();
+			
 			break;
 
 		case GMouseEvent.BUTTON1_DRAG :
@@ -154,30 +159,36 @@ public abstract class DeformationInteraction implements GInteraction {
 			break;
 
 		case GMouseEvent.BUTTON1_UP :
+		case GMouseEvent.BUTTON3_UP :
 			
 			
 			if ( ( null != manipulator ) && manipulator.isActive() ) {
 				manipulator.onMouseRelease(event);
 				
 				CompositeManipulator compositeManipulator = (CompositeManipulator)manipulator;
-
-				if ( compositeManipulator.canDeform() ){	
-					
-					DeformationControllerCaller deformationCaller = getCaller();
-					deformationCaller.hasPostDeform(false);
-					deformationCaller.addItems( compositeManipulator.getItems() );
-					deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
 				
-					moveJob = new DeformationThread(deformationCaller);						
-					moveJob.start();
+				if ( !manipulator.isManipulating() ){
 
-					DeformationAnimation.start( this );
-					
+					if ( compositeManipulator.canDeform() ){	
+
+						DeformationControllerCaller deformationCaller = getCaller();
+						deformationCaller.hasPostDeform(false);
+						deformationCaller.addItems( compositeManipulator.getItems() );
+						deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
+
+						moveJob = new DeformationThread(deformationCaller);						
+						moveJob.start();
+
+						DeformationAnimation.start( this );
+
+					}
+					else {
+						end();
+					}
 				}
 				else {
-					end();
+					scene_.refresh();
 				}
-
 			}
 			break;
 			

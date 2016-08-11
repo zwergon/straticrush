@@ -166,7 +166,7 @@ public class PoissonComputer extends PropertyComputer {
 
 		PatchInterval master;
 		PatchInterval slave;
-		if ( pair % 2 ==  1 ){
+		if ( pair % 2 ==  0 ){
 			master = contact.getPatchInterval();
 			slave  = contact.getMate();
 		}
@@ -175,7 +175,7 @@ public class PoissonComputer extends PropertyComputer {
 			slave = contact.getPatchInterval();
 			master  = contact.getMate();
 		}
-		//pair++;
+		pair++;
 			
 		Interval interval = master.getInterval();
 		MeshPatch patch = (MeshPatch)master.getPatch();

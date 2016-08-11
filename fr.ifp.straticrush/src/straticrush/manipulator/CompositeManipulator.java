@@ -80,7 +80,14 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		 prev = Vector2D.copy(xy);
 	 }
 
-	
+	 /**
+	  * By default, many manipulators are atomic. Only one clic.
+	  * A manipulator may be active ( visible ) but no more action is required for user. ( isManipulating == false ).
+	  */
+	@Override
+	public boolean isManipulating() {
+		return false;
+	}
 
 	@Override
 	public boolean isActive(){

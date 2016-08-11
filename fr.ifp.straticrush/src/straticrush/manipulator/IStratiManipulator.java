@@ -6,6 +6,7 @@ import no.geosoft.cc.graphics.GObject;
 public interface IStratiManipulator {
 	
 	public boolean isActive();
+	public boolean isManipulating();
 	
 	public void activate();
 	public void deactivate();

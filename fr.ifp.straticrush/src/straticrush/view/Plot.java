@@ -28,6 +28,7 @@ public class Plot extends GScene {
 		insets_ = insets;
 		
 		colormap = new GColorMap();
+		
 		colormap.createDefaultColormap();
 	}
 

@@ -3,6 +3,7 @@ package straticrush.interaction;
 import no.geosoft.cc.graphics.GScene;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.Point2DManipulator;
+import straticrush.manipulator.PointsManipulator;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
@@ -18,7 +19,7 @@ public class DilatationInteraction extends DeformationInteraction {
 	@Override
 	public CompositeManipulator createManipulator(GScene gscene,
 			DeformationControllerCaller caller) {
-		return new Point2DManipulator(gscene, caller);
+		return new PointsManipulator(gscene, caller);
 	}
 
 }

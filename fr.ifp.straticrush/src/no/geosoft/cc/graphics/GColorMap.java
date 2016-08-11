@@ -215,6 +215,7 @@ public class GColorMap {
 	
 	public void createDefaultColormap(){
 		createFromName( "Default" );
+		//createRandomColormap();
 		setMinMax( 0, getNColors() );
 	}
 	
