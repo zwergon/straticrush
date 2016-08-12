@@ -68,7 +68,7 @@ public class PoissonComputer extends PropertyComputer {
 		
 		PropertyDB propertyDB = section.getPropertyDB();
 		
-		PropertyInfo pinfo =  new PropertyInfo( "Poisson", Support.NodeProperty, Kind.Real );
+		PropertyInfo pinfo =  new PropertyInfo( "Temperature", Support.NodeProperty, Kind.Real );
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
