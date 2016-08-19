@@ -13,7 +13,7 @@ public class DilatationInteraction extends DeformationInteraction {
 
 	public DilatationInteraction(GScene scene, String type) {
 		super(scene, type);
-		getCaller().setDeformation( (Deformation)DeformationFactory.getInstance().createDeformation(type) );
+		getCaller().setDeformation( StratiCrushServices.getInstance().createDeformation(type) );
 	}
 
 	@Override

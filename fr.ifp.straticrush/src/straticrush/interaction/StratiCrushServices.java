@@ -19,6 +19,7 @@ import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
+import fr.ifp.kronosflow.utils.LOGGER;
 
 public class StratiCrushServices  implements IControllerService {
 	
@@ -65,38 +66,44 @@ public class StratiCrushServices  implements IControllerService {
 		Style style = GParameters.getStyle();
 		
 		SceneStyle sceneStyle = new SceneStyle(style);
-		
 		if ( type.equals("Reset") ||
 			 type.equals("VerticalShear") ||
 			 type.equals("FlexuralSlip") ||
 			 type.equals("MovingLS")){
-			style.setAttribute( Kind.DEFORMATION.toString(), type );
 			sceneStyle.setGridType(GridType.LINE);
 			sceneStyle.setNatureType(NatureType.EXPLICIT);
 		}
 		else {
 			sceneStyle.setGridType(GridType.GRID2D );
 			sceneStyle.setNatureType(NatureType.IMPLICIT);
-			
-			if ( !type.equals("ChainMail") && !type.equals("MassSpring") ){
-				style.setAttribute( Kind.DEFORMATION.toString(), "NodeLinksDeformation" );
-				if ( type.equals("Dynamic") ){
-					style.setAttribute( Kind.SOLVER.toString(), "Dynamic" );
-				}
-				else if ( type.equals("Static") ){
-					style.setAttribute( Kind.SOLVER.toString(), "Static" );
-				}
-				else if ( type.equals("StaticLS") ){
-					style.setAttribute( Kind.SOLVER.toString(), "StaticLS" );
-				}
-				else if ( type.equals("FEM2D") ){
-					style.setAttribute( Kind.SOLVER.toString(), "FEM2D" );
-				}
-			}
-			else {
-				style.setAttribute( Kind.DEFORMATION.toString(), type );
-			}
 		}
+		
+		if ( type.equals("Reset") ||
+		     type.equals("VerticalShear") ||
+			 type.equals("FlexuralSlip") ||
+			 type.equals("MovingLS") ||
+			 type.equals("ChainMail") ||
+			 type.equals("MassSpring") ){
+			style.setAttribute( Kind.DEFORMATION.toString(), type );
+		}
+		else if ( 
+				 type.equals("Dynamic") ||
+			     type.equals("Static") ||
+				 type.equals("StaticLS") ||
+				 type.equals("FEM2D")  ) {
+			style.setAttribute( Kind.DEFORMATION.toString(), "NodeLinksDeformation" );
+			style.setAttribute( Kind.SOLVER.toString(), type );
+		}
+		else if ( type.equals("Thermal") ||
+				  type.equals("Decompaction") ){
+			style.setAttribute( Kind.DEFORMATION.toString(), "DilatationDeformation" );
+			style.setAttribute( "DilatationType", type );
+		}
+		else {
+			assert false : "This deformation parameter is not handled";
+		}
+			
+		
 	
 		Deformation deformation = (Deformation)DeformationFactory.getInstance().createDeformation(style);
 		

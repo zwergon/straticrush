@@ -65,9 +65,13 @@
           </children>
         </children>
         <children xsi:type="menu:Menu" xmi:id="_G-WzwFAWEeaTas4vi4NdPw" elementId="straticrush.menu.dilatation" label="Dilatation ">
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_Qu1PUFAWEeaTas4vi4NdPw" elementId="straticrush.handledmenuitem.fem" label="FEM" command="_ScI2oAMGEeWQfLK62v5NBw">
-            <parameters xmi:id="_VWsLQFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.fem.interactiontype" name="straticrush.commandparameter.interactiontype" value="DilatationInteraction"/>
-            <parameters xmi:id="_ayLjkFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.fem.deformationtype" name="straticrush.commandparameter.deformationtype" value="DilatationDeformation"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_Qu1PUFAWEeaTas4vi4NdPw" elementId="straticrush.handledmenuitem.dilatation.thermal" label="Thermal" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_VWsLQFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.thermal.interactiontype" name="straticrush.commandparameter.interactiontype" value="DilatationInteraction"/>
+            <parameters xmi:id="_ayLjkFAWEeaTas4vi4NdPw" elementId="straticrush.parameter.dilatation.thermal.deformationtype" name="straticrush.commandparameter.deformationtype" value="Thermal"/>
+          </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_a_y4EGO6EeaiVq8IepbIgw" elementId="straticrush.handledmenuitem.dilatation.decompaction" label="Decompaction" command="_ScI2oAMGEeWQfLK62v5NBw">
+            <parameters xmi:id="_irsMwGO6EeaiVq8IepbIgw" elementId="straticrush.parameter.dilatation.decompaction.interactiontype" name="straticrush.commandparameter.interactiontype" value="DilatationInteraction"/>
+            <parameters xmi:id="_romdYGO6EeaiVq8IepbIgw" elementId="straticrush.parameter.dilatation.decompaction.deformationtype" name="straticrush.commandparameter.deformationtype" value="Decompaction"/>
           </children>
         </children>
       </children>
