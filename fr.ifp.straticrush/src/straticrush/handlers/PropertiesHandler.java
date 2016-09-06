@@ -28,6 +28,9 @@ public class PropertiesHandler {
 		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.porosity") ){
 			caller.setPropertyKey("Porosity");
 		}
+		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.strateOrientation") ){
+			caller.setPropertyKey("Strate Orientation");
+		}
 
 		caller.applyAndNotify();
 
