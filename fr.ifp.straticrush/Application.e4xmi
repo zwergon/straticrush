@@ -86,6 +86,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_VNz1UCZDEeaaWNJHMYlDWA" elementId="straticrush.handledmenuitem.properties.xy" label="XY" command="_IMPPECGmEeaRcv2wtMGulg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_H2MFQCf2EeaaWNJHMYlDWA" elementId="straticrush.handledmenuitem.properties.poisson" label="Poisson" command="_IMPPECGmEeaRcv2wtMGulg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_2mrXkGBkEeaiVq8IepbIgw" elementId="straticrush.handledmenuitem.properties.porosity" label="Porosity" command="_IMPPECGmEeaRcv2wtMGulg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_ofP_gHQQEeauradc62Rr_g" elementId="straticrush.handledmenuitem.property.stratiorientation" label="Orientation Strati" command="_IMPPECGmEeaRcv2wtMGulg"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_OmJ54_-gEeSzbZWfsvr3zw" label="Help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ55P-gEeSzbZWfsvr3zw" label="About" command="_OmJS5v-gEeSzbZWfsvr3zw"/>
