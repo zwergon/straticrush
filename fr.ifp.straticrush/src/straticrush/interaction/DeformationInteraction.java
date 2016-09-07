@@ -58,7 +58,7 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
-		link = new GeoschedulerLink( StratiCrushServices.getInstance().createDeformationCaller() );
+		link = new GeoschedulerLink( StratiCrushServices.getInstance().createCaller("Deformation") );
 		manipulator = null;
 	
 	}

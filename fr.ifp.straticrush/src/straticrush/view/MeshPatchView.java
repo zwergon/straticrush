@@ -93,7 +93,7 @@ public class MeshPatchView extends PatchView {
 	
 	
 	@Override
-	public void objectChanged( IControllerEvent<?> event ) {	
+	public void modelChanged( IControllerEvent<?> event ) {	
 		
 		switch( event.getEventAction() ){
 		case MOVE:

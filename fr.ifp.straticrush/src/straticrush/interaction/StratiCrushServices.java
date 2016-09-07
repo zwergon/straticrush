@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import no.geosoft.cc.utils.GParameters;
+import straticrush.caller.RemoveUnitCaller;
+import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
@@ -12,14 +14,17 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.ResetDeformation;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
+import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.EnumEventAction;
+import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
-import fr.ifp.kronosflow.utils.LOGGER;
+import fr.ifp.kronosflow.newevents.PatchDeleteEvent;
+import fr.ifp.kronosflow.newevents.UnitRemovedItem;
 
 public class StratiCrushServices  implements IControllerService {
 	
@@ -28,8 +33,6 @@ public class StratiCrushServices  implements IControllerService {
 	private Section section;
 	
 	private static StratiCrushServices instance;
-	
-	ViewNotifier notifier;
 	
 	
 	static {
@@ -56,8 +59,15 @@ public class StratiCrushServices  implements IControllerService {
 		factory.register( Kind.DEFORMATION, "Reset", ResetDeformation.class );
 	}
 	
-	public DeformationControllerCaller createDeformationCaller(){
-	    return new DeformationControllerCaller( this ) ;
+	public IGeoschedulerCaller<?>  createCaller( String type ){
+		if ( type.equals("Deformation") ){
+			return new DeformationControllerCaller( this ) ;
+		}
+		else if ( type.equals("RemoveUnit") ){
+			return new RemoveUnitCaller(this);
+		}
+		
+	    return null;
 	}
 	
 	public Deformation createDeformation( String type ){
@@ -117,15 +127,12 @@ public class StratiCrushServices  implements IControllerService {
 	
 	public void setSection( Section section ){
 		this.section = section;
-		this.notifier = new ViewNotifier();
 	}
 	
 	@Override
 	public void handleEvents( ControllerEventList eventList ) {
 		
-		if ( null == notifier ){
-			return;
-		}
+		Plot plot = window.getPlot();
 		
 		//test if one Move Event to trigger view redraw.
 		
@@ -136,7 +143,17 @@ public class StratiCrushServices  implements IControllerService {
 		}
 		
 		for( IControllerEvent<?> event : summary.values() ){
-			notifier.notifyViews(event);
+			
+			if ( event instanceof PatchDeleteEvent ){
+				PatchDeleteEvent pde = (PatchDeleteEvent)event;
+				UnitRemovedItem removeItem = (UnitRemovedItem)pde.getObject();
+				for ( Patch patch : removeItem.getPatches() ){
+					plot.destroyViews(patch);
+				}
+			}
+			else {
+				plot.notifyViews(event);
+			}
 		}
 		
 	}
@@ -148,16 +165,6 @@ public class StratiCrushServices  implements IControllerService {
 		handleEvents(eventList);
 	}
 
-	public void removeListener(IViewListener view) {
-		if ( null != notifier ){
-			notifier.removeListener(view);
-		}
-	}
-
-	public void addListener(IViewListener view) {
-		if ( null != notifier ){
-			notifier.addListener(view);
-		}	
-	}
+	
 	
 }

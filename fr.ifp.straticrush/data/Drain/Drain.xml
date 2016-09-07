@@ -1,0 +1,46 @@
+<!DOCTYPE xml>
+ <Study Name="Study">
+ <StratiScale>
+  <Age Name="TopSediment" id="0" physLineId="0" time="0" Color="#daaa00"/>
+  <Unit topId="0" physSurfId="0" Name="TopSediment" id="0" baseId="1" Color="#ffd648"/>
+  <Age Name="stage12a" id="1" physLineId="1" time="0" Color="#daaa00"/>
+  <Unit topId="1" physSurfId="1" Name="stage12a" id="1" baseId="2" Color="#ffd648"/>
+  <Age Name="stage12" id="2" physLineId="2" time="0" Color="#daaa00"/>
+  <Unit topId="2" physSurfId="2" Name="stage12" id="2" baseId="3" Color="#ffd648"/>
+  <Age Name="stage11a" id="3" physLineId="3" time="0" Color="#daaa00"/>
+  <Unit topId="3" physSurfId="3" Name="stage11a" id="3" baseId="4" Color="#ffd648"/>
+  <Age Name="stage11" id="4" physLineId="4" time="0" Color="#daaa00"/>
+  <Unit topId="4" physSurfId="4" Name="stage11" id="4" baseId="5" Color="#ffd648"/>
+  <Age Name="stage10a" id="5" physLineId="5" time="0" Color="#daaa00"/>
+  <Unit topId="5" physSurfId="5" Name="stage10a" id="5" baseId="6" Color="#ffd648"/>
+  <Age Name="stage10" id="6" physLineId="6" time="0" Color="#daaa00"/>
+  <Unit topId="6" physSurfId="6" Name="stage10" id="6" baseId="7" Color="#ffd648"/>
+  <Age Name="stage9" id="7" physLineId="7" time="0" Color="#daaa00"/>
+  <Unit topId="7" physSurfId="7" Name="stage9" id="7" baseId="8" Color="#ffd648"/>
+  <Age Name="stage8a" id="8" physLineId="8" time="0" Color="#daaa00"/>
+  <Unit topId="8" physSurfId="8" Name="stage8a" id="8" baseId="9" Color="#ffd648"/>
+  <Age Name="stage8" id="9" physLineId="9" time="0" Color="#daaa00"/>
+  <Unit topId="9" physSurfId="9" Name="stage8" id="9" baseId="10" Color="#ffd648"/>
+  <Age Name="stage7" id="10" physLineId="10" time="0" Color="#daaa00"/>
+  <Unit topId="10" physSurfId="10" Name="stage7" id="10" baseId="11" Color="#ffd648"/>
+  <Age Name="stage6" id="11" physLineId="11" time="0" Color="#daaa00"/>
+  <Unit topId="11" physSurfId="11" Name="stage6" id="11" baseId="12" Color="#ffd648"/>
+  <Age Name="stage5" id="12" physLineId="12" time="0" Color="#daaa00"/>
+  <Unit topId="12" physSurfId="12" Name="stage5" id="12" baseId="13" Color="#ffd648"/>
+  <Age Name="stage4bis" id="13" physLineId="13" time="0" Color="#daaa00"/>
+  <Unit topId="13" physSurfId="13" Name="stage4bis" id="13" baseId="14" Color="#ffd648"/>
+  <Age Name="stage4" id="14" physLineId="14" time="0" Color="#daaa00"/>
+  <Unit topId="14" physSurfId="14" Name="stage4" id="14" baseId="15" Color="#ffd648"/>
+  <Age Name="sage3bis" id="15" physLineId="15" time="0" Color="#daaa00"/>
+  <Unit topId="15" physSurfId="15" Name="sage3bis" id="15" baseId="16" Color="#ffd648"/>
+  <Age Name="stage3" id="16" physLineId="16" time="0" Color="#daaa00"/>
+  <Unit topId="16" physSurfId="16" Name="stage3" id="16" baseId="17" Color="#ffd648"/>
+  <Age Name="stage2" id="17" physLineId="17" time="0" Color="#daaa00"/>
+  <Unit topId="17" physSurfId="17" Name="stage2" id="17" baseId="18" Color="#ffd648"/>
+  <Age Name="stage1" id="18" physLineId="18" time="0" Color="#daaa00"/>
+  <Unit topId="18" physSurfId="18" Name="stage1" id="18" baseId="19" Color="#ffd648"/>
+</StratiScale>
+ <Border Name="bottom_border" id="1" physLineId="19" Color="#ff0000"/>
+ <Border Name="left_border" id="0" physLineId="20" Color="#ff0000"/>
+ <Border Name="right_border" id="2" physLineId="21" Color="#ff0000"/>
+</Study>

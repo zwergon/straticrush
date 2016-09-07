@@ -44,7 +44,7 @@ public class PaleoView extends View {
 	}
 
 	@Override
-	public void objectChanged( IControllerEvent<?> event ) {
+	public void modelChanged( IControllerEvent<?> event ) {
 		if ( event.getObject() == getUserData() ){
 			gline.updateGeometry();
 		}

@@ -155,7 +155,7 @@ public class PatchView extends View {
 	}
 	
 	@Override
-	public void objectChanged( IControllerEvent<?> event ) {	
+	public void modelChanged( IControllerEvent<?> event ) {	
 		 updateGeometry();
 	}
 

@@ -23,14 +23,14 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
-import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.topology.Contact;
 import straticrush.parts.SectionPart;
 import straticrush.view.PartitionLineView;
 import straticrush.view.Plot;
+import straticrush.view.StratiWindow;
 import straticrush.view.View;
-import straticrush.view.ViewFactory;
+import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.topology.Contact;
 
 public class ContactsHandler {
 
@@ -51,14 +51,21 @@ public class ContactsHandler {
 			return;
 		}
 
-		Plot plot = sectionPart.getWindow().getPlot();
-		if ( plot == null ) return;
+		
+		StratiWindow window = sectionPart.getWindow();
+		if ( window == null ){
+			return;
+		}
+		
+		Plot plot = window.getPlot();
+		if ( plot == null ) 
+			return;
 
 
 		List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
 		for( GObject object : copy ){
 			if ( object instanceof PartitionLineView ){
-				ViewFactory.getInstance().destroyView(plot, (View)object);
+				plot.destroyView( (View)object );
 			}
 		}
 
@@ -66,7 +73,7 @@ public class ContactsHandler {
 			PatchLibrary patchLib = section.getPatchLibrary();
 			// Create a graphic object
 			for( Contact contact : patchLib.getContacts() ){
-				ViewFactory.getInstance().createView(plot, contact);
+				plot.createView(contact);
 			}
 		}
 

@@ -23,7 +23,7 @@ public class ResetGeometryInteraction implements GInteraction {
 		
 		StratiCrushServices service = StratiCrushServices.getInstance();
 		this.scene = scene;
-		controllerCaller = service.createDeformationCaller();
+		controllerCaller = (DeformationControllerCaller)service.createCaller("Deformation");
 		controllerCaller.setDeformation( service.createDeformation("Reset") );
 	}
 

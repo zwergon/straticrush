@@ -6,15 +6,14 @@ import java.util.List;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
-import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
-import straticrush.interaction.IViewListener;
 import straticrush.view.GCell;
 import straticrush.view.GExtension;
 import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
+import straticrush.view.View;
 import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.mesh.Cell;
@@ -30,17 +29,22 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.newevents.IControllerEvent;
 
-public class GPatchObject extends GObject implements IViewListener {
+public class GPatchObject extends View  {
 	
 	boolean withPatchGrid = true;
 	
 	Deformation deformation = null;
 	
 	
-	
 	public GPatchObject(){
 		super("Interaction");
 		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );	
+	}
+	
+	
+	@Override
+	public void setModel(Object object) {
+		// TODO Auto-generated method stub	
 	}
 	
 	public void setDeformation(Deformation deformation ){
@@ -168,11 +172,6 @@ public class GPatchObject extends GObject implements IViewListener {
 	
 	List<GPolyline> lines = new ArrayList<GPolyline>();
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-	
 
 	private GSegment addCell( Mesh2D mesh, Cell cell ) {
 		
@@ -194,7 +193,7 @@ public class GPatchObject extends GObject implements IViewListener {
 	}
 
 	@Override
-	public void objectChanged(IControllerEvent<?> event) {		
+	public void modelChanged(IControllerEvent<?> event) {		
 		switch ((EnumEventAction) event.getEventAction()) {
 		case MOVE:
 			updateGeometry();
@@ -203,5 +202,6 @@ public class GPatchObject extends GObject implements IViewListener {
 			break;	 
 		}
 	}
+
 
 }

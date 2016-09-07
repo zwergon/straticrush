@@ -11,16 +11,12 @@
  *******************************************************************************/
 package straticrush.parts;
 
-import java.awt.Insets;
 import java.io.File;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GInteraction;
-import no.geosoft.cc.graphics.GObject;
-import no.geosoft.cc.graphics.GScene;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
@@ -29,6 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import straticrush.interaction.DilatationInteraction;
 import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
+import straticrush.interaction.RemoveUnitInteraction;
 import straticrush.interaction.ResetGeometryInteraction;
 import straticrush.interaction.StratiCrushServices;
 import straticrush.interaction.TopBorderInteraction;
@@ -36,10 +33,8 @@ import straticrush.interaction.TriangulateInteraction;
 import straticrush.interaction.ZoomInteraction;
 import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
-import straticrush.view.Annotation;
 import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
-import straticrush.view.ViewFactory;
 import fr.ifp.jdeform.dummy.MeshObjectFactory;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
@@ -59,29 +54,8 @@ public class SectionPart  {
 	@PostConstruct
 	public void createComposite(Composite parent) {
 
-		window_ = new StratiWindow( parent, new GColor(0.8f, 0.8f, 0.8f) );
-
-
-		// Create the graphic canvas
-
-		// Definition of exact chart location inside window
-		Insets insets = new Insets(80, 60, 20, 20);
-
-		// Create a "background" device oriented annotation scene
-		GScene annotationScene = new GScene (window_);
-		GObject annotation = new Annotation (insets);
-		annotationScene.add (annotation);
-
-
-		// Create a value specific "plot" scene
-		GScene plot = new Plot (window_, insets);
-		annotationScene.setUserData (plot);
-		plot.shouldWorldExtentFitViewport (false);
-		plot.shouldZoomOnResize (false);   
-
-
-		window_.startInteraction (new ZoomInteraction(plot));
-
+		window_ = new StratiWindow( parent );  
+		
 	}
 
 	@Focus
@@ -149,14 +123,14 @@ public class SectionPart  {
 
 
 		Plot plot = window_.getPlot();
-		plot.removeAll();
+		plot.destroyAllViews();
 
 		// Create a graphic object
 		for( Patch patch : patchLib.getPatches() ){
-			ViewFactory.getInstance().createView( plot, patch );   
+			plot.createView( patch );   
 		}
 
-		ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+		plot.createView( patchLib.getPaleobathymetry() );
 
 		RectD bbox = patchLib.getBoundingBox();
 		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
@@ -192,6 +166,9 @@ public class SectionPart  {
 		else if ( interactionType.equals("Triangulate") ) {
 			interaction = new TriangulateInteraction(plot, interactionType);
 		}
+		else if ( interactionType.equals("RemoveUnit") ) {
+			interaction = new RemoveUnitInteraction(plot, interactionType);
+		}
 
 		if ( interaction == null ){
 			return;
@@ -211,15 +188,16 @@ public class SectionPart  {
 
 		MeshObjectFactory.createDummyMesh( basename + ".msh", section);
 
+		
 		Plot plot = window_.getPlot();
-		plot.removeAll();
+		plot.destroyAllViews();
 
 		// Create a graphic object
 		for( Patch patch : patchLib.getPatches() ){
-			ViewFactory.getInstance().createView( plot, patch );   
+			plot.createView( patch );   
 		}
 
-		ViewFactory.getInstance().createView( plot, patchLib.getPaleobathymetry() );
+		plot.createView( patchLib.getPaleobathymetry() );
 
 		RectD bbox = patchLib.getBoundingBox();
 		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());

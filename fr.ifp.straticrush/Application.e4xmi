@@ -79,6 +79,9 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_UEKmkAMVEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.triangulation" label="Triangulation" command="_ScI2oAMGEeWQfLK62v5NBw">
           <parameters xmi:id="_XgQ6AAMVEeWQfLK62v5NBw" elementId="straticrush.parameter.triangulation" name="straticrush.commandparameter.interactiontype" value="Triangulate"/>
         </children>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_6yz50HQ5Eeauradc62Rr_g" elementId="straticrush.handledmenuitem.remove.unit" label="Remove Unit" command="_ScI2oAMGEeWQfLK62v5NBw">
+          <parameters xmi:id="_6EoIsHQ6Eeauradc62Rr_g" elementId="straticrush.parameter.remove.unit" name="straticrush.commandparameter.interactiontype" value="RemoveUnit"/>
+        </children>
       </children>
       <children xsi:type="menu:MenuSeparator" xmi:id="_RySqkAMVEeWQfLK62v5NBw" elementId="straticrush.menuseparator.0"/>
       <children xsi:type="menu:Menu" xmi:id="_8TdqQCGlEeaRcv2wtMGulg" elementId="straticrush.menu.properties" label="Properties">

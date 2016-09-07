@@ -27,7 +27,7 @@ import fr.ifp.kronosflow.triangulation.Triangulation;
 public class TriangulateInteraction implements GInteraction {
 	
 	private GScene    gscene;
-	private GInteraction    interaction_;
+	private GMarkers markers;
 	private Patch composite;
 	
 	boolean first = true;
@@ -35,11 +35,11 @@ public class TriangulateInteraction implements GInteraction {
 	Triangulation triangulation = null;
 	
 	
-	private class PointSet extends GObject {
+	private class GPointSet extends GObject {
 		private GSegment[] lines_;
 
 		
-		public PointSet ()
+		public GPointSet ()
 		{
 			setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 						
@@ -104,15 +104,15 @@ public class TriangulateInteraction implements GInteraction {
 
 
 	
-	private class GInteraction extends GObject {
+	private class GMarkers extends GObject {
 		
-		PointSet pointSet;
+		GPointSet pointSet;
 		
-		public GInteraction(){
+		public GMarkers(){
 			super("Interaction");
 			setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );
 			
-			pointSet = new PointSet();
+			pointSet = new GPointSet();
 			add( pointSet );
 		}
 		
@@ -151,8 +151,9 @@ public class TriangulateInteraction implements GInteraction {
 	
 	public TriangulateInteraction( GScene scene, String type ){
 		gscene = scene;
+		
 		 // Create a graphic node for holding the interaction graphics
-	    interaction_ = new GInteraction();
+	    markers = new GMarkers();
 	    
 	}
 
@@ -174,10 +175,10 @@ public class TriangulateInteraction implements GInteraction {
 					Scene scene = SceneBuilder.createDefaultScene(patch, GParameters.getStyle() );
 					composite = scene.getSelected();
 								
-					gscene.add(interaction_);
-					interaction_.addOutline(composite);
+					gscene.add(markers);
+					markers.addOutline(composite);
 					
-					interaction_.draw();
+					markers.draw();
 					
 					gscene.refresh();
 				}
@@ -192,8 +193,8 @@ public class TriangulateInteraction implements GInteraction {
 			if ( null != composite ){
 				
 				composite.remove();
-				interaction_.removeSegments();;
-				interaction_.remove();
+				markers.removeSegments();;
+				markers.remove();
 
 				composite = null;
 			

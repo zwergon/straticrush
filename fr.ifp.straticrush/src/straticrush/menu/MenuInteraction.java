@@ -2,19 +2,19 @@ package straticrush.menu;
 
 
 
-import fr.ifp.kronosflow.model.KinObject;
-import straticrush.view.Plot;
-import straticrush.view.View;
-import straticrush.view.ViewFactory;
 import no.geosoft.cc.graphics.GColor;
+import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GKeyEvent;
 import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GInteraction;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GWindow;
+import straticrush.view.Plot;
+import straticrush.view.StratiWindow;
+import straticrush.view.View;
+import fr.ifp.kronosflow.model.KinObject;
 
 
 public class MenuInteraction  implements GInteraction {
@@ -128,14 +128,14 @@ public class MenuInteraction  implements GInteraction {
 		if ( null == plot ){
 			return;
 		}
-			
+
 		if ( view != null ){	
-			ViewFactory.getInstance().destroyView(plot, view);
+			plot.destroyView( view );
 			view = null;
 		}
 		
 		if ( object != null ){	
-			view = ViewFactory.getInstance().createView( plot, object );
+			view = plot.createView( object );
 			if ( null != view ){
 				view.useSelectedStyle();
 			}
@@ -154,7 +154,7 @@ public class MenuInteraction  implements GInteraction {
 			}
 				
 			if ( view != null ){	
-				ViewFactory.getInstance().destroyView(plot, view);
+				plot.destroyView(view);
 				view = null;
 			}
 			plot.refresh();

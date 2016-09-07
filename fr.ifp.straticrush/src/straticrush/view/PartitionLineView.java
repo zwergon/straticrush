@@ -49,7 +49,7 @@ public class PartitionLineView extends View {
 	}
 	
 	@Override
-	public void objectChanged( IControllerEvent<?> event ) {
+	public void modelChanged( IControllerEvent<?> event ) {
 		if ( event.getObject() == getPatch() && null != gline ){
 			gline.updateGeometry();
 		}

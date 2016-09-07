@@ -1,16 +1,26 @@
 package straticrush.view;
 
-import straticrush.interaction.IViewListener;
-import straticrush.interaction.StratiCrushServices;
+import fr.ifp.kronosflow.newevents.IControllerEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GStyle;
 
 
-
-public abstract class View extends GObject implements IViewListener {
+/**
+ * This is an abstract object to handle specific {@link GObject}
+ * that are displayed in {@link Plot}.
+ * @author lecomtje
+ *
+ */
+public abstract class View extends GObject {
 	
+	public View(String name){
+		super(name);
+	}
+	
+	public View(){
+		super();
+	}
 		
-
 	public void useSelectedStyle(){
 		GStyle gstyle = getStyle();
 		if ( gstyle != null ){
@@ -28,18 +38,9 @@ public abstract class View extends GObject implements IViewListener {
 	public Plot getPlot(){
 		return (Plot)getScene();
 	}
-	
-	@Override
-	public void destroy() {
-		StratiCrushServices.getInstance().removeListener(this);	
-	}
-	
-	@Override
-	public void setUserData( Object userData ) {
-		super.setUserData(userData);
-		StratiCrushServices.getInstance().addListener(this);	
-	}
-	
+		
 	public abstract void setModel( Object object );
+	
+	public abstract void modelChanged( IControllerEvent<?> event );
 
 }
