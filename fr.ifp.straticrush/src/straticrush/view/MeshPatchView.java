@@ -16,6 +16,7 @@ import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyInfo;
+import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyNoData;
 import fr.ifp.kronosflow.property.PropertyStatistic;
 import fr.ifp.kronosflow.property.PropertyStyle;
@@ -136,9 +137,18 @@ public class MeshPatchView extends PatchView {
 				GCell gcell = (GCell)segment;
 				GStyle style = gcell.getStyle();
 				Cell cell = gcell.getCell();
+				
 				GColor color = getColor(cell);
 				style.unsetColormap();
 				style.setBackgroundColor(color);
+				
+				double[] values = new double[1];
+				if(currentProp!=null){
+				IPropertyAccessor accessor = currentProp.getAccessor();
+
+				values[0] = accessor.getValue(cell.getUID()).real();
+				gcell.setValues(values);
+				}
 			}
 		}
 	}
@@ -154,6 +164,7 @@ public class MeshPatchView extends PatchView {
 				Cell cell = gcell.getCell();
 				
 				IPropertyAccessor accessor = currentProp.getAccessor();
+				
 				UID[] uids = cell.getNodeIds();
 				double[] values = new double[uids.length];
 				for( int i =0; i<uids.length; i++ ){
