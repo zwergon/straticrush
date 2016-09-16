@@ -31,6 +31,9 @@ public class PropertiesHandler {
 		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.property.stratiorientation") ){
 			caller.setPropertyKey("Strate Orientation");
 		}
+		else if ( handledItem.getElementId().equals("straticrush.handledmenuitem.properties.solid.surface") ){
+			caller.setPropertyKey("SolidSurface");
+		}
 
 		caller.applyAndNotify();
 

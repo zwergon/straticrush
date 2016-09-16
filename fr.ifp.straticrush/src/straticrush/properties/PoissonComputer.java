@@ -66,18 +66,7 @@ public class PoissonComputer extends PropertyComputer {
 		
 		PatchLibrary patchLib = section.getPatchLibrary();
 		
-		PropertyDB propertyDB = section.getPropertyDB();
-		
-		PropertyInfo pinfo =  new PropertyInfo( "Temperature", Support.NodeProperty, Kind.Real );
-		
-		Property surfaceProp = propertyDB.findProperty( pinfo );
-		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
-		}
-		
-		IPropertyAccessor accessor = surfaceProp.getAccessor();
-		
+		/* create a composite mesh with all patches*/
 		CompositeMesh2D mesh = new CompositeMesh2D();
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof MeshPatch ){
@@ -85,9 +74,21 @@ public class PoissonComputer extends PropertyComputer {
 				mesh.addMesh( mPatch.getMesh() );
 			}
 		}
-		
 		MeshAccessor meshAccessor = new MeshAccessor(mesh);
+
 		
+		/* add a Temperature Property to this mesh */
+		PropertyDB propertyDB = section.getPropertyDB();
+		PropertyInfo pinfo =  new PropertyInfo( "Temperature", Support.NodeProperty, Kind.Real );
+		Property surfaceProp = propertyDB.findProperty( pinfo );
+		if ( null == surfaceProp ){
+			surfaceProp = new Property( pinfo );
+			propertyDB.addProperty(surfaceProp);
+		}		
+		IPropertyAccessor accessor = surfaceProp.getAccessor();
+		
+		
+		/* create a boundary region outside and mesh links with contacts */
 		RegionDB regionDB = mesh.getRegionDB();
 		RegionZeroD region = new RegionZeroD("boundary");
 
@@ -229,9 +230,6 @@ public class PoissonComputer extends PropertyComputer {
 
 
 		}
-
-
-
 
 	}
 

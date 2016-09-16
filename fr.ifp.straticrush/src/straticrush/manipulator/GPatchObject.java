@@ -31,7 +31,7 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends View  {
 	
-	boolean withPatchGrid = true;
+	boolean withPatchGrid = false;
 	
 	Deformation deformation = null;
 	
@@ -41,6 +41,10 @@ public class GPatchObject extends View  {
 		setVisibility( DATA_VISIBLE | SYMBOLS_VISIBLE );	
 	}
 	
+	
+	public void enableGrid( boolean withGrid ){
+		withPatchGrid = withGrid;
+	}
 	
 	@Override
 	public void setModel(Object object) {

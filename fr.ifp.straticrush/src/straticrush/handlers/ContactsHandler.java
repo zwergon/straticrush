@@ -24,7 +24,7 @@ import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
 import straticrush.parts.SectionPart;
-import straticrush.view.PartitionLineView;
+import straticrush.view.PatchIntervalView;
 import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
 import straticrush.view.View;
@@ -64,7 +64,7 @@ public class ContactsHandler {
 
 		List<GObject> copy = new ArrayList<GObject>( plot.getChildren() );
 		for( GObject object : copy ){
-			if ( object instanceof PartitionLineView ){
+			if ( object instanceof PatchIntervalView ){
 				plot.destroyView( (View)object );
 			}
 		}

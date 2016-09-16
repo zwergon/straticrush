@@ -5,6 +5,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 
 import straticrush.properties.PoissonComputer;
 import straticrush.properties.PorosityComputer;
+import straticrush.properties.SolidSurfaceComputer;
 import straticrush.properties.StrateOrientationComputer;
 import straticrush.properties.SurfacePropertyComputer;
 import straticrush.properties.XYPropertyComputer;
@@ -20,6 +21,7 @@ public class LifeCycleManager {
 		PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
 		PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder() );
 		PropertyController.registerBuilder("Strate Orientation", new StrateOrientationComputer.Builder() );
+		PropertyController.registerBuilder("SolidSurface", new SolidSurfaceComputer.Builder() );
 	}
 
 }

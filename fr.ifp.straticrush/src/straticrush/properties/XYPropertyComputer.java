@@ -7,6 +7,7 @@ import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.Section;
@@ -69,7 +70,7 @@ public class XYPropertyComputer extends PropertyComputer {
 	
 	private void computeUsingPatch( Patch patch, IPropertyAccessor accessor ) {
 		
-		
+		accessor.addHandle( new PatchCell(patch) );
 		PolyLine border = patch.getBorder();
 	
 		for( ICurviPoint cp : border.getPoints() ){
@@ -81,6 +82,8 @@ public class XYPropertyComputer extends PropertyComputer {
 
 
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
+		
+		accessor.addMesh( mesh );
 		for( UID uid : mesh.getNodeIds() ){
 			
 			Node node = (Node)mesh.getNode(uid);

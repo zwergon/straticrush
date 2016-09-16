@@ -2,6 +2,7 @@ package straticrush.manipulator;
 
 import java.util.List;
 
+import straticrush.view.Plot;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
@@ -50,8 +51,8 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		translateController = new TranslationController();
 		translateController.setScene(caller.getScene());
 		
-
 	}
+	
 	
 	@Override
 	public void onMousePress(GMouseEvent event) {
@@ -70,7 +71,10 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	
 	 abstract protected void computeTargets();
 	 
-
+	 protected Plot getPlot(){
+		 return (Plot)gscene;
+	 }
+	 
 	 protected void translateTo(double[] xy) {
 		 double[] t = new double[] { xy[0] - prev[0], xy[1] - prev[1] };
 

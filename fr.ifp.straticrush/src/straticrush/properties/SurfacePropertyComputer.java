@@ -7,6 +7,7 @@ import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.Section;
@@ -69,6 +70,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 	
 	private void computeUsingPatch(Patch patch, IPropertyAccessor accessor) {
 	
+		accessor.addHandle( new PatchCell(patch) );
 		PolyLineGeometry geometry = new PolyLineGeometry(patch.getBorder());
 		double surface = geometry.computeArea();
 		
@@ -84,13 +86,15 @@ public class SurfacePropertyComputer extends PropertyComputer {
 	};
 
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
+		
+		accessor.addMesh(mesh);
 		for( UID uid : mesh.getCellIds() ){
 			
 			Cell cell = (Cell)mesh.getCell(uid);
 			
 			NodesIntegrate integrate = new NodesIntegrate(mesh, cell);
 			
-			double surface = integrate.compute( cstFn );
+			double surface = Math.abs(integrate.compute( cstFn ) );
 			
 			accessor.setValue( uid, new PropertyDouble(surface) );	
 		}
