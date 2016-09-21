@@ -84,8 +84,8 @@ public class StratiCrushServices  implements IControllerService {
 			sceneStyle.setNatureType(NatureType.EXPLICIT);
 		}
 		else {
-			sceneStyle.setGridType(GridType.GRID2D );
-			sceneStyle.setNatureType(NatureType.IMPLICIT);
+			sceneStyle.setGridType(GridType.TRGL );
+			sceneStyle.setNatureType(NatureType.EXPLICIT);
 		}
 		
 		if ( type.equals("Reset") ||

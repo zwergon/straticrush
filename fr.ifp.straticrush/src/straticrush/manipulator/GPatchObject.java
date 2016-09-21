@@ -31,7 +31,7 @@ import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class GPatchObject extends View  {
 	
-	boolean withPatchGrid = false;
+	boolean withPatchGrid = true;
 	
 	Deformation deformation = null;
 	

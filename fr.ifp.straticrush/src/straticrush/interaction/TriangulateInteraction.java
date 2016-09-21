@@ -1,6 +1,9 @@
 package straticrush.interaction;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
@@ -17,11 +20,17 @@ import straticrush.view.IUpdateGeometry;
 import straticrush.view.PatchView;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
+import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.model.CompositePatch;
+import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.topology.Contact;
+import fr.ifp.kronosflow.triangulation.RegularBorderSampler;
 import fr.ifp.kronosflow.triangulation.Triangulation;
 
 public class TriangulateInteraction implements GInteraction {
@@ -48,11 +57,23 @@ public class TriangulateInteraction implements GInteraction {
 			setStyle (lineStyle);
 		}
 		
-		public void setPoints( PolyLine border ){
+		public void setPatch( Patch patch ){
+			
+			
+			List<Point2D> inner = null;
+			if ( patch instanceof CompositePatch ){
+				CompositePatch composite = (CompositePatch)patch;
+				inner = composite.getInnerPoints();
+			}
 			
 			removeSegments();
 			triangulation = new Triangulation();
-			triangulation.execute(border.getPoints2D());
+			triangulation.setBeautify(false);
+			if ( inner != null ){
+				triangulation.addInnerPoints(inner);
+			}
+			
+			triangulation.execute( patch.getBorder().getPoints2D());
 					
 			Collection<IHandle> triangles = triangulation.getCells();
 			System.out.println("n triangles " + triangles.size() );
@@ -71,7 +92,7 @@ public class TriangulateInteraction implements GInteraction {
 				lines_[i].setVertexImage (square);
 			}
 		}
-
+		
 
 
 		public void draw()
@@ -130,9 +151,14 @@ public class TriangulateInteraction implements GInteraction {
 			
 			borderLine.updateGeometry();
 			
-			pointSet.setPoints(patch.getBorder());
+		
+			pointSet.setPatch(patch);
 		}
 		
+
+
+
+
 		@Override
 		public void draw() {
 			for( GSegment gsegment : getSegments() ){

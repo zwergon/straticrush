@@ -6,16 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GScene;
-import no.geosoft.cc.graphics.GSegment;
-import straticrush.view.Plot;
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.AngularSector;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.ICurviPoint;
 import fr.ifp.kronosflow.model.Patch;
@@ -27,17 +23,11 @@ import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
+import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.utils.UID;
-import fr.ifp.kronosflow.warp.AffineWarp;
-import fr.ifp.kronosflow.warp.DeformWarp;
 import fr.ifp.kronosflow.warp.Displacement;
-import fr.ifp.kronosflow.warp.DistWarp;
-import fr.ifp.kronosflow.warp.MLSAffineWarp;
-import fr.ifp.kronosflow.warp.MLSRigidWarp;
-import fr.ifp.kronosflow.warp.RBSWarp;
 import fr.ifp.kronosflow.warp.Warp;
 
 public class StrateOrientationComputer extends PropertyComputer {
@@ -80,7 +70,7 @@ public class StrateOrientationComputer extends PropertyComputer {
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
-		warp=new DeformWarp();
+		warp= null; //JFL Missing commit new DeformWarp();
 		warp.setDisplacements(computeDisplacement(patchLib.getPatches()));
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof IMeshProvider ){
