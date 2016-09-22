@@ -829,6 +829,12 @@ public class GGLNewtCanvas
 		}
 
 
+		@Override
+		public boolean setFocus() {
+			return glcomposite.setFocus();
+		}
+
+
 		
 
 	

@@ -203,13 +203,7 @@ public class PoissonComputer extends PropertyComputer {
 	
 			Point2D p = interval.getPosition(cp);
 			
-			
-
-			System.out.println("create link for " + p.x() + "," + p.y() );
-
 			NodeLink link = accessor.computeNodeLink(p.getPosition());
-
-
 
 			Point2D proj = new Point2D();
 			mateGeometry.projectEuclidian(p, proj);
@@ -218,9 +212,7 @@ public class PoissonComputer extends PropertyComputer {
 
 
 			for (UID uid : mateLink.getLinkedNodes()) {
-
 				double w = mateLink.getWeight(uid);
-				System.out.println(". " + uid + " ( " + w + ") " );
 				link.addWeightedNode(uid, -mateLink.getWeight(uid));
 			}
 

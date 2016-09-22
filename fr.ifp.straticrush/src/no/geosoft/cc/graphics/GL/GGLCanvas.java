@@ -737,6 +737,11 @@ public class GGLCanvas
 		  return fontImpl.getStringBox(string, gfont);
 	  }
 
+	@Override
+	public boolean setFocus() {
+		return glCanvas.setFocus();
+	}
+
 	
 	
 

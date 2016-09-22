@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.interfaces.ICanvas;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
@@ -53,14 +54,13 @@ public class SectionPart  {
 
 	@PostConstruct
 	public void createComposite(Composite parent) {
-
 		window_ = new StratiWindow( parent );  
-		
 	}
 
 	@Focus
 	public void setFocus() {
-
+		ICanvas canvas = window_.getCanvas();
+		canvas.setFocus();
 	}
 
 	@Persist

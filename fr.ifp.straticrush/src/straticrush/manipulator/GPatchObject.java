@@ -109,7 +109,6 @@ public class GPatchObject extends View  {
 		GStyle style = new GStyle();
 		if ( !surrounding ){
 			style.setBackgroundColor(GColor.CYAN);
-			
 		}
 		else {
 			style.setBackgroundColor(GColor.ORANGE);
@@ -120,7 +119,7 @@ public class GPatchObject extends View  {
 		
 		borderLine.updateGeometry();
 		
-		if ( withPatchGrid &&  ( patch instanceof IMeshProvider ) ){
+		if ( withPatchGrid &&  !surrounding & ( patch instanceof IMeshProvider ) ){
 				Mesh2D mesh = ((IMeshProvider)patch).getMesh();
 				for( IHandle handle : mesh.getCells() ){
 					addCell( mesh, (Cell)handle );

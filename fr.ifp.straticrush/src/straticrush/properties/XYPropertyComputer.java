@@ -2,6 +2,7 @@ package straticrush.properties;
 
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
 import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.mesh.IGeometryProvider;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.ICurviPoint;
@@ -84,11 +85,11 @@ public class XYPropertyComputer extends PropertyComputer {
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
 		
 		accessor.addMesh( mesh );
+		
+		IGeometryProvider provider = mesh.getGeometryProvider();
+		
 		for( UID uid : mesh.getNodeIds() ){
-			
-			Node node = (Node)mesh.getNode(uid);
-			
-			accessor.setValue( uid, new PropertyVector(node.getPosition()) );	
+			accessor.setValue( uid, new PropertyVector( provider.getPosition(uid)) );	
 		}
 	}
 	

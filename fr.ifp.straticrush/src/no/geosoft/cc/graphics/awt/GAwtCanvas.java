@@ -907,6 +907,11 @@ public class GAwtCanvas extends JComponent
     return paint_;
   }
 
+  @Override
+  public boolean setFocus() {
+	 return true;
+  }
+
   
   
 }

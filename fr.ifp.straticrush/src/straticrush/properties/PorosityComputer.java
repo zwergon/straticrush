@@ -1,10 +1,8 @@
 package straticrush.properties;
 
 import fr.ifp.jdeform.decompaction.Porosity;
-import fr.ifp.jdeform.decompaction.PorosityLaw;
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.mesh.IGeometryProvider;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.ICurviPoint;
@@ -13,7 +11,6 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
@@ -23,7 +20,6 @@ import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyVector;
 import fr.ifp.kronosflow.utils.UID;
 
 public class PorosityComputer extends PropertyComputer {
@@ -65,11 +61,9 @@ public class PorosityComputer extends PropertyComputer {
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof IMeshProvider ){
 				Mesh2D mesh = ((IMeshProvider)patch).getMesh();
-				
 				computeUsingMesh( mesh, accessor );
 			}
 			else {
-				
 				computeUsingPatch( patch, accessor );
 			}
 		}
@@ -103,12 +97,10 @@ public class PorosityComputer extends PropertyComputer {
 		
 		accessor.addMesh(mesh);
 		
+		IGeometryProvider provider = mesh.getGeometryProvider();
+		
 		for( UID uid : mesh.getNodeIds() ){
-			
-			Node node = (Node)mesh.getNode(uid);
-			
-			double phi = porosity.getPorosity( node.getPosition() );
-			
+			double phi = porosity.getPorosity( provider.getPosition(uid) );			
 			accessor.setValue( uid, new PropertyDouble( phi ) );	
 		}
 	}

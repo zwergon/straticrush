@@ -30,6 +30,8 @@ public interface ICanvas {
 	public void render (int[] x, int[] y, GImage image);
 	
 	public Rect getStringBox (String string, GFont font);
+	
+	boolean setFocus();
 
 	
 	  
