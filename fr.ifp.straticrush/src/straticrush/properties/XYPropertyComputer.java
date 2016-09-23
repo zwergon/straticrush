@@ -86,7 +86,7 @@ public class XYPropertyComputer extends PropertyComputer {
 		
 		accessor.addMesh( mesh );
 		
-		IGeometryProvider provider = mesh.getGeometryProvider();
+		IGeometryProvider provider = mesh.getCurrentProvider();
 		
 		for( UID uid : mesh.getNodeIds() ){
 			accessor.setValue( uid, new PropertyVector( provider.getPosition(uid)) );	

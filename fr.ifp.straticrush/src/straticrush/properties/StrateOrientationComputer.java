@@ -144,7 +144,7 @@ public class StrateOrientationComputer extends PropertyComputer {
 		for( UID uid : mesh.getCellIds() ){
 			
 			Cell cell = (Cell)mesh.getCell(uid);
-			double[] src = cell.barycenter(mesh);
+			double[] src = cell.barycenter(mesh.getCurrentProvider());
 			double[] dst=new double[2];
 			warp.getDeformed(src, dst);
 			pt.setPosition(dst);

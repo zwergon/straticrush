@@ -97,7 +97,7 @@ public class PorosityComputer extends PropertyComputer {
 		
 		accessor.addMesh(mesh);
 		
-		IGeometryProvider provider = mesh.getGeometryProvider();
+		IGeometryProvider provider = mesh.getCurrentProvider();
 		
 		for( UID uid : mesh.getNodeIds() ){
 			double phi = porosity.getPorosity( provider.getPosition(uid) );			
