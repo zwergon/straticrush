@@ -254,4 +254,9 @@ public class PoissonComputer extends PropertyComputer {
 		
 	}
 
+	@Override
+	public Property compute(Patch patchToCompute) {
+		return compute();
+	}
+
 }

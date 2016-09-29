@@ -6,9 +6,10 @@ import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import straticrush.properties.PoissonComputer;
 import straticrush.properties.PorosityComputer;
 import straticrush.properties.SolidSurfaceComputer;
-import straticrush.properties.StrateOrientationComputer;
+
 import straticrush.properties.SurfacePropertyComputer;
 import straticrush.properties.XYPropertyComputer;
+import fr.ifp.jdeform.deformation.StrateOrientationComputer;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 
 public class LifeCycleManager {

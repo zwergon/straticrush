@@ -97,4 +97,9 @@ public class SolidSurfaceComputer extends PropertyComputer{
 			accessor.setValue( uid, new PropertyDouble(surface) );	
 		}
 	}
+	
+	@Override
+	public Property compute(Patch patchToCompute) {
+		return compute();
+	}
 }

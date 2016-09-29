@@ -104,6 +104,38 @@ public class PorosityComputer extends PropertyComputer {
 			accessor.setValue( uid, new PropertyDouble( phi ) );	
 		}
 	}
+
+
+	@Override
+	public Property compute(Patch patchToCompute) {
+		PropertyDB propertyDB = section.getPropertyDB();
+		
+		
+		
+		PropertyInfo pinfo =  new PropertyInfo( "Porosity", Support.NodeProperty, Kind.Real );
+		
+		Property surfaceProp = propertyDB.findProperty( pinfo );
+		if ( null == surfaceProp ){
+			surfaceProp = new Property(pinfo);
+			propertyDB.addProperty(surfaceProp);
+		}
+		
+		IPropertyAccessor accessor = surfaceProp.getAccessor();
+		
+			if ( patchToCompute instanceof IMeshProvider ){
+				computeUsingMesh( ((IMeshProvider)patchToCompute).getMesh(), accessor );
+			}
+			else {
+				computeUsingPatch( patchToCompute, accessor );
+			}
+		
+		
+		PropertyStyle propStyle = new PropertyStyle(section.getStyle());
+		propStyle.setCurrent(surfaceProp);
+		
+		
+		return surfaceProp;
+	}
 	
 
 

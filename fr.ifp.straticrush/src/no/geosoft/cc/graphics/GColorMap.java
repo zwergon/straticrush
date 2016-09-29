@@ -48,6 +48,19 @@ public class GColorMap {
 	    255, 242, 242, 242
 	};
 	
+	static short startforend_palette[] = {
+	    9,
+	    0, 0, 0, 255,
+	    5, 0, 255, 255,
+	    10, 0, 255, 0,
+	    96, 255, 255, 0,
+	    128, 255, 0, 0,
+	    160, 255, 255, 0,
+	    245, 0, 255, 0,
+	    250, 0, 255, 255,
+	    255, 0, 0, 255
+
+	};
 	enum Type {
 		NAMED,
 		RANDOM,
@@ -85,6 +98,7 @@ public class GColorMap {
 		palettes.put("Africa", new Palette(africa_palette) );
 		palettes.put("Rainbow", new Palette(rainbow_palette) );
 		palettes.put("Pastel", new Palette(pastel_palette) );
+		palettes.put("StartForEnd", new Palette(startforend_palette) );
 	}
 	
 	public GColorMap(){
