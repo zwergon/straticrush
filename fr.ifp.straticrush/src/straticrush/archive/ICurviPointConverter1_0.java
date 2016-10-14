@@ -8,11 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
 
 public class ICurviPointConverter1_0 implements IConverter {
 	

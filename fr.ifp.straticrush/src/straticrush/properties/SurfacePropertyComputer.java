@@ -9,15 +9,15 @@ import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.utils.UID;
+import fr.ifp.kronosflow.uids.UID;
 
 public class SurfacePropertyComputer extends PropertyComputer {
 	

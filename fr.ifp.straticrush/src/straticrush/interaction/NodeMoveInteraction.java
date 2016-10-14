@@ -4,8 +4,8 @@ package straticrush.interaction;
 import no.geosoft.cc.graphics.GScene;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.Vector2DManipulator;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.Deformation;
 
 
 public class NodeMoveInteraction extends DeformationInteraction {

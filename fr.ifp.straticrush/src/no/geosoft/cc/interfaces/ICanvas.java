@@ -7,7 +7,7 @@ import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.utils.GRegion;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 public interface ICanvas {
 	

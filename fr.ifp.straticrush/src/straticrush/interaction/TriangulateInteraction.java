@@ -1,8 +1,6 @@
 package straticrush.interaction;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import no.geosoft.cc.graphics.GColor;
@@ -22,16 +20,11 @@ import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.mesh.triangulation.Triangulation;
 import fr.ifp.kronosflow.model.CompositePatch;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.topology.Contact;
-import fr.ifp.kronosflow.triangulation.RegularBorderSampler;
-import fr.ifp.kronosflow.triangulation.Triangulation;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.uids.IHandle;
 
 public class TriangulateInteraction implements GInteraction {
 	

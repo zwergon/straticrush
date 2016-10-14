@@ -1,7 +1,5 @@
 package no.geosoft.cc.utils;
 
-import fr.ifp.kronosflow.geometry.Box;
-import fr.ifp.kronosflow.geometry.Rect;
 
 
 

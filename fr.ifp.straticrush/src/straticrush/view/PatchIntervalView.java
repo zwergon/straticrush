@@ -3,9 +3,9 @@ package straticrush.view;
 
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GStyle;
+import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.newevents.IControllerEvent;
 
 public class PatchIntervalView extends View {
 	

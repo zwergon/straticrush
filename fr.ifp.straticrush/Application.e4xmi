@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_OmJS0P-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ide.application" bindingContexts="_OmJS2f-gEeSzbZWfsvr3zw">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_OmJS0f-gEeSzbZWfsvr3zw" label="StratiCrush" iconURI="platform:/plugin/StratiCrush/icons/chain_mesh_icon.png" width="1000" height="500">
-    <children xsi:type="basic:Part" xmi:id="_OmJ56f-gEeSzbZWfsvr3zw" contributionURI="bundleclass://StratiCrush/straticrush.parts.SectionPart" label="View"/>
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_OmJS0f-gEeSzbZWfsvr3zw" label="StratiCrush" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/chain_mesh_icon.png" width="1000" height="500">
+    <children xsi:type="basic:Part" xmi:id="_OmJ56f-gEeSzbZWfsvr3zw" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.parts.SectionPart" label="View"/>
     <mainMenu xmi:id="_OmJS6f-gEeSzbZWfsvr3zw" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_OmJS6v-gEeSzbZWfsvr3zw" label="File">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54P-gEeSzbZWfsvr3zw" label="Open" iconURI="platform:/plugin/StratiCrush/icons/open.png" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54f-gEeSzbZWfsvr3zw" label="Save" iconURI="platform:/plugin/StratiCrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54v-gEeSzbZWfsvr3zw" label="Quit" iconURI="platform:/plugin/StratiCrush/icons/stock-quit.png" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54P-gEeSzbZWfsvr3zw" label="Open" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/open.png" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54f-gEeSzbZWfsvr3zw" label="Save" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_OmJ54v-gEeSzbZWfsvr3zw" label="Quit" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/stock-quit.png" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
       </children>
-      <children xsi:type="menu:Menu" xmi:id="_wyzfUARUEeWewIwgHRqGcQ" elementId="straticrush.menu.data" label="Data" iconURI="platform:/plugin/StratiCrush/icons/geogrid.gif">
+      <children xsi:type="menu:Menu" xmi:id="_wyzfUARUEeWewIwgHRqGcQ" elementId="straticrush.menu.data" label="Data" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/geogrid.gif">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_0egVAARUEeWewIwgHRqGcQ" elementId="straticrush.handledmenuitem.freefem" label="FreeFem" command="_78nFUARUEeWewIwgHRqGcQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_nZdY4I-rEeaeBN_ZD_ib5Q" elementId="straticrush.handledmenuitem.svg" label="SVG" command="_78nFUARUEeWewIwgHRqGcQ"/>
       </children>
-      <children xsi:type="menu:Menu" xmi:id="_JHzD0AMOEeWQfLK62v5NBw" label="Deform" iconURI="platform:/plugin/StratiCrush/icons/translate.gif" tooltip="Select on mode of deformation">
+      <children xsi:type="menu:Menu" xmi:id="_JHzD0AMOEeWQfLK62v5NBw" label="Deform" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/translate.gif" tooltip="Select on mode of deformation">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ppOKMCCzEeWmaIR2kdljOA" elementId="straticrush.handledmenuitem.parameters" label="Options" command="_xyxEMCCzEeWmaIR2kdljOA"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_tyYYkAMSEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.reset" label="Reset" iconURI="platform:/plugin/StratiCrush/icons/stock-redo.png" command="_ScI2oAMGEeWQfLK62v5NBw">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_tyYYkAMSEeWQfLK62v5NBw" elementId="straticrush.handledmenuitem.reset" label="Reset" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/stock-redo.png" command="_ScI2oAMGEeWQfLK62v5NBw">
           <parameters xmi:id="_vtwgIAMSEeWQfLK62v5NBw" elementId="straticrush.parameter.reset" name="straticrush.commandparameter.interactiontype" value="Reset"/>
         </children>
         <children xsi:type="menu:Menu" xmi:id="_wS-QkAMTEeWQfLK62v5NBw" elementId="straticrush.menu.nodemoveto" label="NodeMoveTo">
@@ -100,32 +101,32 @@
     </mainMenu>
     <trimBars xmi:id="_OmJ56v-gEeSzbZWfsvr3zw">
       <children xsi:type="menu:ToolBar" xmi:id="_OmJ56_-gEeSzbZWfsvr3zw" elementId="toolbar:org.eclipse.ui.main.toolbar">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57P-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/StratiCrush/icons/sample.png" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57f-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/StratiCrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57P-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/sample.png" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OmJ57f-gEeSzbZWfsvr3zw" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/save_edit.png" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_WDJL0ACQEeWUMfDcuIo5aQ" elementId="straticrush.toolbarseparator.1"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_AG92IAMGEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.interaction" iconURI="platform:/plugin/StratiCrush/icons/stock-zoom-fit.png" tooltip="Activate zoom manipulator" command="_ScI2oAMGEeWQfLK62v5NBw">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_AG92IAMGEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.interaction" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/stock-zoom-fit.png" tooltip="Activate zoom manipulator" command="_ScI2oAMGEeWQfLK62v5NBw">
           <parameters xmi:id="_STt2QAMNEeWQfLK62v5NBw" elementId="straticrush.parameter.zoom" name="straticrush.commandparameter.interactiontype" value="Zoom"/>
         </children>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_E4G_AAMIEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.oneone" iconURI="platform:/plugin/StratiCrush/icons/oneOne.gif" tooltip="Reset view to bounding box" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_E4G_AAMIEeWQfLK62v5NBw" elementId="straticrush.handledtoolitem.oneone" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/oneOne.gif" tooltip="Reset view to bounding box" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_gk0okAMGEeWQfLK62v5NBw" elementId="straticrush.toolbarseparator.0"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="__fFa8ACNEeWUMfDcuIo5aQ" elementId="" iconURI="platform:/plugin/StratiCrush/icons/prop_ps.png" tooltip="Display a menu" type="Check" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_AoNHgACAEeWUMfDcuIo5aQ" elementId="contacts.check.item" iconURI="platform:/plugin/StratiCrush/icons/contacts.png" tooltip="Display contacts on the Section" type="Check" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_SmTgQACKEeWUMfDcuIo5aQ" elementId="straticrush.handledtoolitem.nodes" iconURI="platform:/plugin/StratiCrush/icons/allNodes.png" tooltip="Display nodes on the Section" type="Check" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__fFa8ACNEeWUMfDcuIo5aQ" elementId="" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/prop_ps.png" tooltip="Display a menu" type="Check" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_AoNHgACAEeWUMfDcuIo5aQ" elementId="contacts.check.item" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/contacts.png" tooltip="Display contacts on the Section" type="Check" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_SmTgQACKEeWUMfDcuIo5aQ" elementId="straticrush.handledtoolitem.nodes" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/allNodes.png" tooltip="Display nodes on the Section" type="Check" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
       </children>
     </trimBars>
   </children>
-  <handlers xmi:id="_OmJS3f-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.quitCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.QuitHandler" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
-  <handlers xmi:id="_OmJS4f-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.openCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.OpenHandler" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
-  <handlers xmi:id="_OmJS5P-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.saveCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.SaveHandler" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
-  <handlers xmi:id="_OmJS5_-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.aboutCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.AboutHandler" command="_OmJS5v-gEeSzbZWfsvr3zw"/>
-  <handlers xmi:id="_-nU_cACAEeWUMfDcuIo5aQ" elementId="straticrush.handler.contactsCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.ContactsHandler" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
-  <handlers xmi:id="_d-dEQACKEeWUMfDcuIo5aQ" elementId="straticrush.handler.nodesCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.NodesHandler" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
-  <handlers xmi:id="_7dgmcACOEeWUMfDcuIo5aQ" elementId="straticrush.handler.menuCommand" contributionURI="bundleclass://StratiCrush/straticrush.handlers.MenuHandler" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
-  <handlers xmi:id="_QOTtIAMGEeWQfLK62v5NBw" elementId="straticrush.handler.interaction" contributionURI="bundleclass://StratiCrush/straticrush.handlers.InteractionHandler" command="_ScI2oAMGEeWQfLK62v5NBw"/>
-  <handlers xmi:id="_NMpBAAMIEeWQfLK62v5NBw" elementId="straticrush.handler.oneone" contributionURI="bundleclass://StratiCrush/straticrush.handlers.OneOneHandler" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
-  <handlers xmi:id="_QcebwARVEeWewIwgHRqGcQ" elementId="straticrush.handler.mesh.type" contributionURI="bundleclass://StratiCrush/straticrush.handlers.MeshTypeHandler" command="_78nFUARUEeWewIwgHRqGcQ"/>
-  <handlers xmi:id="_4DATMCCzEeWmaIR2kdljOA" elementId="straticrush.handler.parameters" contributionURI="bundleclass://StratiCrush/straticrush.handlers.ParametersHandler" command="_xyxEMCCzEeWmaIR2kdljOA"/>
-  <handlers xmi:id="_M4kbUCGmEeaRcv2wtMGulg" elementId="straticrush.handler.properties" contributionURI="bundleclass://StratiCrush/straticrush.handlers.PropertiesHandler" command="_IMPPECGmEeaRcv2wtMGulg"/>
+  <handlers xmi:id="_OmJS3f-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.quitCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.QuitHandler" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
+  <handlers xmi:id="_OmJS4f-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.openCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.OpenHandler" command="_OmJS4P-gEeSzbZWfsvr3zw"/>
+  <handlers xmi:id="_OmJS5P-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.saveCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.SaveHandler" command="_OmJS4_-gEeSzbZWfsvr3zw"/>
+  <handlers xmi:id="_OmJS5_-gEeSzbZWfsvr3zw" elementId="StratiCrush.handler.aboutCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.AboutHandler" command="_OmJS5v-gEeSzbZWfsvr3zw"/>
+  <handlers xmi:id="_-nU_cACAEeWUMfDcuIo5aQ" elementId="straticrush.handler.contactsCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.ContactsHandler" command="_KTGfgACAEeWUMfDcuIo5aQ"/>
+  <handlers xmi:id="_d-dEQACKEeWUMfDcuIo5aQ" elementId="straticrush.handler.nodesCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.NodesHandler" command="_ZvYbwACKEeWUMfDcuIo5aQ"/>
+  <handlers xmi:id="_7dgmcACOEeWUMfDcuIo5aQ" elementId="straticrush.handler.menuCommand" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.MenuHandler" command="_2Mq-8ACOEeWUMfDcuIo5aQ"/>
+  <handlers xmi:id="_QOTtIAMGEeWQfLK62v5NBw" elementId="straticrush.handler.interaction" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.InteractionHandler" command="_ScI2oAMGEeWQfLK62v5NBw"/>
+  <handlers xmi:id="_NMpBAAMIEeWQfLK62v5NBw" elementId="straticrush.handler.oneone" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.OneOneHandler" command="_Kl3MAAMIEeWQfLK62v5NBw"/>
+  <handlers xmi:id="_QcebwARVEeWewIwgHRqGcQ" elementId="straticrush.handler.mesh.type" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.MeshTypeHandler" command="_78nFUARUEeWewIwgHRqGcQ"/>
+  <handlers xmi:id="_4DATMCCzEeWmaIR2kdljOA" elementId="straticrush.handler.parameters" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.ParametersHandler" command="_xyxEMCCzEeWmaIR2kdljOA"/>
+  <handlers xmi:id="_M4kbUCGmEeaRcv2wtMGulg" elementId="straticrush.handler.properties" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.handlers.PropertiesHandler" command="_IMPPECGmEeaRcv2wtMGulg"/>
   <bindingTables xmi:id="_OmJS3v-gEeSzbZWfsvr3zw" bindingContext="_OmJS2f-gEeSzbZWfsvr3zw">
     <bindings xmi:id="_OmJS3_-gEeSzbZWfsvr3zw" keySequence="M1+Q" command="_OmJS3P-gEeSzbZWfsvr3zw"/>
     <bindings xmi:id="_OmJS4v-gEeSzbZWfsvr3zw" keySequence="M1+O" command="_OmJS4P-gEeSzbZWfsvr3zw"/>

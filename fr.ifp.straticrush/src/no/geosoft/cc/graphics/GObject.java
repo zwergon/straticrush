@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import no.geosoft.cc.interfaces.ICanvas;
+import no.geosoft.cc.utils.Box;
 import no.geosoft.cc.utils.GRegion;
-import fr.ifp.kronosflow.geometry.Box;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 

@@ -5,22 +5,22 @@ import java.util.List;
 
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GScene;
-import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
-import fr.ifp.jdeform.continuousdeformation.IRigidItem;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
+import fr.ifp.jdeform.deformation.IDeformationItem;
+import fr.ifp.jdeform.deformation.IRigidItem;
 import fr.ifp.jdeform.deformation.items.LinePairingItem;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
 import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
-import fr.ifp.kronosflow.model.IPolyline;
-import fr.ifp.kronosflow.model.LinePointPair;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.algo.LineIntersection;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.polyline.LinePointPair;
 
 public class AutoTargetsManipulator  extends CompositeManipulator {
 	
@@ -135,7 +135,8 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 		pts.add( origin );
 		pts.add( target );
 		
-		ExplicitPolyLine faultTarget = new ExplicitPolyLine( pts );
+		ExplicitPolyLine faultTarget = new ExplicitPolyLine();
+		faultTarget.setPoint2D(pts);
 		return faultTarget;
 	}
 

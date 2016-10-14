@@ -11,6 +11,7 @@ import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.cc.utils.GRegion;
+import no.geosoft.cc.utils.Rect;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -25,8 +26,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-
-import fr.ifp.kronosflow.geometry.Rect;
 
 public class GSwtCanvas  extends Composite 
 implements ICanvas,

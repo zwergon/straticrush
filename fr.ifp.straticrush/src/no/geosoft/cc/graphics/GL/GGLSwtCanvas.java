@@ -20,6 +20,7 @@ import no.geosoft.cc.graphics.GText;
 import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.cc.utils.GRegion;
+import no.geosoft.cc.utils.Rect;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -43,8 +44,6 @@ import com.jogamp.opengl.GLDrawableFactory;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
-
-import fr.ifp.kronosflow.geometry.Rect;
 
 
 public class GGLSwtCanvas extends Composite 

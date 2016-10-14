@@ -2,18 +2,16 @@ package straticrush.archive;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.HashSet;
 import java.util.Set;
 
 import fr.ifp.kronosflow.mesh.GridNode;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.Node;
-import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
 
 public class INodesConverter1_0 implements IConverter {
 

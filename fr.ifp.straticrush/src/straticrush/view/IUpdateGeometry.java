@@ -1,6 +1,6 @@
 package straticrush.view;
 
-import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.deformation.Deformation;
 
 public interface IUpdateGeometry {
 	

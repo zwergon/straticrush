@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import no.geosoft.cc.graphics.GSegment;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IPolyline;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.warp.IWarp;
 
 public class GPolyline extends GSegment implements IUpdateGeometry {

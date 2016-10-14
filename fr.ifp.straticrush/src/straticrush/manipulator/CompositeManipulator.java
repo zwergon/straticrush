@@ -2,26 +2,26 @@ package straticrush.manipulator;
 
 import java.util.List;
 
-import straticrush.view.Plot;
 import no.geosoft.cc.graphics.GMouseEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GScene;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.continuousdeformation.IDeformationItem;
-import fr.ifp.jdeform.continuousdeformation.IRigidItem;
+import straticrush.view.Plot;
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.jdeform.deformation.IDeformationItem;
+import fr.ifp.jdeform.deformation.IRigidItem;
 import fr.ifp.kronosflow.geology.FaultFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
-import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 
 public abstract class CompositeManipulator implements IStratiManipulator {
 	
@@ -194,7 +194,7 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		Patch selected = scene.getSelected();
 		for( KinObject object : selected.getChildren() ){
 			if ( object instanceof FeatureGeolInterval ){
-				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
+				FeatureInterval fgInterval = ((FeatureGeolInterval)object).getInterval();
 				if ( c.isInstance(fgInterval.getFeature()) ){
 					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
 					

@@ -5,13 +5,12 @@ import fr.ifp.kronosflow.controllers.property.PropertyComputer;
 import fr.ifp.kronosflow.mesh.IGeometryProvider;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
@@ -20,7 +19,7 @@ import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.utils.UID;
+import fr.ifp.kronosflow.uids.UID;
 
 public class PorosityComputer extends PropertyComputer {
 	

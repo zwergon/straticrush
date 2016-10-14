@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import fr.ifp.kronosflow.geology.BorderFeature;
 import fr.ifp.kronosflow.geology.ErosionFeature;
 import fr.ifp.kronosflow.geology.FaultFeature;
-import fr.ifp.kronosflow.geology.GeologicFeature;
 import fr.ifp.kronosflow.geology.GeologicLibrary;
 import fr.ifp.kronosflow.geology.StratigraphicColumn;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
@@ -24,18 +23,12 @@ import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.mesh.CellPoint;
 import fr.ifp.kronosflow.mesh.GridNode;
-import fr.ifp.kronosflow.model.CurviPoint;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.IPolyline;
-import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
-import fr.ifp.kronosflow.model.Node;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.PolyLine;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPoint;
@@ -43,8 +36,14 @@ import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.implicit.MeshPolyLine;
+import fr.ifp.kronosflow.polyline.CurviPoint;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
 
 public class DBArchiver {
 	
@@ -79,7 +78,7 @@ public class DBArchiver {
     	registerConverter(ExplicitPolyLine.class, PolyLineConverter1_0.class );
     	registerConverter(MeshPolyLine.class, PolyLineConverter1_0.class );
     	registerConverter(InfinitePolyline.class, PolyLineConverter1_0.class );
-    	registerConverter(Interval.class, PolyLineConverter1_0.class );
+    	registerConverter(FeatureInterval.class, PolyLineConverter1_0.class );
     	
     	registerConverter(Patch.class, PatchConverter1_0.class );
     	registerConverter(ExplicitPatch.class, PatchConverter1_0.class );

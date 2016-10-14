@@ -3,8 +3,8 @@ package straticrush.interaction;
 import no.geosoft.cc.graphics.GScene;
 import straticrush.manipulator.CompositeManipulator;
 import straticrush.manipulator.MonoTargetManipulator;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.Deformation;
 
 public class FlattenInteraction extends DeformationInteraction {
 	

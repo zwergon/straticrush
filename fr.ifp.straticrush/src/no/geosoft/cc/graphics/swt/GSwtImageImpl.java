@@ -6,11 +6,11 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 
-import fr.ifp.kronosflow.geometry.Rect;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.interfaces.IImageImpl;
+import no.geosoft.cc.utils.Rect;
 
 public class GSwtImageImpl implements IImageImpl {
 	

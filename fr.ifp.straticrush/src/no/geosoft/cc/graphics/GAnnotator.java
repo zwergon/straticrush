@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import no.geosoft.cc.utils.GRegion;
+import no.geosoft.cc.utils.Rect;
 import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.geometry.Rect;
 import fr.ifp.kronosflow.geometry.Vector2D;
 
 

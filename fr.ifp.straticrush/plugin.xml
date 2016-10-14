@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-   <extension-point id="splashExtension" name="Splash Extensions" schema="schema/splashExtension.exsd"/>
 
    <extension
          id="product"
@@ -10,7 +9,7 @@
             application="org.eclipse.e4.ui.workbench.swt.E4Application">
          <property
                name="applicationCSS"
-               value="platform:/plugin/StratiCrush/css/default.css">
+               value="platform:/plugin/org.ifpen.stratricrush/css/default.css">
          </property>
          <property
                name="appName"
@@ -22,44 +21,9 @@
          </property>
          <property
                name="lifeCycleURI"
-               value="bundleclass://StratiCrush/straticrush.parts.LifeCycleManager">
+               value="bundleclass://org.ifpen.stratricrush/straticrush.parts.LifeCycleManager">
          </property>
       </product>
-   </extension>
-   <extension
-         point="org.eclipse.ui.splashHandlers">
-      <splashHandler
-            class="straticrush.splashHandlers.ExtensibleSplashHandler"
-            id="straticrush.splashHandlers.extensible">
-      </splashHandler>
-   </extension>
-   <extension
-         point="StratiCrush.splashExtension">
-      <splashExtension
-            icon="icons/af.png"
-            id="af"
-            tooltip="Application Framework">
-      </splashExtension>
-      <splashExtension
-            icon="icons/embedded.png"
-            id="embedded"
-            tooltip="Embedded">
-      </splashExtension>
-      <splashExtension
-            icon="icons/enterprise.png"
-            id="enterprise"
-            tooltip="Enterprise">
-      </splashExtension>
-      <splashExtension
-            icon="icons/languages.png"
-            id="languages"
-            tooltip="Languages">
-      </splashExtension>
-      <splashExtension
-            icon="icons/rcp.png"
-            id="rcp"
-            tooltip="RCP">
-      </splashExtension>
    </extension>
 
 </plugin>

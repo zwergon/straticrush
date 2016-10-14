@@ -1,6 +1,6 @@
 package straticrush.view;
 
-import fr.ifp.kronosflow.newevents.IControllerEvent;
+import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GStyle;
 

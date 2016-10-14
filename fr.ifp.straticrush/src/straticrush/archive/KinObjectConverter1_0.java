@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import fr.ifp.kronosflow.model.KinObject;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
 
 public class KinObjectConverter1_0 implements IConverter {
 

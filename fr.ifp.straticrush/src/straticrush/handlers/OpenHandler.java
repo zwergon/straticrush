@@ -30,10 +30,10 @@ public class OpenHandler {
 		    return;
 		}
 		
-		String basename = file.substring(0, file.lastIndexOf('.'));
+		//String basename = file.substring(0, file.lastIndexOf('.'));
 		
 		SectionPart sectionPart = (SectionPart)part.getObject();
-		sectionPart.loadSection(basename);
+		sectionPart.loadSection(file);
 	
 	}
 }

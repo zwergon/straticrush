@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.Interval;
-import fr.ifp.kronosflow.model.Node;
-import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.model.FeatureInterval;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.utils.UID;
 
 public class PolyLineConverter1_0 implements IConverter {
 
@@ -28,8 +28,8 @@ public class PolyLineConverter1_0 implements IConverter {
 			dbArchiver.write( stub, Node.class );
 						
 		}
-		else if ( object instanceof Interval ){
-			writeInterval( dbArchiver, stub.getParent(), (Interval)object );
+		else if ( object instanceof FeatureInterval ){
+			writeInterval( dbArchiver, stub.getParent(), (FeatureInterval)object );
 		}
 
 
@@ -93,7 +93,7 @@ public class PolyLineConverter1_0 implements IConverter {
 	}
 	
 	
-	private void writeInterval(DBArchiver archiver, IHandle parent,	Interval interval) {
+	private void writeInterval(DBArchiver archiver, IHandle parent,	FeatureInterval interval) {
 		
 		Connection con = archiver.getConnection();
 		PreparedStatement st = null;

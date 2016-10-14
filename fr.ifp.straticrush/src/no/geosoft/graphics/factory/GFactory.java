@@ -26,8 +26,6 @@ public class GFactory {
 	
 	static public ICanvas createCanvas( Object parent, GWindow window ){
 		//return new GSwtCanvas(parent, window);
-		//return new GGLSwtCanvas(parent, window);
-		//return new GGLCanvas(parent, window);
 		return new GGLNewtCanvas(parent, window);
 	}
 	

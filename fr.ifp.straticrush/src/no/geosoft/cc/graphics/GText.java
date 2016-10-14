@@ -5,7 +5,7 @@ package no.geosoft.cc.graphics;
 import java.awt.Font;
 
 import no.geosoft.cc.interfaces.ICanvas;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 

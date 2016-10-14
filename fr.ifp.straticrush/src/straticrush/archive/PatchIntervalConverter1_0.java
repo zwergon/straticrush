@@ -1,8 +1,8 @@
 package straticrush.archive;
 
-import fr.ifp.kronosflow.model.IPolyline;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.polyline.IPolyline;
 
 public class PatchIntervalConverter1_0 implements IConverter {
 

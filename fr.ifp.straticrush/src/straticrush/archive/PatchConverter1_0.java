@@ -2,7 +2,7 @@ package straticrush.archive;
 
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PolyLine;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 public class PatchConverter1_0 implements IConverter {

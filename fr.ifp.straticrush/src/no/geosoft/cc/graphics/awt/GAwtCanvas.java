@@ -50,7 +50,7 @@ import no.geosoft.cc.graphics.GWindow;
 import no.geosoft.cc.interfaces.ICanvas;
 import no.geosoft.cc.io.GifEncoder;
 import no.geosoft.cc.utils.GRegion;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 

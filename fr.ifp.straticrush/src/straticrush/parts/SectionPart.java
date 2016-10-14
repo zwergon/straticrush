@@ -36,12 +36,13 @@ import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
 import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
-import fr.ifp.jdeform.dummy.MeshObjectFactory;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.filters.SectionFactory;
+import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 
@@ -99,25 +100,29 @@ public class SectionPart  {
 	}
 
 
-	public void loadSection( String basename ){
+	public void loadSection( String filename ){
+		
+		String basename = filename.substring(0, filename.lastIndexOf('.'));
 
 		LOGGER.debug("load " + basename , this.getClass() );
 
-		section = new GeoschedulerSection(basename);
+		section = KronosContext.make(Section.class);
+		section.setName(basename);
 
 		StratiCrushServices.getInstance().setSection(section);
 
 		PatchLibrary patchLib = section.getPatchLibrary();
 
-		Map<String,String> unitMap = MeshObjectFactory.createDummyGeo( basename + ".geo", section);
+		Map<String,String> unitMap = SectionFactory.createBorders( filename, section );
+		
 		File f = new File(basename + ".xml");
 		if(f.exists() && !f.isDirectory()) { 
-			MeshObjectFactory.createDummyUnit( basename + ".xml", section, unitMap);
+			SectionFactory.createDummyUnit( basename + ".xml", section, unitMap);
 		}
 		else {
 			f = new File(basename + ".unit");
 			if(f.exists() && !f.isDirectory()) { 
-				MeshObjectFactory.createDummyUnit( basename + ".unit", section, unitMap);
+				SectionFactory.createDummyUnit( basename + ".unit", section, unitMap);
 			}
 		}
 
@@ -180,13 +185,14 @@ public class SectionPart  {
 	public void loadMesh(String basename) {
 		LOGGER.debug("load " + basename , this.getClass() );
 
-		section = new GeoschedulerSection(basename);
+		section = KronosContext.make(Section.class);
+		section.setName(basename);
 
 		StratiCrushServices.getInstance().setSection(section);
 
 		PatchLibrary patchLib = section.getPatchLibrary();
 
-		MeshObjectFactory.createDummyMesh( basename + ".msh", section);
+		SectionFactory.createDummyMesh( basename + ".msh", section );
 
 		
 		Plot plot = window_.getPlot();

@@ -17,19 +17,19 @@ import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
-import fr.ifp.jdeform.dummy.SvgExportPolylines;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.IPolyline;
-import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.polyline.IPolyline;
 
 public abstract class DeformationInteraction implements GInteraction {
 	
@@ -289,7 +289,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	private void getPotentialTargets( Patch patch ){
 		for( KinObject object : patch.getChildren() ){
 			if ( object instanceof FeatureGeolInterval ){
-				Interval fgInterval = ((FeatureGeolInterval)object).getInterval();
+				FeatureInterval fgInterval = ((FeatureGeolInterval)object).getInterval();
 				
 				BoundaryFeature bf = fgInterval.getFeature();
 				

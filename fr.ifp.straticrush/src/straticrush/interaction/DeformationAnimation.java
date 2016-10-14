@@ -2,10 +2,10 @@ package straticrush.interaction;
 
 import org.eclipse.swt.widgets.Display;
 
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.continuousdeformation.IDeformation;
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.jdeform.deformation.IDeformation;
 
 class DeformationAnimation implements Runnable {
 	

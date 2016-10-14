@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: StratiCrush
-Bundle-SymbolicName: StratiCrush;singleton:=true
+Bundle-SymbolicName: org.ifpen.stratricrush;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  jars/mysql-connector-java-5.1.38-bin.jar
@@ -16,17 +16,17 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.di,
  org.eclipse.e4.core.contexts,
  com.jogamp.jogl,
- fr.ifp.kronosflow.filters,
+ fr.ifp.kronosflow.uids,
  fr.ifp.kronosflow.geometry,
- fr.ifp.kronosflow.jdeform,
+ fr.ifp.kronosflow.mesh,
  fr.ifp.kronosflow.model,
- fr.ifp.kronosflow.model.algo,
- fr.ifp.kronosflow.model.impl,
- org.eclipse.ui.forms,
- fr.ifp.kronosflow.controllers,
  fr.ifp.kronosflow.geoscheduler,
- fr.ifp.kronosflow.events,
+ fr.ifp.kronosflow.controllers,
+ fr.ifp.kronosflow.jdeform,
+ org.eclipse.ui.forms,
  javax.annotation,
  org.eclipse.e4.core.services,
- fr.ifp.kronosflow.fem2d
+ fr.ifp.kronosflow.fem2d,
+ org.apache.batik;bundle-version="1.7.0",
+ org.w3c.dom.svg;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -14,20 +14,20 @@ import straticrush.view.GInterval;
 import straticrush.view.GPolyline;
 import straticrush.view.IUpdateGeometry;
 import straticrush.view.View;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.kronosflow.controllers.events.EnumEventAction;
+import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.EnumEventAction;
-import fr.ifp.kronosflow.model.IExtension;
-import fr.ifp.kronosflow.model.IHandle;
-import fr.ifp.kronosflow.model.IPolyline;
-import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
-import fr.ifp.kronosflow.newevents.IControllerEvent;
+import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.uids.IHandle;
 
 public class GPatchObject extends View  {
 	
@@ -86,7 +86,7 @@ public class GPatchObject extends View  {
 
 		selectedSegment.updateGeometry();
 		
-		Interval inter = interval.getInterval();
+		FeatureInterval inter = interval.getInterval();
 		PolyLineGeometry geom = new PolyLineGeometry( inter );
 		
 		for( int i = IExtension.BEFORE; i< IExtension.LAST; i++ ){

@@ -24,9 +24,9 @@ import java.awt.*;
 
 import com.jogamp.opengl.GL2;
 
-import fr.ifp.kronosflow.geometry.Rect;
 import no.geosoft.cc.graphics.GFont;
 import no.geosoft.cc.interfaces.IFontImpl;
+import no.geosoft.cc.utils.Rect;
 
 
 

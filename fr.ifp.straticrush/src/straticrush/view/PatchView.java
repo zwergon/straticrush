@@ -11,16 +11,16 @@ import no.geosoft.cc.graphics.GPosition;
 import no.geosoft.cc.graphics.GSegment;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.graphics.GText;
+import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.geology.BodyFeature;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PolyLine;
-import fr.ifp.kronosflow.newevents.IControllerEvent;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.uids.IHandle;
 
 
 public class PatchView extends View {

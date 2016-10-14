@@ -15,10 +15,11 @@ import java.util.HashMap;
 
 
 
+
 import com.jogamp.opengl.GL2;
 
 import no.geosoft.cc.graphics.GFont;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 public class GLFont{
 	

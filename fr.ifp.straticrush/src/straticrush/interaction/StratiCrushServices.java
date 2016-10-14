@@ -7,24 +7,24 @@ import no.geosoft.cc.utils.GParameters;
 import straticrush.caller.RemoveUnitCaller;
 import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.jdeform.continuousdeformation.DeformationFactory;
-import fr.ifp.jdeform.continuousdeformation.DeformationFactory.Kind;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.ResetDeformation;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.jdeform.deformation.DeformationFactory;
+import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
+import fr.ifp.jdeform.deformations.ResetDeformation;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
+import fr.ifp.kronosflow.controllers.events.EnumEventAction;
+import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.controllers.units.PatchDeleteEvent;
+import fr.ifp.kronosflow.controllers.units.UnitRemovedItem;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
-import fr.ifp.kronosflow.model.EnumEventAction;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.newevents.IControllerEvent;
-import fr.ifp.kronosflow.newevents.PatchDeleteEvent;
-import fr.ifp.kronosflow.newevents.UnitRemovedItem;
 
 public class StratiCrushServices  implements IControllerService {
 	

@@ -5,7 +5,7 @@ package no.geosoft.cc.graphics;
 import java.util.Collection;
 import java.awt.Adjustable;
 
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 

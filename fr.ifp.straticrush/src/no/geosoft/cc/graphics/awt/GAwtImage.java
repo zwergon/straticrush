@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import no.geosoft.cc.graphics.GImage;
 import no.geosoft.cc.graphics.GStyle;
 import no.geosoft.cc.interfaces.IImageImpl;
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 

@@ -3,11 +3,11 @@ package straticrush.view;
 import java.util.List;
 
 import no.geosoft.cc.graphics.GSegment;
-import fr.ifp.jdeform.continuousdeformation.Deformation;
-import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.Interval;
+import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.polyline.CurviPoint;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
 
 public class GInterval extends GSegment implements IUpdateGeometry {
 	
@@ -37,7 +37,7 @@ public class GInterval extends GSegment implements IUpdateGeometry {
 
 	
 		PatchInterval pinterval = getPatchInterval();
-		Interval interval = pinterval.getInterval();
+		FeatureInterval interval = pinterval.getInterval();
 	
 		List<ICurviPoint> pts = interval.getPoints();
 		int npts =  pts.size();

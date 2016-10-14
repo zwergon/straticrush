@@ -1,7 +1,7 @@
 package straticrush.archive;
 
-import fr.ifp.kronosflow.model.IHandle;
 import fr.ifp.kronosflow.model.KinObject;
+import fr.ifp.kronosflow.uids.IHandle;
 
 public class DBStub {
 

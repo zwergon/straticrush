@@ -20,17 +20,15 @@ import fr.ifp.kronosflow.mesh.NodeLink;
 import fr.ifp.kronosflow.mesh.regions.Region;
 import fr.ifp.kronosflow.mesh.regions.RegionDB;
 import fr.ifp.kronosflow.mesh.regions.RegionZeroD;
-import fr.ifp.kronosflow.model.CurviPoint;
-import fr.ifp.kronosflow.model.ICurviPoint;
-import fr.ifp.kronosflow.model.ICurviPoint.CoordType;
-import fr.ifp.kronosflow.model.Interval;
-import fr.ifp.kronosflow.model.Node;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.PolyLineGeometry;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
@@ -42,7 +40,7 @@ import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.topology.Border;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.topology.PartitionLine;
-import fr.ifp.kronosflow.utils.UID;
+import fr.ifp.kronosflow.uids.UID;
 
 public class PoissonComputer extends PropertyComputer {
 	
@@ -95,7 +93,7 @@ public class PoissonComputer extends PropertyComputer {
 		Set<Node> nodes = new HashSet<Node>();
 		for( PartitionLine pLine : patchLib.getPartitionLines() ){
 			if ( pLine instanceof Border ){
-				Interval interval = pLine.getPatchInterval().getInterval();
+				FeatureInterval interval = pLine.getPatchInterval().getInterval();
 				for( ICurviPoint cp : interval.getPoints()){
 					UID uid = getNode( meshAccessor, (CellPoint)cp );
 					nodes.add( (Node)mesh.getNode(uid) );
@@ -178,11 +176,11 @@ public class PoissonComputer extends PropertyComputer {
 		}
 		pair++;
 			
-		Interval interval = master.getInterval();
+		FeatureInterval interval = master.getInterval();
 		MeshPatch patch = (MeshPatch)master.getPatch();
 		MeshAccessor accessor = new MeshAccessor(patch.getMesh());
 
-		Interval mateInterval = slave.getInterval();
+		FeatureInterval mateInterval = slave.getInterval();
 		MeshPatch matePatch = (MeshPatch)slave.getPatch();
 		MeshAccessor mateAccessor = new MeshAccessor(matePatch.getMesh());
 		PolyLineGeometry mateGeometry = new PolyLineGeometry(mateInterval);

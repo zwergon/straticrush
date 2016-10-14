@@ -2,7 +2,7 @@ package no.geosoft.cc.graphics;
 
 
 
-import fr.ifp.kronosflow.geometry.Rect;
+import no.geosoft.cc.utils.Rect;
 
 
 
