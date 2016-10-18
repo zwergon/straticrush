@@ -16,15 +16,15 @@ import fr.ifp.kronosflow.model.Patch;
 public class RemoveUnitInteraction implements GInteraction {
 	
 	private GScene    gscene;
-	protected GeoschedulerLink link = null;
+	protected RemoveUnitCaller caller;
 	
 	public RemoveUnitInteraction( GScene scene, String type ){
 		gscene = scene; 
-		link = new GeoschedulerLink( StratiCrushServices.getInstance().createCaller("RemoveUnit") );
+		caller =  (RemoveUnitCaller)StratiCrushServices.getInstance().createCaller("RemoveUnit") ;
 	}
 	
 	public RemoveUnitCaller getCaller(){
-		return (RemoveUnitCaller)link.getCaller();
+		return caller;
 	}
 
 	@Override

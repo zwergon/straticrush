@@ -15,7 +15,7 @@ import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.algo.LineIntersection;
+import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
 
 public class MonoTargetManipulator extends CompositeManipulator  {

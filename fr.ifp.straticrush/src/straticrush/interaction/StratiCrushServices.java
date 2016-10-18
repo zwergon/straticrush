@@ -1,6 +1,8 @@
 package straticrush.interaction;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import no.geosoft.cc.utils.GParameters;
@@ -159,10 +161,20 @@ public class StratiCrushServices  implements IControllerService {
 	}
 
 	@Override
-	public void handleEvents( 
-			ControllerEventList eventList, 
-			boolean forceRefresh ) {
+	public void preHandle(ControllerEventList eventList) {
 		handleEvents(eventList);
+	}
+
+	@Override
+	public List<String> deactivateActiveManipulators() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void activateManipulators(Collection<String> handlerIds) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

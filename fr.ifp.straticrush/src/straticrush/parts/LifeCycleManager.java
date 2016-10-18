@@ -23,20 +23,37 @@ public class LifeCycleManager {
 	
 	public static class DummySectionState implements ISectionState {
 		
-		public Section getSection() {
-			return section;
+		
+		@Override
+		public void setAge(double age) {
+			// TODO Auto-generated method stub
+			
 		}
+		@Override
+		public double getAge() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		@Override
+		public void setComment(String comment) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public String getComment() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		@Override
 		public void setSection(Section section) {
-			this.section = section;
+			// TODO Auto-generated method stub
+			
 		}
-		public int getAge() {
-			return age;
+		@Override
+		public Section getSection() {
+			// TODO Auto-generated method stub
+			return null;
 		}
-		public void setAge(int age) {
-			this.age = age;
-		}
-		Section section;
-		int age;
 		
 	};
 	

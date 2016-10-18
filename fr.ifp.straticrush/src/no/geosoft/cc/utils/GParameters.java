@@ -17,7 +17,7 @@ public class GParameters {
 		
 	private GParameters(){
 		style = StyleManager.getInstance().createStyle();
-		style.setName("GParameters");
+		style.setAttribute( "nam", "GParameters");
 	}
 
 	static public Style getStyle(){

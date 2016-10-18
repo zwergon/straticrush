@@ -51,7 +51,7 @@ public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {
 		double[] xpts = new double[npts];
 		double[] ypts = new double[npts];
 
-		IGeometryProvider provider = mesh.getCurrentProvider();
+		IGeometryProvider provider = mesh.getGeometryProvider();
 		IWarp warp = (deformation != null ) ? deformation.getWarp() : null;	
 		
 		for( int i=0; i<npts; i++){

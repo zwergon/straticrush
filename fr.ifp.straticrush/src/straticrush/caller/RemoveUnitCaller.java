@@ -9,6 +9,7 @@ import fr.ifp.kronosflow.controllers.units.UnitController;
 import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.style.Style;
 
 
 public class RemoveUnitCaller 
@@ -42,4 +43,22 @@ public class RemoveUnitCaller
     public void revert() {
         getController().addPatches(getService().getSection(), removedPatchs);
     }
+
+	@Override
+	public void reApply() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intializeFromStyle(Style style) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Style getStyle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -22,6 +22,7 @@ import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
+import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
@@ -43,7 +44,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	protected GScene    scene_;
 			
-	protected GeoschedulerLink link = null;
+	protected DeformationControllerCaller caller = null;
 		
 	/** horizons that may be a target for deformation ordered using straticolumn */
 	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
@@ -58,7 +59,7 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	public DeformationInteraction( GScene scene, String type ){
 		scene_ = scene;
-		link = new GeoschedulerLink( StratiCrushServices.getInstance().createCaller("Deformation") );
+		caller = (DeformationControllerCaller)StratiCrushServices.getInstance().createCaller("Deformation");
 		manipulator = null;
 	
 	}
@@ -92,7 +93,7 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	
 	public DeformationControllerCaller getCaller(){
-		return (DeformationControllerCaller)link.getCaller();
+		return caller;
 	}
 
 

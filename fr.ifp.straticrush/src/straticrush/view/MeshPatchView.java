@@ -116,6 +116,10 @@ public class MeshPatchView extends PatchView {
 		
 		currentProp = plot.getCurrentProp();
 		
+		if ( null == currentProp ){
+			return;
+		}
+		
 		colormap = plot.getColorMap();
 		
 		PropertyInfo pinfo = currentProp.getPropertyInfo();

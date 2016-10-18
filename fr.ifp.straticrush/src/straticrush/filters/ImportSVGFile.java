@@ -82,7 +82,8 @@ public class ImportSVGFile extends ImportBorderFile {
 		}
 
 
-		Paleobathymetry paleo = new Paleobathymetry("Paleobathymetry");
+		Paleobathymetry paleo = new Paleobathymetry();
+		paleo.setName("Paleobathymetry");
 		patchLib.add(paleo);
 		paleo.initPaleoLine();
 
