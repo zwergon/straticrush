@@ -11,6 +11,8 @@ import straticrush.properties.SurfacePropertyComputer;
 import straticrush.properties.XYPropertyComputer;
 import fr.ifp.jdeform.deformations.StrateOrientationComputer;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
+import fr.ifp.kronosflow.extensions.IExtension;
+import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.geoscheduler.ISectionState;
 import fr.ifp.kronosflow.model.Section;
@@ -73,6 +75,7 @@ public class LifeCycleManager {
 		KronosContext.registerClass( Section.class,  GeoschedulerSection.class );
 		KronosContext.registerClass( ISectionState.class, DummySectionState.class );
 		KronosContext.registerClass( PolyLine.class, ExplicitPolyLine.class );
+		KronosContext.registerClass( IExtension.class, RayExtension.class );
 	}
 
 }

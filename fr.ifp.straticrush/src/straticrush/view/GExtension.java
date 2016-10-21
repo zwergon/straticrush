@@ -3,7 +3,7 @@ package straticrush.view;
 import no.geosoft.cc.graphics.GSegment;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.extensions.RayExtension;
+import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.polyline.LinePoint;
 
 public class GExtension extends GSegment implements IUpdateGeometry {

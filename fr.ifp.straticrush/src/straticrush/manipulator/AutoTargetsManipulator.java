@@ -136,7 +136,8 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 		pts.add( target );
 		
 		ExplicitPolyLine faultTarget = new ExplicitPolyLine();
-		faultTarget.setPoint2D(pts);
+		faultTarget.initialize(pts);
+		
 		return faultTarget;
 	}
 

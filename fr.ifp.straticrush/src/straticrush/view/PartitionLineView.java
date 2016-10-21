@@ -1,7 +1,6 @@
 package straticrush.view;
 
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.topology.PartitionLine;
 
 public class PartitionLineView extends PatchIntervalView {
