@@ -41,6 +41,10 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
+import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -108,6 +112,11 @@ public class SectionPart  {
 
 		section = KronosContext.make(Section.class);
 		section.setName(basename);
+		
+		SceneStyle sceneStyle = new SceneStyle(section.getStyle());
+		sceneStyle.setNatureType(NatureType.EXPLICIT);
+		sceneStyle.setGridType(GridType.LINE);
+		sceneStyle.setComplexityType(ComplexityType.SINGLE);
 
 		StratiCrushServices.getInstance().setSection(section);
 

@@ -48,7 +48,9 @@ public class ImportSVGFile extends ImportBorderFile {
 		}
 	}
 
-	
+	public ImportSVGFile() {
+		super();
+	}
 	
 	public void execute() {
 
