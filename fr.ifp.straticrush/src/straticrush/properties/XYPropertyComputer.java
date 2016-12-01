@@ -10,6 +10,7 @@ import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
@@ -44,8 +45,7 @@ public class XYPropertyComputer extends PropertyComputer {
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp = propertyDB.createProperty(pinfo);
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
@@ -70,12 +70,11 @@ public class XYPropertyComputer extends PropertyComputer {
 	
 	private void computeUsingPatch( Patch patch, IPropertyAccessor accessor ) {
 		
-		accessor.addHandle( new PatchCell(patch) );
 		PolyLine border = patch.getBorder();
 	
 		for( ICurviPoint cp : border.getPoints() ){
 			Point2D pt = border.getPosition(cp);
-			accessor.setValue( cp.getUID(), new PropertyVector(pt.getPosition()));
+			accessor.setValue( cp, new PropertyVector(pt.getPosition()));
 		}
 		
 	}
@@ -83,12 +82,11 @@ public class XYPropertyComputer extends PropertyComputer {
 
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
 		
-		accessor.addMesh( mesh );
-		
 		IGeometryProvider provider = mesh.getGeometryProvider();
 		
 		for( UID uid : mesh.getNodeIds() ){
-			accessor.setValue( uid, new PropertyVector( provider.getPosition(uid)) );	
+			Node node = (Node)mesh.getNode(uid);
+			accessor.setValue( node, new PropertyVector( provider.getPosition(uid)) );	
 		}
 	}
 
@@ -102,8 +100,7 @@ public class XYPropertyComputer extends PropertyComputer {
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp = propertyDB.createProperty(pinfo);
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();

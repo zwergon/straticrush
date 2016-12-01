@@ -80,8 +80,7 @@ public class PoissonComputer extends PropertyComputer {
 		PropertyInfo pinfo =  new PropertyInfo( "Temperature", Support.NodeProperty, Kind.Real );
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property( pinfo );
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp = propertyDB.createProperty( pinfo );
 		}		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
 		
@@ -243,7 +242,8 @@ public class PoissonComputer extends PropertyComputer {
 
 		for( UID uid : mesh.getNodeIds() ){
 			double temperature = solver.getValue( uid, 0 );
-			accessor.setValue( uid, new PropertyDouble(temperature) );
+			Node node = (Node)mesh.getNode(uid);
+			accessor.setValue( node, new PropertyDouble(temperature) );
 		}
 
 		return true;

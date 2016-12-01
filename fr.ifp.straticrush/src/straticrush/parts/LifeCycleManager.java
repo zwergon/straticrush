@@ -19,6 +19,10 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.property.IPropertyAccessor;
+import fr.ifp.kronosflow.property.IPropertyInterpolatorBuilder;
+import fr.ifp.kronosflow.property.map.MapPropertyAccessor;
+import fr.ifp.kronosflow.property.map.MapPropertyInterpolatorBuilder;
 import fr.ifp.kronosflow.utils.KronosContext;
 
 public class LifeCycleManager {
@@ -76,6 +80,8 @@ public class LifeCycleManager {
 		KronosContext.registerClass( ISectionState.class, DummySectionState.class );
 		KronosContext.registerClass( PolyLine.class, ExplicitPolyLine.class );
 		KronosContext.registerClass( IExtension.class, RayExtension.class );
+		KronosContext.registerClass( IPropertyAccessor.class, MapPropertyAccessor.class );
+		KronosContext.registerClass( IPropertyInterpolatorBuilder.class, MapPropertyInterpolatorBuilder.class );
 	}
 
 }

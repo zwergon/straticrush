@@ -115,7 +115,7 @@ public class SectionPart  {
 		
 		SceneStyle sceneStyle = new SceneStyle(section.getStyle());
 		sceneStyle.setNatureType(NatureType.EXPLICIT);
-		sceneStyle.setGridType(GridType.LINE);
+		sceneStyle.setGridType(GridType.TRGL);
 		sceneStyle.setComplexityType(ComplexityType.SINGLE);
 
 		StratiCrushServices.getInstance().setSection(section);

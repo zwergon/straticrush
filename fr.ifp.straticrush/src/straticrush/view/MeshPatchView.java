@@ -10,6 +10,7 @@ import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.IPropertyValue;
@@ -150,7 +151,7 @@ public class MeshPatchView extends PatchView {
 				if(currentProp!=null){
 				IPropertyAccessor accessor = currentProp.getAccessor();
 
-				values[0] = accessor.getValue(cell.getUID()).real();
+				values[0] = accessor.getValue(cell).real();
 				gcell.setValues(values);
 				}
 			}
@@ -172,7 +173,8 @@ public class MeshPatchView extends PatchView {
 				UID[] uids = cell.getNodeIds();
 				double[] values = new double[uids.length];
 				for( int i =0; i<uids.length; i++ ){
-					values[i] = accessor.getValue(uids[i]).real();
+					Node node = (Node)accessor.getHandle(uids[i]);
+					values[i] = accessor.getValue(node).real();
 				}
 				
 				gcell.setValues(values);
@@ -193,7 +195,7 @@ public class MeshPatchView extends PatchView {
 		
 		GColor color = null;
 		if ( null != currentProp ){
-			IPropertyValue val = currentProp.getAccessor().getValue( cell.getUID() );
+			IPropertyValue val = currentProp.getAccessor().getValue( cell );
 			
 			if ( val instanceof PropertyNoData ){
 				color = new GColor(0,0,0,0);

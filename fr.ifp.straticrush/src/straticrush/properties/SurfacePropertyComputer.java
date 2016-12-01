@@ -44,8 +44,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp = propertyDB.createProperty(pinfo);
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
@@ -70,11 +69,10 @@ public class SurfacePropertyComputer extends PropertyComputer {
 	
 	private void computeUsingPatch(Patch patch, IPropertyAccessor accessor) {
 	
-		accessor.addHandle( new PatchCell(patch) );
 		PolyLineGeometry geometry = new PolyLineGeometry(patch.getBorder());
 		double surface = geometry.computeArea();
 		
-		accessor.setValue( patch.getUID(), new PropertyDouble(surface) );
+		accessor.setValue( patch, new PropertyDouble(surface) );
 		
 	}
 	
@@ -87,7 +85,6 @@ public class SurfacePropertyComputer extends PropertyComputer {
 
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
 		
-		accessor.addMesh(mesh);
 		for( UID uid : mesh.getCellIds() ){
 			
 			Cell cell = (Cell)mesh.getCell(uid);
@@ -96,7 +93,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 			
 			double surface = Math.abs(integrate.compute( cstFn ) );
 			
-			accessor.setValue( uid, new PropertyDouble(surface) );	
+			accessor.setValue( cell, new PropertyDouble(surface) );	
 		}
 	}
 
@@ -108,8 +105,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp =  propertyDB.createProperty(pinfo);
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();

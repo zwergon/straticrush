@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="StratiCrush" id="StratiCrush.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="StratiCrush" uid="Straticrush" id="org.ifpen.stratricrush.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -17,7 +17,6 @@
 
    <windowImages i16="icons/chain_mesh_icon.png"/>
 
-
    <vm>
       <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</linux>
    </vm>
@@ -27,23 +26,31 @@
       <plugin id="com.ibm.icu"/>
       <plugin id="com.jogamp.jogl"/>
       <plugin id="com.jogamp.jogl-linux-amd64" fragment="true"/>
-      <plugin id="fr.ifp.kronosflow.controller"/>
-      <plugin id="fr.ifp.kronosflow.controller.impl"/>
-      <plugin id="fr.ifp.kronosflow.filters"/>
+      <plugin id="fr.ifp.kronosflow.controllers"/>
+      <plugin id="fr.ifp.kronosflow.fem2d"/>
+      <plugin id="fr.ifp.kronosflow.fem2d.test" fragment="true"/>
       <plugin id="fr.ifp.kronosflow.geometry"/>
+      <plugin id="fr.ifp.kronosflow.geometry.test" fragment="true"/>
       <plugin id="fr.ifp.kronosflow.geoscheduler"/>
+      <plugin id="fr.ifp.kronosflow.geoscheduler.test" fragment="true"/>
       <plugin id="fr.ifp.kronosflow.jdeform"/>
+      <plugin id="fr.ifp.kronosflow.jdeform.test" fragment="true"/>
+      <plugin id="fr.ifp.kronosflow.mesh"/>
+      <plugin id="fr.ifp.kronosflow.mesh.test" fragment="true"/>
       <plugin id="fr.ifp.kronosflow.model"/>
-      <plugin id="fr.ifp.kronosflow.model.algo"/>
-      <plugin id="fr.ifp.kronosflow.model.impl"/>
+      <plugin id="fr.ifp.kronosflow.model.test" fragment="true"/>
+      <plugin id="fr.ifp.kronosflow.property.image" fragment="true"/>
+      <plugin id="fr.ifp.kronosflow.property.map" fragment="true"/>
+      <plugin id="fr.ifp.kronosflow.uids"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.xml"/>
-      <plugin id="org.apache"/>
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.util"/>
       <plugin id="org.apache.batik.util.gui"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.commons.math"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
@@ -52,10 +59,12 @@
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.java7" fragment="true"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.e4.core.commands"/>
       <plugin id="org.eclipse.e4.core.contexts"/>
@@ -91,6 +100,7 @@
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>

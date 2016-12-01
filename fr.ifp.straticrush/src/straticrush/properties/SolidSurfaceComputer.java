@@ -48,8 +48,7 @@ public class SolidSurfaceComputer extends PropertyComputer{
 		
 		Property surfaceProp = propertyDB.findProperty( pinfo );
 		if ( null == surfaceProp ){
-			surfaceProp = new Property(pinfo);
-			propertyDB.addProperty(surfaceProp);
+			surfaceProp = propertyDB.createProperty(pinfo);
 		}
 		
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
@@ -84,7 +83,6 @@ public class SolidSurfaceComputer extends PropertyComputer{
 
 	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
 		
-		accessor.addMesh(mesh);
 		
 		for( UID uid : mesh.getCellIds() ){
 			
@@ -94,7 +92,7 @@ public class SolidSurfaceComputer extends PropertyComputer{
 			
 			double surface = Math.abs(integrate.compute( porosityFn ));
 			
-			accessor.setValue( uid, new PropertyDouble(surface) );	
+			accessor.setValue( cell, new PropertyDouble(surface) );	
 		}
 	}
 	
