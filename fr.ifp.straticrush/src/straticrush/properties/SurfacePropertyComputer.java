@@ -7,17 +7,16 @@ import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
-import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyStyle;
+import fr.ifp.kronosflow.property.PropertyValue;
 import fr.ifp.kronosflow.uids.UID;
+import fr.ifp.kronosflow.utils.LOGGER;
 
 public class SurfacePropertyComputer extends PropertyComputer {
 	
@@ -68,12 +67,8 @@ public class SurfacePropertyComputer extends PropertyComputer {
 	
 	
 	private void computeUsingPatch(Patch patch, IPropertyAccessor accessor) {
-	
-		PolyLineGeometry geometry = new PolyLineGeometry(patch.getBorder());
-		double surface = geometry.computeArea();
-		
-		accessor.setValue( patch, new PropertyDouble(surface) );
-		
+		//TODO 
+		LOGGER.error("not yet implemented", getClass() );
 	}
 	
 	private IFunction cstFn = new  IFunction() {
@@ -93,8 +88,11 @@ public class SurfacePropertyComputer extends PropertyComputer {
 			
 			double surface = Math.abs(integrate.compute( cstFn ) );
 			
-			accessor.setValue( cell, new PropertyDouble(surface) );	
+			double[] xy = cell.barycenter( mesh.getGeometryProvider() );
+			
+			accessor.setValue( xy, new PropertyValue(surface) );	
 		}
+	
 	}
 
 	@Override

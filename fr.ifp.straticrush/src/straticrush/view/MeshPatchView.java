@@ -41,7 +41,7 @@ public class MeshPatchView extends PatchView {
 	
 		MeshPatch patch = (MeshPatch)object;
 		
-		Mesh2D mesh = patch.getMesh();
+		mesh = patch.getMesh();
 		
 		for( IHandle handle : mesh.getCells() ){
 			addCell( mesh, (Cell)handle );
@@ -148,17 +148,19 @@ public class MeshPatchView extends PatchView {
 				style.setBackgroundColor(color);
 				
 				double[] values = new double[1];
-				if(currentProp!=null){
-				IPropertyAccessor accessor = currentProp.getAccessor();
-
-				values[0] = accessor.getValue(cell).real();
-				gcell.setValues(values);
+				if ( (currentProp!=null) && ( mesh != null ) ){
+					IPropertyAccessor accessor = currentProp.getAccessor();
+					double[] xy = cell.barycenter(mesh.getGeometryProvider() );
+					values[0] = accessor.getValue(xy).real();
+					gcell.setValues(values);
 				}
 			}
 		}
 	}
 
 	private void updateColorsFromMap() {
+		
+	
 		
 		for( Object segment : getSegments() ){
 			if ( segment instanceof GCell ){
@@ -173,8 +175,8 @@ public class MeshPatchView extends PatchView {
 				UID[] uids = cell.getNodeIds();
 				double[] values = new double[uids.length];
 				for( int i =0; i<uids.length; i++ ){
-					Node node = (Node)accessor.getHandle(uids[i]);
-					values[i] = accessor.getValue(node).real();
+					double[] xy = mesh.getGeometryProvider().getPosition(uids[i]) ;
+					values[i] = accessor.getValue(xy).real();
 				}
 				
 				gcell.setValues(values);
@@ -195,7 +197,9 @@ public class MeshPatchView extends PatchView {
 		
 		GColor color = null;
 		if ( null != currentProp ){
-			IPropertyValue val = currentProp.getAccessor().getValue( cell );
+			
+			double[] xy = cell.barycenter(mesh.getGeometryProvider() );
+			IPropertyValue val = currentProp.getAccessor().getValue( xy );
 			
 			if ( val instanceof PropertyNoData ){
 				color = new GColor(0,0,0,0);

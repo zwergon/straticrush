@@ -6,11 +6,9 @@ import fr.ifp.kronosflow.mesh.IGeometryProvider;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchCell;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
@@ -19,7 +17,7 @@ import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyVector;
+import fr.ifp.kronosflow.property.PropertyValue;
 import fr.ifp.kronosflow.uids.UID;
 
 public class XYPropertyComputer extends PropertyComputer {
@@ -74,8 +72,9 @@ public class XYPropertyComputer extends PropertyComputer {
 	
 		for( ICurviPoint cp : border.getPoints() ){
 			Point2D pt = border.getPosition(cp);
-			accessor.setValue( cp, new PropertyVector(pt.getPosition()));
+			accessor.setValue( pt.getPosition(), new PropertyValue(pt.getPosition()));
 		}
+		
 		
 	}
 
@@ -85,9 +84,10 @@ public class XYPropertyComputer extends PropertyComputer {
 		IGeometryProvider provider = mesh.getGeometryProvider();
 		
 		for( UID uid : mesh.getNodeIds() ){
-			Node node = (Node)mesh.getNode(uid);
-			accessor.setValue( node, new PropertyVector( provider.getPosition(uid)) );	
+			double[] xy = provider.getPosition(uid);
+			accessor.setValue( xy, new PropertyValue( xy ) );	
 		}
+		
 	}
 
 

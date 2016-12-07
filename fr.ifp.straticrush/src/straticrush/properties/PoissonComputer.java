@@ -32,11 +32,11 @@ import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
-import fr.ifp.kronosflow.property.PropertyDouble;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyStyle;
+import fr.ifp.kronosflow.property.PropertyValue;
 import fr.ifp.kronosflow.topology.Border;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.topology.PartitionLine;
@@ -243,9 +243,9 @@ public class PoissonComputer extends PropertyComputer {
 		for( UID uid : mesh.getNodeIds() ){
 			double temperature = solver.getValue( uid, 0 );
 			Node node = (Node)mesh.getNode(uid);
-			accessor.setValue( node, new PropertyDouble(temperature) );
+			accessor.setValue( node.getPosition(), new PropertyValue(temperature) );
 		}
-
+		
 		return true;
 			
 	

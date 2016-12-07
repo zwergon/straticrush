@@ -196,13 +196,12 @@ public class Plot extends GScene {
 
 	private void updateColormap(Property property ) {
 
-		PropertyStatistic stat = PropertyStatistic.create(property);
+		PropertyStatistic stat = property.getAccessor().getStatistic();
 
 		if ( stat == null ){
 			return;
 		}
 
-		stat.compute();
 
 		IPropertyValue min = stat.min();
 		IPropertyValue max = stat.max();
