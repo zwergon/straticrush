@@ -8,7 +8,9 @@ import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
@@ -16,8 +18,7 @@ import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
-import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyValue;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.uids.UID;
 
 public class XYPropertyComputer extends PropertyComputer {
@@ -50,7 +51,7 @@ public class XYPropertyComputer extends PropertyComputer {
 		
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof IMeshProvider ){
-				computeUsingMesh( ((IMeshProvider)patch).getMesh(), accessor );
+				computeUsingMesh( patch, accessor );
 			}
 			else {
 				computeUsingPatch( patch, accessor );
@@ -72,20 +73,28 @@ public class XYPropertyComputer extends PropertyComputer {
 	
 		for( ICurviPoint cp : border.getPoints() ){
 			Point2D pt = border.getPosition(cp);
-			accessor.setValue( pt.getPosition(), new PropertyValue(pt.getPosition()));
+			
+			PropertyLocation location = new PropertyLocation( patch, pt.getPosition() );
+			accessor.setValue( location, pt.getPosition() );
 		}
 		
 		
 	}
 
 
-	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
+	private void computeUsingMesh( Patch patch, IPropertyAccessor accessor ) {	
+		
+		
+		Mesh2D mesh = ((IMeshProvider)patch).getMesh();
 		
 		IGeometryProvider provider = mesh.getGeometryProvider();
 		
 		for( UID uid : mesh.getNodeIds() ){
+			Node node = (Node)mesh.getNode(uid);
+			node.setPropertyDomain(patch);
 			double[] xy = provider.getPosition(uid);
-			accessor.setValue( xy, new PropertyValue( xy ) );	
+			PropertyLocation location = new PropertyLocation( node.getPropertyDomain(), xy );
+			accessor.setValue( location,  xy  );	
 		}
 		
 	}
@@ -106,7 +115,7 @@ public class XYPropertyComputer extends PropertyComputer {
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
 		
 		if ( patchToCompute instanceof IMeshProvider ){
-			computeUsingMesh( ((IMeshProvider)patchToCompute).getMesh(), accessor );
+			computeUsingMesh( patchToCompute, accessor );
 		}
 		else {
 			computeUsingPatch( patchToCompute, accessor );

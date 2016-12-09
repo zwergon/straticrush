@@ -26,6 +26,7 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
@@ -35,8 +36,7 @@ import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
-import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyValue;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.topology.Border;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.topology.PartitionLine;
@@ -243,7 +243,8 @@ public class PoissonComputer extends PropertyComputer {
 		for( UID uid : mesh.getNodeIds() ){
 			double temperature = solver.getValue( uid, 0 );
 			Node node = (Node)mesh.getNode(uid);
-			accessor.setValue( node.getPosition(), new PropertyValue(temperature) );
+			PropertyLocation location = new PropertyLocation(node.getPropertyDomain(), node.getPosition() );
+			accessor.setValue( location, temperature );
 		}
 		
 		return true;

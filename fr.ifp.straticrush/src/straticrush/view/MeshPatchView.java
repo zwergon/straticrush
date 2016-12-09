@@ -8,7 +8,6 @@ import no.geosoft.cc.graphics.GStyle;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
@@ -16,10 +15,8 @@ import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.property.PropertyInfo.Support;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.property.PropertyNoData;
-import fr.ifp.kronosflow.property.PropertyStatistic;
-import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 
@@ -151,7 +148,8 @@ public class MeshPatchView extends PatchView {
 				if ( (currentProp!=null) && ( mesh != null ) ){
 					IPropertyAccessor accessor = currentProp.getAccessor();
 					double[] xy = cell.barycenter(mesh.getGeometryProvider() );
-					values[0] = accessor.getValue(xy).real();
+					PropertyLocation location = new PropertyLocation(cell.getPropertyDomain(), xy );
+					values[0] = accessor.getValue(location).real();
 					gcell.setValues(values);
 				}
 			}
@@ -175,8 +173,9 @@ public class MeshPatchView extends PatchView {
 				UID[] uids = cell.getNodeIds();
 				double[] values = new double[uids.length];
 				for( int i =0; i<uids.length; i++ ){
-					double[] xy = mesh.getGeometryProvider().getPosition(uids[i]) ;
-					values[i] = accessor.getValue(xy).real();
+					Node node =(Node)mesh.getNode(uids[i]);
+					PropertyLocation location = new PropertyLocation( node.getPropertyDomain(), node.getPosition() );
+					values[i] = accessor.getValue(location).real();
 				}
 				
 				gcell.setValues(values);
@@ -199,7 +198,8 @@ public class MeshPatchView extends PatchView {
 		if ( null != currentProp ){
 			
 			double[] xy = cell.barycenter(mesh.getGeometryProvider() );
-			IPropertyValue val = currentProp.getAccessor().getValue( xy );
+			PropertyLocation location = new PropertyLocation(cell.getPropertyDomain(), xy );
+			IPropertyValue val = currentProp.getAccessor().getValue( location );
 			
 			if ( val instanceof PropertyNoData ){
 				color = new GColor(0,0,0,0);

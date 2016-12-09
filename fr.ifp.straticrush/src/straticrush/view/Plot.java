@@ -23,11 +23,11 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.file.FileMeshPatch;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.model.triangulation.TrglPatch;
 import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyStatistic;
-import fr.ifp.kronosflow.property.PropertyStyle;
 import fr.ifp.kronosflow.topology.Border;
 import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.uids.UID;
@@ -203,8 +203,8 @@ public class Plot extends GScene {
 		}
 
 
-		IPropertyValue min = stat.min();
-		IPropertyValue max = stat.max();
+		IPropertyValue min = stat.getMinValue();
+		IPropertyValue max = stat.getMaxValue();
 
 		colormap.setMinMax( min.real(), max.real() );
 	}

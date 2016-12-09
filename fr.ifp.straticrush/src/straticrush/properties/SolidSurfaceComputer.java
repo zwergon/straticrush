@@ -10,12 +10,12 @@ import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyValue;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
 
@@ -93,7 +93,9 @@ public class SolidSurfaceComputer extends PropertyComputer{
 			double surface = Math.abs(integrate.compute( porosityFn ));
 			
 			double[] xy = cell.barycenter( mesh.getGeometryProvider() );
-			accessor.setValue( xy, new PropertyValue(surface) );
+			
+			PropertyLocation location = new PropertyLocation( cell.getPropertyDomain(), xy );
+			accessor.setValue( location, surface );
 		}
 		
 	}

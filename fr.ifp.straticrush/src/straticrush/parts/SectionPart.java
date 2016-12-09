@@ -149,12 +149,6 @@ public class SectionPart  {
 		RectD bbox = patchLib.getBoundingBox();
 		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
 		
-		
-		
-		bbox.inset( -bbox.width()/10., -bbox.height()/10. );
-		section.getPropertyDB().setDomain(bbox);
-
-
 		window_.update();
 	}
 
@@ -222,8 +216,6 @@ public class SectionPart  {
 		RectD bbox = patchLib.getBoundingBox();
 		plot.setWorldExtent( bbox.left, bbox.bottom, bbox.width(), -bbox.height());
 		
-		section.getPropertyDB().setDomain(bbox);
-
 		window_.update();
 
 	}

@@ -9,12 +9,12 @@ import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.property.PropertyStyle;
-import fr.ifp.kronosflow.property.PropertyValue;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
 
@@ -50,7 +50,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof IMeshProvider ){
-				computeUsingMesh( ((IMeshProvider)patch).getMesh(), accessor );
+				computeUsingMesh( patch, accessor );
 			}
 			else {
 				computeUsingPatch( patch, accessor );
@@ -78,11 +78,15 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		}	
 	};
 
-	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
+	private void computeUsingMesh( Patch patch, IPropertyAccessor accessor ) {	
+		
+		
+		Mesh2D mesh = ((IMeshProvider)patch).getMesh();
 		
 		for( UID uid : mesh.getCellIds() ){
 			
 			Cell cell = (Cell)mesh.getCell(uid);
+			cell.setPropertyDomain(patch);
 			
 			NodesIntegrate integrate = new NodesIntegrate(mesh, cell);
 			
@@ -90,7 +94,9 @@ public class SurfacePropertyComputer extends PropertyComputer {
 			
 			double[] xy = cell.barycenter( mesh.getGeometryProvider() );
 			
-			accessor.setValue( xy, new PropertyValue(surface) );	
+			PropertyLocation location = new PropertyLocation( cell.getPropertyDomain(), xy );
+			
+			accessor.setValue( location, surface );	
 		}
 	
 	}
@@ -109,7 +115,7 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		IPropertyAccessor accessor = surfaceProp.getAccessor();
 		
 		if ( patchToCompute instanceof IMeshProvider ){
-			computeUsingMesh( ((IMeshProvider)patchToCompute).getMesh(), accessor );
+			computeUsingMesh( patchToCompute, accessor );
 		}
 		else {
 			computeUsingPatch( patchToCompute, accessor );
