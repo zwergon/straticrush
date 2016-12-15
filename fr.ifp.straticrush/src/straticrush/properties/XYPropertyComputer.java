@@ -2,7 +2,6 @@ package straticrush.properties;
 
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
 import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.mesh.IGeometryProvider;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
@@ -10,6 +9,7 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.style.PropertyStyle;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.IGeometryProvider;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
@@ -86,15 +86,11 @@ public class XYPropertyComputer extends PropertyComputer {
 		
 		
 		Mesh2D mesh = ((IMeshProvider)patch).getMesh();
-		
-		IGeometryProvider provider = mesh.getGeometryProvider();
-		
+			
 		for( UID uid : mesh.getNodeIds() ){
 			Node node = (Node)mesh.getNode(uid);
-			node.setPropertyDomain(patch);
-			double[] xy = provider.getPosition(uid);
-			PropertyLocation location = new PropertyLocation( node.getPropertyDomain(), xy );
-			accessor.setValue( location,  xy  );	
+			PropertyLocation location = node.getLocation( patch );
+			accessor.setValue( location,  node.getPosition()  );	
 		}
 		
 	}

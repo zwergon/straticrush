@@ -55,7 +55,7 @@ public class SolidSurfaceComputer extends PropertyComputer{
 		
 		for( Patch patch : patchLib.getPatches() ){
 			if ( patch instanceof IMeshProvider ){
-				computeUsingMesh( ((IMeshProvider)patch).getMesh(), accessor );
+				computeUsingMesh( patch, accessor );
 			}
 			else {
 				computeUsingPatch( patch, accessor );
@@ -81,8 +81,9 @@ public class SolidSurfaceComputer extends PropertyComputer{
 		}	
 	};
 
-	private void computeUsingMesh( Mesh2D mesh, IPropertyAccessor accessor ) {	
+	private void computeUsingMesh( Patch patch, IPropertyAccessor accessor ) {	
 		
+		Mesh2D mesh = ((IMeshProvider)patch).getMesh();
 		
 		for( UID uid : mesh.getCellIds() ){
 			
@@ -92,9 +93,7 @@ public class SolidSurfaceComputer extends PropertyComputer{
 			
 			double surface = Math.abs(integrate.compute( porosityFn ));
 			
-			double[] xy = cell.barycenter( mesh.getGeometryProvider() );
-			
-			PropertyLocation location = new PropertyLocation( cell.getPropertyDomain(), xy );
+			PropertyLocation location = cell.getLocation( patch, mesh.getGeometryProvider() );
 			accessor.setValue( location, surface );
 		}
 		

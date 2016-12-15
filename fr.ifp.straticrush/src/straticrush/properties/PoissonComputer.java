@@ -243,7 +243,7 @@ public class PoissonComputer extends PropertyComputer {
 		for( UID uid : mesh.getNodeIds() ){
 			double temperature = solver.getValue( uid, 0 );
 			Node node = (Node)mesh.getNode(uid);
-			PropertyLocation location = new PropertyLocation(node.getPropertyDomain(), node.getPosition() );
+			PropertyLocation location = node.getLocation();
 			accessor.setValue( location, temperature );
 		}
 		

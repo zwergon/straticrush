@@ -86,15 +86,12 @@ public class SurfacePropertyComputer extends PropertyComputer {
 		for( UID uid : mesh.getCellIds() ){
 			
 			Cell cell = (Cell)mesh.getCell(uid);
-			cell.setPropertyDomain(patch);
 			
 			NodesIntegrate integrate = new NodesIntegrate(mesh, cell);
 			
 			double surface = Math.abs(integrate.compute( cstFn ) );
 			
-			double[] xy = cell.barycenter( mesh.getGeometryProvider() );
-			
-			PropertyLocation location = new PropertyLocation( cell.getPropertyDomain(), xy );
+			PropertyLocation location = cell.getLocation( patch, mesh.getGeometryProvider() );
 			
 			accessor.setValue( location, surface );	
 		}

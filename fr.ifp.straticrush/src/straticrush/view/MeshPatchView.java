@@ -147,8 +147,7 @@ public class MeshPatchView extends PatchView {
 				double[] values = new double[1];
 				if ( (currentProp!=null) && ( mesh != null ) ){
 					IPropertyAccessor accessor = currentProp.getAccessor();
-					double[] xy = cell.barycenter(mesh.getGeometryProvider() );
-					PropertyLocation location = new PropertyLocation(cell.getPropertyDomain(), xy );
+					PropertyLocation location = cell.getLocation(mesh.getGeometryProvider());
 					values[0] = accessor.getValue(location).real();
 					gcell.setValues(values);
 				}
@@ -174,7 +173,7 @@ public class MeshPatchView extends PatchView {
 				double[] values = new double[uids.length];
 				for( int i =0; i<uids.length; i++ ){
 					Node node =(Node)mesh.getNode(uids[i]);
-					PropertyLocation location = new PropertyLocation( node.getPropertyDomain(), node.getPosition() );
+					PropertyLocation location = node.getLocation();
 					values[i] = accessor.getValue(location).real();
 				}
 				
@@ -197,8 +196,8 @@ public class MeshPatchView extends PatchView {
 		GColor color = null;
 		if ( null != currentProp ){
 			
-			double[] xy = cell.barycenter(mesh.getGeometryProvider() );
-			PropertyLocation location = new PropertyLocation(cell.getPropertyDomain(), xy );
+			
+			PropertyLocation location = cell.getLocation(mesh.getGeometryProvider());
 			IPropertyValue val = currentProp.getAccessor().getValue( location );
 			
 			if ( val instanceof PropertyNoData ){
