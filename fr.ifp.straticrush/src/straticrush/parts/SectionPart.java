@@ -16,13 +16,23 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import no.geosoft.cc.graphics.GInteraction;
-import no.geosoft.cc.interfaces.ICanvas;
-
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.swt.widgets.Composite;
 
+import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
+import fr.ifp.kronosflow.model.factory.SceneStyle;
+import fr.ifp.kronosflow.model.filters.SectionFactory;
+import fr.ifp.kronosflow.utils.KronosContext;
+import fr.ifp.kronosflow.utils.LOGGER;
+import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.interfaces.ICanvas;
 import straticrush.interaction.DilatationInteraction;
 import straticrush.interaction.FlattenInteraction;
 import straticrush.interaction.NodeMoveInteraction;
@@ -36,18 +46,6 @@ import straticrush.menu.Menu;
 import straticrush.menu.MenuInteraction;
 import straticrush.view.Plot;
 import straticrush.view.StratiWindow;
-import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
-import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
-import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
-import fr.ifp.kronosflow.model.factory.SceneStyle;
-import fr.ifp.kronosflow.model.filters.SectionFactory;
-import fr.ifp.kronosflow.utils.KronosContext;
-import fr.ifp.kronosflow.utils.LOGGER;
 
 
 public class SectionPart  {

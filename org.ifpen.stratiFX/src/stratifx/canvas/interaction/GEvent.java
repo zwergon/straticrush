@@ -1,4 +1,4 @@
-package stratifx.canvas.graphics;
+package stratifx.canvas.interaction;
 
 public class GEvent {
 	
@@ -16,6 +16,9 @@ public class GEvent {
 
 	public GEvent(){
 		this.type = NONE;
-
+	}
+	
+	public int getType(){
+		return type;
 	}
 }

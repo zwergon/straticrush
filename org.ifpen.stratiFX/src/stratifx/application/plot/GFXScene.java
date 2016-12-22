@@ -1,4 +1,4 @@
-package stratifx.application.controller;
+package stratifx.application.plot;
 
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
@@ -16,16 +16,15 @@ import stratifx.canvas.graphics.GText;
 import stratifx.canvas.graphics.GWorldExtent;
 import stratifx.canvas.graphics.ICanvas;
 
-public class GFXCanvas extends GScene implements ICanvas {
+public class GFXScene extends GScene implements ICanvas {
 	
 	Canvas canvas;
 	
-    public GFXCanvas( Canvas canvas, GWorldExtent extent ) {
-
+    public GFXScene( Canvas canvas, GWorldExtent extent ) {
+    	
     	this.canvas = canvas;
 
     	Bounds localB = canvas.getLayoutBounds();
-
     	initialize(
     			this,
     			new GRect( 
@@ -36,7 +35,7 @@ public class GFXCanvas extends GScene implements ICanvas {
 
 	}
 	
-	public GFXCanvas( Canvas canvas ) {
+	public GFXScene( Canvas canvas ) {
 
 		this.canvas = canvas;
 
@@ -91,8 +90,7 @@ public class GFXCanvas extends GScene implements ICanvas {
 			Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
 			gc.setStroke( color );
 			gc.setLineWidth(1);
-			gc.strokePolygon( xy[0], xy[1], segment.size()  );
-			
+			gc.strokePolygon( xy[0], xy[1], segment.size()  );	
 		}
 
 	}
