@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_OmJS0P-gEeSzbZWfsvr3zw" elementId="org.eclipse.e4.ide.application" bindingContexts="_OmJS2f-gEeSzbZWfsvr3zw">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_OmJS0f-gEeSzbZWfsvr3zw" label="StratiCrush" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/chain_mesh_icon.png" width="1000" height="500">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_OmJS0f-gEeSzbZWfsvr3zw" selectedElement="_OmJ56f-gEeSzbZWfsvr3zw" label="StratiCrush" iconURI="platform:/plugin/org.ifpen.stratricrush/icons/chain_mesh_icon.png" width="1000" height="500">
     <children xsi:type="basic:Part" xmi:id="_OmJ56f-gEeSzbZWfsvr3zw" contributionURI="bundleclass://org.ifpen.stratricrush/straticrush.parts.SectionPart" label="View"/>
     <mainMenu xmi:id="_OmJS6f-gEeSzbZWfsvr3zw" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_OmJS6v-gEeSzbZWfsvr3zw" label="File">

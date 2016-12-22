@@ -24,7 +24,7 @@ public interface ICanvas {
 	
 	public void setBackgroundColor( GColor color );
 	
-	public void render (GSegment segment, GStyle style );
+	public void render ( GSegment segment, GStyle style );
 	public void render (GText text, GStyle style);
 	public void render (GImage image);
 	public void render (int[] x, int[] y, GImage image);

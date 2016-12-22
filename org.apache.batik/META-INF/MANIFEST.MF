@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Batik
 Bundle-SymbolicName: org.apache.batik
 Bundle-Version: 1.7.0
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/batik-1.7/lib/batik-awt-util.jar,
  lib/batik-1.7/lib/batik-anim.jar,
  lib/batik-1.7/lib/batik-bridge.jar,

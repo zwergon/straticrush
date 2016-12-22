@@ -4,7 +4,9 @@ Bundle-Name: StratiCrush
 Bundle-SymbolicName: org.ifpen.stratricrush;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
- jars/mysql-connector-java-5.1.38-bin.jar
+ jars/mysql-connector-java-5.1.38-bin.jar,
+ jars/lwjgl_util.jar,
+ jars/lwjgl.jar
 Require-Bundle: javax.inject,
  javax.annotation,
  org.eclipse.core.runtime,
@@ -20,7 +22,6 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.core.services,
  org.w3c.dom.svg;bundle-version="1.1.0",
  org.apache.batik;bundle-version="1.7.0",
- com.jogamp.jogl,
  fr.ifp.kronosflow.uids,
  fr.ifp.kronosflow.geometry,
  fr.ifp.kronosflow.mesh,
@@ -29,5 +30,7 @@ Require-Bundle: javax.inject,
  fr.ifp.kronosflow.controllers,
  fr.ifp.kronosflow.jdeform,
  fr.ifp.kronosflow.fem2d,
- fr.ifp.kronosflow.property
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+ fr.ifp.kronosflow.property,
+ com.jogamp.jogl
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+

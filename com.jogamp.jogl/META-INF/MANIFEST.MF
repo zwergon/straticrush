@@ -6,7 +6,18 @@ Bundle-Version: 1.0.0
 Bundle-ClassPath: jogl-all.jar,
  gluegen-rt.jar
 Export-Package: 
+ com.jogamp.common,
+ com.jogamp.common.jvm,
+ com.jogamp.common.net,
+ com.jogamp.common.net.asset,
  com.jogamp.common.nio,
+ com.jogamp.common.os,
+ com.jogamp.common.type,
+ com.jogamp.common.util,
+ com.jogamp.common.util.awt,
+ com.jogamp.common.util.cache,
+ com.jogamp.common.util.locks,
+ com.jogamp.gluegen.runtime,
  com.jogamp.gluegen.runtime.opengl,
  com.jogamp.graph.curve,
  com.jogamp.graph.curve.opengl,
@@ -27,6 +38,7 @@ Export-Package:
  com.jogamp.newt.event,
  com.jogamp.newt.event.awt,
  com.jogamp.newt.opengl,
+ com.jogamp.newt.opengl.util,
  com.jogamp.newt.opengl.util.stereo,
  com.jogamp.newt.swt,
  com.jogamp.newt.util,
@@ -55,6 +67,12 @@ Export-Package:
  com.jogamp.opengl.util.texture.awt,
  com.jogamp.opengl.util.texture.spi,
  com.jogamp.opengl.util.texture.spi.awt,
+ jogamp.common,
+ jogamp.common.jvm,
+ jogamp.common.os,
+ jogamp.common.os.elf,
+ jogamp.common.util,
+ jogamp.common.util.locks,
  jogamp.graph.curve.opengl,
  jogamp.graph.curve.opengl.shader,
  jogamp.graph.curve.tess,
@@ -119,6 +137,6 @@ Export-Package:
  jogamp.opengl.windows.wgl,
  jogamp.opengl.windows.wgl.awt,
  jogamp.opengl.x11.glx
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.swt
 
