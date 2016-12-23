@@ -6,9 +6,7 @@ public interface ICanvas {
 	
 	public void setClipArea(GRegion damageRegion);
 	public void clear(GRect extent);
-	
-	public void setBackgroundColor( GColor color );
-	
+		
 	public void render ( GSegment segment, GStyle style );
 	public void render (GText text, GStyle style);
 	public void render (GImage image);

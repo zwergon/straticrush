@@ -3,6 +3,7 @@ package stratifx.application;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -12,13 +13,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private Stage primaryStage;
-	
+
 
 	@Override
 	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("StratiFX");
+		StratiFXService.instance.setPrimaryStage(primaryStage);
 
 		BorderPane rootLayout = initRootLayout();
 
@@ -31,6 +30,11 @@ public class Main extends Application {
 
 		StratiFXService.instance.fireAction(  IUIController.Type.PLOT, UIAction.DummyDraw );
 
+		
+		primaryStage.setOnCloseRequest(e -> {
+			Platform.exit();
+			System.exit(0);
+		});
 	}
 	
 	 /**

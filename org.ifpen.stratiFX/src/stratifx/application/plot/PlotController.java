@@ -47,43 +47,13 @@ public class PlotController
     
     double[] xy = new double[2];
     
-    public void drawCanvas() {
-    	
-    	startInteraction( new DummyInteration() );
-
-    	double[][] we = new double[][]{
-    		{ -2, -2 },
-    		{  2, -2 },
-    		{ -2,  2 }
-    	};
-
-    	setWorldExtent( we[0], we[1], we[2] );
-
-    	GSegment segment = new GSegment();
-
-    	GStyle style = new GStyle();
-    	style.setForegroundColor ( GColor.BLACK );
-    	style.setBackgroundColor ( GColor.ORANGE );
-
-    	style.setLineWidth (1);
-    	segment.setStyle (style);
-
-    	gfxScene.addSegment(segment);
-
-    	double[] x = new double[]{
-    			0, 1, 1.5, 1.6, 1.7, 1.8, 1	
-    	};
-
-    	double[] y = new double[]{
-    			0, 1, .5, .4, .3, 0, -1.5	
-    	};
-
-    	segment.setWorldGeometry(x, y);
-
-    	gfxScene.refresh();
-
+    
+    public GFXScene getGFXScene(){
+    	return gfxScene;
     }
-
+    
+   
+   
     @FXML
     private void onPlotScrolled( ScrollEvent event ) {
     	
@@ -100,11 +70,7 @@ public class PlotController
 		
 	}
     
-    
-    public Canvas getCanvas(){
-    	return canvasId;
-    }
-   
+  
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -146,6 +112,15 @@ public class PlotController
         
     }
     
+    
+    public void setWorldExtent (double x0, double y0, double width, double height)
+    {
+      double w0[] = {x0,         y0};
+      double w1[] = {x0 + width, y0};
+      double w2[] = {x0,         y0 + height};
+
+      setWorldExtent (w0, w1, w2);
+    }
     
     public void setWorldExtent( double[] w0, double[] w1, double[] w2 ){
     	
@@ -286,7 +261,7 @@ public class PlotController
 		
 		switch( action.getType() ){
 		case UIAction.DummyDraw:
-			drawCanvas();
+			drawDummyCanvas();
 			break;
 		case UIAction.ZoomOneOne:
 			restoreZoom();
@@ -304,8 +279,46 @@ public class PlotController
 	}
 
 
-    
-   
+     //To remove
+	 public void drawDummyCanvas() {
+	    	
+	    	startInteraction( new DummyInteration() );
+
+	    	double[][] we = new double[][]{
+	    		{ -2, -2 },
+	    		{  2, -2 },
+	    		{ -2,  2 }
+	    	};
+
+	    	setWorldExtent( we[0], we[1], we[2] );
+
+	    	GSegment segment = new GSegment();
+
+	    	GStyle style = new GStyle();
+	    	style.setForegroundColor ( GColor.BLACK );
+	    	style.setBackgroundColor ( GColor.ORANGE );
+
+	    	style.setLineWidth (1);
+	    	segment.setStyle (style);
+
+	    	gfxScene.addSegment(segment);
+
+	    	double[] x = new double[]{
+	    			0, 1, 1.5, 1.6, 1.7, 1.8, 1	
+	    	};
+
+	    	double[] y = new double[]{
+	    			0, 1, .5, .4, .3, 0, -1.5	
+	    	};
+
+	    	segment.setWorldGeometry(x, y);
+
+	    	gfxScene.refresh();
+
+	    }
+	 
+	 
+	    
     
     
   

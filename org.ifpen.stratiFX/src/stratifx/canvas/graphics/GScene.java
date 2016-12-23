@@ -218,7 +218,8 @@ public class GScene extends GObject
   {
     worldExtent_.set (w0, w1, w2);
     
-  
+    adjustWorldExtent();
+    
     transformer_.update (viewport_, worldExtent_);
     
     redraw (getVisibility());
@@ -255,6 +256,40 @@ public class GScene extends GObject
     setWorldExtent (w0, w1, w2);
     
     
+  }
+  
+  /**
+   * Adjust the current world extent according to current viewport.
+   * This method is called whenever the viewport has changed.
+   */
+  private void adjustWorldExtent()
+  {
+   
+    // Viewport dimensions
+    double viewportWidth  = (double) viewport_.getWidth();
+    double viewportHeight = (double) viewport_.getHeight();
+
+    // World dimensions
+    double worldWidth  = worldExtent_.getWidth();
+    double worldHeight = worldExtent_.getHeight();
+
+    // Compute adjusted width or height
+    double newWorldWidth;
+    double newWorldHeight;
+
+    if (worldWidth / worldHeight > viewportWidth / viewportHeight) {
+      newWorldWidth  = worldWidth;
+      newWorldHeight = viewportHeight / viewportWidth * worldWidth;
+      worldExtent_.extendHeight (newWorldHeight);
+    }
+    else {
+      newWorldWidth  = viewportWidth / viewportHeight * worldHeight;
+      newWorldHeight = worldHeight;
+      worldExtent_.extendWidth  (newWorldWidth);
+    }
+
+   
+   
   }
   
   
@@ -352,10 +387,7 @@ public class GScene extends GObject
 
   }
 
-  /**
-   * Refresh the graphics scene. Only elements that has been changed 
-   * since the last refresh are affected.
-   */
+ 
   public void refresh( int visibilityMask )
   {
    
@@ -364,6 +396,9 @@ public class GScene extends GObject
 	  updateRegion();
 	  
 	  computeRegion(visibilityMask);
+	  
+	  ICanvas canvas = getCanvas();
+	  canvas.clear( getRegion().getExtent() );
 
 	  // Rendering pass 1: DATA clippend by scene viewport.
 	  refreshData (visibilityMask);
