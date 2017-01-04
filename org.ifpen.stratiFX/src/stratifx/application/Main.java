@@ -28,7 +28,7 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		StratiFXService.instance.fireAction(  IUIController.Type.PLOT, UIAction.DummyDraw );
+		//StratiFXService.instance.fireAction(  IUIController.Type.PLOT, UIAction.DummyDraw );
 
 		
 		primaryStage.setOnCloseRequest(e -> {

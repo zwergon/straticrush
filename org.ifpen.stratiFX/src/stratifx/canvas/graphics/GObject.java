@@ -53,14 +53,12 @@ public class GObject
   public  static final int  DATA_VISIBLE         = 1;
   public  static final int  ANNOTATION_VISIBLE   = 2;
   public  static final int  SYMBOLS_VISIBLE      = 4;
-  public  static final int  WIDGETS_VISIBLE      = 8;
-  public  static final int  VISIBLE              = 15;
+  public  static final int  VISIBLE              = 7;
 
   public  static final int  DATA_INVISIBLE       = 16;
   public  static final int  ANNOTATION_INVISIBLE = 32;
-  public  static final int  SYMBOLS_INVISIBLE    = 64;
-  public  static final int  WIDGETS_INVISIBLE    = 128;  
-  public  static final int  INVISIBLE            = 240;
+  public  static final int  SYMBOLS_INVISIBLE    = 64;  
+  public  static final int  INVISIBLE            = 112;
 
   private String      name_;
   private GRegion      region_;         // Including all children
@@ -323,47 +321,38 @@ public class GObject
 
       // Graphics components at this level
       if (segments_ != null) {
-        for (Iterator i = segments_.iterator(); i.hasNext(); ) {
-          GSegment segment = (GSegment) i.next();
-          if (segment.isVisible())
-            region_.union (segment.getRectangle());
+    	  for (Iterator i = segments_.iterator(); i.hasNext(); ) {
 
-          // Add text rectangles to region
-          Collection texts = segment.getTexts();
-          if (texts != null) {
-            for (Iterator j = texts.iterator(); j.hasNext(); ) {
-              GPositional text = (GPositional) j.next();
-              region_.union (text.getRectangle());
-            }
-          }
+    		  GSegment segment = (GSegment) i.next();
+    		  region_.union (segment.getRectangle());
 
-          // Add image rectangles to region
-          Collection images = segment.getImages();
-          if (images != null) {
-            for (Iterator j = images.iterator(); j.hasNext(); ) {
-              GPositional image = (GPositional) j.next();
-              region_.union (image.getRectangle());
-            }
-          }
-          
-          // Add vertex image rectangles to region
-          GImage vertextImage = segment.getVertexImage();
-          if (vertextImage != null && segment.size() > 0) {
-            GRect imageRectangle = vertextImage.getRectangle();
+    		  // Add text rectangles to region
+    		  Collection texts = segment.getTexts();
+    		  if (texts != null) {
+    			  for (Iterator j = texts.iterator(); j.hasNext(); ) {
+    				  GPositional text = (GPositional) j.next();
+    				  region_.union (text.getRectangle());
+    			  }
+    		  }
 
-            // The rectangle needs to be positioned for every point
-            int[] x = segment.getX();
-            int[] y = segment.getY();
+    		  // Add vertex image rectangles to region
+    		  GImage vertexImage = segment.getVertexImage();
+    		  if (vertexImage != null && segment.size() > 0) {
+    			  GRect imageRectangle = vertexImage.getRectangle();
 
-            for (int j = 0; j < x.length; j++) {
-              GRect rectangle = new GRect (imageRectangle);
-              rectangle.x += x[j];
-              rectangle.y += y[j];
-              
-              region_.union (rectangle);
-            }
-          }
-        }
+    			  // The rectangle needs to be positioned for every point
+    			  int[] x = segment.getX();
+    			  int[] y = segment.getY();
+
+    			  for (int j = 0; j < x.length; j++) {
+    				  GRect rectangle = new GRect (imageRectangle);
+    				  rectangle.x += x[j];
+    				  rectangle.y += y[j];
+
+    				  region_.union (rectangle);
+    			  }
+    		  }
+    	  }
       }
 
       // It might be more efficient to continue with the extent only
@@ -1333,7 +1322,7 @@ public class GObject
    * 
    * @param visibilityMask  Visibility of parent object.
    */
-  void refreshData (int visibilityMask)
+  void refreshData (int visibilityMask, GRegion damagedRegion )
   {
     // Compute actual visibility of this object
     visibilityMask &= visibilityMask_;
@@ -1343,7 +1332,7 @@ public class GObject
       return;
 
     // If we don't intersect with the damage, return
-    if (!region_.isIntersecting (getScene().getRegion()))
+    if (!region_.isIntersecting (damagedRegion))
       	return;
           
     // Refreshing self
@@ -1351,7 +1340,6 @@ public class GObject
       ICanvas canvas = getScene().getCanvas();
       for (Iterator i = segments_.iterator(); i.hasNext(); ) {
         GSegment segment = (GSegment) i.next();
-        if (!segment.isVisible()) continue;
 
         // Render the segment
         canvas.render (segment, segment.getActualStyle());
@@ -1360,26 +1348,16 @@ public class GObject
         	// Render vertex images
         	GImage vertexImage = segment.getVertexImage();
         	if (vertexImage != null)
-        		canvas.render (segment.getX(), segment.getY(),
-        				vertexImage);
+        		canvas.render (segment.getX(), segment.getY(), vertexImage);
         }
         
-        // Render the images
-        Collection images = segment.getImages();
-        if (images != null) {
-          for (Iterator j = images.iterator(); j.hasNext(); ) {
-        	  GImage image = (GImage) j.next();
-            if (image != null && image.isVisible())
-              canvas.render (image);
-          }
-        }
       }
     }
 
     // Refreshing children
     for (Iterator i = children_.iterator(); i.hasNext(); ) {
       GObject child = (GObject) i.next();
-      child.refreshData (visibilityMask);
+      child.refreshData (visibilityMask, damagedRegion );
     }
   }
 
@@ -1390,7 +1368,7 @@ public class GObject
    * 
    * @param visibilityMask  Visibility of parent object.
    */
-  void refreshAnnotation (int visibilityMask)
+  void refreshAnnotation (int visibilityMask, GRegion damagedRegion )
   {
     // Compute actual visibility of this object
     visibilityMask &= visibilityMask_;
@@ -1400,7 +1378,7 @@ public class GObject
       return;
 
     // If we don't intersect with damage, return
-    if (!region_.isIntersecting (getScene().getRegion()))
+    if (!region_.isIntersecting (damagedRegion) )
       return;
 
     // Refreshing self
@@ -1408,7 +1386,6 @@ public class GObject
       ICanvas canvas = getScene().getCanvas();
       for (Iterator i = segments_.iterator(); i.hasNext(); ) {
         GSegment segment = (GSegment) i.next();
-        if (!segment.isVisible()) continue;
 
         Collection texts = segment.getTexts();
         if (texts != null) {
@@ -1424,7 +1401,7 @@ public class GObject
     // Refreshing children
     for (Iterator i = children_.iterator(); i.hasNext(); ) {
       GObject child = (GObject) i.next();
-      child.refreshAnnotation (visibilityMask);
+      child.refreshAnnotation (visibilityMask, damagedRegion);
     }
   }
   
@@ -1467,9 +1444,6 @@ public class GObject
 
     // Let application object draw itself
     draw();
-
-    // Compute posistions for all images
-    computeImagePositions();
 
     // Marks as redrawn
     isDrawn_ = true;
@@ -1621,16 +1595,12 @@ public class GObject
       visibilityMask_ |=  ANNOTATION_VISIBLE;
     if ((visibilityMask & SYMBOLS_VISIBLE)      != 0)   
       visibilityMask_ |=  SYMBOLS_VISIBLE;
-    if ((visibilityMask & WIDGETS_VISIBLE)      != 0)   
-      visibilityMask_ |=  WIDGETS_VISIBLE;
     if ((visibilityMask & DATA_INVISIBLE)       != 0)
       visibilityMask_ &= ~DATA_VISIBLE;
     if ((visibilityMask & ANNOTATION_INVISIBLE) != 0)  
       visibilityMask_ &= ~ANNOTATION_VISIBLE;
     if ((visibilityMask & SYMBOLS_INVISIBLE)    != 0) 
       visibilityMask_ &= ~SYMBOLS_VISIBLE;
-    if ((visibilityMask & WIDGETS_INVISIBLE)    != 0)   
-      visibilityMask_ &= ~WIDGETS_VISIBLE;
 
     // Return if nothing has changed
     if (oldVisibilityMask == visibilityMask_)
@@ -1644,11 +1614,6 @@ public class GObject
     if ((oldVisibilityMask & SYMBOLS_VISIBLE) !=
         (visibilityMask_ & SYMBOLS_VISIBLE))
       changeSymbolVisibility();
-
-    // Widget visibility has changed
-    if ((oldVisibilityMask & WIDGETS_VISIBLE) !=
-        (visibilityMask_ & WIDGETS_VISIBLE))
-      changeWidgetVisibility ();
   
     // Annotation visibility has changed
     if ((oldVisibilityMask & ANNOTATION_VISIBLE) !=
@@ -1683,16 +1648,7 @@ public class GObject
   }
 
 
-  
-  private void changeWidgetVisibility()
-  {
-    // TODO
-    
-    // Handle children first
-  }
-
-
-  
+ 
   /**
    * Compute position of all GTexts in the subtree rooted
    * at this GObject.
@@ -1725,41 +1681,6 @@ public class GObject
         Collection texts = segment.getTexts();
         scene.computePositions (texts);
       }
-    }
-  }
-
-
-  
-  
-
-  
-  /**
-   * Compute position of all GImages in the subtree rooted
-   * at this GObject.
-   */
-  void computeImagePositions()
-  {
-    GScene scene = getScene();
-    if (scene == null) return;
-
-    // Loop over all segments and position their images
-    if (segments_ != null) {
-      for (Iterator i = segments_.iterator(); i.hasNext(); ) {
-        GSegment segment = (GSegment) i.next();
-        
-        Collection images = segment.getImages();
-        scene.computePositions (images);
-
-        GImage vertexImage = segment.getVertexImage();
-        if (vertexImage != null)
-          scene.computeVertexPositions (vertexImage);
-      }
-    }
-
-    // Compute image positions for children
-    for (Iterator i = children_.iterator(); i.hasNext(); ) {
-      GObject child = (GObject) i.next();
-      child.computeImagePositions();
     }
   }
 

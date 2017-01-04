@@ -10,6 +10,8 @@ import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
@@ -17,12 +19,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import stratifx.application.IUIController;
 import stratifx.application.UIAction;
-import stratifx.canvas.graphics.GColor;
-import stratifx.canvas.graphics.GSegment;
-import stratifx.canvas.graphics.GStyle;
+import stratifx.application.interaction.InterationUIAction;
+import stratifx.application.interaction.NodeMoveInteraction;
+import stratifx.application.interaction.ResetGeometryInteraction;
+import stratifx.application.interaction.TopBorderInteraction;
 import stratifx.canvas.graphics.GWorldExtent;
-import stratifx.canvas.interaction.DummyInteration;
 import stratifx.canvas.interaction.GInteraction;
+import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class PlotController 
@@ -75,7 +78,10 @@ public class PlotController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
+    	canvasId.addEventFilter(MouseEvent.ANY, (e) -> canvasId.requestFocus());
+    
     	gfxScene = new GFXScene(canvasId);
+    	
     	
     	GWorldExtent extent = gfxScene.getWorldExtent();
     	    	
@@ -171,9 +177,7 @@ public class PlotController
       interaction_      = null;    
     }
     
-    private int getGFXModifier( MouseEvent mouseEvent ){
-    	return 0;
-    }
+    
     
     
     private boolean gfxHandleMouse( int type, MouseEvent mouseEvent ){
@@ -198,7 +202,12 @@ public class PlotController
     private int getGFXButton( MouseEvent mouseEvent ){
     	return GMouseEvent.BUTTON_1;
     }
-  
+    
+    private int getGFXModifier( MouseEvent mouseEvent ){
+    	return 0;
+    }
+    
+    
     @FXML 
     private void onMouseClicked( MouseEvent mouseEvent ){
     }
@@ -255,68 +264,134 @@ public class PlotController
     @FXML
     private void onMouseExited( MouseEvent mouseEvent ){	
     }
+    
+    @FXML
+    private void onKeyPressed( KeyEvent keyEvent ){
+    	if ( gfxHandleKey(GKeyEvent.KEY_PRESSED, keyEvent) ){
+			keyEvent.consume();
+		}	
+    }
+
+	@FXML 
+    private void onKeyReleased( KeyEvent keyEvent ){
+		if ( gfxHandleKey(GKeyEvent.KEY_RELEASED, keyEvent) ){
+			keyEvent.consume();
+		}	
+    }
+	
+	private boolean gfxHandleKey(int type, KeyEvent keyEvent) {
+		if ( null != interaction_ ){
+			GKeyEvent gevent = new GKeyEvent( 
+					type,
+					getGFXModifier(keyEvent),
+					getGFXKeyCode(keyEvent),
+					getGFXKeyChar(keyEvent),
+					GKeyEvent.KEY_LOCATION_STANDARD
+					);
+			return interaction_.keyEvent( gfxScene , gevent);
+
+		}
+		return false;
+	}
+    
+
+	private int getGFXKeyCode(KeyEvent keyEvent) {
+		
+	
+		KeyCode code = keyEvent.getCode();
+		
+		String name = code.getName();
+		if ( name.length() == 1 ){
+			return name.charAt(0);
+		}
+		
+		
+		switch( code ){
+		case ESCAPE:
+			return GKeyEvent.VK_ESCAPE;
+		case SPACE:
+			return GKeyEvent.VK_SPACE;
+		}
+		
+		return 0;
+	}
+
+
+
+	private char getGFXKeyChar(KeyEvent keyEvent) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	private int getGFXModifier(KeyEvent keyEvent) {
+		int modifier = 0;
+		if ( keyEvent.isControlDown() ){
+			modifier |= GKeyEvent.CTRL_MASK;
+		}
+		if ( keyEvent.isMetaDown() ){
+			modifier |= GKeyEvent.META_MASK;
+		}
+		if ( keyEvent.isShiftDown() ){
+			modifier |= GKeyEvent.SHIFT_MASK;
+		}
+		
+		return modifier;
+	}
+
+
 
 	@Override
 	public boolean handleAction(UIAction action) {
 		
 		switch( action.getType() ){
-		case UIAction.DummyDraw:
-			drawDummyCanvas();
-			break;
 		case UIAction.ZoomOneOne:
 			restoreZoom();
 			break;
+			
+		case InterationUIAction.Interaction:
+			return handleInteractionAction( action );
 		}
-		return false;
+		return true;
 	}
 
 	private void restoreZoom() {
 		plotGroupId.setScaleX(1);
 		plotGroupId.setScaleY(1);
 		plotGroupId.setTranslateX(0);
-		plotGroupId.setTranslateY(0);
-		
+		plotGroupId.setTranslateY(0);	
+	}
+	
+	private boolean handleInteractionAction(UIAction action) {
+
+		InterationUIAction uiAction = (InterationUIAction)action;
+
+		String deformationType = uiAction.getDeformationType();
+		if (    deformationType.equals( "FEM2D" ) ||
+				deformationType.equals( "VerticalShear" ) ||
+				deformationType.equals( "FlexuralSlip" ) ||
+				deformationType.equals( "MovingLS" ) ||
+				deformationType.equals( "Dynamic" ) ||
+				deformationType.equals( "Static" ) ||
+				deformationType.equals( "StaticLS" ) ||
+				deformationType.equals( "Dynamic" )  ){
+			startInteraction( new TopBorderInteraction(gfxScene, deformationType ) );
+			return true;
+		}
+		else if ( deformationType.equals( "ChainMail" ) ||
+				deformationType.equals( "MassSpring" ) ){
+			startInteraction( new NodeMoveInteraction(gfxScene, deformationType ) );
+		}
+		else if  ( uiAction.getDeformationType().equals( "Reset" ) ){
+			startInteraction( new ResetGeometryInteraction(gfxScene) );
+			return true;
+		}
+
+		return false;
 	}
 
 
-     //To remove
-	 public void drawDummyCanvas() {
-	    	
-	    	startInteraction( new DummyInteration() );
-
-	    	double[][] we = new double[][]{
-	    		{ -2, -2 },
-	    		{  2, -2 },
-	    		{ -2,  2 }
-	    	};
-
-	    	setWorldExtent( we[0], we[1], we[2] );
-
-	    	GSegment segment = new GSegment();
-
-	    	GStyle style = new GStyle();
-	    	style.setForegroundColor ( GColor.BLACK );
-	    	style.setBackgroundColor ( GColor.ORANGE );
-
-	    	style.setLineWidth (1);
-	    	segment.setStyle (style);
-
-	    	gfxScene.addSegment(segment);
-
-	    	double[] x = new double[]{
-	    			0, 1, 1.5, 1.6, 1.7, 1.8, 1	
-	    	};
-
-	    	double[] y = new double[]{
-	    			0, 1, .5, .4, .3, 0, -1.5	
-	    	};
-
-	    	segment.setWorldGeometry(x, y);
-
-	    	gfxScene.refresh();
-
-	    }
-	 
 	 
 	    
     

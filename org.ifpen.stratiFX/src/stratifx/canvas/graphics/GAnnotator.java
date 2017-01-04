@@ -102,57 +102,56 @@ class GAnnotator
       GRect oldRectangle = new GRect (positional.getRectangle());
       boolean wasVisible = positional.isVisible();
       
-      if (segment.isVisible()) {
-        int x[] = segment.getX();
-        int y[] = segment.getY();
-        int x0  = segment.getCenterX();
-        int y0  = segment.getCenterY();
-        
-        // Compute positional size
-        positional.computeSize();
-        if (positional.getRectangle().isEmpty()) {
-          positional.setVisible (false);
-          continue;
-        }
-        
-        // Find the preferred annotation according to line position hints
-        int pointNo = findPreferredPosition (positional, x, y, x0, y0,
-                                             objectNo);
+     
+      int x[] = segment.getX();
+      int y[] = segment.getY();
+      int x0  = segment.getCenterX();
+      int y0  = segment.getCenterY();
 
-        // If the current point is outside the viewport move it inside 
-        if ((positionHint & GPosition.DYNAMIC) != 0 &&
-            (positionHint & GPosition.MIDDLE) == 0) {
-          positional.setVisible (true);
-
-          distance_ = 0.0;
-          if (!scene_.getRegion().isInside (positional.getRectangle().x,
-                                            positional.getRectangle().y))
-            pointNo = moveInsideWindow (positional, x, y, pointNo);
-        }
-        else {
-          positional.setVisible (scene_.getRegion().
-                                 isInside (positional.getRectangle().x,
-                                           positional.getRectangle().y));
-        }
-        
-        if (positional.isVisible()) {
-          
-          // Tune the positional according to point position hint
-          adjustPosition (positional);
-
-          // For a static positional we're now done
-          if ((positionHint & GPosition.STATIC) != 0 |
-              (positionHint & GPosition.MIDDLE) != 0)
-            positional.setVisible (region_.isIntersecting (positional.
-                                                           getRectangle()));
-          else { // GPosition.DYNAMIC and don't allow overlapping
-            if (!positional.isAllowingOverlaps() &&
-                !region_.isInside (positional.getRectangle()))
-              findNonOverlappingPosition (positional, x, y, pointNo);
-          }
-        }
+      // Compute positional size
+      positional.computeSize();
+      if (positional.getRectangle().isEmpty()) {
+    	  positional.setVisible (false);
+    	  continue;
       }
 
+      // Find the preferred annotation according to line position hints
+      int pointNo = findPreferredPosition (positional, x, y, x0, y0,
+    		  objectNo);
+
+      // If the current point is outside the viewport move it inside 
+      if ((positionHint & GPosition.DYNAMIC) != 0 &&
+    		  (positionHint & GPosition.MIDDLE) == 0) {
+    	  positional.setVisible (true);
+
+    	  distance_ = 0.0;
+    	  if (!scene_.getRegion().isInside (positional.getRectangle().x,
+    			  positional.getRectangle().y))
+    		  pointNo = moveInsideWindow (positional, x, y, pointNo);
+      }
+      else {
+    	  positional.setVisible (scene_.getRegion().
+    			  isInside (positional.getRectangle().x,
+    					  positional.getRectangle().y));
+      }
+
+      if (positional.isVisible()) {
+
+    	  // Tune the positional according to point position hint
+    	  adjustPosition (positional);
+
+    	  // For a static positional we're now done
+    	  if ((positionHint & GPosition.STATIC) != 0 |
+    			  (positionHint & GPosition.MIDDLE) != 0)
+    		  positional.setVisible (region_.isIntersecting (positional.
+    				  getRectangle()));
+    	  else { // GPosition.DYNAMIC and don't allow overlapping
+    		  if (!positional.isAllowingOverlaps() &&
+    				  !region_.isInside (positional.getRectangle()))
+    			  findNonOverlappingPosition (positional, x, y, pointNo);
+    	  }
+      }
+      
       // If positional was moved update damage
       if (!oldRectangle.equals (positional.getRectangle())) {
         if (wasVisible || positional.isVisible())

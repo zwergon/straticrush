@@ -15,69 +15,21 @@ import fr.ifp.kronosflow.geometry.Geometry;
  * Class for holding a polyline. <tt>GSegment</tt>s are contained by
  * <tt>GObjects</tt>. They can have its own rendering style (<tt>GStyle</tt>)
  * or inherit style from its parent <tt>GObject</tt> if not specified.
- * <p>
- * Example usage:
- *
- * <pre>
- *    public class Box extends GObject
- *    {
- *       private double    x0_, y0_, width_, height_;
- *       private GSegment  border_;
- *
- *       public Box (double x0, double y0, double width, double height)
- *       {
- *          // Store the abstract representation of the box
- *          x0_     = x0;
- *          y0_     = y0;
- *          width_  = width;
- *          height_ = height;
- *
- *          // Prepare the graphics representation of the box
- *          border_ = new GSegment();
- *          addSegment (border_);
- *       }
- *
- *       public void draw()
- *       {
- *          // Complete the graphics representation of the box
- *          double[] xy = new double {x0_,          y0_,
- *                                    x0_ + width_, y0_,
- *                                    x0_ + width_, y0_ + height_,
- *                                    x0_,          y0_ + height_,
- *                                    x0_,          y0}
- *          border_.setGeometry (xy);
- *       }
- *    }
- * </pre>
- *
- * A typical <tt>GObject</tt> will have many <tt>GSegment</tt>s and
- * sub-<tt>GObject</tt>s. Some of these can be created in the constructor
- * while others may need to be created within the draw method as they depend
- * ont external factors such as zoom etc.
- * <p>
- * For efficiency, <b>G</b> does not store world coordinates internally but
- * converts these to device coordinates in the rendering step. It is
- * therfore essential that geometry is provided in the <tt>draw()</tt>
- * method which is called by <b>G</b> on retransformations
- * (zoom/resize etc.).
  * 
- * @author <a href="mailto:jacob.dreyer@geosoft.no">Jacob Dreyer</a>
  */   
 public class GSegment
   implements GStyleListener
 {
-  private GObject      owner_;       // Owner
-  private int          x_[];
-  private int          y_[];
-  private double       values_[];
-  private GImage       vertexImage_;
-  private GRect        rectangle_;   // Bounding box
-  private Object       userData_;    // Whatever app assoc with graphics
-  private GStyle       style_;       // As applied to this object
-  private GStyle       actualStyle_; // Adjusted for owner inherits
-  private boolean      isVisible_;   // Due to position not vis. setting
+  private GObject                 owner_;       // Owner
+  private int                     x_[];
+  private int                     y_[];
+  private double                  values_[];
+  private GImage                  vertexImage_;
+  private GRect                   rectangle_;   // Bounding box
+  private Object                  userData_;    // Whatever app assoc with graphics
+  private GStyle                  style_;       // As applied to this object
+  private GStyle                  actualStyle_; // Adjusted for owner inherits
   private List<GText>             texts_;       // of GText
-  private Collection<GImage>      images_;      // of GImage
 
 
   
@@ -92,9 +44,7 @@ public class GSegment
     values_      = null;
     rectangle_   = null;
     texts_       = null;
-    images_      = null;
     vertexImage_ = null;
-    isVisible_   = false;
 
     style_       = null;
     actualStyle_ = new GStyle();
@@ -274,15 +224,6 @@ public class GSegment
       }
     }
 
-    // Add extent of all images
-    if (images_ != null) {
-      for (Iterator<GImage> i = images_.iterator(); i.hasNext(); ) {
-        GImage image = i.next();
-        region.union (image.getRectangle());
-      }
-    }
-
-
     return region;
   }
   
@@ -318,8 +259,8 @@ public class GSegment
    */
   private void updateContext()
   {
-    isVisible_ = false; // Until otherwise proved
-
+	  
+ 
     // Nothing to update if we are not in the tree
     if (owner_ == null)
       return;
@@ -331,17 +272,10 @@ public class GSegment
     if (owner_.getScene() == null)
       return;
 
-    // Check if we're outside the scene
-    if (rectangle_ != null)
-      isVisible_ = owner_.getScene().getRegion().isIntersecting (rectangle_);
-
     // If segment has text, annotation must be updated
     if (texts_ != null)
       owner_.getScene().setAnnotationValid (false);
 
-    // If segment has images, their positions must be updated
-    if (images_ != null)
-      owner_.getScene().computePositions (images_);
   }
   
 
@@ -773,65 +707,6 @@ public class GSegment
     texts_ = null;
   }
   
-
-  
-  /**
-   * Add an image to this segment.
-   * 
-   * @param image  Image to add.
-   */
-  public void addImage (GImage image)
-  {
-    // Create if first time
-    if (images_ == null)
-      images_ = new ArrayList<GImage>();
-
-    // Add to list
-    images_.add (image);
-    image.setSegment (this);
-    
-    // Flag owner region as invalid
-    if (owner_ != null)
-      owner_.flagRegionValid (false);
-  }
-
-
-  
-  /**
-   * Set image of this segment. All current images are removed.
-   * 
-   * @param image  Image to set.
-   */
-  public void setImage (GImage image)
-  {
-    removeImages();
-    addImage (image);
-  }
-
-
-  
-  /**
-   * Return all images associated with this segment.
-   * 
-   * @return   All images associated with this segment.
-   */
-  public Collection<GImage> getImages()
-  {
-    return images_;
-  }
-
-  
-
-  /**
-   * Remove all images from this GSegment.
-   */
-  public void removeImages()
-  {
-    // Nullify images
-    images_ = null;
-  }
-  
-
   
   /**
    * Set image to associate with every vertex of this GSegment.
@@ -857,22 +732,6 @@ public class GSegment
   {
     return vertexImage_;
   }
-  
-
- 
-  
-  /**
-   * Check if this segment is visible. This is visibility due to
-   * geometry position relative to viewport, <em>not</em> due to
-   * GObject visibility settings.
-   *
-   * @return  True if segment geometry is visible, false otherwise. 
-   */
-  boolean isVisible()
-  {
-    return isVisible_;
-  }
-
   
 
   /**

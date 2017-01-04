@@ -50,8 +50,8 @@ public class GPolyline extends GSegment implements IUpdateGeometry {
 
 	}
 
-
 	private void draw() {
+		
 		IPolyline line = getLine();
 
 		List<ICurviPoint> pts = line.getPoints();

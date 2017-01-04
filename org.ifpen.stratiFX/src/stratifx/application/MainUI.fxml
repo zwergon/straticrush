@@ -19,9 +19,31 @@
               <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Deform">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Options" />
+                  <MenuItem mnemonicParsing="false" onAction="#onDeformResetAction" text="Reset" />
+                  <Menu mnemonicParsing="false" text="NodeMoveTo">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onDeformNodeChainMailAction" text="ChainMail" />
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformNodeMassAction" text="Mass/Spring" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Top">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopMLSAction" text="Moving LS" />
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFlexuralAction" text="Flexural" />
+                        <Menu mnemonicParsing="false" text="FEA Solver">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEADynamicAction" text="Dynamic" />
+                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticAction" text="Static" />
+                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticLSAction" text="Static LS" />
+                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAFem2dAction" text="FEM2D" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

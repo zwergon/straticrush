@@ -95,10 +95,7 @@ public class GScene extends GObject
   public ICanvas getCanvas(){
 	  return canvas_;
   }
-  
-  
- 
-  
+   
   /**
    * Return the transformation object of this scene. The transformer
    * object can be used for client-side world-to-device and device-to-world
@@ -375,37 +372,32 @@ public class GScene extends GObject
    * since the last refresh are affected.
    */
   public void refresh()
-  {
+  {  
 	  // This is default setting from window point of view
-	  int visibilityMask = GObject.DATA_VISIBLE       | 
-			  GObject.ANNOTATION_VISIBLE |
-			  GObject.SYMBOLS_VISIBLE    |
-			  GObject.WIDGETS_VISIBLE;
-
-
-	  refresh(visibilityMask);
+	  refresh( getVisibility(), getRegion());
 
   }
 
  
-  public void refresh( int visibilityMask )
+  public void refresh( int visibilityMask, GRegion damagedRegion )
   {
    
 	  computeTextPositions();
-
-	  updateRegion();
 	  
 	  computeRegion(visibilityMask);
 	  
+	  if ( !getRegion().isIntersecting( damagedRegion ) ){
+		  return;
+	  }
+	  
 	  ICanvas canvas = getCanvas();
-	  canvas.clear( getRegion().getExtent() );
-
+	  canvas.clear( damagedRegion.getExtent() );
+	  
 	  // Rendering pass 1: DATA clippend by scene viewport.
-	  refreshData (visibilityMask);
+	  refreshData ( visibilityMask, damagedRegion );
 
 	  // Rendering pass 2: ANNOTATION
-	  refreshAnnotation (visibilityMask);
-
+	  refreshAnnotation (visibilityMask, damagedRegion);
 
   }
 

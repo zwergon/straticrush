@@ -223,7 +223,8 @@ public class GFXScene extends GScene implements ICanvas {
 	@Override
 	public void clear( GRect extent ) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.clearRect(extent.x, extent.y, extent.width, extent.height );
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		//gc.clearRect(extent.x, extent.y, extent.width, extent.height );
 
 	}
 
@@ -253,7 +254,7 @@ public class GFXScene extends GScene implements ICanvas {
 			gc.setLineJoin(StrokeLineJoin.BEVEL);
 			gc.setStroke( color );
 			gc.setLineWidth( style.getLineWidth() );
-			gc.strokePolygon( xy[0], xy[1], segment.size()  );	
+			gc.strokePolyline( xy[0], xy[1], segment.size()  );	
 		}
 
 	}
@@ -280,6 +281,6 @@ public class GFXScene extends GScene implements ICanvas {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 
 }
