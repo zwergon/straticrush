@@ -326,30 +326,34 @@ public class GObject
     		  GSegment segment = (GSegment) i.next();
     		  region_.union (segment.getRectangle());
 
-    		  // Add text rectangles to region
-    		  Collection texts = segment.getTexts();
-    		  if (texts != null) {
-    			  for (Iterator j = texts.iterator(); j.hasNext(); ) {
-    				  GPositional text = (GPositional) j.next();
-    				  region_.union (text.getRectangle());
+    		  if ((visibilityMask_ & ANNOTATION_VISIBLE) == ANNOTATION_VISIBLE ) {
+    			  // Add text rectangles to region
+    			  Collection texts = segment.getTexts();
+    			  if (texts != null) {
+    				  for (Iterator j = texts.iterator(); j.hasNext(); ) {
+    					  GPositional text = (GPositional) j.next();
+    					  region_.union (text.getRectangle());
+    				  }
     			  }
     		  }
 
-    		  // Add vertex image rectangles to region
-    		  GImage vertexImage = segment.getVertexImage();
-    		  if (vertexImage != null && segment.size() > 0) {
-    			  GRect imageRectangle = vertexImage.getRectangle();
+    		  if ((visibilityMask_ & SYMBOLS_VISIBLE) == SYMBOLS_VISIBLE ) {
+    			  // Add vertex image rectangles to region
+    			  GImage vertexImage = segment.getVertexImage();
+    			  if (vertexImage != null && segment.size() > 0) {
+    				  GRect imageRectangle = vertexImage.getRectangle();
 
-    			  // The rectangle needs to be positioned for every point
-    			  int[] x = segment.getX();
-    			  int[] y = segment.getY();
+    				  // The rectangle needs to be positioned for every point
+    				  int[] x = segment.getX();
+    				  int[] y = segment.getY();
 
-    			  for (int j = 0; j < x.length; j++) {
-    				  GRect rectangle = new GRect (imageRectangle);
-    				  rectangle.x += x[j];
-    				  rectangle.y += y[j];
+    				  for (int j = 0; j < x.length; j++) {
+    					  GRect rectangle = new GRect (imageRectangle);
+    					  rectangle.x += x[j];
+    					  rectangle.y += y[j];
 
-    				  region_.union (rectangle);
+    					  region_.union (rectangle);
+    				  }
     			  }
     		  }
     	  }
@@ -1422,7 +1426,7 @@ public class GObject
    * 
    * @param visibilityMask
    */
-  protected void redraw (int visibilityMask)
+  public void redraw (int visibilityMask)
   {
     // If not visible at this level, skip here but mark as not drawn
     isDrawn_ = false;
@@ -1463,7 +1467,7 @@ public class GObject
    * an approach, and consider reorganizing the code so that model
    * changes explictly affects the graphics elements.
    */
-  protected void redraw()
+  public void redraw()
   {
     redraw (getVisibility());
   }
@@ -1605,11 +1609,7 @@ public class GObject
     // Return if nothing has changed
     if (oldVisibilityMask == visibilityMask_)
       return;
-
-    // Redraw if something was turned on and draw has not been done
-    if (visibilityMask_ != 0 && !isDrawn_)
-      redraw (visibilityMask_);
-    
+   
     // Symbol visibility has changed
     if ((oldVisibilityMask & SYMBOLS_VISIBLE) !=
         (visibilityMask_ & SYMBOLS_VISIBLE))
@@ -1703,7 +1703,7 @@ public class GObject
    * This method should be overloaded for graphics objects with drawable
    * elements (GSegments). Intermediate nodes should leave the method empty.
    */
-  public void draw()
+  protected void draw()
   {
   }
 

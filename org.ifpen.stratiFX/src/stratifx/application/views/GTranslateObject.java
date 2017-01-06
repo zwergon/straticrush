@@ -1,4 +1,4 @@
-package stratifx.application.manipulator;
+package stratifx.application.views;
 
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GImage;

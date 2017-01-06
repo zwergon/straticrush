@@ -9,6 +9,7 @@ import fr.ifp.jdeform.deformation.items.NodeMoveItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.Node;
+import stratifx.application.views.GTranslateObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GTransformer;
 import stratifx.canvas.interaction.GMouseEvent;

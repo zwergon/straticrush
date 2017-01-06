@@ -63,7 +63,7 @@ public abstract class DeformationInteraction implements GInteraction {
 			DeformationControllerCaller caller );
 	
 
-	public DeformationInteraction( GScene scene, String type ){
+	public DeformationInteraction( GScene scene ){
 		scene_ = scene;
 		caller = (DeformationControllerCaller)StratiFXService.instance.createCaller("Deformation");
 		manipulator = null;
@@ -121,6 +121,22 @@ public abstract class DeformationInteraction implements GInteraction {
 		return false;
 	}
 
+	
+	public Patch getSelectedPatch(int x, int y ){
+		GSegment selected = scene_.findSegment (x, y);
+		if ( selected !=  null ){
+			GObject gobject = selected.getOwner();
+			while ( gobject != null ){
+				if ( gobject instanceof GPatchView ){
+					return ((GPatchView)gobject).getObject();
+				}
+				gobject = gobject.getParent();
+			}
+			
+		}
+			
+		return null;
+	}
 
 	@Override
 	public boolean mouseEvent ( GScene scene, GMouseEvent event ) {
@@ -145,25 +161,19 @@ public abstract class DeformationInteraction implements GInteraction {
 			
 			
 			if ( manipulator == null ){
-				GSegment selected = scene.findSegment (event.x, event.y);
-				if ( selected !=  null ){
-					GObject gobject = selected.getOwner();
-					if ( gobject instanceof GPatchView ){
+				Patch patch = getSelectedPatch(event.x, event.y );
+				if ( patch !=  null ){
 
-						Patch patch = ((GPatchView)gobject).getObject();
+					DeformationControllerCaller caller = getCaller();
+					//caller.revert();
 
-
-
-						DeformationControllerCaller caller = getCaller();
-						//caller.revert();
-
-						caller.clear();
-						caller.setScene( createScene(patch) );
-						manipulator = createManipulator( scene, caller );
-						manipulator.activate();
-					}
+					caller.clear();
+					caller.setScene( createScene(patch) );
+					manipulator = createManipulator( scene, caller );
+					manipulator.activate();
 				}
 			}
+		
 			
 			if ( ( manipulator != null )  && manipulator.isActive() ){
 				manipulator.onMousePress(event);

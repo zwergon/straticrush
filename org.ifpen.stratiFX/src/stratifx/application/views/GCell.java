@@ -9,7 +9,7 @@ import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.warp.IWarp;
 import stratifx.canvas.graphics.GSegment;
 
-public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {
+public class GCell extends GSegment implements IMeshProvider, IDeformableGeometry {
 	
 	private Cell cell;
 	private Mesh2D mesh;
@@ -39,7 +39,7 @@ public class GCell extends GSegment implements IMeshProvider, IUpdateGeometry {
 		this.deformation = deformation;
 	}
 	
-	@Override
+	
 	public void updateGeometry() {
 		
 		Cell cell = getCell();

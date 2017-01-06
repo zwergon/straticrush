@@ -11,7 +11,7 @@ public class NodeMoveInteraction extends DeformationInteraction {
 
 	
 	public NodeMoveInteraction( GScene scene, String type ){
-		super(scene, type);
+		super(scene);
 		init(scene, type);
 	}
 	

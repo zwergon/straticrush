@@ -18,6 +18,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import stratifx.application.views.GPatchObject;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -66,6 +67,10 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		double[] xy = gscene.getTransformer().deviceToWorld(event.x, event.y);
 		translateTo(xy); // rigid body deformation
 		computeTargets();
+		
+		if ( null != selectedPatchGraphic ){
+			selectedPatchGraphic.redraw();
+		}
 	}
 	
 	 abstract protected void computeTargets();
@@ -136,8 +141,13 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		}	
 		
 		if ( null != selectedPatchGraphic ){
-			selectedPatchGraphic.setDeformation( (Deformation)deformationCaller.getDeformation() );
+			
+			Deformation deformation = (Deformation)deformationCaller.getDeformation();
+			selectedPatchGraphic.setDeformation( deformation );
+			selectedPatchGraphic.redraw();
 		}
+		
+		
 	}
 
 	@Override
@@ -153,8 +163,9 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	
 	
 	public void updateGraphics(){
+		
 		if ( null != selectedPatchGraphic ){
-			selectedPatchGraphic.updateGeometry();
+			selectedPatchGraphic.redraw();
 		}
 	}
 	

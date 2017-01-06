@@ -15,15 +15,12 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
 import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class MonoTargetManipulator extends CompositeManipulator  {
 	
 	protected PatchInterval  selectedHorizon = null;
-	
-	protected GSegment selectedTargetHorizon;
-	
+
 
 	public MonoTargetManipulator( GScene gscene, DeformationControllerCaller caller ){
 		 super( gscene, caller );
@@ -70,6 +67,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 			selectedHorizon.getInterval().createExtension();	
 			selectedPatchGraphic.addInterval(selectedHorizon);
 		}
+
 		
 	}
 	
@@ -82,17 +80,16 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 	@Override
 	protected void computeTargets() {
 
-		selectedPatchGraphic.clearLines();
+		selectedPatchGraphic.clearTargets();
 
         Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
         LineIntersection lineInter = new LineIntersection(bathy.getPolyline());
 
         LinePointPair I = lineInter.getFirstIntersection(selectedHorizon.getInterval());
         if (null != I) {
-            selectedPatchGraphic.addLine(I.getPoint().getLine());
+            selectedPatchGraphic.addTarget(I.getPoint().getLine());
         }
         
-        selectedPatchGraphic.draw();
 		
 	}
 	

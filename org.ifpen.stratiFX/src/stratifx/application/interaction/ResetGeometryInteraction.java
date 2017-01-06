@@ -5,6 +5,7 @@ import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.jdeform.deformations.ResetDeformation;
 import fr.ifp.kronosflow.model.Patch;
 import stratifx.application.StratiFXService;
+import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.application.views.GPatchView;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
@@ -13,19 +14,12 @@ import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
-public class ResetGeometryInteraction implements GInteraction {
-	
-	
-	private GScene scene;
-	DeformationControllerCaller controllerCaller;
+public class ResetGeometryInteraction extends DeformationInteraction {
 	
 
 	public ResetGeometryInteraction( GScene scene ) {
-		
-		StratiFXService service = StratiFXService.instance;
-		this.scene = scene;
-		controllerCaller = (DeformationControllerCaller) service.createCaller("Deformation");
-		controllerCaller.setDeformation( new ResetDeformation() );
+		super( scene);
+		getCaller().setDeformation( new ResetDeformation() );
 	}
 
 
@@ -43,22 +37,18 @@ public class ResetGeometryInteraction implements GInteraction {
 
 	@Override
 	public boolean mouseEvent(GScene scene, GMouseEvent event) {
-		if ( scene != this.scene ){
+		if ( scene != this.scene_ ){
 			return false;
 		}
 
 		switch (event.type) {
 		case GMouseEvent.BUTTON_DOWN :
-			GSegment selected = scene.findSegment (event.x, event.y);
-			if ( selected !=  null ){
-				GObject gobject = selected.getOwner();
-				if ( gobject instanceof GPatchView ){
-					GPatchView view = (GPatchView)gobject;
-					Patch patch = view.getObject();
-					controllerCaller.setScene( SceneBuilder.createDefaultScene(patch) );
-					controllerCaller.applyAndNotify();;
+			Patch patch = getSelectedPatch(event.x, event.y);
+			if ( patch !=  null ){
+					getCaller().setScene( SceneBuilder.createDefaultScene(patch) );
+					getCaller().applyAndNotify();;
 					scene.refresh();		
-				}
+				
 			}
 
 			break;
@@ -71,6 +61,13 @@ public class ResetGeometryInteraction implements GInteraction {
 	public boolean keyEvent(GScene scene, GKeyEvent event) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public CompositeManipulator createManipulator(GScene gscene, DeformationControllerCaller caller) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

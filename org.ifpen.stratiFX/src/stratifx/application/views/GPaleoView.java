@@ -17,38 +17,33 @@ public class GPaleoView extends GView {
 	{
 		setUserData( object );
 		
-		createGSegment( (Paleobathymetry)object );	
+		createLine( (Paleobathymetry)object );	
 	}
 	
-	public void createGSegment( Paleobathymetry bathy ){
-		
-		Color bcolor = bathy.getColor();
-		GStyle style = new GStyle();
-		style.setForegroundColor ( new GColor( bcolor.getRed(), bcolor.getGreen(), bcolor.getBlue() ) );
-		style.setLineWidth (1);
-		setStyle (style);
-		
-		gline = new GPolyline(bathy.getPolyline() );
-		
-		addSegment(gline);
-		
-		setVisibility( GObject.DATA_VISIBLE );
-			
-	}
-	
-	public void draw()
-	{
-		if ( gline != null ){
-			gline.updateGeometry();
-		}
-	}
+
 
 	@Override
 	public void modelChanged( IControllerEvent<?> event ) {
 		if ( event.getObject() == getUserData() ){
-			gline.updateGeometry();
+			redraw();
 		}
-
 	}
 
+	
+	private void createLine( Paleobathymetry bathy ){
+		
+		Color bcolor = bathy.getColor();
+	
+		gline = new GPolyline( bathy.getPolyline() );
+		
+		GStyle style = new GStyle();
+		style.setForegroundColor(  new GColor( bcolor.getRed(), bcolor.getGreen(), bcolor.getBlue() ) );
+		style.setLineWidth(1);
+		gline.setStyle(style);
+		
+		add(gline);
+		
+		setVisibility( GObject.DATA_VISIBLE );
+			
+	}
 }

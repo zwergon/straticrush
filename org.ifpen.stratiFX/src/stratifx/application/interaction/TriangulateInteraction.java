@@ -15,7 +15,7 @@ import fr.ifp.kronosflow.uids.IHandle;
 import stratifx.application.GParameters;
 import stratifx.application.views.GPatchView;
 import stratifx.application.views.GPolyline;
-import stratifx.application.views.IUpdateGeometry;
+import stratifx.application.views.IDeformableGeometry;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GImage;
 import stratifx.canvas.graphics.GObject;
@@ -87,8 +87,8 @@ public class TriangulateInteraction implements GInteraction {
 		}
 		
 
-
-		public void draw()
+		@Override
+		protected void draw()
 		{
 			if ( null == triangulation ){
 				return;
@@ -135,36 +135,16 @@ public class TriangulateInteraction implements GInteraction {
 		void addOutline( Patch patch ){
 
 			GPolyline borderLine = new GPolyline( patch.getBorder() );
-			addSegment( borderLine );
 			
 			GStyle style = new GStyle();
-			style.setBackgroundColor(GColor.CYAN);
-			//style.setLineWidth (4);
+			style.setBackgroundColor( GColor.CYAN);
 			borderLine.setStyle (style);
 			
-			borderLine.updateGeometry();
-			
-		
+			add( borderLine );
+				
 			pointSet.setPatch(patch);
 		}
-		
-
-
-
-
-		@Override
-		public void draw() {
-			for( GSegment gsegment : getSegments() ){
-				if ( gsegment instanceof IUpdateGeometry ){
-					((IUpdateGeometry) gsegment).updateGeometry();
-				}
-			}
-			
-			for( GObject object: getChildren() ){
-				object.draw();
-			}
-		}
-		
+				
 	}
 	
 	
@@ -210,7 +190,7 @@ public class TriangulateInteraction implements GInteraction {
 					gscene.add(markers);
 					markers.addOutline(composite);
 					
-					markers.draw();
+					markers.redraw();
 					
 					gscene.refresh();
 				}

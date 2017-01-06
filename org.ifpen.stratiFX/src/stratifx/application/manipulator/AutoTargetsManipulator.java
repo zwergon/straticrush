@@ -98,21 +98,16 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 
 	@Override
 	protected void computeTargets() {
-		selectedPatchGraphic.clearLines();
+		selectedPatchGraphic.clearTargets();
 		
 		Paleobathymetry bathy = selectedHorizon.getPatchLibrary().getPaleobathymetry();
 		LineIntersection lineInter = new LineIntersection( bathy.getPolyline() );
 		
 		LinePointPair I = lineInter.getFirstIntersection(selectedHorizon.getInterval());
 		if ( null != I ) {
-			selectedPatchGraphic.addLine( I.getPoint().getLine() );
-			
-			/*faultTarget = createDefaultTarget(I);
-			selectedPatchGraphic.addLine( faultTarget );*/
+			selectedPatchGraphic.addTarget( I.getPoint().getLine() );
 		}
-		
-		selectedPatchGraphic.draw();
-		
+				
 	}
 	
 	

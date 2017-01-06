@@ -135,7 +135,7 @@ public class StratiFXService implements IUIController, IControllerService {
 		
 		SceneStyle sceneStyle = new SceneStyle(section.getStyle());
 		sceneStyle.setNatureType(NatureType.EXPLICIT);
-		sceneStyle.setGridType(GridType.TRGL);
+		sceneStyle.setGridType(GridType.LINE);
 		sceneStyle.setComplexityType(ComplexityType.SINGLE);
 
 		PatchLibrary patchLib = section.getPatchLibrary();

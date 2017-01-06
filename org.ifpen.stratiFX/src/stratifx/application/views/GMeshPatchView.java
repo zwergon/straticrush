@@ -78,15 +78,19 @@ public class GMeshPatchView extends GPatchView {
 	
 	private void addBorder( PolyLine line ) {
 		
-		border = new GPolyline( line );
-		addSegment(border);
-				
+		border = new GPolyline( line);
+		
 		GStyle style = new GStyle();
 		style.setForegroundColor ( GColor.red );
 	
 		style.setFillPattern(GStyle.FILL_NONE);
 		style.setLineWidth (2);
 		border.setStyle (style);
+		
+		
+		add(border);
+				
+		
 		
 	}
 	
@@ -96,7 +100,7 @@ public class GMeshPatchView extends GPatchView {
 		
 		switch( event.getEventAction() ){
 		case MOVE:
-			 updateGeometry();
+			 redraw();
 			break;
 		case UPDATE:
 			updateColors();

@@ -1,12 +1,11 @@
 package stratifx.application.views;
 
-import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.polyline.LinePoint;
 import stratifx.canvas.graphics.GSegment;
 
-public class GExtension extends GSegment implements IUpdateGeometry {
+public class GExtension extends GSegment {
 		
 		private double length;
 	
@@ -19,18 +18,8 @@ public class GExtension extends GSegment implements IUpdateGeometry {
 			return (IExtension)getUserData();
 		}
 
-		@Override
-		public boolean canDeform() {
-			return true;
-		}
-
-		@Override
-		public void setDeformation(Deformation deformation) {
-		// TODO Auto-generated method stub		
-		}
-
-		@Override
-		public void updateGeometry(){
+		
+		public void draw(){
 
 		
 			IExtension extension = getExtension();

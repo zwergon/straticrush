@@ -12,7 +12,7 @@ public class FlattenInteraction extends DeformationInteraction {
 		
 
 	public FlattenInteraction( GScene scene, String type ){
-		super( scene, type );
+		super( scene );
 		getCaller().setDeformation( createDeformation(type) );
 			
 	}

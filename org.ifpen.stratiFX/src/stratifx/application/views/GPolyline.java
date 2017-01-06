@@ -3,55 +3,62 @@ package stratifx.application.views;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.warp.IWarp;
+import stratifx.canvas.graphics.GColor;
+import stratifx.canvas.graphics.GImage;
+import stratifx.canvas.graphics.GObject;
+import stratifx.canvas.graphics.GPosition;
 import stratifx.canvas.graphics.GSegment;
+import stratifx.canvas.graphics.GStyle;
+import stratifx.canvas.graphics.GText;
 
-public class GPolyline extends GSegment implements IUpdateGeometry {
+public class GPolyline extends GDeformableObject  {
 
-	Deformation deformation = null;
 	
-	boolean enabledDeformation = true;
+	GSegment border;
 
 	public GPolyline( IPolyline iPolyline ){
-		setUserData(iPolyline);
-	}
+		 super( iPolyline );
+		
+		setVisibility( GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE );
+		
+		border = new GSegment();
+		addSegment(border);
+		
+		GStyle textStyle = new GStyle();
+		textStyle.setForegroundColor (new GColor (100, 100, 150));
+		textStyle.setBackgroundColor (null);
+		int offset = 0;
+		
+		Iterator<ICurviPoint> itr = iPolyline.iterator();
+		while( itr.hasNext() ){
+			itr.next();
+			GText text = new GText (String.valueOf(offset), GPosition.FIRST | GPosition.STATIC );
+			text.setPositionOffset( offset++ );
+			
+			text.setStyle (textStyle);
+			border.addText(text);
+		}
+		
+		GStyle symbolStyle = new GStyle();
+		symbolStyle.setForegroundColor (new GColor (0, 0, 255));
+		symbolStyle.setBackgroundColor (new GColor (0, 0, 255));
+		GImage square = new GImage (GImage.SYMBOL_SQUARE1);
+		square.setStyle (symbolStyle);
 
+		border.setVertexImage (square);
+		
+	}
+	
 	public IPolyline getLine(){
 		return (IPolyline)getUserData();
 	}
 	
 	@Override
-	public boolean canDeform() {
-		return enabledDeformation;
-	}
-	
-	public void enableDeformation( boolean canDeform ){
-		enabledDeformation = canDeform;
-	}
-	
-	@Override
-	public void setDeformation(Deformation deformation){
-		this.deformation = deformation;
-	}
-
-	@Override
-	public void updateGeometry(){
-		
-		IWarp warp = (deformation != null ) ? deformation.getWarp() : null;	
-		if ( enabledDeformation && ( null != warp ) ){	
-			drawWithDeformation(warp);
-		}
-		else {
-			draw();
-		}
-
-	}
-
-	private void draw() {
-		
+	protected void directDraw() {
+				
 		IPolyline line = getLine();
 
 		List<ICurviPoint> pts = line.getPoints();
@@ -76,10 +83,12 @@ public class GPolyline extends GSegment implements IUpdateGeometry {
 			ypts[npts-1] = w_pt[1];
 		}
 		
-		setWorldGeometry(xpts, ypts);
+		border.setWorldGeometry(xpts, ypts);
 	}
 
-	private void drawWithDeformation(IWarp warp) {
+	@Override
+	protected void warpedDraw(IWarp warp) {
+		
 		IPolyline line = getLine();
 
 		List<ICurviPoint> pts = line.getPoints();
@@ -108,7 +117,7 @@ public class GPolyline extends GSegment implements IUpdateGeometry {
 			ypts[npts-1] = w_dst[1];
 		}
 		
-		setWorldGeometry(xpts, ypts);
+		border.setWorldGeometry(xpts, ypts);
 	}
 
 }

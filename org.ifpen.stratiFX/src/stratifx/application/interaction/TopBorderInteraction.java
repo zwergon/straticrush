@@ -8,7 +8,7 @@ import stratifx.canvas.graphics.GScene;
 public class TopBorderInteraction extends DeformationInteraction {
 	
 	public TopBorderInteraction( GScene scene, String type ){
-		super( scene, type );
+		super( scene );
 		getCaller().setDeformation( createDeformation(type) );		
 	}
 	

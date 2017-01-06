@@ -18,9 +18,9 @@ public class GPatchIntervalView extends GView {
 		PatchInterval interval = getPatchInterval();
 			
 		gline = new GInterval(interval);
-		addSegment(gline);
+		add(gline);
 		
-		gline.updateGeometry();
+		gline.draw();
 
 		
 		GStyle style = new GStyle();
@@ -41,16 +41,16 @@ public class GPatchIntervalView extends GView {
 	
 	
 	@Override
-	public void draw() {
+	protected void draw() {
 		if ( null != gline ){
-			gline.updateGeometry();
+			gline.draw();
 		}
 	}
 	
 	@Override
 	public void modelChanged( IControllerEvent<?> event ) {
 		if ( event.getObject() == getPatch() && null != gline ){
-			gline.updateGeometry();
+			gline.draw();
 		}
 	}
 

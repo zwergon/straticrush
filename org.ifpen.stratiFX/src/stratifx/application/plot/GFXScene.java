@@ -45,24 +45,24 @@ import stratifx.canvas.graphics.GWorldExtent;
 import stratifx.canvas.graphics.ICanvas;
 
 public class GFXScene extends GScene implements ICanvas {
-	
-	Canvas canvas;
-	
-    public GFXScene( Canvas canvas, GWorldExtent extent ) {
-    	
-    	this.canvas = canvas;
 
-    	Bounds localB = canvas.getLayoutBounds();
-    	initialize(
-    			this,
-    			new GRect( 
-    					(int)localB.getMinX(),  (int)localB.getMinY(), 
-    					(int)localB.getWidth(), (int)localB.getHeight() ),
-    			extent
-    			);
+	Canvas canvas;
+
+	public GFXScene( Canvas canvas, GWorldExtent extent ) {
+
+		this.canvas = canvas;
+
+		Bounds localB = canvas.getLayoutBounds();
+		initialize(
+				this,
+				new GRect( 
+						(int)localB.getMinX(),  (int)localB.getMinY(), 
+						(int)localB.getWidth(), (int)localB.getHeight() ),
+				extent
+				);
 
 	}
-	
+
 	public GFXScene( Canvas canvas ) {
 
 		this.canvas = canvas;
@@ -76,144 +76,144 @@ public class GFXScene extends GScene implements ICanvas {
 				);
 
 	}
-	
-	 static private Map<String, String> mapViews;
 
-	    static {
-	    	mapViews = new HashMap<String, String>();
-	    	registerView( Patch.class, GPatchView.class );
-	    	registerView( MeshPatch.class, GMeshPatchView.class );
-	    	registerView( ExplicitPatch.class, GPatchView.class );
-	    	registerView( CompositePatch.class, GPatchView.class );
-	    	registerView( FileMeshPatch.class, GMeshPatchView.class );
-	    	registerView( TrglPatch.class, GMeshPatchView.class );
-	    	registerView( PatchInterval.class, GPatchIntervalView.class );
-	    	registerView( FeatureGeolInterval.class, GPatchIntervalView.class );
-	    	registerView( Contact.class, GPartitionLineView.class );
-	    	registerView( Border.class, GPartitionLineView.class );
-	    	registerView( Paleobathymetry.class, GPaleoView.class );
-	    }
+	static private Map<String, String> mapViews;
 
-	    static public void registerView( Class<?> object_class, Class<?> view_class ){
-	    	mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
-	    }
-	    
-		public GView createView( Object object ){
+	static {
+		mapViews = new HashMap<String, String>();
+		registerView( Patch.class, GPatchView.class );
+		registerView( MeshPatch.class, GMeshPatchView.class );
+		registerView( ExplicitPatch.class, GPatchView.class );
+		registerView( CompositePatch.class, GPatchView.class );
+		registerView( FileMeshPatch.class, GMeshPatchView.class );
+		registerView( TrglPatch.class, GMeshPatchView.class );
+		registerView( PatchInterval.class, GPatchIntervalView.class );
+		registerView( FeatureGeolInterval.class, GPatchIntervalView.class );
+		registerView( Contact.class, GPartitionLineView.class );
+		registerView( Border.class, GPartitionLineView.class );
+		registerView( Paleobathymetry.class, GPaleoView.class );
+	}
 
-			if (  object == null  ) {
+	static public void registerView( Class<?> object_class, Class<?> view_class ){
+		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
+	}
+
+	public GView createView( Object object ){
+
+		if (  object == null  ) {
+			return null;
+		}
+		GView view = null;
+		try {
+			/*
+			 * TODO go through class inheritance to find the first ascending 
+			 * class valid to create a GView
+			 */
+			String key = object.getClass().getCanonicalName();
+
+			if ( !mapViews.containsKey(key) ){
 				return null;
 			}
-			GView view = null;
-		    try {
-		    	/*
-		    	 * TODO go through class inheritance to find the first ascending 
-		    	 * class valid to create a GView
-		    	 */
-		    	String key = object.getClass().getCanonicalName();
-		    	
-		    	if ( !mapViews.containsKey(key) ){
-		    		return null;
-		    	}
-		    	
-		    	Class<?> c1 = Class.forName( mapViews.get(key) );
-		    	if ( c1 == null ){
-		    		return null;
-		    	}
-		    	view = (GView)c1.newInstance();
-		    	if ( null != view ){
-		    		add( view );
-		    		view.setModel( object );
-		    	}
-		    }
-		    catch( Exception ex){
-		    	System.out.println(ex.toString());
-		    }
-		    
-		    return view;
-		}
-		
-		public Collection<GView> getViews(){
-			Collection<GView> views = new ArrayList<GView>();
-			for( GObject object :  getChildren()){
-				if ( object instanceof GView ){
-					views.add((GView)object);
-				}
-			}
-			
-			return views;
-		}
-		
-		public void destroyViews( Object object ){
-			
-			Collection<Object> objects = new ArrayList<Object>();
-			objects.add(object);
-			if ( object instanceof KinObject ){
-				KinObject kobject =(KinObject)object;
-				collectChildren( kobject, objects );
-			}
-			
-			for( GView view : getViews() ){
-				for( Object o : objects ){
-					if ( o == view.getUserData() ){
-						remove(view);
-					}
-				}
-			}
-		}
-		
 
-		public void destroyView( GView view ){	
-			remove(view);
-		}
-		
-		public void destroyAllViews(){
-			for( GView view :  getViews()){
-				destroyView(view);
+			Class<?> c1 = Class.forName( mapViews.get(key) );
+			if ( c1 == null ){
+				return null;
+			}
+			view = (GView)c1.newInstance();
+			if ( null != view ){
+				add( view );
+				view.setModel( object );
 			}
 		}
-		
-		
-		public void destroyAll(){
-			removeAll();
-			removeSegments();
-			
-			GraphicsContext gc = canvas.getGraphicsContext2D();
-			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		catch( Exception ex){
+			System.out.println(ex.toString());
 		}
-		
-		/**
-		 * Method that goes though {@link KinObject} tree and collect list of all children of
-		 * this root {@link KinObject}.
-		 * @param kobject the root {@link KinObject}
-		 * @param objects flat list of children
-		 */
-		private void collectChildren(KinObject kobject, Collection<Object> objects) {
-			List<KinObject> children = kobject.getChildren();
-			if ( children.isEmpty() ){
-				return;
-			}
-			objects.addAll(children);
-			for( KinObject child : children ){
-				collectChildren(child, objects);
+
+		return view;
+	}
+
+	public Collection<GView> getViews(){
+		Collection<GView> views = new ArrayList<GView>();
+		for( GObject object :  getChildren()){
+			if ( object instanceof GView ){
+				views.add((GView)object);
 			}
 		}
-		
-		/**
-		 * Notify all listeners about change in this Shape.
-		 * 
-		 * @param Event  Describe the change in the Shape.
-		 */
-		public void notifyViews( IControllerEvent<?> event )
-		{
-			for( GObject object : getChildren() ){
-				if ( object instanceof GView ){
-					GView view = (GView)object;
-					view.modelChanged(event);
+
+		return views;
+	}
+
+	public void destroyViews( Object object ){
+
+		Collection<Object> objects = new ArrayList<Object>();
+		objects.add(object);
+		if ( object instanceof KinObject ){
+			KinObject kobject =(KinObject)object;
+			collectChildren( kobject, objects );
+		}
+
+		for( GView view : getViews() ){
+			for( Object o : objects ){
+				if ( o == view.getUserData() ){
+					remove(view);
 				}
 			}
 		}
-	    
-	
+	}
+
+
+	public void destroyView( GView view ){	
+		remove(view);
+	}
+
+	public void destroyAllViews(){
+		for( GView view :  getViews()){
+			destroyView(view);
+		}
+	}
+
+
+	public void destroyAll(){
+		removeAll();
+		removeSegments();
+
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	}
+
+	/**
+	 * Method that goes though {@link KinObject} tree and collect list of all children of
+	 * this root {@link KinObject}.
+	 * @param kobject the root {@link KinObject}
+	 * @param objects flat list of children
+	 */
+	private void collectChildren(KinObject kobject, Collection<Object> objects) {
+		List<KinObject> children = kobject.getChildren();
+		if ( children.isEmpty() ){
+			return;
+		}
+		objects.addAll(children);
+		for( KinObject child : children ){
+			collectChildren(child, objects);
+		}
+	}
+
+	/**
+	 * Notify all listeners about change in this Shape.
+	 * 
+	 * @param Event  Describe the change in the Shape.
+	 */
+	public void notifyViews( IControllerEvent<?> event )
+	{
+		for( GObject object : getChildren() ){
+			if ( object instanceof GView ){
+				GView view = (GView)object;
+				view.modelChanged(event);
+			}
+		}
+	}
+
+
 	@Override
 	public void setClipArea(GRegion damageRegion) {
 		// TODO Auto-generated method stub
@@ -230,7 +230,7 @@ public class GFXScene extends GScene implements ICanvas {
 
 	@Override
 	public void render( GSegment segment, GStyle style ) {
-		
+
 		double[][] xy = segment.getXY();
 
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -242,7 +242,7 @@ public class GFXScene extends GScene implements ICanvas {
 			Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
 			gc.setFill( color );
 			gc.fillPolygon( xy[0], xy[1], segment.size() );
-			
+
 		}
 
 		GColor fg = style.getForegroundColor();
@@ -281,6 +281,6 @@ public class GFXScene extends GScene implements ICanvas {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 
 }
