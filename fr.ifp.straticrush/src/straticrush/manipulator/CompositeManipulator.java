@@ -12,14 +12,14 @@ import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
-import fr.ifp.kronosflow.geology.FaultFeature;
-import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.geology.FaultFeature;
+import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 

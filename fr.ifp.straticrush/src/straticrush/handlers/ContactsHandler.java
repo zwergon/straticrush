@@ -30,7 +30,7 @@ import straticrush.view.StratiWindow;
 import straticrush.view.View;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.topology.Contact;
+import fr.ifp.kronosflow.model.topology.Contact;
 
 public class ContactsHandler {
 

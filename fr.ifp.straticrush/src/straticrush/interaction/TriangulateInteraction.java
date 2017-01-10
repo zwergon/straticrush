@@ -20,10 +20,10 @@ import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.mesh.triangulation.Triangulation;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.Node;
-import fr.ifp.kronosflow.triangulation.Triangulation;
 import fr.ifp.kronosflow.uids.IHandle;
 
 public class TriangulateInteraction implements GInteraction {

@@ -8,9 +8,9 @@ import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GSegment;
 import straticrush.caller.RemoveUnitCaller;
 import straticrush.view.PatchView;
-import fr.ifp.kronosflow.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
 
 
 public class RemoveUnitInteraction implements GInteraction {

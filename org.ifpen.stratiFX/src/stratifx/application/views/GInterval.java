@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.List;
 
 import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.polyline.CurviPoint;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;

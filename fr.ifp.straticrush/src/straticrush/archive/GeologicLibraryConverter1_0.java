@@ -1,7 +1,7 @@
 package straticrush.archive;
 
-import fr.ifp.kronosflow.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.KinObject;
+import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 public class GeologicLibraryConverter1_0 implements IConverter {

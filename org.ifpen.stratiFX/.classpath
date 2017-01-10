@@ -3,17 +3,15 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="/fr.ifp.kronosflow.geometry/bin" sourcepath="/fr.ifp.kronosflow.geometry/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.controllers/bin" sourcepath="/fr.ifp.kronosflow.controllers/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.fem2d/bin" sourcepath="/fr.ifp.kronosflow.fem2d/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.geoscheduler/bin" sourcepath="/fr.ifp.kronosflow.geoscheduler/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.jdeform/bin" sourcepath="/fr.ifp.kronosflow.jdeform/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.mesh/bin" sourcepath="/fr.ifp.kronosflow.mesh/src"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.model/bin" sourcepath="/fr.ifp.kronosflow.model/src"/>
-	<classpathentry kind="lib" path="/fr.ifp.kronosflow.property/bin"/>
-	<classpathentry kind="lib" path="/fr.ifp.kronosflow.property.image/bin"/>
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.uids/bin"/>
 	<classpathentry kind="lib" path="/commons-logging/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="/commons-logging/commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="/kronosflow/fr.ifp.kronosflow.kernel/bin" sourcepath="/kronosflow/fr.ifp.kronosflow.kernel/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -27,6 +27,9 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.PropertyStyle;
+import fr.ifp.kronosflow.model.topology.Border;
+import fr.ifp.kronosflow.model.topology.Contact;
+import fr.ifp.kronosflow.model.topology.PartitionLine;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
@@ -37,9 +40,6 @@ import fr.ifp.kronosflow.property.PropertyInfo;
 import fr.ifp.kronosflow.property.PropertyInfo.Kind;
 import fr.ifp.kronosflow.property.PropertyInfo.Support;
 import fr.ifp.kronosflow.property.PropertyLocation;
-import fr.ifp.kronosflow.topology.Border;
-import fr.ifp.kronosflow.topology.Contact;
-import fr.ifp.kronosflow.topology.PartitionLine;
 import fr.ifp.kronosflow.uids.UID;
 
 public class PoissonComputer extends PropertyComputer {

@@ -3,7 +3,7 @@ package straticrush.view;
 import java.awt.Color;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import no.geosoft.cc.graphics.GColor;
 import no.geosoft.cc.graphics.GObject;
 import no.geosoft.cc.graphics.GStyle;

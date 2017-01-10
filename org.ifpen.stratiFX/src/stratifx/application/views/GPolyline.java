@@ -84,6 +84,8 @@ public class GPolyline extends GDeformableObject  {
 		}
 		
 		border.setWorldGeometry(xpts, ypts);
+		
+
 	}
 
 	@Override

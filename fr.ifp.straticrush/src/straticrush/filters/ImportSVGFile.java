@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGPoint;
 
-import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
@@ -29,9 +28,10 @@ import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.filters.ImportBorderFile;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.topology.Contact;
-import fr.ifp.kronosflow.topology.ContactGraph;
+import fr.ifp.kronosflow.model.topology.Contact;
+import fr.ifp.kronosflow.model.topology.ContactGraph;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 public class ImportSVGFile extends ImportBorderFile {

@@ -4,23 +4,20 @@ import java.awt.Color;
 import java.util.Random;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.geology.BodyFeature;
-import fr.ifp.kronosflow.geology.StratigraphicUnit;
-import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
-import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.model.geology.BodyFeature;
+import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
-import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;
 
 
 public class GPatchView extends GView {
 	
 	GObject border = null;
-	Mesh2D mesh = null;
+		
+	boolean withPatchGrid = true;
 	
 	public GPatchView(){
 	}
@@ -34,14 +31,11 @@ public class GPatchView extends GView {
 		
 		createBorder(patch);
 		
-		if ( patch instanceof IMeshProvider ){
+		if ( withPatchGrid  & ( patch instanceof IMeshProvider ) ){
+			GMesh gMesh = new GMesh( ((IMeshProvider)patch).getMesh() );
+			add( gMesh );
 			
-			GColor fgColor = getPatchColor();
-			mesh = ((IMeshProvider)patch).getMesh();
-			
-			for( IHandle handle : mesh.getCells() ){
-				addCell( (Cell)handle, fgColor );
-			}
+			gMesh.draw();
 		}
 		
 	}
@@ -99,25 +93,6 @@ public class GPatchView extends GView {
 	public void modelChanged( IControllerEvent<?> event ) {	
 		 redraw();
 	}
-
-	private GSegment addCell(Cell cell, GColor fgColor ) {
-		
-		GSegment gcell = new GCell( mesh, cell );
-		
-		GStyle style = new GStyle();
-		style.setForegroundColor ( GColor.black );
-		style.setBackgroundColor ( null );
-		//style.setFillPattern(GStyle.FILL_NONE);
-		style.setLineWidth (1);
-		gcell.setStyle (style);
-		
-		addSegment(gcell);
-		
-		return gcell;
-	}
-	
-	
-	
 
 	
 

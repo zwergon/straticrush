@@ -18,9 +18,9 @@ import fr.ifp.kronosflow.geoscheduler.ISectionState;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
+import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
-import fr.ifp.kronosflow.property.image.ImagePropertyAccessor;
 import fr.ifp.kronosflow.utils.KronosContext;
 
 public class LifeCycleManager {

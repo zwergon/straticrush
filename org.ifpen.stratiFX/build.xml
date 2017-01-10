@@ -1,0 +1,133 @@
+<project name="StratiFX" basedir="." default="all" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+
+
+<property name="javafx.sdk.path" value="/work/irlin362_1/lecomtje/Apps/jdk1.8.0_45"/>
+<property name="root.dir" value="/work/irlin362_1/lecomtje/git/kronosflow"/>
+<property name="src.dir" value="src"/>
+<property name="build.dir" value="build"/>
+<property name="classes.dir" value="${build.dir}/classes"/>
+<property name="uids.dir"  value="fr.ifp.kronosflow.uids"/>
+<property name="kernel.dir"  value="fr.ifp.kronosflow.kernel"/>
+<property name="mesh.dir"  value="fr.ifp.kronosflow.mesh"/>
+<property name="model.dir"  value="fr.ifp.kronosflow.model"/>
+<property name="fem2d.dir"  value="fr.ifp.kronosflow.fem2d"/>
+<property name="controllers.dir"  value="fr.ifp.kronosflow.controllers"/>
+<property name="geoscheduler.dir"  value="fr.ifp.kronosflow.geoscheduler"/>
+<property name="jdeform.dir"  value="fr.ifp.kronosflow.jdeform"/>
+<property name="jar.dir"     value="${build.dir}/jar"/>
+<property name="main.class"  value="stratifx.application.Main"/>
+<property name="lib.dir" value="libs"/>
+
+
+<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"      
+         uri="javafx:com.sun.javafx.tools.ant"
+         classpath="${javafx.sdk.path}/lib/ant-javafx.jar"/>
+
+
+<path id="classpath">
+    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    <pathelement location="${classes.dir}"/>
+</path>
+
+ <target name="clean">
+        <delete dir="${build.dir}"/>
+ </target>
+
+<target name="compile-uids">
+	<mkdir dir="${classes.dir}"/>
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${uids.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-kernel" depends="compile-uids">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${kernel.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-mesh" depends="compile-uids,compile-kernel">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${mesh.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-model" depends="compile-uids,compile-kernel,compile-mesh">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${model.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-fem2d" depends="compile-uids,compile-kernel,compile-mesh,compile-model">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${fem2d.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-controllers" depends="compile-uids,compile-kernel,compile-model">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${controllers.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+
+<target name="compile-geoscheduler" depends="compile-uids,compile-kernel,compile-model,compile-controllers">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${geoscheduler.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+
+<target name="compile-jdeform" depends="compile-uids,compile-kernel,compile-mesh,compile-model,compile-fem2d,compile-controllers,compile-geoscheduler">
+	<javac includeantruntime="false"
+		srcdir="${root.dir}/${jdeform.dir}/src" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+</target>
+
+<target name="compile-libs" depends="compile-uids,compile-kernel,compile-mesh,compile-model,compile-fem2d,compile-controllers,compile-geoscheduler,compile-jdeform"/>
+
+<target name="compile-stratifx" depends="compile-libs">
+	<javac includeantruntime="false"
+		srcdir="${src.dir}" 
+		destdir="${classes.dir}"
+		classpathref="classpath"
+	/>
+	<copy todir="${classes.dir}/fxml">
+		<fileset dir="${src.dir}/fxml"/>
+	</copy>
+</target>
+
+
+
+<target name="compile" depends="compile-libs,compile-stratifx"/>
+
+<target name="all" depends="clean,compile" />
+
+<target name="run" depends="compile">
+        <java fork="true" dir="." classname="${main.class}">
+        	<classpath>
+                <path refid="classpath"/>
+                <!--
+                <path location="${jar.dir}/${ant.project.name}.jar"/> -->
+            </classpath>
+        </java>
+ </target>
+
+</project>

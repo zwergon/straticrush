@@ -11,10 +11,10 @@ import fr.ifp.jdeform.deformation.IRigidItem;
 import fr.ifp.jdeform.deformation.items.LinePairingItem;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
 

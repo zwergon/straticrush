@@ -17,8 +17,6 @@ import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
-import fr.ifp.kronosflow.geology.BoundaryFeature;
-import fr.ifp.kronosflow.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
@@ -29,6 +27,8 @@ import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.filters.SvgExportPolylines;
+import fr.ifp.kronosflow.model.geology.BoundaryFeature;
+import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.polyline.IPolyline;
 

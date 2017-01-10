@@ -1,6 +1,6 @@
 package straticrush.archive;
 
-import fr.ifp.kronosflow.geology.GeologicFeature;
+import fr.ifp.kronosflow.model.geology.GeologicFeature;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 public class GeologicFeatureConverter1_0 implements IConverter {

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.KinObject;
@@ -15,13 +14,15 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.file.FileMeshPatch;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.model.topology.Border;
+import fr.ifp.kronosflow.model.topology.Contact;
 import fr.ifp.kronosflow.model.triangulation.TrglPatch;
-import fr.ifp.kronosflow.topology.Border;
-import fr.ifp.kronosflow.topology.Contact;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
@@ -30,8 +31,10 @@ import stratifx.application.views.GPaleoView;
 import stratifx.application.views.GPartitionLineView;
 import stratifx.application.views.GPatchIntervalView;
 import stratifx.application.views.GPatchView;
+import stratifx.application.views.GTexture;
 import stratifx.application.views.GView;
 import stratifx.canvas.graphics.GColor;
+import stratifx.canvas.graphics.GColorMap;
 import stratifx.canvas.graphics.GFont;
 import stratifx.canvas.graphics.GImage;
 import stratifx.canvas.graphics.GObject;
@@ -47,10 +50,37 @@ import stratifx.canvas.graphics.ICanvas;
 public class GFXScene extends GScene implements ICanvas {
 
 	Canvas canvas;
+	
+	GColorMap colormap;
 
+
+	static private Map<String, String> mapViews;
+
+	static {
+		mapViews = new HashMap<String, String>();
+		registerView( Patch.class, GPatchView.class );
+		registerView( MeshPatch.class, GPatchView.class );
+		registerView( ExplicitPatch.class, GPatchView.class );
+		registerView( CompositePatch.class, GPatchView.class );
+		registerView( FileMeshPatch.class, GPatchView.class );
+		registerView( TrglPatch.class, GPatchView.class );
+		registerView( PatchInterval.class, GPatchIntervalView.class );
+		registerView( FeatureGeolInterval.class, GPatchIntervalView.class );
+		registerView( Contact.class, GPartitionLineView.class );
+		registerView( Border.class, GPartitionLineView.class );
+		registerView( Paleobathymetry.class, GPaleoView.class );
+	}
+
+	static public void registerView( Class<?> object_class, Class<?> view_class ){
+		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
+	}
+	
+	
 	public GFXScene( Canvas canvas, GWorldExtent extent ) {
 
 		this.canvas = canvas;
+		
+		colormap = new GColorMap();
 
 		Bounds localB = canvas.getLayoutBounds();
 		initialize(
@@ -60,7 +90,6 @@ public class GFXScene extends GScene implements ICanvas {
 						(int)localB.getWidth(), (int)localB.getHeight() ),
 				extent
 				);
-
 	}
 
 	public GFXScene( Canvas canvas ) {
@@ -77,25 +106,9 @@ public class GFXScene extends GScene implements ICanvas {
 
 	}
 
-	static private Map<String, String> mapViews;
-
-	static {
-		mapViews = new HashMap<String, String>();
-		registerView( Patch.class, GPatchView.class );
-		registerView( MeshPatch.class, GMeshPatchView.class );
-		registerView( ExplicitPatch.class, GPatchView.class );
-		registerView( CompositePatch.class, GPatchView.class );
-		registerView( FileMeshPatch.class, GMeshPatchView.class );
-		registerView( TrglPatch.class, GMeshPatchView.class );
-		registerView( PatchInterval.class, GPatchIntervalView.class );
-		registerView( FeatureGeolInterval.class, GPatchIntervalView.class );
-		registerView( Contact.class, GPartitionLineView.class );
-		registerView( Border.class, GPartitionLineView.class );
-		registerView( Paleobathymetry.class, GPaleoView.class );
-	}
-
-	static public void registerView( Class<?> object_class, Class<?> view_class ){
-		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
+	
+	public GColorMap getColorMap(){
+		return colormap;
 	}
 
 	public GView createView( Object object ){
@@ -232,18 +245,53 @@ public class GFXScene extends GScene implements ICanvas {
 	public void render( GSegment segment, GStyle style ) {
 
 		double[][] xy = segment.getXY();
-
+		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		GColor bg = style.getBackgroundColor();
-		if ( null != bg ){
+		
+		
+		Image img = null;
+		GImage gimage = segment.getTexture();
+		if ( gimage != null ){
+			
+			gc.save();
+			
+			GRect rect = segment.getOwner().getRegion().getExtent();
+			img = ((GTexture)gimage).getImageFX();
 
-			float[] rgba = new float[3];
-			bg.getRGBColorComponents(rgba);
-			Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
-			gc.setFill( color );
-			gc.fillPolygon( xy[0], xy[1], segment.size() );
+			gc.beginPath();
+			gc.moveTo(xy[0][0], xy[1][0]) ;
+			for( int i =1; i< segment.size(); i++ ){
+				gc.lineTo(xy[0][i], xy[1][i]) ;
+			}
+			gc.closePath();
+			gc.clip();
+			gc.drawImage(img, rect.x, rect.y );
 
+			gc.restore();
 		}
+		else
+		{
+			GColor bg = style.getBackgroundColor();
+			if ( null != bg ){
+				
+				float[] rgba = new float[3];
+				bg.getRGBColorComponents(rgba);
+				Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
+				gc.setFill( color );
+				gc.beginPath();
+				gc.moveTo(xy[0][0], xy[1][0]) ;
+				for( int i =1; i< segment.size(); i++ ){
+					gc.lineTo(xy[0][i], xy[1][i]) ;
+		        }
+				gc.closePath();
+				gc.fill();
+				
+			}
+		}
+	    
+	    
+		
+		
 
 		GColor fg = style.getForegroundColor();
 		if ( style.isLineVisible() ){
@@ -256,6 +304,8 @@ public class GFXScene extends GScene implements ICanvas {
 			gc.setLineWidth( style.getLineWidth() );
 			gc.strokePolyline( xy[0], xy[1], segment.size()  );	
 		}
+		
+		
 
 	}
 

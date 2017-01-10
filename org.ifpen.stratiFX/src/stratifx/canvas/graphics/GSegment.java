@@ -2,12 +2,19 @@ package stratifx.canvas.graphics;
 
 
 
+import java.nio.Buffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.geometry.Geometry;
+import fr.ifp.kronosflow.property.IPropertyProvider;
+import fr.ifp.kronosflow.property.Property;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.paint.Color;
+import stratifx.application.views.GTexture;
 
 
 
@@ -23,13 +30,13 @@ public class GSegment
   private GObject                 owner_;       // Owner
   private int                     x_[];
   private int                     y_[];
-  private double                  values_[];
   private GImage                  vertexImage_;
   private GRect                   rectangle_;   // Bounding box
   private Object                  userData_;    // Whatever app assoc with graphics
   private GStyle                  style_;       // As applied to this object
   private GStyle                  actualStyle_; // Adjusted for owner inherits
   private List<GText>             texts_;       // of GText
+  private GImage                  texture_;
 
 
   
@@ -41,10 +48,10 @@ public class GSegment
     owner_       = null;
     x_           = null;
     y_           = null;
-    values_      = null;
     rectangle_   = null;
     texts_       = null;
     vertexImage_ = null;
+    texture_     = null;
 
     style_       = null;
     actualStyle_ = new GStyle();
@@ -166,13 +173,36 @@ public class GSegment
   /**
    * return values associated at each (x,y) point.
    */
-  public double[] getValues(){
-	  return values_;
+  public GImage getTexture(){
+	  return texture_;
   }
 
   
-  public void setValues( double[] values ){
-	  values_ = values;
+  public void createTexture(){
+	  
+	  int[] data = new int[rectangle_.width*rectangle_.height];
+	  for( int j = 0; j<rectangle_.height; j++ ){
+		  int y = rectangle_.y + j;  
+		  
+		  int offset = j*rectangle_.width;
+
+		  for( int i = 0; i<rectangle_.width; i++ ){
+			  int x = rectangle_.x + i;
+			  			  
+			  GColor gcolor = owner_.getColor( x, y );
+			  int color = 0;
+			  if ( gcolor != null ){
+			   color =    ( gcolor.getAlpha() << 24) | 
+					      ( gcolor.getRed()   << 16 )| 
+					      ( gcolor.getGreen() << 8 ) | 
+					        gcolor.getBlue();
+			  }
+			  data[offset + i] = color;
+		  }
+	  }
+	  
+	  texture_ = new GTexture( rectangle_.width, rectangle_.height, data );
+	  
   }
 
 

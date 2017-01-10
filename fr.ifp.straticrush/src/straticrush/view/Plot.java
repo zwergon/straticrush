@@ -13,7 +13,6 @@ import no.geosoft.cc.graphics.GScene;
 import no.geosoft.cc.graphics.GWindow;
 import straticrush.interaction.StratiCrushServices;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.KinObject;
@@ -22,14 +21,15 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.file.FileMeshPatch;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.PropertyStyle;
+import fr.ifp.kronosflow.model.topology.Border;
+import fr.ifp.kronosflow.model.topology.Contact;
 import fr.ifp.kronosflow.model.triangulation.TrglPatch;
 import fr.ifp.kronosflow.property.IPropertyValue;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyStatistic;
-import fr.ifp.kronosflow.topology.Border;
-import fr.ifp.kronosflow.topology.Contact;
 import fr.ifp.kronosflow.uids.UID;
 
 public class Plot extends GScene {

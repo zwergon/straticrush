@@ -1,6 +1,7 @@
 package stratifx.application;
 	
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -44,7 +45,7 @@ public class Main extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("MainUI.fxml"));
+            loader.setLocation(Main.class.getResource("../../fxml/MainUI.fxml"));
             BorderPane rootLayout = (BorderPane) loader.load();
             
             StratiFXService.instance.registerController( IUIController.Type.MAIN, loader.getController() );
@@ -66,7 +67,7 @@ public class Main extends Application {
             // Load root layout from fxml file.
         	 // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("plot/PlotView.fxml"));
+            loader.setLocation(Main.class.getResource("../../fxml/PlotView.fxml"));
             AnchorPane plotView = (AnchorPane)loader.load();
             rootLayout.setCenter( plotView );
             

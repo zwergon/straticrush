@@ -38,15 +38,6 @@ public class GMeshPatchView extends GPatchView {
 	
 		MeshPatch patch = (MeshPatch)object;
 		
-		mesh = patch.getMesh();
-		
-		for( IHandle handle : mesh.getCells() ){
-			addCell( mesh, (Cell)handle );
-		}
-		
-		if ( null != patch.getBorder() ){
-			addBorder( patch.getBorder() );
-		}
 		
 	}
 
@@ -56,43 +47,7 @@ public class GMeshPatchView extends GPatchView {
 	}
 	
 
-	private GSegment addCell( Mesh2D mesh, Cell cell) {
-		
-		GSegment gcell = new GCell( mesh, cell );
-		addSegment(gcell);
-		
-		
-		GColor color = getColor(cell);
-		
-		GStyle style = new GStyle();
-		style.setForegroundColor ( GColor.black );
-		style.setBackgroundColor(  color );
-		style.setFillPattern(GStyle.FILL_NONE);
-		style.setLineWidth (1);
-		gcell.setStyle (style);
-		
-		return gcell;
-	}
 
-	
-	
-	private void addBorder( PolyLine line ) {
-		
-		border = new GPolyline( line);
-		
-		GStyle style = new GStyle();
-		style.setForegroundColor ( GColor.red );
-	
-		style.setFillPattern(GStyle.FILL_NONE);
-		style.setLineWidth (2);
-		border.setStyle (style);
-		
-		
-		add(border);
-				
-		
-		
-	}
 	
 	
 	@Override
@@ -142,7 +97,7 @@ public class GMeshPatchView extends GPatchView {
 	}
 				
 	private void updateColorsFromBg() {
-		for( Object segment : getSegments() ){
+		/*for( Object segment : getSegments() ){
 			if ( segment instanceof GCell ){
 				GCell gcell = (GCell)segment;
 				GStyle style = gcell.getStyle();
@@ -157,16 +112,16 @@ public class GMeshPatchView extends GPatchView {
 					IPropertyAccessor accessor = currentProp.getAccessor();
 					PropertyLocation location = cell.getLocation(mesh.getGeometryProvider());
 					values[0] = accessor.getValue(location).real();
-					gcell.setValues(values);
+					//gcell.setValues(values);
 				}
 			}
-		}
+		}*/
 	}
 
 	private void updateColorsFromMap() {
 		
 	
-		
+		/*
 		for( Object segment : getSegments() ){
 			if ( segment instanceof GCell ){
 				GCell gcell = (GCell)segment;
@@ -185,12 +140,12 @@ public class GMeshPatchView extends GPatchView {
 					values[i] = accessor.getValue(location).real();
 				}
 				
-				gcell.setValues(values);
+				//gcell.setValues(values);
 				style.setColormap(colormap);
 				style.unsetBackgroundColor();
 
 			}
-		}
+		}*/
 	}
 	
 	private GColor getColor(Cell cell) {
@@ -198,7 +153,7 @@ public class GMeshPatchView extends GPatchView {
 		
 		GColor color = null;
 		if ( null != currentProp ){
-			
+			/*
 			
 			PropertyLocation location = cell.getLocation(mesh.getGeometryProvider());
 			IPropertyValue val = currentProp.getAccessor().getValue( location );
@@ -209,6 +164,7 @@ public class GMeshPatchView extends GPatchView {
 			else {
 				color = colormap.getColor( val.real() );
 			}
+			*/
 		}
 		else {
 			color = getPatchColor();

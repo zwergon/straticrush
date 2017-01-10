@@ -3,7 +3,7 @@ package stratifx.application.views;
 import java.awt.Color;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;

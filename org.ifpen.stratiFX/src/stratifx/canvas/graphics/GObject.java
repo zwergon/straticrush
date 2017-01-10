@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.ifp.kronosflow.geometry.CoordSystem;
+
 
 
 /**
@@ -165,7 +167,7 @@ public class GObject
    * 
    * @return  The region of this graphic object.
    */
-  GRegion getRegion()
+  public GRegion getRegion()
   {
     return region_;
   }
@@ -1730,4 +1732,13 @@ public class GObject
   {
     return "GObject: " + name_;
   }
+
+
+  /**
+   * return a {@link GColor} at some location in device coordinates.
+   */
+  public GColor getColor( int x, int y ) {
+	  return null;
+  }
+
 }

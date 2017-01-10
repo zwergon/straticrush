@@ -1,10 +1,5 @@
 package stratifx.canvas.graphics;
 
-
-import java.io.File;
-
-
-
 public class GImage extends GPositional {
 
 	 // Some predefined images suitable for use as vertex images
@@ -21,8 +16,7 @@ public class GImage extends GPositional {
 	                                                   GPosition.STATIC;
 	  
 	 
-	  protected int[]    imageData_;
-	  protected File   file_;
+	  protected int[]  imageData_;
 
 
 	  /**
@@ -103,51 +97,11 @@ public class GImage extends GPositional {
 	    this (width, height, data, DEFAULT_POSITION_HINT);
 	  }
 	  
-	 	 
-	  /**
-	   * Create an image from a file. The following formats are supported:
-	   *
-	   * <ul>
-	   * <li>BMP
-	   * <li>FPX
-	   * <li>GIF
-	   * <li>JPEG
-	   * <li>PNG
-	   * <li>PNM
-	   * <li>TIFF
-	   * </ul>
-	   *
-	   * @see GAwtImage#setPositionHint(int)   
-	   * 
-	   * @param file          Image file.
-	   * @param positionHint  Position hint.
-	   */
-	  public GImage (File file, int positionHint)
-	  {
-	    super (positionHint, true);
-	    
-	    //TODO load image data.
-	    file_ = file;
-	  }
-	  
-	  /**
-	   * Create an image from a file. Use default position hints.
-	   * 
-	   * @param file  Image file. 
-	   */
-	  public GImage (File file)
-	  {
-	    this (file, DEFAULT_POSITION_HINT);
-	  }
-
 	  
 	  public int[] getImageData(){
 		  return imageData_;
 	  }
-	  
-	  
-	  
-
+	   
 	  /**
 	   * Set image data.
 	   * 
@@ -155,7 +109,7 @@ public class GImage extends GPositional {
 	   * @param height  Height of image.
 	   * @param data    Color values of image.
 	   */
-	  private void setImage (int width, int height, int data[])
+	  protected void setImage (int width, int height, int data[])
 	  {
 	    rectangle_.width  = width;
 	    rectangle_.height = height;
