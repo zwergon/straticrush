@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.util.Random;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.property.Property;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
@@ -15,7 +17,7 @@ import stratifx.canvas.graphics.GStyle;
 
 public class GPatchView extends GView {
 	
-	GObject border = null;
+	GPolyline border = null;
 		
 	boolean withPatchGrid = true;
 	
@@ -91,7 +93,16 @@ public class GPatchView extends GView {
 	
 	@Override
 	public void modelChanged( IControllerEvent<?> event ) {	
-		 redraw();
+		
+		if ( event instanceof PropertyEvent ){
+			PropertyEvent propEvent = (PropertyEvent)event;
+			
+			GProperty gProperty = new GProperty( propEvent.getObject(), getObject() );
+			border.setProperty( gProperty );
+			
+		}
+		
+		redraw();
 	}
 
 	

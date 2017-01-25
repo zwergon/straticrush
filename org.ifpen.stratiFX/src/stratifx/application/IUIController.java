@@ -4,6 +4,7 @@ public interface IUIController {
 	
 	public static enum Type {
 		MAIN,
+		TREE,
 		PLOT
 	};
 	

@@ -10,15 +10,10 @@ import stratifx.canvas.graphics.GScene;
 public class NodeMoveInteraction extends DeformationInteraction {
 
 	
-	public NodeMoveInteraction( GScene scene, String type ){
+	public NodeMoveInteraction( GScene scene ){
 		super(scene);
-		init(scene, type);
 	}
 	
-	protected void init(GScene scene, String type) {		
-		getCaller().setDeformation( createDeformation(type) );
-	}
-
 	@Override
 	public CompositeManipulator createManipulator(GScene gscene, DeformationControllerCaller caller ) {
 		return new Vector2DManipulator(gscene, caller);

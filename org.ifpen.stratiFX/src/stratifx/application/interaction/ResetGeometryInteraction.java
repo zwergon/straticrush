@@ -19,7 +19,6 @@ public class ResetGeometryInteraction extends DeformationInteraction {
 
 	public ResetGeometryInteraction( GScene scene ) {
 		super( scene);
-		getCaller().setDeformation( new ResetDeformation() );
 	}
 
 
@@ -45,8 +44,10 @@ public class ResetGeometryInteraction extends DeformationInteraction {
 		case GMouseEvent.BUTTON_DOWN :
 			Patch patch = getSelectedPatch(event.x, event.y);
 			if ( patch !=  null ){
-					getCaller().setScene( SceneBuilder.createDefaultScene(patch) );
-					getCaller().applyAndNotify();;
+				
+					DeformationControllerCaller caller = createCaller();
+					caller.setScene( SceneBuilder.createDefaultScene(patch) );
+					caller.applyAndNotify();;
 					scene.refresh();		
 				
 			}

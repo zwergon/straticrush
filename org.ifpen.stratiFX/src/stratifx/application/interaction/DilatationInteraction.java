@@ -8,9 +8,8 @@ import stratifx.canvas.graphics.GScene;
 
 public class DilatationInteraction extends DeformationInteraction {
 
-	public DilatationInteraction(GScene scene, String type) {
+	public DilatationInteraction(GScene scene) {
 		super(scene);
-		getCaller().setDeformation( createDeformation(type) );
 	}
 
 	@Override

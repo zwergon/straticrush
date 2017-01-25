@@ -51,8 +51,6 @@ public class GFXScene extends GScene implements ICanvas {
 
 	Canvas canvas;
 	
-	GColorMap colormap;
-
 
 	static private Map<String, String> mapViews;
 
@@ -80,7 +78,7 @@ public class GFXScene extends GScene implements ICanvas {
 
 		this.canvas = canvas;
 		
-		colormap = new GColorMap();
+	
 
 		Bounds localB = canvas.getLayoutBounds();
 		initialize(
@@ -107,9 +105,7 @@ public class GFXScene extends GScene implements ICanvas {
 	}
 
 	
-	public GColorMap getColorMap(){
-		return colormap;
-	}
+	
 
 	public GView createView( Object object ){
 

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -46,6 +47,12 @@
                   </Menu>
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Properties">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onPropertiesXYAction" text="XY" />
+                  <MenuItem mnemonicParsing="false" onAction="#onPropertiesPorosityAction" text="Porosity" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
@@ -57,11 +64,20 @@
    <right>
       <ToolBar blendMode="SRC_ATOP" orientation="VERTICAL" BorderPane.alignment="CENTER_RIGHT">
         <items>
+            <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onTreeUIAction">
+               <graphic>
+                  <ImageView accessibleRole="TOGGLE_BUTTON" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/zoomIn.gif" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </ToggleButton>
           <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
                <graphic>
                   <ImageView accessibleRole="BUTTON" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/oneOne.gif" />
+                        <Image url="@../../icons/oneOne.gif" />
                      </image>
                   </ImageView>
                </graphic></Button>

@@ -3,6 +3,12 @@ package stratifx.application.plot;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
+import fr.ifp.kronosflow.model.factory.SceneStyle;
+import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
+import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
+import fr.ifp.kronosflow.model.style.Style;
+import fr.ifp.kronosflow.model.style.StyleManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
@@ -17,9 +23,11 @@ import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import stratifx.application.GParameters;
 import stratifx.application.IUIController;
 import stratifx.application.UIAction;
-import stratifx.application.interaction.InterationUIAction;
+import stratifx.application.interaction.DeformationInteraction;
+import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.NodeMoveInteraction;
 import stratifx.application.interaction.ResetGeometryInteraction;
 import stratifx.application.interaction.TopBorderInteraction;
@@ -350,7 +358,7 @@ public class PlotController
 			restoreZoom();
 			break;
 			
-		case InterationUIAction.Interaction:
+		case InteractionUIAction.Interaction:
 			return handleInteractionAction( action );
 		}
 		return true;
@@ -365,9 +373,50 @@ public class PlotController
 	
 	private boolean handleInteractionAction(UIAction action) {
 
-		InterationUIAction uiAction = (InterationUIAction)action;
-
+		InteractionUIAction uiAction = (InteractionUIAction)action;
+		
 		String deformationType = uiAction.getDeformationType();
+		
+		Style style = StyleManager.getInstance().createStyle();
+		SceneStyle sceneStyle = new SceneStyle(style);
+		if ( 	deformationType.equals("VerticalShear") ||
+				deformationType.equals("FlexuralSlip") ||
+				deformationType.equals("MovingLS")){
+			sceneStyle.setGridType(GridType.LINE);
+			sceneStyle.setNatureType(NatureType.EXPLICIT);
+		}
+		else {
+			sceneStyle.setGridType(GridType.TRGL );
+			sceneStyle.setNatureType(NatureType.EXPLICIT);
+		}
+
+		if ( 	deformationType.equals("VerticalShear") ||
+				deformationType.equals("FlexuralSlip") ||
+				deformationType.equals("MovingLS") ||
+				deformationType.equals("ChainMail") ||
+				deformationType.equals("MassSpring") || 
+				deformationType.equals("Reset") ){
+			style.setAttribute( Kind.DEFORMATION.toString(), deformationType );
+		}
+		else if ( 
+				deformationType.equals("Dynamic") ||
+				deformationType.equals("Static") ||
+				deformationType.equals("StaticLS") ||
+				deformationType.equals("FEM2D")  ) {
+			style.setAttribute( Kind.DEFORMATION.toString(), "NodeLinksDeformation" );
+			style.setAttribute( Kind.SOLVER.toString(), deformationType );
+		}
+		else if ( deformationType.equals("Thermal") ||
+				deformationType.equals("Decompaction") ){
+			style.setAttribute( Kind.DEFORMATION.toString(), "DilatationDeformation" );
+			style.setAttribute( "DilatationType", deformationType );
+		}
+		else {
+			assert false : "This deformation parameter is not handled";
+		}
+		
+		DeformationInteraction interaction = null;
+		
 		if (    deformationType.equals( "FEM2D" ) ||
 				deformationType.equals( "VerticalShear" ) ||
 				deformationType.equals( "FlexuralSlip" ) ||
@@ -376,15 +425,19 @@ public class PlotController
 				deformationType.equals( "Static" ) ||
 				deformationType.equals( "StaticLS" ) ||
 				deformationType.equals( "Dynamic" )  ){
-			startInteraction( new TopBorderInteraction(gfxScene, deformationType ) );
-			return true;
+			interaction = new TopBorderInteraction(gfxScene);
 		}
 		else if ( deformationType.equals( "ChainMail" ) ||
 				deformationType.equals( "MassSpring" ) ){
-			startInteraction( new NodeMoveInteraction(gfxScene, deformationType ) );
+			interaction = new NodeMoveInteraction( gfxScene );
 		}
-		else if  ( uiAction.getDeformationType().equals( "Reset" ) ){
-			startInteraction( new ResetGeometryInteraction(gfxScene) );
+		else if  ( deformationType.equals( "Reset" ) ){
+			interaction = new ResetGeometryInteraction(gfxScene);
+		}
+		
+		if ( interaction != null ){
+			interaction.setStyle(style) ;
+			startInteraction( interaction );
 			return true;
 		}
 

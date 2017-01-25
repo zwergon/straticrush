@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.warp.IWarp;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GImage;
@@ -13,9 +14,11 @@ import stratifx.canvas.graphics.GPosition;
 import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.graphics.GText;
+import stratifx.canvas.graphics.GTransformer;
 
 public class GPolyline extends GDeformableObject  {
 
+	GProperty gProperty;
 	
 	GSegment border;
 
@@ -120,6 +123,24 @@ public class GPolyline extends GDeformableObject  {
 		}
 		
 		border.setWorldGeometry(xpts, ypts);
+	}
+
+	public void setProperty(GProperty gProperty) {
+		this.gProperty = gProperty;
+		border.createTexture();	
+	}
+	
+	
+	@Override
+	public GColor getColor(int x, int y) {
+		
+		if ( gProperty != null ){
+			GTransformer transformer = getScene().getTransformer();
+			double[] wCoord = transformer.deviceToWorld(x, y);
+			return gProperty.getColor( wCoord );
+		}
+		
+		return GColor.black;
 	}
 
 }

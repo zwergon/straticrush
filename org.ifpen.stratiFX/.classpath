@@ -12,6 +12,6 @@
 	<classpathentry kind="lib" path="/fr.ifp.kronosflow.uids/bin"/>
 	<classpathentry kind="lib" path="/commons-logging/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="/commons-logging/commons-math-2.2.jar"/>
-	<classpathentry kind="lib" path="/kronosflow/fr.ifp.kronosflow.kernel/bin" sourcepath="/kronosflow/fr.ifp.kronosflow.kernel/src"/>
+	<classpathentry kind="lib" path="/fr.ifp.kronosflow.kernel/bin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

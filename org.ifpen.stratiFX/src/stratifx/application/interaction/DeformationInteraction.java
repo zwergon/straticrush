@@ -4,31 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-import fr.ifp.jdeform.controllers.DeformEvent;
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.DeformationFactory;
-import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLinkType;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
-import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
-import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.polyline.IPolyline;
-import stratifx.application.GParameters;
+import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.application.views.GPatchView;
@@ -49,8 +46,10 @@ public abstract class DeformationInteraction implements GInteraction {
 	protected boolean isJobFinished = false;
 	
 	protected GScene    scene_;
-			
-	protected DeformationControllerCaller caller = null;
+				
+	protected GeoschedulerLink link = null;
+	
+	private Style style;
 		
 	/** horizons that may be a target for deformation ordered using straticolumn */
 	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
@@ -62,14 +61,15 @@ public abstract class DeformationInteraction implements GInteraction {
 			GScene gscene, 
 			DeformationControllerCaller caller );
 	
-
+	
 	public DeformationInteraction( GScene scene ){
 		scene_ = scene;
-		caller = (DeformationControllerCaller)StratiFXService.instance.createCaller("Deformation");
 		manipulator = null;
-	
 	}
 	
+	public void setStyle( Style style ){
+		this.style = style;
+	}
 	
 	public Geoscheduler getScheduler(){
 		
@@ -89,6 +89,9 @@ public abstract class DeformationInteraction implements GInteraction {
 	public void end() {
 		if ( moveJob != null ) {
 			getCaller().publish();
+			
+			getScheduler().addLink( link );
+			
 			moveJob = null;
 			
 		}
@@ -103,8 +106,34 @@ public abstract class DeformationInteraction implements GInteraction {
 		
 	}
 
+	public DeformationController getController(){
+		if ( null != link ){
+			return getCaller().getController();
+		}
+		
+		return null;
+	}
 	
 	public DeformationControllerCaller getCaller(){
+		if ( null != link ){
+			return (DeformationControllerCaller) link.getCaller();
+		}
+		return null;
+	}
+	
+	protected DeformationControllerCaller createCaller(){
+		DeformationControllerCaller caller = 
+				(DeformationControllerCaller)StratiFXService.instance.createCaller("Deformation");
+		
+		Deformation deformation = DeformationFactory.getInstance().createDeformation(style);
+		if ( null == deformation ){
+			LOGGER.debug("no deformation found", getClass());
+		}
+		
+		caller.setDeformation( deformation );
+		
+		link = new GeoschedulerLink(GeoschedulerLinkType.DEFORMATION, caller);
+		
 		return caller;
 	}
 	
@@ -148,11 +177,11 @@ public abstract class DeformationInteraction implements GInteraction {
 			return false;
 		}
 		
-		DeformationController controller = getCaller().getController();
 		
+		DeformationController controller = getController();
 		
 		//can not interact during run of a simulation
-		if ( controller.isRunning() ){
+		if ( (controller != null) && controller.isRunning() ){
 			return false;
 		}
 
@@ -164,8 +193,7 @@ public abstract class DeformationInteraction implements GInteraction {
 				Patch patch = getSelectedPatch(event.x, event.y );
 				if ( patch !=  null ){
 
-					DeformationControllerCaller caller = getCaller();
-					//caller.revert();
+					DeformationControllerCaller caller = createCaller();
 
 					caller.clear();
 					caller.setScene( createScene(patch) );
@@ -244,21 +272,12 @@ public abstract class DeformationInteraction implements GInteraction {
 				break;
 			case GKeyEvent.VK_Z:
 				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
-					 ( moveJob == null ) ){	
-					getCaller().revert();
-					getCaller().publish();
+						( moveJob == null ) ){	
+					getScheduler().removeCurrent();
 					scene_.refresh();
 				}
 				break;
 			
-			case GKeyEvent.VK_Y:
-				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
-					 ( moveJob == null ) ){	
-					getCaller().getEventList().add( new DeformEvent(getCaller().getScene()) );
-					getCaller().publish();
-					scene_.refresh();
-				}
-				break;
 			case GKeyEvent.VK_P:
 				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
 					 ( moveJob == null ) ){	
@@ -287,7 +306,7 @@ public abstract class DeformationInteraction implements GInteraction {
 		}
 		
 		
-		return SceneBuilder.createDefaultScene(patch, GParameters.getStyle() );
+		return SceneBuilder.createDefaultScene(patch, style );
 	}
 
 	
@@ -326,53 +345,6 @@ public abstract class DeformationInteraction implements GInteraction {
 	}
 	
 	
-	protected Deformation createDeformation( String type ){
-
-		Style style = GParameters.getStyle();
-
-		SceneStyle sceneStyle = new SceneStyle(style);
-		if ( 	type.equals("VerticalShear") ||
-				type.equals("FlexuralSlip") ||
-				type.equals("MovingLS")){
-			sceneStyle.setGridType(GridType.LINE);
-			sceneStyle.setNatureType(NatureType.EXPLICIT);
-		}
-		else {
-			sceneStyle.setGridType(GridType.TRGL );
-			sceneStyle.setNatureType(NatureType.EXPLICIT);
-		}
-
-		if ( 	type.equals("VerticalShear") ||
-				type.equals("FlexuralSlip") ||
-				type.equals("MovingLS") ||
-				type.equals("ChainMail") ||
-				type.equals("MassSpring") ){
-			style.setAttribute( Kind.DEFORMATION.toString(), type );
-		}
-		else if ( 
-				type.equals("Dynamic") ||
-				type.equals("Static") ||
-				type.equals("StaticLS") ||
-				type.equals("FEM2D")  ) {
-			style.setAttribute( Kind.DEFORMATION.toString(), "NodeLinksDeformation" );
-			style.setAttribute( Kind.SOLVER.toString(), type );
-		}
-		else if ( type.equals("Thermal") ||
-				type.equals("Decompaction") ){
-			style.setAttribute( Kind.DEFORMATION.toString(), "DilatationDeformation" );
-			style.setAttribute( "DilatationType", type );
-		}
-		else {
-			assert false : "This deformation parameter is not handled";
-		}
-
-
-
-		Deformation deformation = (Deformation)DeformationFactory.getInstance().createDeformation(style);
-
-		return deformation;
-	}
-
 
 
 	

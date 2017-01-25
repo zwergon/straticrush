@@ -2,9 +2,7 @@ package stratifx.application.interaction;
 
 import stratifx.application.UIAction;
 
-public class InterationUIAction extends UIAction {
-	
-	public static final int Interaction = UIAction.Last+1;
+public class InteractionUIAction extends UIAction {
 	
 	String deformationType;
 	
@@ -12,18 +10,18 @@ public class InterationUIAction extends UIAction {
 	
 	String callerType;
 
-	public InterationUIAction( String deformationType, String manipulatorType, String callerType ) {
+	public InteractionUIAction( String deformationType, String manipulatorType, String callerType ) {
 		super(Interaction);
 		this.deformationType = deformationType;
 		this.manipulatorType = manipulatorType;
 		this.callerType = callerType;
 	}
 	
-	public InterationUIAction( String deformationType, String manipulatorType ) {
+	public InteractionUIAction( String deformationType, String manipulatorType ) {
 		this( deformationType, manipulatorType, null );
 	}
 	
-	public InterationUIAction( String deformationType ) {
+	public InteractionUIAction( String deformationType ) {
 		this( deformationType, null, null );
 	}
 

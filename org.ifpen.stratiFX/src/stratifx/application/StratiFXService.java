@@ -11,12 +11,18 @@ import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.controllers.property.PropertyController;
+import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
 import fr.ifp.kronosflow.controllers.units.PatchDeleteEvent;
 import fr.ifp.kronosflow.controllers.units.UnitRemovedItem;
 import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerTree;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
@@ -27,6 +33,7 @@ import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
+import fr.ifp.kronosflow.model.graph.GraphEdge;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
@@ -36,10 +43,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
+import stratifx.application.properties.PorosityComputer;
+import stratifx.application.properties.PropertiesUIAction;
+import stratifx.application.properties.XYPropertyComputer;
 
 public class StratiFXService implements IUIController, IControllerService {
 	
-	Section section;
+	GeoschedulerSection section;
 	
 	private Stage primaryStage;
 	
@@ -52,12 +62,27 @@ public class StratiFXService implements IUIController, IControllerService {
 	}
 	
 	protected StratiFXService() {
+		
 		controllers = new HashMap<IUIController.Type, IUIController>();
 		
 		KronosContext.registerClass( Section.class,  GeoschedulerSection.class );
 		KronosContext.registerClass( PolyLine.class, ExplicitPolyLine.class );
 		KronosContext.registerClass( IExtension.class, RayExtension.class );
 		KronosContext.registerClass( IPropertyAccessor.class, ImagePropertyAccessor.class );
+		
+		PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder() );
+		PropertyController.registerBuilder("Porosity", new PorosityComputer.Builder());
+		//PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
+		//PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
+		
+		//PropertyController.registerBuilder("Strate Orientation", new StrateOrientationComputer.Builder() );
+		//PropertyController.registerBuilder("SolidSurface", new SolidSurfaceComputer.Builder() );
+		
+		
+	}
+	
+	public Section getSection() {
+		return section;
 	}
 	
 	public void setPrimaryStage( Stage primaryStage ){
@@ -72,6 +97,11 @@ public class StratiFXService implements IUIController, IControllerService {
 	public void registerController( IUIController.Type type, IUIController controller ){
 		controllers.put( type, controller );
 	}
+	
+	public void removeController(Type type) {
+		controllers.remove(type);
+	}
+
 	
 	public void broadCastAction( UIAction action ){
 		
@@ -105,11 +135,30 @@ public class StratiFXService implements IUIController, IControllerService {
 		switch(action.getType()){
 		case UIAction.Open:
 			return handleOpen();
-		}	
+		
+		case UIAction.Properties:
+			return handleProperties( (PropertiesUIAction) action );
+		}
+		
 		return false;
 	}
 
 	
+
+	private boolean handleProperties(PropertiesUIAction action) {
+		
+		PropertyControllerCaller caller = new PropertyControllerCaller( this );
+		caller.setPropertyKey( action.getProperty() );
+		caller.applyAndNotify();
+
+		PlotController plot = (PlotController)controllers.get(IUIController.Type.PLOT);
+
+		GFXScene gfxScene = plot.getGFXScene();
+		gfxScene.refresh();
+
+		return true;
+
+	}
 
 	private boolean handleOpen() {
 		
@@ -126,7 +175,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
 		LOGGER.debug("load " + basename , this.getClass() );
 
-		section = KronosContext.make(Section.class);
+		section = new GeoschedulerSection();
 		section.setName(basename);
 		
 		SceneStyle sceneStyle = new SceneStyle(section.getStyle());
@@ -183,8 +232,9 @@ public class StratiFXService implements IUIController, IControllerService {
 	    return null;
 	}
 
-	public Section getSection() {
-		return section;
+	@Override
+	public void preHandle(ControllerEventList eventList) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -219,10 +269,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
 	}
 
-	@Override
-	public void preHandle(ControllerEventList eventList) {
-		// TODO Auto-generated method stub
-	}
+	
 
 	@Override
 	public List<String> deactivateActiveManipulators() {
@@ -236,6 +283,8 @@ public class StratiFXService implements IUIController, IControllerService {
 		
 	}
 
+
+	
 
 	
 	
