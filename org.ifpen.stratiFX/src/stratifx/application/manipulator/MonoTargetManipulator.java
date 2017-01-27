@@ -14,6 +14,7 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
+import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
 
@@ -60,7 +61,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 		
 		super.onMousePress(event);
 		
-		selectedHorizon = findHorizonFeature( start );
+		selectedHorizon = targetsExtractor.findHorizonFeature( start );
 		
 		
 		if ( null != selectedHorizon ){
@@ -87,7 +88,7 @@ public class MonoTargetManipulator extends CompositeManipulator  {
 
         LinePointPair I = lineInter.getFirstIntersection(selectedHorizon.getInterval());
         if (null != I) {
-            selectedPatchGraphic.addTarget(I.getPoint().getLine());
+            selectedPatchGraphic.addTarget(I.getPoint().getLine(), GColor.BLUE.darker() );
         }
         
 		

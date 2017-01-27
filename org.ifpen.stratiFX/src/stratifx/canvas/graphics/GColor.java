@@ -28,8 +28,9 @@
 
 package stratifx.canvas.graphics;
 
+import java.awt.Color;
 
-  /**
+/**
    * The <code>Color</code> class is used to encapsulate colors in the default
    * sRGB color space or colors in arbitrary color spaces identified by a
    * {@link ColorSpace}.  Every color has an implicit alpha value of 1.0 or
@@ -1011,6 +1012,11 @@ package stratifx.canvas.graphics;
                f[i] = fvalue[i];
            }
            return f;
+       }
+       
+       
+       public static GColor fromAWTColor( Color color ){
+    	   return new GColor(color.getRGB());
        }
 
 	

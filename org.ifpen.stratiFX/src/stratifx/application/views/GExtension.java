@@ -1,6 +1,7 @@
 package stratifx.application.views;
 
 import fr.ifp.kronosflow.extensions.IExtension;
+import fr.ifp.kronosflow.extensions.IExtensionPoint;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.polyline.LinePoint;
 import stratifx.canvas.graphics.GSegment;
@@ -9,6 +10,8 @@ public class GExtension extends GSegment {
 		
 		private double length;
 	
+		IExtensionPoint ep;
+		
 		public GExtension( IExtension extension, double length ){
 			setUserData(extension);
 			this.length = length;
@@ -21,7 +24,6 @@ public class GExtension extends GSegment {
 		
 		public void draw(){
 
-		
 			IExtension extension = getExtension();
 			
 			if ( extension instanceof RayExtension ){
@@ -40,9 +42,17 @@ public class GExtension extends GSegment {
 				
 				xpts[0] = pos[0];
 				ypts[0] = pos[1];
-
-				xpts[1] = pos[0] + dir[0]*length;
-				ypts[1] = pos[1] + dir[1]*length;
+				
+				if ( ep != null ){
+					double[] exy = new double[2];
+					extension.getPosition(ep, exy);
+					xpts[1] = exy[0];
+					ypts[1] = exy[1];
+				}
+				else {
+					xpts[1] = pos[0] + dir[0]*length;
+					ypts[1] = pos[1] + dir[1]*length;
+				}
 				
 				setWorldGeometry(xpts, ypts);
 			}
@@ -51,6 +61,10 @@ public class GExtension extends GSegment {
 			
 		
 
+		}
+
+		public void addExtendedPoint(IExtensionPoint ep) {
+			this.ep = ep;
 		}
 
 }

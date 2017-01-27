@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.geometry.CoordSystem;
+import fr.ifp.kronosflow.utils.LOGGER;
 
 
 

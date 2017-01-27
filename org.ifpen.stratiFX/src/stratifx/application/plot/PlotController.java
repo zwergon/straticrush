@@ -415,25 +415,19 @@ public class PlotController
 			assert false : "This deformation parameter is not handled";
 		}
 		
-		DeformationInteraction interaction = null;
+		String manipulatorType = uiAction.getManipulatorType();
 		
-		if (    deformationType.equals( "FEM2D" ) ||
-				deformationType.equals( "VerticalShear" ) ||
-				deformationType.equals( "FlexuralSlip" ) ||
-				deformationType.equals( "MovingLS" ) ||
-				deformationType.equals( "Dynamic" ) ||
-				deformationType.equals( "Static" ) ||
-				deformationType.equals( "StaticLS" ) ||
-				deformationType.equals( "Dynamic" )  ){
+		DeformationInteraction interaction = null;
+		if (    manipulatorType.equals( "Top" )  ){
 			interaction = new TopBorderInteraction(gfxScene);
 		}
-		else if ( deformationType.equals( "ChainMail" ) ||
-				deformationType.equals( "MassSpring" ) ){
+		else if ( manipulatorType.equals( "NodeMove" )  ){
 			interaction = new NodeMoveInteraction( gfxScene );
 		}
-		else if  ( deformationType.equals( "Reset" ) ){
+		else if  ( manipulatorType.equals( "Reset" ) ){
 			interaction = new ResetGeometryInteraction(gfxScene);
 		}
+		
 		
 		if ( interaction != null ){
 			interaction.setStyle(style) ;

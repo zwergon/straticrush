@@ -39,7 +39,7 @@ public class HorizonManipulator extends CompositeManipulator {
 		GFXScene gfxScene = (GFXScene)gscene;
 		GTransformer transformer = gscene.getTransformer();
 		double[] w_pos = transformer.deviceToWorld(event.x, event.y);
-		PatchInterval selectedHorizon = findHorizonFeature( w_pos );
+		PatchInterval selectedHorizon = targetsExtractor.findHorizonFeature( w_pos );
 		if ( null != selectedHorizon ){
 			if ( null != horizonView ){
 				gfxScene.destroyView(horizonView);

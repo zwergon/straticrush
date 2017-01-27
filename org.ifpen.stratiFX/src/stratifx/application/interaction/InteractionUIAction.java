@@ -28,6 +28,10 @@ public class InteractionUIAction extends UIAction {
 	public String getDeformationType() {
 		return deformationType;
 	}
+
+	public String getManipulatorType() {
+		return manipulatorType;
+	}
 	
 	
 

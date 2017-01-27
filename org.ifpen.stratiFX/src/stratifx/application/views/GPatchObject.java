@@ -6,10 +6,17 @@ import java.util.List;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.extensions.ray.ExtensionPoint;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
+import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.ICurviPoint.CoordType;
 import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.polyline.LinePoint;
+import fr.ifp.kronosflow.polyline.LinePointPair;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
@@ -18,7 +25,7 @@ public class GPatchObject extends GView  {
 	
 	boolean withPatchGrid = true;
 		
-	List<GPolyline> targets = new ArrayList<GPolyline>();
+	List<GDeformableObject> targets = new ArrayList<GDeformableObject>();
 	
 	public GPatchObject(){
 		super("Interaction");
@@ -45,8 +52,16 @@ public class GPatchObject extends GView  {
 	
 	public void addInterval( PatchInterval interval ){
 		
-		GInterval gInterval = new GInterval(interval);
+		
+		FeatureInterval featureInterval = interval.getInterval();
+		GInterval gInterval = new GInterval( featureInterval );
+		gInterval.enableDeformation(false);
 		add( gInterval );
+		
+		GStyle style = new GStyle();
+		style.setForegroundColor( GColor.fromAWTColor(interval.getColor() )  );
+		style.setLineWidth(2);
+		gInterval.setStyle( style );
 		
 		gInterval.draw();
 	}
@@ -81,26 +96,73 @@ public class GPatchObject extends GView  {
 	
 	
 	public void clearTargets(){
-		for ( GPolyline line : targets ){
+		for ( GDeformableObject line : targets ){
 			remove(line);
 		}
 		targets.clear();
 	}
+	
+	
+	public void addTarget( LinePoint lp, GColor color ) {
+		
+		ICurviPoint cp = lp.getCurviPoint();
+		IPolyline targetLine = lp.getLine();
+		
+		GDeformableObject gline  = null;
+		
+		if  ( targetLine instanceof FeatureInterval ) {
+			
+			GInterval gInterval = new GInterval( (FeatureInterval)targetLine );
+			if ( cp.getType() == CoordType.EXTENDED ){
+				gInterval.addExtendedPoint( (ExtensionPoint)cp );
+			}
+			
+			gline = gInterval;
+		}
+		else {
+			gline = new GPolyline( targetLine );
+		}
+		
 
-	public void addTarget(IPolyline targetLine) {
-		
-		GPolyline gline  = new GPolyline( targetLine );
-		
 		
 		GStyle style = new GStyle();
-		style.setForegroundColor( GColor.BLUE  );
+		style.setForegroundColor( color  );
+		style.setLineWidth(2);
 		gline.setStyle( style );
 		
 		add( gline );
-	
-		targets.add( gline );		
 		
 		gline.draw();
+		
+
+		targets.add( gline );		
+		
+	}
+
+	public void addTarget(IPolyline targetLine, GColor color ) {
+		
+		GDeformableObject gline  = null;
+		if ( targetLine instanceof FeatureInterval ){
+			gline = new GInterval( (FeatureInterval)targetLine );
+			
+		}
+		else {
+			gline = new GPolyline( targetLine );
+		}
+		
+		
+		GStyle style = new GStyle();
+		style.setForegroundColor( color  );
+		style.setLineWidth(2);
+		gline.setStyle( style );
+		
+		add( gline );
+		
+		gline.draw();
+		
+
+		targets.add( gline );		
+		
 	}
 	
 	
@@ -114,6 +176,8 @@ public class GPatchObject extends GView  {
 			break;	 
 		}
 	}
+
+	
 
 
 }

@@ -72,15 +72,15 @@ public class MainController implements Initializable, IUIController {
 	}
 	
 	@FXML void onDeformResetAction( ActionEvent event ){
-		StratiFXService.instance.broadCastAction( new InteractionUIAction("Reset") );
+		StratiFXService.instance.broadCastAction( new InteractionUIAction("Reset", "Reset") );
 	}
 
 	@FXML void onDeformNodeChainMailAction( ActionEvent event ){
-		StratiFXService.instance.broadCastAction( new InteractionUIAction("ChainMail", "Top" ) );
+		StratiFXService.instance.broadCastAction( new InteractionUIAction("ChainMail", "NodeMove" ) );
 	}
 
 	@FXML void onDeformNodeMassAction( ActionEvent event ){
-		StratiFXService.instance.broadCastAction( new InteractionUIAction("MassSpring", "Top" ) );
+		StratiFXService.instance.broadCastAction( new InteractionUIAction("MassSpring", "NodeMove" ) );
 	}
 	
 	@FXML void onDeformTopVSAction( ActionEvent event ){

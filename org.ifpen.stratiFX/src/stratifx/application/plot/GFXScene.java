@@ -19,6 +19,7 @@ import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
 import fr.ifp.kronosflow.model.triangulation.TrglPatch;
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -327,6 +328,8 @@ public class GFXScene extends GScene implements ICanvas {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	
 
 }

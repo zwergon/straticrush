@@ -17,7 +17,7 @@ public class GPatchIntervalView extends GView {
 		
 		PatchInterval interval = getPatchInterval();
 			
-		gline = new GInterval(interval);
+		gline = new GInterval( interval.getInterval() );
 		add(gline);
 		
 		gline.draw();

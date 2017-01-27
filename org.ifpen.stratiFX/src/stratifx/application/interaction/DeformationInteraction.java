@@ -26,8 +26,10 @@ import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.utils.LOGGER;
+import javafx.application.Platform;
 import stratifx.application.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
+import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GPatchView;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
@@ -207,7 +209,10 @@ public abstract class DeformationInteraction implements GInteraction {
 				manipulator.onMousePress(event);
 			}
 
+			
 			scene_.refresh();
+			
+			
 			
 			break;
 
@@ -309,22 +314,7 @@ public abstract class DeformationInteraction implements GInteraction {
 		return SceneBuilder.createDefaultScene(patch, style );
 	}
 
-	
-	private void getPotentialTargets( Patch patch ){
-		for( KinObject object : patch.getChildren() ){
-			if ( object instanceof FeatureGeolInterval ){
-				FeatureInterval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				
-				BoundaryFeature bf = fgInterval.getFeature();
-				
-				if ( bf instanceof StratigraphicEvent ){
-					StratigraphicEvent se = (StratigraphicEvent)bf;
-					potentialHorizonTargets.add( fgInterval );
-				}
-			}
-		}
-	}
-	
+
 	
 	class DeformationThread extends Thread {
 		
@@ -345,7 +335,6 @@ public abstract class DeformationInteraction implements GInteraction {
 	}
 	
 	
-
 
 	
 

@@ -5,6 +5,7 @@ import java.util.List;
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
+import fr.ifp.jdeform.controllers.scene.algo.TargetsExtractor;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
@@ -16,6 +17,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
+import fr.ifp.kronosflow.polyline.IPolylineProvider;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import stratifx.application.views.GPatchObject;
@@ -40,8 +42,12 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 	List<IRigidItem> rigidItems;
 	
 	TranslationController translateController;
-
 	
+	
+	protected TargetsExtractor targetsExtractor;
+	
+	List<IPolylineProvider> potentialHorizon;
+
 	public CompositeManipulator( 
 			GScene gscene, 
 			DeformationControllerCaller caller ){
@@ -50,6 +56,8 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		
 		translateController = new TranslationController();
 		translateController.setScene(caller.getScene());
+		
+		targetsExtractor = new TargetsExtractor(caller.getScene());
 		
 	}
 	
@@ -126,11 +134,15 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		return rigidItems;
 	}
 	
+	
 
 	@Override
 	public void activate() {
 		
 		Scene scene = deformationCaller.getScene();
+		
+		createPotentialTargets();
+		
 		if ( null != scene.getSelected() ){
 			selectedPatchGraphic = new GPatchObject();
 			gscene.add(selectedPatchGraphic);
@@ -184,46 +196,13 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 		}		
 		return nearest_node;
 	}
+	
+
+	protected void createPotentialTargets(){
+		potentialHorizon = targetsExtractor.getHorizonTargets();
+	}
 
 	
-	/**
-	 * retrieves the {@link PatchInterval} of type c that is nearest of ori.
-	 * @see findHorizonFeature
-	 * @see findFaultFeature 
-	 */
-	protected <T> PatchInterval findFeature( double[] ori, Class<T> c ) {
-		
-		PatchInterval interval = null;
-		double minDist = Double.POSITIVE_INFINITY;
-		
-		
-		Scene scene = deformationCaller.getScene();
-		Patch selected = scene.getSelected();
-		for( KinObject object : selected.getChildren() ){
-			if ( object instanceof FeatureGeolInterval ){
-				FeatureInterval fgInterval = ((FeatureGeolInterval)object).getInterval();
-				if ( c.isInstance(fgInterval.getFeature()) ){
-					PolyLineGeometry pgeom = new PolyLineGeometry(fgInterval);
-					
-					double dist = pgeom.minimalDistance( ori );
-					if ( dist < minDist ){
-						interval = (PatchInterval)object;
-						minDist = dist;
-					}
-				}
-			}
-		}
-		
-		return interval;
-	}
-	
-	protected PatchInterval findHorizonFeature( double[] ori ){
-		return findFeature( ori, StratigraphicEvent.class );
-	}
-	
-	protected PatchInterval findFaultFeature( double[] ori ){
-		return findFeature( ori, FaultFeature.class );
-	}
 	
 
 
