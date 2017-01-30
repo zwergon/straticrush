@@ -38,7 +38,7 @@ import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
-public abstract class DeformationInteraction implements GInteraction {
+public abstract class DeformationInteraction extends SectionInteraction {
 	
 
 	DeformationThread moveJob;
@@ -47,12 +47,6 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	protected boolean isJobFinished = false;
 	
-	protected GScene    scene_;
-				
-	protected GeoschedulerLink link = null;
-	
-	private Style style;
-		
 	/** horizons that may be a target for deformation ordered using straticolumn */
 	protected List<IPolyline> potentialHorizonTargets = new ArrayList<IPolyline>();
 		
@@ -65,23 +59,11 @@ public abstract class DeformationInteraction implements GInteraction {
 	
 	
 	public DeformationInteraction( GScene scene ){
-		scene_ = scene;
+		super(scene);
 		manipulator = null;
 	}
 	
-	public void setStyle( Style style ){
-		this.style = style;
-	}
-	
-	public Geoscheduler getScheduler(){
-		
-		Section section = StratiFXService.instance.getSection();
-		if ( section instanceof GeoschedulerSection ){
-			return ((GeoschedulerSection)section).getGeoscheduler();
-		}
-		
-		return null;
-	}
+
 	
 	public void update(){
 		manipulator.updateGraphics();
@@ -124,8 +106,7 @@ public abstract class DeformationInteraction implements GInteraction {
 	}
 	
 	protected DeformationControllerCaller createCaller(){
-		DeformationControllerCaller caller = 
-				(DeformationControllerCaller)StratiFXService.instance.createCaller("Deformation");
+		DeformationControllerCaller caller = new DeformationControllerCaller( StratiFXService.instance );
 		
 		Deformation deformation = DeformationFactory.getInstance().createDeformation(style);
 		if ( null == deformation ){
@@ -139,35 +120,9 @@ public abstract class DeformationInteraction implements GInteraction {
 		return caller;
 	}
 	
-	@Override
-	public boolean start(GScene scene) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-
-	@Override
-	public boolean stop(GScene scene) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	
-	public Patch getSelectedPatch(int x, int y ){
-		GSegment selected = scene_.findSegment (x, y);
-		if ( selected !=  null ){
-			GObject gobject = selected.getOwner();
-			while ( gobject != null ){
-				if ( gobject instanceof GPatchView ){
-					return ((GPatchView)gobject).getObject();
-				}
-				gobject = gobject.getParent();
-			}
-			
-		}
-			
-		return null;
-	}
 
 	@Override
 	public boolean mouseEvent ( GScene scene, GMouseEvent event ) {
@@ -268,6 +223,8 @@ public abstract class DeformationInteraction implements GInteraction {
 
 	@Override
 	public boolean keyEvent   ( GScene scene, GKeyEvent event ) {
+		
+		
 		if ( event.type == GKeyEvent.KEY_PRESSED ) {
 			switch( event.getKeyCode() ){
 			case GKeyEvent.VK_ESCAPE:
@@ -275,45 +232,21 @@ public abstract class DeformationInteraction implements GInteraction {
 					moveJob.cancel();
 				}
 				break;
-			case GKeyEvent.VK_Z:
-				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
-						( moveJob == null ) ){	
-					getScheduler().removeCurrent();
-					scene_.refresh();
-				}
-				break;
-			
-			case GKeyEvent.VK_P:
-				if ( ( event.getKeyModifiers() == GKeyEvent.CTRL_MASK ) && 
-					 ( moveJob == null ) ){	
-					Section section = StratiFXService.instance.getSection();
-					SvgExportPolylines exporter = new SvgExportPolylines("/tmp/section.svg");
-					for( Patch patch : section.getPatchLibrary().getPatches() ){
-						exporter.add(patch.getBorder(),null,50,null);
-					}
-					exporter.export();
-				}
-				break;
 			default:
 				break;	
 			}
 			
-		}	
+		}
+		
+		//if no job currently running, spread key event to parent.
+		if ( moveJob == null ){
+			return super.keyEvent(scene, event);
+		}
 		
 		return true;
 	}
 
-	private Scene createScene( Patch patch ){
-		
-		if ( ( patch.getPatchLibrary().getPatches().size() == 1 ) &&
-			 ( patch instanceof MeshPatch ) ){
-			return new Scene(patch);
-		}
-		
-		
-		return SceneBuilder.createDefaultScene(patch, style );
-	}
-
+	
 
 	
 	class DeformationThread extends Thread {

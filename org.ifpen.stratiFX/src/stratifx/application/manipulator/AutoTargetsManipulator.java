@@ -7,23 +7,18 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
-import fr.ifp.jdeform.deformation.items.LinePairingItem;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
-import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.extensions.IWithExtension;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.algo.InfinitePolylineIntersection;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.polyline.IPolylineProvider;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
-import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -134,6 +129,7 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 			IH = lineInter.getFirstIntersection(selectedHorizon.getInterval());
 			
 			if ( null != IH ){
+			
 				break;
 			}
 		}
@@ -147,12 +143,15 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 				LineIntersection lineInter = new LineIntersection( fault );
 				
 				IF = lineInter.getFirstIntersection(selectedFault.getInterval());
+				
 				if ( null != IF ){
+					
 					break;
 				}
 			}
 		}
 		
+		//exactly one feature is targeted
 		if ( ( null != IH ) != /*XOR*/ ( null != IF ) ){
 			
 			if ( null != IH ) {
@@ -170,23 +169,53 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 			}
 			
 		}
+		//both features are targeted
 		else if ( ( null != IH ) && ( null != IF ) ){
-
-			InfinitePolylineIntersection lineInterTarget = new InfinitePolylineIntersection(
+			
+			//computes intersection between targets lines
+			InfinitePolylineIntersection horizonLineTarget = new InfinitePolylineIntersection(
 					IH.getPoint().getLine() );
 			
-			LinePointPair lpp = lineInterTarget
+			LinePointPair linesI = horizonLineTarget
 					.getFirstIntersection( IF.getPoint().getLine());
 			
-			LinePointPair lppMate = new LinePointPair(lpp.getMatePoint(), lpp.getPoint() );
+			//if an intersection between exists, this is the point where selected intervals should be located.
+			if ( linesI == null ){
+				return;
+			}
 			
-			selectedPatchGraphic.addTarget( lpp.getPoint(), GColor.BLUE );
-			selectedPatchGraphic.addTarget( lppMate.getPoint(), GColor.BLUE );
 			
+			//computes intersection between feature intervals on selected patch.
+			InfinitePolylineIntersection horizonFaultInter = new InfinitePolylineIntersection(
+					selectedHorizon.getPolyline() );
+			
+			LinePointPair horizonFaultI = horizonFaultInter
+					.getFirstIntersection(selectedFault.getPolyline());
+			
+			if ( horizonFaultI == null ){
+				return;
+			}
+			
+			//target Horizon Graphic
+			selectedPatchGraphic.addTarget( linesI.getPoint(), GColor.BLUE );	
+			//target Fault graphic
+			selectedPatchGraphic.addTarget( linesI.getMatePoint(), GColor.BLUE );
+			
+			
+			PatchIntersectionItem faultItem = new PatchIntersectionItem( selectedFault,  
+					new LinePointPair( linesI.getMatePoint(), horizonFaultI.getMatePoint()  ) 
+					); 
+			//faultItem.setComputerType("Proportional");
+			//store IDeformationItem
 			targetData.setTarget(
-					/*new PatchIntersectionItem( selectedHorizon, lpp ),*/
-					new PatchIntersectionItem( selectedFault, lppMate ) );
-
+					//constraint for horizon
+					new PatchIntersectionItem( selectedHorizon, 
+							new LinePointPair( linesI.getPoint(), horizonFaultI.getPoint()  ) 
+							),
+					//constraint for fault
+					faultItem 
+					);
+			
 		}
 
 	}

@@ -47,6 +47,11 @@
                   </Menu>
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Topology">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onTopologyRemoveUnitAction" text="Remove Unit" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Properties">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onPropertiesXYAction" text="XY" />

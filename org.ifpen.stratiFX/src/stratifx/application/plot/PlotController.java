@@ -29,7 +29,9 @@ import stratifx.application.UIAction;
 import stratifx.application.interaction.DeformationInteraction;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.NodeMoveInteraction;
+import stratifx.application.interaction.RemoveUnitInteraction;
 import stratifx.application.interaction.ResetGeometryInteraction;
+import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.interaction.TopBorderInteraction;
 import stratifx.canvas.graphics.GWorldExtent;
 import stratifx.canvas.interaction.GInteraction;
@@ -417,7 +419,7 @@ public class PlotController
 		
 		String manipulatorType = uiAction.getManipulatorType();
 		
-		DeformationInteraction interaction = null;
+		SectionInteraction interaction = null;
 		if (    manipulatorType.equals( "Top" )  ){
 			interaction = new TopBorderInteraction(gfxScene);
 		}
@@ -426,6 +428,10 @@ public class PlotController
 		}
 		else if  ( manipulatorType.equals( "Reset" ) ){
 			interaction = new ResetGeometryInteraction(gfxScene);
+		}
+		
+		else if  ( manipulatorType.equals( "RemoveUnit" ) ){
+			interaction = new RemoveUnitInteraction(gfxScene);
 		}
 		
 		

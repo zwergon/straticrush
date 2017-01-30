@@ -1,0 +1,61 @@
+<!DOCTYPE xml>
+<Study Name="Study">
+ <StratiScale>
+  <Age Name="Actual" id="0" physLineId="32" time="0" Color="#f0e68c"/>
+  <Unit topId="0" physSurfId="5" Name="Actual" id="0" baseId="1" Color="#f4ddb3"/>
+  <Age Name="Pliocene" id="1" physLineId="31" time="0" Color="#d1b38c"/>
+  <Unit topId="1" physSurfId="4" Name="Pliocene" id="1" baseId="2" Color="#daa51f"/>
+  <Age Name="Miocene" id="2" physLineId="30" time="0" Color="#ffff00"/>
+  <Unit topId="2" physSurfId="3" Name="Miocene" id="2" baseId="3" Color="#ffd600"/>
+  <Age Name="Paleocene" id="3" physLineId="29" time="0" Color="#ff4400"/>
+  <Unit topId="3" physSurfId="16" Name="Paleocene" id="3" baseId="4" Color="#ff7e50"/>
+  <Age Name="Tanjero_LateCretaceous" id="4" physLineId="35" time="0" Color="#00ff7e"/>
+  <Unit topId="4" physSurfId="13" Name="Tanjero_LateCretaceous" id="4" baseId="5" Color="#97fb97"/>
+  <Age Name="Cretaceous" id="5" physLineId="28" time="0" Color="#acff2f"/>
+  <Unit topId="5" physSurfId="11" Name="Cretaceous" id="5" baseId="6" Color="#31cd31"/>
+  <Age Name="Barsarin_EarlyCretaceous" id="6" physLineId="34" time="0" Color="#006400"/>
+  <Unit topId="6" physSurfId="10" Name="Barsarin_EarlyCretaceous" id="6" baseId="7" Color="#008000"/>
+  <Age Name="Malm" id="7" physLineId="27" time="0" Color="#3fdfcf"/>
+  <Unit topId="7" physSurfId="2" Name="Malm" id="7" baseId="8" Color="#87cdeb"/>
+  <Age Name="Dogger" id="8" physLineId="26" time="0" Color="#6495ed"/>
+  <Unit topId="8" physSurfId="7" Name="Dogger" id="8" baseId="9" Color="#5e9ea0"/>
+  <Age Name="Lias" id="9" physLineId="25" time="0" Color="#0000cd"/>
+  <Unit topId="9" physSurfId="12" Name="Lias" id="9" baseId="10" Color="#0000ff"/>
+  <Age Name="Baluti_LateTriassic" id="10" physLineId="33" time="0" Color="#edaee4"/>
+  <Unit topId="10" physSurfId="15" Name="Baluti_LateTriassic" id="10" baseId="11" Color="#fff9fd"/>
+  <Age Name="UppTriassic" id="11" physLineId="24" time="0" Color="#ef83ef"/>
+  <Unit topId="11" physSurfId="14" Name="Triassic" id="11" baseId="12" Color="#ffd8f7"/>
+  <Age Name="MidTriassic" id="12" physLineId="23" time="0" Color="#ff00ff"/>
+  <Unit topId="12" physSurfId="6" Name="MidTriassic" id="12" baseId="13" Color="#ed82ed"/>
+  <Age Name="LowTriassic" id="13" physLineId="22" time="0" Color="#ba54d3"/>
+  <Unit topId="13" physSurfId="9" Name="LowTriassic" id="13" baseId="14" Color="#9931cc"/>
+  <Age Name="B0" id="14" physLineId="21" time="0" Color="#9c3dcd"/>
+  <Unit topId="14" physSurfId="8" Name="B0" id="14" baseId="15" Color="#d483ff"/>
+  <Age Name="B1" id="15" physLineId="20" time="0" Color="#bfbfbf"/>
+  <Unit topId="15" physSurfId="1" Name="B1" id="15" baseId="16" Color="#d3d3d3"/>
+  <Age Name="B2" id="16" physLineId="19" time="0" Color="#696969"/>
+  <Unit topId="16" physSurfId="0" Name="B2" id="16" Color="#808080"/>
+ </StratiScale>
+ <Fault Name="f1" id="0" physLineId="0" Color="#ff0000"/>
+ <Fault Name="f2" id="1" physLineId="1" Color="#ff0000"/>
+ <Fault Name="f3" id="2" physLineId="2" Color="#ff0000"/>
+ <Fault Name="f4" id="3" physLineId="3" Color="#ff0000"/>
+ <Fault Name="f5" id="4" physLineId="4" Color="#ff0000"/>
+ <Fault Name="f6" id="5" physLineId="5" Color="#ff0000"/>
+ <Fault Name="f7" id="6" physLineId="6" Color="#ff0000"/>
+ <Fault Name="f8" id="7" physLineId="7" Color="#ff0000"/>
+ <Fault Name="f9" id="8" physLineId="8" Color="#ff0000"/>
+ <Fault Name="f10" id="9" physLineId="9" Color="#ff0000"/>
+ <Fault Name="f11" id="10" physLineId="10" Color="#ff0000"/>
+ <Fault Name="f12" id="11" physLineId="11" Color="#ff0000"/>
+ <Fault Name="f13" id="12" physLineId="12" Color="#ff0000"/>
+ <Fault Name="f14" id="13" physLineId="13" Color="#ff0000"/>
+ <Fault Name="f15" id="14" physLineId="14" Color="#ff0000"/>
+ <Fault Name="f16" id="15" physLineId="15" Color="#ff0000"/>
+ <Fault Name="f17" id="16" physLineId="16" Color="#ff0000"/>
+ <Fault Name="f18" id="17" physLineId="17" Color="#ff0000"/>
+ <Fault Name="f19" id="18" physLineId="18" Color="#ff0000"/>
+ <Border Name="left_border" id="0" physLineId="36" Color="#ff0000"/>
+ <Border Name="bottom_border" id="1" physLineId="37" Color="#ff0000"/>
+ <Border Name="right_border" id="2" physLineId="38" Color="#ff0000"/>
+</Study>

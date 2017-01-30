@@ -1,0 +1,22 @@
+<!DOCTYPE xml>
+<Study Name="Study">
+ <StratiScale>
+  <Age Name="Bawia" id="0" physLineId="7" time="0" Color="#2d8a56"/>
+  <Unit topId="0" physSurfId="5" Name="Bawia" id="0" baseId="1" Color="#3bb370"/>
+  <Age Name="Toro" id="1" physLineId="6" time="0" Color="#ff0000"/>
+  <Unit topId="1" physSurfId="4" Name="Toro" id="1" baseId="2" Color="#ffddd6"/>
+  <Age Name="Digimu" id="2" physLineId="5" time="0" Color="#ffff00"/>
+  <Unit topId="2" physSurfId="3" Name="Digimu" id="2" baseId="3" Color="#f0e68c"/>
+  <Age Name="Lagifu" id="3" physLineId="4" time="0" Color="#ffd600"/>
+  <Unit topId="3" physSurfId="1" Name="Lagifu" id="3" baseId="4" Color="#ffa500"/>
+  <Age Name="Imburu" id="4" physLineId="3" time="0" Color="#95522d"/>
+  <Unit topId="4" physSurfId="2" Name="Imburu" id="4" baseId="5" Color="#daa51f"/>
+  <Age Name="KoiIange" id="5" physLineId="2" time="0" Color="#ba54d3"/>
+  <Unit topId="5" physSurfId="0" Name="KoiIange" id="5" Color="#ed82ed"/>
+ </StratiScale>
+ <Fault Name="f1" id="0" physLineId="0" Color="#0000ff"/>
+ <Fault Name="f2" id="1" physLineId="1" Color="#0000ff"/>
+ <Border Name="left_border" id="0" physLineId="8" Color="#ff0000"/>
+ <Border Name="bottom_border" id="1" physLineId="9" Color="#ff0000"/>
+ <Border Name="right_border" id="2" physLineId="10" Color="#ff0000"/>
+</Study>

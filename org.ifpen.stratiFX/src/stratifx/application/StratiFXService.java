@@ -13,16 +13,13 @@ import fr.ifp.kronosflow.controllers.events.EnumEventAction;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
+import fr.ifp.kronosflow.controllers.units.PatchAddEvent;
 import fr.ifp.kronosflow.controllers.units.PatchDeleteEvent;
 import fr.ifp.kronosflow.controllers.units.UnitRemovedItem;
 import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerTree;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
@@ -33,7 +30,6 @@ import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
-import fr.ifp.kronosflow.model.graph.GraphEdge;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
@@ -41,11 +37,13 @@ import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import stratifx.application.caller.RemoveUnitCaller;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import stratifx.application.properties.PorosityComputer;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
+import stratifx.application.views.GView;
 
 public class StratiFXService implements IUIController, IControllerService {
 	
@@ -211,6 +209,7 @@ public class StratiFXService implements IUIController, IControllerService {
 		gfxScene.createView( patchLib.getPaleobathymetry() );
 
 		RectD bbox = patchLib.getBoundingBox();
+		bbox.inset(-bbox.width()/10., -bbox.height()/10.);
 		plot.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
 		
 		
@@ -219,18 +218,6 @@ public class StratiFXService implements IUIController, IControllerService {
 		return true;
 	}
 	
-
-
-	public IGeoschedulerCaller<?>  createCaller( String type ){
-		if ( type.equals("Deformation") ){
-			return new DeformationControllerCaller( this ) ;
-		}
-		/*else if ( type.equals("RemoveUnit") ){
-			return new RemoveUnitCaller(this);
-		}*/
-		
-	    return null;
-	}
 
 	@Override
 	public void preHandle(ControllerEventList eventList) {
@@ -259,6 +246,13 @@ public class StratiFXService implements IUIController, IControllerService {
 				UnitRemovedItem removeItem = (UnitRemovedItem)pde.getObject();
 				for ( Patch patch : removeItem.getPatches() ){
 					gfxScene.destroyViews(patch);
+				}
+			}
+			else if ( event instanceof PatchAddEvent ){
+				PatchAddEvent pae = (PatchAddEvent)event;
+				for( Patch patch : pae.getObject() ){
+					GView view = gfxScene.createView(patch);
+					view.redraw();
 				}
 			}
 			else {

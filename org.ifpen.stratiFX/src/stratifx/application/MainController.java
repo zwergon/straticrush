@@ -111,6 +111,10 @@ public class MainController implements Initializable, IUIController {
 		StratiFXService.instance.broadCastAction( new InteractionUIAction("FEM2D", "Top" ) );
 	}
 	
+	@FXML void onTopologyRemoveUnitAction( ActionEvent event ){
+		StratiFXService.instance.broadCastAction( new InteractionUIAction( "None", "RemoveUnit" ) );
+	}
+	
 	@FXML void onPropertiesXYAction( ActionEvent event ){
 		StratiFXService.instance.broadCastAction( new PropertiesUIAction("XY") );
 	}
