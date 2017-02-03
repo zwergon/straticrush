@@ -3,24 +3,13 @@ package straticrush.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.geosoft.cc.graphics.GInteraction;
-import no.geosoft.cc.graphics.GKeyEvent;
-import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GObject;
-import no.geosoft.cc.graphics.GScene;
-import no.geosoft.cc.graphics.GSegment;
-import no.geosoft.cc.utils.GParameters;
-import straticrush.manipulator.CompositeManipulator;
-import straticrush.view.PatchView;
-import fr.ifp.jdeform.controllers.DeformEvent;
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.events.DeformEvent;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.KinObject;
@@ -31,6 +20,15 @@ import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.polyline.IPolyline;
+import no.geosoft.cc.graphics.GInteraction;
+import no.geosoft.cc.graphics.GKeyEvent;
+import no.geosoft.cc.graphics.GMouseEvent;
+import no.geosoft.cc.graphics.GObject;
+import no.geosoft.cc.graphics.GScene;
+import no.geosoft.cc.graphics.GSegment;
+import no.geosoft.cc.utils.GParameters;
+import straticrush.manipulator.CompositeManipulator;
+import straticrush.view.PatchView;
 
 public abstract class DeformationInteraction implements GInteraction {
 	

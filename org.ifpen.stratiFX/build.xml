@@ -17,6 +17,7 @@
 <property name="jdeform.dir"  value="fr.ifp.kronosflow.jdeform"/>
 <property name="jar.dir"     value="${build.dir}/jar"/>
 <property name="main.class"  value="stratifx.application.Main"/>
+<property name="kronos.kernel.jar"  value="kronos_kernel.jar"/>
 <property name="lib.dir" value="libs"/>
 
 
@@ -114,7 +115,14 @@
 	</copy>
 </target>
 
-
+<target name="jar-libs" depends="compile-libs">
+	<jar destfile = "${jar.dir}/${kronos.kernel.jar}"
+	   basedir = "${classes.dir}" >
+        <fileset dir="icons">
+            <include name="**/*.gif" />
+        </fileset>
+	</jar>
+</target>	
 
 <target name="compile" depends="compile-libs,compile-stratifx"/>
 
@@ -124,8 +132,7 @@
         <java fork="true" dir="." classname="${main.class}">
         	<classpath>
                 <path refid="classpath"/>
-                <!--
-                <path location="${jar.dir}/${ant.project.name}.jar"/> -->
+                <path location="${jar.dir}/${kronos.kernel.jar}.jar"/> 
             </classpath>
         </java>
  </target>

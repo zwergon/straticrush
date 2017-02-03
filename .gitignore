@@ -79,3 +79,5 @@ Thumbs.db
 ehthumbs.db
 nb-configuration.xml
 nbactions.xml
+/org.ifpen.stratiFX/nbproject/private/
+/org.apache/nbproject/private/

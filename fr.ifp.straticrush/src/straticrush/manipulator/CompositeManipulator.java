@@ -2,10 +2,6 @@ package straticrush.manipulator;
 
 import java.util.List;
 
-import no.geosoft.cc.graphics.GMouseEvent;
-import no.geosoft.cc.graphics.GObject;
-import no.geosoft.cc.graphics.GScene;
-import straticrush.view.Plot;
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
@@ -22,6 +18,11 @@ import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.uids.IHandle;
+import no.geosoft.cc.graphics.GMouseEvent;
+import no.geosoft.cc.graphics.GObject;
+import no.geosoft.cc.graphics.GScene;
+import straticrush.view.Plot;
 
 public abstract class CompositeManipulator implements IStratiManipulator {
 	
@@ -167,8 +168,10 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 
 		double distance = Double.MAX_VALUE;
 		Node nearest_node = null;
-		for( Node ctl_node : patch.getNodes() ){
+		for( IHandle ih : patch.getNodes() ){
 
+			Node ctl_node = (Node)ih;
+			
 			double cur_distance = ctl_node.distance(pos);
 			if ( cur_distance < distance ){
 				distance = cur_distance;

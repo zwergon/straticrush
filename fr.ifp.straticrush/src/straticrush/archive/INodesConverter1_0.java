@@ -50,7 +50,8 @@ public class INodesConverter1_0 implements IConverter {
 			
 			Set<UID> uids = dbArchiver.selectIds(parent, "Nodes");
 			
-			for( Node node : polyline.getNodes() ){
+			for( IHandle ih : polyline.getNodes() ){
+				Node node = (Node)ih;
 				
 				double[] pos = node.getPosition();
 			
