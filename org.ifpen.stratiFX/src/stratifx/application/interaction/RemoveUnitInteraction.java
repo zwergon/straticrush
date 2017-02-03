@@ -63,8 +63,7 @@ public class RemoveUnitInteraction extends SectionInteraction {
 		case GMouseEvent.BUTTON_UP :
 			
 			if ( link != null ){
-				getCaller().applyAndNotify();
-				getScheduler().addLink( link );
+				getScheduler().addCurrent( link );
 				link = null;
 				scene_.refresh();
 			}

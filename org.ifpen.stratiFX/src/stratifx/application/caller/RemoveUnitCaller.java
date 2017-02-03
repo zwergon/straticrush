@@ -45,12 +45,6 @@ public class RemoveUnitCaller
     }
 
 	@Override
-	public void reApply() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void intializeFromStyle(Style style) {
 		// TODO Auto-generated method stub
 		
@@ -61,4 +55,7 @@ public class RemoveUnitCaller
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
 }

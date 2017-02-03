@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.controllers.events.DeformEvent;
+import fr.ifp.jdeform.controllers.events.RecomputeAllPatchsEvent;
+import fr.ifp.jdeform.controllers.events.UndoDeformationEvent;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
+import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.controllers.units.PatchAddEvent;
 import fr.ifp.kronosflow.controllers.units.PatchDeleteEvent;
 import fr.ifp.kronosflow.controllers.units.UnitRemovedItem;
@@ -20,7 +23,6 @@ import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
@@ -37,7 +39,6 @@ import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import stratifx.application.caller.RemoveUnitCaller;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import stratifx.application.properties.PorosityComputer;
@@ -231,8 +232,7 @@ public class StratiFXService implements IUIController, IControllerService {
 		
 		GFXScene gfxScene = plot.getGFXScene();
 
-		//test if one Move Event to trigger view redraw.
-
+	
 		Map< EnumEventAction, IControllerEvent<?> > summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
 
 		for( IControllerEvent<?> event : eventList ){
@@ -241,6 +241,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
 		for( IControllerEvent<?> event : summary.values() ){
 
+			LOGGER.debug("handle "+ event.getClass().getSimpleName(), getClass());
 			if ( event instanceof PatchDeleteEvent ){
 				PatchDeleteEvent pde = (PatchDeleteEvent)event;
 				UnitRemovedItem removeItem = (UnitRemovedItem)pde.getObject();
@@ -255,9 +256,12 @@ public class StratiFXService implements IUIController, IControllerService {
 					view.redraw();
 				}
 			}
-			else {
+			else if ( ( event instanceof DeformEvent ) ||
+			 		  ( event instanceof UndoDeformationEvent ) ||
+					  ( event instanceof PropertyEvent ) ){
 				gfxScene.notifyViews(event);
 			}
+			
 		}
 
 
@@ -274,7 +278,6 @@ public class StratiFXService implements IUIController, IControllerService {
 	@Override
 	public void activateManipulators(Collection<String> handlerIds) {
 		// TODO Auto-generated method stub
-		
 	}
 
 

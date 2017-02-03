@@ -10,16 +10,10 @@ import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
 import fr.ifp.kronosflow.geometry.Vector2D;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.FeatureInterval;
-import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.geology.FaultFeature;
-import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.polyline.IPolylineProvider;
 import fr.ifp.kronosflow.polyline.Node;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.uids.IHandle;
 import stratifx.application.views.GPatchObject;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
@@ -186,7 +180,9 @@ public abstract class CompositeManipulator implements IStratiManipulator {
 
 		double distance = Double.MAX_VALUE;
 		Node nearest_node = null;
-		for( Node ctl_node : patch.getNodes() ){
+		for( IHandle ih : patch.getNodes() ){
+			
+			Node ctl_node = (Node)ih;
 
 			double cur_distance = ctl_node.distance(pos);
 			if ( cur_distance < distance ){

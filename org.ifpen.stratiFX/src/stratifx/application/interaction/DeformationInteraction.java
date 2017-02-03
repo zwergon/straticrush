@@ -6,42 +6,24 @@ import java.util.Timer;
 
 import fr.ifp.jdeform.controllers.DeformationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.controllers.scene.Scene;
-import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.DeformationFactory;
-import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerJob;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLinkType;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.FeatureInterval;
-import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.filters.SvgExportPolylines;
-import fr.ifp.kronosflow.model.geology.BoundaryFeature;
-import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
-import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.utils.LOGGER;
-import javafx.application.Platform;
 import stratifx.application.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
-import stratifx.application.plot.GFXScene;
-import stratifx.application.views.GPatchView;
-import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GSegment;
-import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public abstract class DeformationInteraction extends SectionInteraction {
 	
 
-	DeformationThread moveJob;
+	GeoschedulerJob moveJob;
 	
 	Timer animationTimer;
 	
@@ -66,27 +48,27 @@ public abstract class DeformationInteraction extends SectionInteraction {
 
 	
 	public void update(){
-		manipulator.updateGraphics();
-		scene_.refresh();
+		synchronized(getController()){
+			manipulator.updateGraphics();
+			scene_.refresh();
+		}
 	}	
 	
 	public void end() {
-		if ( moveJob != null ) {
-			getCaller().publish();
-			
-			getScheduler().addLink( link );
-			
-			moveJob = null;
-			
-		}
-		manipulator.deactivate();
-		manipulator = null;
-		scene_.refresh();	
 		
 		if ( null != animationTimer ){
 			animationTimer.cancel();
-			animationTimer = null;
 		}
+				
+		synchronized(getController()){
+			manipulator.deactivate();
+			scene_.redraw();	
+			scene_.refresh();
+		}
+		
+		animationTimer = null;
+		manipulator = null;
+		moveJob = null;	
 		
 	}
 
@@ -197,8 +179,8 @@ public abstract class DeformationInteraction extends SectionInteraction {
 						deformationCaller.addItems( compositeManipulator.getItems() );
 						deformationCaller.addRigidItems( compositeManipulator.getRigidItems());
 
-						moveJob = new DeformationThread(deformationCaller);						
-						moveJob.start();
+						moveJob = new GeoschedulerJob(getScheduler());						
+						moveJob.compute(link);
 
 						animationTimer = DeformationAnimation.start( this );
 
@@ -230,6 +212,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
 			case GKeyEvent.VK_ESCAPE:
 				if ( moveJob != null ) {
 					moveJob.cancel();
+					moveJob = null;
 				}
 				break;
 			default:
@@ -248,25 +231,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
 
 	
 
-	
-	class DeformationThread extends Thread {
-		
-		DeformationControllerCaller deformationCaller;
-		
-		public DeformationThread( DeformationControllerCaller deformationCaller ) {
-			this.deformationCaller = deformationCaller;
-		}
-		
-		@Override
-		public void run() {
-			deformationCaller.apply();
-		}
-		
-		public void cancel(){
-			deformationCaller.cancel();
-		}
-	}
-	
+
 	
 
 	

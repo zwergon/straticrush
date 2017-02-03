@@ -1,12 +1,9 @@
 package stratifx.application.interaction;
 
-
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import fr.ifp.jdeform.controllers.DeformationController;
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import javafx.application.Platform;
 
 class DeformationAnimation extends TimerTask {
@@ -17,8 +14,6 @@ class DeformationAnimation extends TimerTask {
 	
 	boolean isStopped = false;
 	
-	
-
 	static public Timer start(DeformationInteraction interaction){
 		DeformationAnimation animation = new DeformationAnimation(interaction);
 		
@@ -28,11 +23,9 @@ class DeformationAnimation extends TimerTask {
 		return timer;
 	}
 	
-	
 	private DeformationAnimation( DeformationInteraction interaction ){
 		this.interaction = interaction;
 	}
-	
 	
 	@Override
 	public void run() {
@@ -41,26 +34,20 @@ class DeformationAnimation extends TimerTask {
 			return;
 		}
 		
-		DeformationControllerCaller caller = interaction.getCaller();
+		DeformationController controller = interaction.getController();
 		
-		DeformationController controller = caller.getController();
-			
-		int newState = controller.getState();
-				
-		if ( ( newState == DeformationController.DEFORMING )  ){
+		switch( controller.getState() ){
+		case DeformationController.DEFORMING:
 			Platform.runLater( new Runnable() {
 				@Override
 				public void run() {
-					synchronized(caller.getScene()){
-						interaction.update( );
-					}
+					interaction.update( );
 				}
 			});
-		}
-	
-		if (  ( newState == DeformationController.DEFORMED) || 
-			  ( newState == DeformationController.CANCELED ) || 
-			  ( newState == DeformationController.FAILED )){
+			break;
+		case DeformationController.DEFORMED:
+		case DeformationController.CANCELED:
+		case DeformationController.FAILED:
 			Platform.runLater( new Runnable() {
 				@Override
 				public void run() {
@@ -69,14 +56,11 @@ class DeformationAnimation extends TimerTask {
 			});
 			
 			isStopped = true;
-				
+			break;
+		default:
+			break;
 		}
-			
-		if ( ( newState == DeformationController.PREPARING ) || 
-			 ( newState == DeformationController.PREPARED ) ){
-		}
-		
-		
+					
 		
 		
 		
