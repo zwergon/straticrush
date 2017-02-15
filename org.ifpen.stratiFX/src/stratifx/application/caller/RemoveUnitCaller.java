@@ -31,7 +31,7 @@ public class RemoveUnitCaller
     }
 
     @Override
-    public void apply() {
+    public void compute() {
     
         UnitController controller = getController();
         if ( (controller != null) && ( unitToRemove != null ) ) {
@@ -44,17 +44,17 @@ public class RemoveUnitCaller
         getController().addPatches(getService().getSection(), removedPatchs);
     }
 
-	@Override
-	public void intializeFromStyle(Style style) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void intializeFromStyle(Style style) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public Style getStyle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
+
+    @Override
+    public Style getStyle() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	
 
