@@ -2,15 +2,11 @@ package stratifx.application.interaction;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.SceneBuilder;
-import fr.ifp.jdeform.deformations.ResetDeformation;
+import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
+import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
-import stratifx.application.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
-import stratifx.application.views.GPatchView;
-import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GSegment;
-import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
@@ -43,14 +39,15 @@ public class ResetGeometryInteraction extends DeformationInteraction {
 		switch (event.type) {
 		case GMouseEvent.BUTTON_DOWN :
 			Patch patch = getSelectedPatch(event.x, event.y);
-			if ( patch !=  null ){
-				
-					DeformationControllerCaller caller = createCaller();
-					caller.setScene( SceneBuilder.createDefaultScene(patch) );
-					caller.applyAndNotify();;
-					scene.refresh();		
-				
-			}
+			if ( patch !=  null ) {
+                            DeformationControllerCaller caller = createCaller();
+                        
+                            Geoscheduler sheduler = getScheduler();                              
+                            caller.revert( sheduler.getRoot().getWrapper() );
+
+                            caller.publish();
+                            scene.refresh();
+                    }
 
 			break;
 		}

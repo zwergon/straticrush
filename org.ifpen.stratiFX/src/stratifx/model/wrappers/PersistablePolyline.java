@@ -5,26 +5,30 @@
  */
 package stratifx.model.wrappers;
 
+import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.model.wrapper.IPersisted;
+import fr.ifp.kronosflow.polyline.PolyLine;
+
 /**
  *
  * @author lecomtje
  */
-class PersistablePolyline {
-    
+class PersistablePolyline implements IPersisted<PolyLine> {
+
     long lineID;
-    
+
     boolean closed;
-    
+
     //for ICurviPoint
     long[]   curviIDs;
+    double[] curviValues;
     double[] curviPositions;
-    
 
     //for Nodes
-    long[]   nodesIDs;
-    double[] nodesPositions;
-    
-    public long getLineID() {
+    long[] nodesIDs;
+
+    @Override
+    public long getUID() {
         return lineID;
     }
 
@@ -39,7 +43,7 @@ class PersistablePolyline {
     public void setClosed(boolean closed) {
         this.closed = closed;
     }
-    
+
     public long[] getCurviIDs() {
         return curviIDs;
     }
@@ -59,17 +63,22 @@ class PersistablePolyline {
     public void setNodesIDs(long[] nodesIDs) {
         this.nodesIDs = nodesIDs;
     }
-    
-     public long[] getNodesIDs() {
+
+    public long[] getNodesIDs() {
         return nodesIDs;
     }
 
-    public double[] getNodesPositions() {
-        return nodesPositions;
+    public double[] getCurviValues() {
+        return curviValues;
     }
 
-    public void setNodesPositions(double[] nodesPositions) {
-        this.nodesPositions = nodesPositions;
+    public void setCurviValues(double[] curviValues) {
+        this.curviValues = curviValues;
     }
-       
+
+    @Override
+    public PolyLine create() {
+        return new ExplicitPolyLine();
+    }
+
 }

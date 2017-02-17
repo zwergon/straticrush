@@ -5,123 +5,118 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.mesh.IMeshProvider;
+import fr.ifp.kronosflow.model.explicit.ExplicitPoint;
+import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.model.wrapper.IPersisted;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.polyline.PolyLine;
-import fr.ifp.kronosflow.uids.IHandle;
-import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author lecomtje
  */
-public class PolylineWrapper implements IWrapper<PolyLine>{
-    
-    PersistablePolyline persistedPolyline = new PersistablePolyline();
+public class PolylineWrapper implements IWrapper<PolyLine> {
 
-    PolylineWrapper() {
-    }
-    
-     PolylineWrapper( PersistablePolyline persistedPolyline ) {
-         this.persistedPolyline = persistedPolyline;
+    PersistablePolyline persistedPolyline;
+
+    public PolylineWrapper() {
     }
 
     @Override
     public boolean load(PolyLine toLoad) {
+
+        if (null == persistedPolyline) {
+            return false;
+        }
         
+        LOGGER.warning("load Polyline", getClass() );
+
+
         toLoad.clearNodes();
         toLoad.clearPoints();
-        
-        toLoad.setUID( persistedPolyline.getLineID() ) ;
-        toLoad.setClosed( persistedPolyline.isClosed() );
-        
-        long[] nodesIds   = persistedPolyline.getNodesIDs();
-        double[] nodesPos = persistedPolyline.getNodesPositions();
-        for( int i=0; i<nodesIds.length; i++ ){
-            toLoad.addNode(
-                    new Node(
-                            new double[]{
-                                nodesPos[2 * i],
-                                nodesPos[2 * i + 1]
-                            },
-                            new UID(nodesIds[i]))
+
+        toLoad.setUID(persistedPolyline.getUID());
+        toLoad.setClosed(persistedPolyline.isClosed());
+
+
+        long[] curviIDs = persistedPolyline.getCurviIDs();
+        long[] nodesIDS = persistedPolyline.getNodesIDs();
+        double[] curviPos = persistedPolyline.getCurviPositions();
+        double[] curviValues = persistedPolyline.getCurviValues();
+        for (int i = 0; i < curviIDs.length; i++) {
+            ExplicitPoint ep = (ExplicitPoint)toLoad.addPoint(
+                    new double[]{
+                        curviPos[2 * i],
+                        curviPos[2 * i + 1]
+                    }
             );
+            ep.setUID(curviIDs[i]);
+            ep.setCurvilinear( curviValues[i] );
+            ep.setType(ICurviPoint.CoordType.EXISTING);
+            ep.getNode().setUID( nodesIDS[i] );
+            
         }
-        
-        
-        long[] curviIDs    = persistedPolyline.getCurviIDs();
-        double[] curviPos  = persistedPolyline.getCurviPositions();
-        for (int i = 0; i < nodesIds.length; i++) {
-            ICurviPoint cp =toLoad.addPoint(
-                            new double[]{
-                                curviPos[2 * i],
-                                curviPos[2 * i + 1]
-                            }
-            );
-            cp.setUID( curviIDs[i] );
-        }
-        
-        
-        
-        
+
         return true;
     }
 
     @Override
     public boolean save(PolyLine toSave) {
         
-        persistedPolyline.setLineID( toSave.getUID().getId() );
-        persistedPolyline.setClosed( toSave.isClosed() );
-        
-        //TODO 
-        if ( toSave instanceof IMeshProvider ){
-            LOGGER.warning("MeshPolyline are not handled", getClass());
+        LOGGER.warning("save Polyline", getClass() );
+
+        if (!(toSave instanceof ExplicitPolyLine)) {
+            LOGGER.error("this is not an ExplicitPolyline", getClass());
             return false;
         }
-        
-          //save nodes
-        List<IHandle> handles = new ArrayList<>();
-        toSave.getAllNodes(handles);
-        long[] nodesIds = new long[handles.size()];
-        double[] nodesPos = new double[handles.size() * 2];
 
-        for (int i = 0; i < handles.size(); i++) {
-            Node node = (Node) handles.get(i);
-            nodesIds[i] = node.getUID().getId();
-            double[] position = node.getPosition();
-            nodesPos[2 * i] = position[0];
-            nodesPos[2 * i + 1] = position[1];
+        if (null == persistedPolyline) {
+            persistedPolyline = new PersistablePolyline();
         }
-        persistedPolyline.setNodesIDs(nodesIds);
-        persistedPolyline.setNodesPositions(nodesPos);
-            
-        
+
+        persistedPolyline.setLineID(toSave.getUID().getId());
+        persistedPolyline.setClosed(toSave.isClosed());
+
         //save curvipoints
         List<ICurviPoint> curvis = toSave.getPoints();
         long[] curviIDs = new long[curvis.size()];
-        double[] curviPositions = new double[2*curvis.size()];
-        
+        long[] nodesIds = new long[curvis.size()];
+        double[] curviValues = new double[curvis.size()];
+        double[] curviPositions = new double[2 * curvis.size()];
+
         double[] position = new double[2];
-        for( int i=0; i< curvis.size(); i++ ){
-            ICurviPoint cp = curvis.get(i);
+        for (int i = 0; i < curvis.size(); i++) {
+            ExplicitPoint cp = (ExplicitPoint) curvis.get(i);
             toSave.getPosition(cp, position);
-            
+
             curviIDs[i] = cp.getUID().getId();
-            curviPositions[2*i] = position[0];
-            curviPositions[2*i+1] = position[1];
+            nodesIds[i] = cp.getNode().getUID().getId();
+            curviValues[i] = cp.getCurvilinear();
+            curviPositions[2 * i] = position[0];
+            curviPositions[2 * i + 1] = position[1];
         }
         persistedPolyline.setCurviIDs(curviIDs);
+        persistedPolyline.setNodesIDs(nodesIds);
+        persistedPolyline.setCurviValues(curviValues);
         persistedPolyline.setCurviPositions(curviPositions);
-        
-        
-        
+
         return true;
-        
+
+    }
+
+    @Override
+    public void setPersisted(IPersisted persisted) {
+        persistedPolyline = (PersistablePolyline) persisted;
+    }
+
+    @Override
+    public IPersisted getPersisted() {
+        return persistedPolyline;
     }
     
+   
+
 }

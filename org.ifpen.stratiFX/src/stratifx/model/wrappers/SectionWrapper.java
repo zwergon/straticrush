@@ -11,7 +11,9 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.geology.DomainReference;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.wrapper.IPersisted;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
+import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,15 +23,21 @@ import java.util.List;
  */
 public class SectionWrapper implements IWrapper<Section> {
 
-    PersistableSection persistedSection = new PersistableSection();
+    PersistableSection persistedSection = null;
 
     public SectionWrapper() {
         super();
     }
+
    
+
     @Override
     public boolean load(Section wrapped) {
-         
+
+        if (persistedSection == null) {
+            return false;
+        }
+
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
@@ -39,16 +47,14 @@ public class SectionWrapper implements IWrapper<Section> {
         Iterator<Patch> ite = patches.iterator();
 
         // Remove useless patch
-
         while (ite.hasNext()) {
             Patch patch = ite.next();
             boolean found = false;
-            for (PersistablePatch p : persistedSection.getPatches()) {
-                if (patch.getUID().getId() == p.getUID()) {
+            for ( IPersisted<Patch> persistedPatch : persistedSection.getPatches() ) {
+                
+                if (patch.getUID().getId() == persistedPatch.getUID()) {
                     found = true;
-                    // Wrap the patch
-                    PatchWrapper wrapper = new PatchWrapper(p);
-                    wrapper.load(patch);
+                    WrapperFactory.load( patch, persistedPatch );
                     break;
                 }
             }
@@ -62,38 +68,38 @@ public class SectionWrapper implements IWrapper<Section> {
         patches = library.getPatches();
 
         // Create new patches
-        for (
-
-        PersistablePatch patch : persistedSection.getPatches()) {
+        for (IPersisted<Patch> persistedPatch : persistedSection.getPatches()) {
             boolean found = false;
 
-            for (Patch p : patches) {
-                if (p.getUID().getId() == patch.getUID()) {
+            for (Patch patch : patches) {
+                if (patch.getUID().getId() == persistedPatch.getUID()) {
                     found = true;
                     break;
                 }
             }
 
             if (!found) {
-                Patch p = new ExplicitPatch();
-
-                wrapped.getPatchLibrary().add(p);
-                p.setPatchLibrary(wrapped.getPatchLibrary());
-                PatchWrapper wrapper = new PatchWrapper(patch);
-                wrapper.load(p);
+                Patch patch = persistedPatch.create();
+                wrapped.getPatchLibrary().add(patch);
+                patch.setPatchLibrary(wrapped.getPatchLibrary());
+                
+                
+                WrapperFactory.load( patch, persistedPatch );
 
             }
         }
 
         // Chargement des paleobathymetry
-
         Paleobathymetry paleo = wrapped.getPatchLibrary().getPaleobathymetry();
         if (paleo == null) {
             paleo = new Paleobathymetry();
             wrapped.getPatchLibrary().add(paleo);
         }
 
-        new PolylineWrapper(persistedSection.getPaleobathymetry()).load(paleo.getPolyline());
+        WrapperFactory.load(
+                paleo.getPolyline(),
+                persistedSection.getPaleobathymetry()
+        );
 
         DomainReference reference = wrapped.getPatchLibrary().getDomainReference();
         if (reference == null) {
@@ -101,69 +107,53 @@ public class SectionWrapper implements IWrapper<Section> {
             wrapped.getPatchLibrary().add(reference);
         }
 
-        new PolylineWrapper(persistedSection.getDomainReference())
-                .load(reference.getPolyline());
-        
+        WrapperFactory.load(
+                reference.getPolyline(),
+                persistedSection.getDomainReference()
+        );
+
         return true;
 
     }
 
     @Override
     public boolean save(Section wrapped) {
+
+        if (null == persistedSection) {
+            persistedSection = new PersistableSection();
+        }
+
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
-        // search if all patches are in the PersistableSection
-        List<Patch> patches = library.getPatches();
-
-        // First, cleaning the PersistableSection
-
-        Iterator<PersistablePatch> ite = persistedSection.getPatches().iterator();
-
-        while (ite.hasNext()) {
-            PersistablePatch patch = ite.next();
-            boolean found = false;
-            for (Patch p : patches) {
-                if (p.getUID().getId() == patch.getUID()) {
-                    found = true;
-                    // Wrap the patch
-                    PatchWrapper wrapper = new PatchWrapper(patch);
-                    wrapper.save(p);
-                    break;
-                }
-            }
-
-            if (!found) ite.remove();
-        }
-
-        for (Patch p : patches) {
-            boolean found = false;
-
-            for (PersistablePatch patch : persistedSection.getPatches()) {
-                if (p.getUID().getId() == patch.getUID()) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                PersistablePatch patch = new PersistablePatch();
-                PatchWrapper wrapper = new PatchWrapper(patch);
-                wrapper.save(p);
-                persistedSection.getPatches().add(patch);
-            }
+        for (Patch p : library.getPatches()) {
+            PersistablePatch persistedPatch = new PersistablePatch();
+            WrapperFactory.save(p, persistedPatch);
+            persistedSection.getPatches().add( persistedPatch );
         }
 
         // Chargement des paleobathymetry
-        new PolylineWrapper(persistedSection.getPaleobathymetry())
-                .save(wrapped.getPatchLibrary().getPaleobathymetry().getPolyline());
+        WrapperFactory.save(
+                wrapped.getPatchLibrary().getPaleobathymetry().getPolyline(),
+                persistedSection.getPaleobathymetry()
+        );
 
-        new PolylineWrapper(persistedSection.getDomainReference())
-                .save(wrapped.getPatchLibrary().getDomainReference().getPolyline());
+        WrapperFactory.save(
+                wrapped.getPatchLibrary().getDomainReference().getPolyline(),
+                persistedSection.getDomainReference()
+        );
 
-        
         return true;
     }
 
-    
+    @Override
+    public void setPersisted(IPersisted persisted) {
+        persistedSection = (PersistableSection) persisted;
+    }
+
+    @Override
+    public IPersisted getPersisted() {
+        return persistedSection;
+    }
+
 }

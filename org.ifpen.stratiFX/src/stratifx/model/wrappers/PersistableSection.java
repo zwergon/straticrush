@@ -5,6 +5,10 @@
  */
 package stratifx.model.wrappers;
 
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.wrapper.IPersisted;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,16 +16,17 @@ import java.util.Set;
  *
  * @author lecomtje
  */
-class PersistableSection {
+class PersistableSection implements IPersisted<Section> {
 
-    Set<PersistablePatch> patches = new HashSet<>();
+    Set<IPersisted<Patch>> patches = new HashSet<>();
 
-    PersistablePolyline paleo = new PersistablePolyline();
+    IPersisted<PolyLine> paleo = new PersistablePolyline();
 
-    PersistablePolyline reference = new PersistablePolyline();
+    IPersisted<PolyLine> reference = new PersistablePolyline();
 
     long uid;
 
+    @Override
     public long getUID() {
         return uid;
     }
@@ -31,15 +36,15 @@ class PersistableSection {
 
     }
 
-    public Set<PersistablePatch> getPatches() {
+    public Set<IPersisted<Patch>> getPatches() {
         return patches;
     }
 
-    public void setPatches(HashSet<PersistablePatch> patches) {
+    public void setPatches(HashSet<IPersisted<Patch>> patches) {
         this.patches = patches;
     }
 
-    public PersistablePolyline getPaleobathymetry() {
+    public IPersisted<PolyLine> getPaleobathymetry() {
         return paleo;
     }
 
@@ -47,12 +52,17 @@ class PersistableSection {
         this.paleo = paleo;
     }
 
-    public PersistablePolyline getDomainReference() {
+    public IPersisted<PolyLine> getDomainReference() {
         return reference;
     }
 
     public void setDomainReference(PersistablePolyline reference) {
         this.reference = reference;
+    }
+    
+     @Override
+    public Section create() {
+        return new Section();
     }
 
 }

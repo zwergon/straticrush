@@ -9,6 +9,8 @@ import java.util.Map;
 import fr.ifp.jdeform.controllers.events.DeformEvent;
 import fr.ifp.jdeform.controllers.events.RecomputeAllPatchsEvent;
 import fr.ifp.jdeform.controllers.events.UndoDeformationEvent;
+import fr.ifp.kronosflow.controllers.AbstractChangeController;
+import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
@@ -26,13 +28,17 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.algo.ComputeContact;
+import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
+import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.utils.KronosContext;
@@ -45,244 +51,237 @@ import stratifx.application.properties.PorosityComputer;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
+import stratifx.model.wrappers.PatchWrapper;
+import stratifx.model.wrappers.PolylineWrapper;
+import stratifx.model.wrappers.SectionWrapper;
 
 public class StratiFXService implements IUIController, IControllerService {
-	
-	GeoschedulerSection section;
-	
-	private Stage primaryStage;
-	
-	Map<IUIController.Type, IUIController> controllers;
-	
-	static public StratiFXService instance;
-	
-	static {
-		instance = new StratiFXService();
-	}
-	
-	protected StratiFXService() {
-		
-		controllers = new HashMap<IUIController.Type, IUIController>();
-		
-		KronosContext.registerClass( Section.class,  GeoschedulerSection.class );
-		KronosContext.registerClass( PolyLine.class, ExplicitPolyLine.class );
-		KronosContext.registerClass( IExtension.class, RayExtension.class );
-		KronosContext.registerClass( IPropertyAccessor.class, ImagePropertyAccessor.class );
-		
-		PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder() );
-		PropertyController.registerBuilder("Porosity", new PorosityComputer.Builder());
-		//PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
-		//PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
-		
-		//PropertyController.registerBuilder("Strate Orientation", new StrateOrientationComputer.Builder() );
-		//PropertyController.registerBuilder("SolidSurface", new SolidSurfaceComputer.Builder() );
-		
-		
-	}
-	
-	public Section getSection() {
-		return section;
-	}
-	
-	public void setPrimaryStage( Stage primaryStage ){
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle( "StratiFX" );
-	}
-	
-	public Stage getPrimaryStage(){
-		return primaryStage;
-	}
-	
-	public void registerController( IUIController.Type type, IUIController controller ){
-		controllers.put( type, controller );
-	}
-	
-	public void removeController(Type type) {
-		controllers.remove(type);
-	}
 
-	
-	public void broadCastAction( UIAction action ){
-		
-		//handled by service first.
-		if ( handleAction(action) ){
-			return;
-		}
-		
-		for( IUIController controller : controllers.values() ){
-			if ( controller.handleAction(action) ){
-				//action is eaten.
-				return;
-			}
-		}
-	}
-	
-	public void broadCastAction( int actionType ){
-		broadCastAction( new UIAction(actionType) ) ;
-	}
-	
-	public void fireAction( IUIController.Type type , UIAction action ){
-		controllers.get(type).handleAction( action );
-	}
-	
-	public void fireAction( IUIController.Type type , int action ){
-		controllers.get(type).handleAction( new UIAction(action) );
-	}
+    GeoschedulerSection section;
 
-	@Override
-	public boolean handleAction(UIAction action) {
-		switch(action.getType()){
-		case UIAction.Open:
-			return handleOpen();
-		
-		case UIAction.Properties:
-			return handleProperties( (PropertiesUIAction) action );
-		}
-		
-		return false;
-	}
+    private Stage primaryStage;
 
-	
+    Map<IUIController.Type, IUIController> controllers;
 
-	private boolean handleProperties(PropertiesUIAction action) {
-		
-		PropertyControllerCaller caller = new PropertyControllerCaller( this );
-		caller.setPropertyKey( action.getProperty() );
-		caller.applyAndNotify();
+    static public StratiFXService instance;
 
-		PlotController plot = (PlotController)controllers.get(IUIController.Type.PLOT);
+    static {
+        instance = new StratiFXService();
+    }
 
-		GFXScene gfxScene = plot.getGFXScene();
-		gfxScene.refresh();
+    protected StratiFXService() {
 
-		return true;
+        controllers = new HashMap<IUIController.Type, IUIController>();
 
-	}
+        KronosContext.registerClass(Section.class, GeoschedulerSection.class);
+        KronosContext.registerClass(PolyLine.class, ExplicitPolyLine.class);
+        KronosContext.registerClass(IExtension.class, RayExtension.class);
+        KronosContext.registerClass(IPropertyAccessor.class, ImagePropertyAccessor.class);
 
-	private boolean handleOpen() {
-		
-		FileChooser fileChooser = new FileChooser();
-		File file = fileChooser.showOpenDialog(primaryStage);
-		if ( file == null ){
-			return false;
-		}
-		
-		
-		String filename = file.getAbsolutePath();
+        PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder());
+        PropertyController.registerBuilder("Porosity", new PorosityComputer.Builder());
+        //PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
+        //PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
 
-		String basename = filename.substring(0, filename.lastIndexOf('.'));
+        //PropertyController.registerBuilder("Strate Orientation", new StrateOrientationComputer.Builder() );
+        //PropertyController.registerBuilder("SolidSurface", new SolidSurfaceComputer.Builder() );
+        WrapperFactory.registerClass(Section.class, SectionWrapper.class);
+        WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
+        WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
+        WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
+    }
 
-		LOGGER.debug("load " + basename , this.getClass() );
+    public Section getSection() {
+        return section;
+    }
 
-		section = new GeoschedulerSection();
-		section.setName(basename);
-		
-		SceneStyle sceneStyle = new SceneStyle(section.getStyle());
-		sceneStyle.setNatureType(NatureType.EXPLICIT);
-		sceneStyle.setGridType(GridType.LINE);
-		sceneStyle.setComplexityType(ComplexityType.SINGLE);
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("StratiFX");
+    }
 
-		PatchLibrary patchLib = section.getPatchLibrary();
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
 
-		Map<String,String> unitMap = SectionFactory.createBorders( filename, section );
-		
-		File f = new File(basename + ".xml");
-		if(f.exists() && !f.isDirectory()) { 
-			SectionFactory.createDummyUnit( basename + ".xml", section, unitMap);
-		}
-		else {
-			f = new File(basename + ".unit");
-			if(f.exists() && !f.isDirectory()) { 
-				SectionFactory.createDummyUnit( basename + ".unit", section, unitMap);
-			}
-		}
+    public void registerController(IUIController.Type type, IUIController controller) {
+        controllers.put(type, controller);
+    }
 
-		PlotController plot = (PlotController)controllers.get(IUIController.Type.PLOT);
-		
-		GFXScene gfxScene = plot.getGFXScene();
-		gfxScene.destroyAll();
+    public void removeController(Type type) {
+        controllers.remove(type);
+    }
 
-		// Create a graphic object
-		for( Patch patch : patchLib.getPatches() ){
-			gfxScene.createView( patch );   
-		}
+    public void broadCastAction(UIAction action) {
 
-		gfxScene.createView( patchLib.getPaleobathymetry() );
+        //handled by service first.
+        if (handleAction(action)) {
+            return;
+        }
 
-		RectD bbox = patchLib.getBoundingBox();
-		bbox.inset(-bbox.width()/10., -bbox.height()/10.);
-		plot.setWorldExtent( bbox.left, bbox.top, bbox.width(), bbox.height());
-		
-		
-		gfxScene.refresh();
-		
-		return true;
-	}
-	
+        for (IUIController controller : controllers.values()) {
+            if (controller.handleAction(action)) {
+                //action is eaten.
+                return;
+            }
+        }
+    }
 
-	@Override
-	public void preHandle(ControllerEventList eventList) {
-		// TODO Auto-generated method stub
-	}
+    public void broadCastAction(int actionType) {
+        broadCastAction(new UIAction(actionType));
+    }
 
-	@Override
-	public void handleEvents(ControllerEventList eventList) {
-		
-		PlotController plot = (PlotController)controllers.get(IUIController.Type.PLOT);
-		
-		GFXScene gfxScene = plot.getGFXScene();
+    public void fireAction(IUIController.Type type, UIAction action) {
+        controllers.get(type).handleAction(action);
+    }
 
-	
-		Map< EnumEventAction, IControllerEvent<?> > summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
+    public void fireAction(IUIController.Type type, int action) {
+        controllers.get(type).handleAction(new UIAction(action));
+    }
 
-		for( IControllerEvent<?> event : eventList ){
-			summary.put(  event.getEventAction(), event );
-		}
+    @Override
+    public boolean handleAction(UIAction action) {
+        switch (action.getType()) {
+            case UIAction.Open:
+                return handleOpen();
 
-		for( IControllerEvent<?> event : summary.values() ){
+            case UIAction.Properties:
+                return handleProperties((PropertiesUIAction) action);
+        }
 
-			LOGGER.debug("handle "+ event.getClass().getSimpleName(), getClass());
-			if ( event instanceof PatchDeleteEvent ){
-				PatchDeleteEvent pde = (PatchDeleteEvent)event;
-				UnitRemovedItem removeItem = (UnitRemovedItem)pde.getObject();
-				for ( Patch patch : removeItem.getPatches() ){
-					gfxScene.destroyViews(patch);
-				}
-			}
-			else if ( event instanceof PatchAddEvent ){
-				PatchAddEvent pae = (PatchAddEvent)event;
-				for( Patch patch : pae.getObject() ){
-					GView view = gfxScene.createView(patch);
-					view.redraw();
-				}
-			}
-			else if ( ( event instanceof DeformEvent ) ||
-			 		  ( event instanceof UndoDeformationEvent ) ||
-					  ( event instanceof PropertyEvent ) ){
-				gfxScene.notifyViews(event);
-			}
-			
-		}
+        return false;
+    }
 
+    private boolean handleProperties(PropertiesUIAction action) {
 
-	}
+        PropertyControllerCaller caller = new PropertyControllerCaller(this);
+        caller.setPropertyKey(action.getProperty());
+        caller.compute();
+        caller.publish();
 
-	
+        PlotController plot = (PlotController) controllers.get(IUIController.Type.PLOT);
 
-	@Override
-	public List<String> deactivateActiveManipulators() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        GFXScene gfxScene = plot.getGFXScene();
+        gfxScene.refresh();
 
-	@Override
-	public void activateManipulators(Collection<String> handlerIds) {
-		// TODO Auto-generated method stub
-	}
+        return true;
 
+    }
 
-	
+    private boolean handleOpen() {
 
-	
-	
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file == null) {
+            return false;
+        }
+
+        String filename = file.getAbsolutePath();
+
+        String basename = filename.substring(0, filename.lastIndexOf('.'));
+
+        LOGGER.debug("load " + basename, this.getClass());
+
+        section = new GeoschedulerSection();
+        section.setName(basename);
+
+        SceneStyle sceneStyle = new SceneStyle(section.getStyle());
+        sceneStyle.setNatureType(NatureType.EXPLICIT);
+        sceneStyle.setGridType(GridType.LINE);
+        sceneStyle.setComplexityType(ComplexityType.SINGLE);
+
+        PatchLibrary patchLib = section.getPatchLibrary();
+
+        Map<String, String> unitMap = SectionFactory.createBorders(filename, section);
+
+        File f = new File(basename + ".xml");
+        if (f.exists() && !f.isDirectory()) {
+            SectionFactory.createDummyUnit(basename + ".xml", section, unitMap);
+        } else {
+            f = new File(basename + ".unit");
+            if (f.exists() && !f.isDirectory()) {
+                SectionFactory.createDummyUnit(basename + ".unit", section, unitMap);
+            }
+        }
+
+        //TODO create root. 
+        section.getGeoscheduler().getRoot().getWrapper().save(section);
+
+        PlotController plot = (PlotController) controllers.get(IUIController.Type.PLOT);
+
+        GFXScene gfxScene = plot.getGFXScene();
+        gfxScene.destroyAll();
+
+        // Create a graphic object
+        for (Patch patch : patchLib.getPatches()) {
+            gfxScene.createView(patch);
+        }
+
+        gfxScene.createView(patchLib.getPaleobathymetry());
+
+        RectD bbox = patchLib.getBoundingBox();
+        bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
+        plot.setWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+
+        gfxScene.refresh();
+
+        return true;
+    }
+
+    @Override
+    public void preHandle(ControllerEventList eventList) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void handleEvents(ControllerEventList eventList) {
+
+        PlotController plot = (PlotController) controllers.get(IUIController.Type.PLOT);
+
+        GFXScene gfxScene = plot.getGFXScene();
+
+        Map< EnumEventAction, IControllerEvent<?>> summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
+
+        for (IControllerEvent<?> event : eventList) {
+            summary.put(event.getEventAction(), event);
+        }
+
+        for (IControllerEvent<?> event : summary.values()) {
+
+            LOGGER.debug("handle " + event.getClass().getSimpleName(), getClass());
+            if (event instanceof PatchDeleteEvent) {
+                PatchDeleteEvent pde = (PatchDeleteEvent) event;
+                UnitRemovedItem removeItem = (UnitRemovedItem) pde.getObject();
+                for (Patch patch : removeItem.getPatches()) {
+                    gfxScene.destroyViews(patch);
+                }
+            } else if (event instanceof PatchAddEvent) {
+                PatchAddEvent pae = (PatchAddEvent) event;
+                for (Patch patch : pae.getObject()) {
+                    GView view = gfxScene.createView(patch);
+                    view.redraw();
+                }
+            } else if ((event instanceof DeformEvent)
+                    || (event instanceof UndoDeformationEvent)
+                    || (event instanceof PropertyEvent)) {
+                gfxScene.notifyViews(event);
+            } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
+                ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
+                gfxScene.notifyViews(event);
+            }
+        }
+
+    }
+
+    @Override
+    public List<String> deactivateActiveManipulators() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void activateManipulators(Collection<String> handlerIds) {
+        // TODO Auto-generated method stub
+    }
+
 }
