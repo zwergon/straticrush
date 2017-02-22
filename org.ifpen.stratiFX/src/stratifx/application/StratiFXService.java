@@ -41,8 +41,10 @@ import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
+import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
+import java.util.ArrayList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
@@ -52,6 +54,7 @@ import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.model.wrappers.PatchWrapper;
+import stratifx.model.wrappers.PersistablePatch;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
 
@@ -89,6 +92,7 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
+     
     }
 
     public Section getSection() {
@@ -240,37 +244,67 @@ public class StratiFXService implements IUIController, IControllerService {
 
         GFXScene gfxScene = plot.getGFXScene();
 
-        Map< EnumEventAction, IControllerEvent<?>> summary = new HashMap<EnumEventAction, IControllerEvent<?>>();
+        Map< EnumEventAction, IControllerEvent<?>> summary = new HashMap<>();
 
-        for (IControllerEvent<?> event : eventList) {
+        eventList.forEach((event) -> {
             summary.put(event.getEventAction(), event);
-        }
+        });
 
         for (IControllerEvent<?> event : summary.values()) {
 
             LOGGER.debug("handle " + event.getClass().getSimpleName(), getClass());
-            if (event instanceof PatchDeleteEvent) {
-                PatchDeleteEvent pde = (PatchDeleteEvent) event;
-                UnitRemovedItem removeItem = (UnitRemovedItem) pde.getObject();
-                for (Patch patch : removeItem.getPatches()) {
-                    gfxScene.destroyViews(patch);
-                }
-            } else if (event instanceof PatchAddEvent) {
-                PatchAddEvent pae = (PatchAddEvent) event;
-                for (Patch patch : pae.getObject()) {
-                    GView view = gfxScene.createView(patch);
-                    view.redraw();
-                }
-            } else if ((event instanceof DeformEvent)
-                    || (event instanceof UndoDeformationEvent)
-                    || (event instanceof PropertyEvent)) {
+            if ( event instanceof PropertyEvent ) {
                 gfxScene.notifyViews(event);
             } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
+                updateVisiblePatches(gfxScene);
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
                 gfxScene.notifyViews(event);
             }
         }
-
+    }
+    
+    public void updateVisiblePatches( GFXScene gfxScene ){
+        
+        List<GView> views = new ArrayList<>(gfxScene.getViews());
+        
+        //keep only GView associated with Patch
+        gfxScene.getViews().forEach((view) -> {
+            Object model = view.getModel();
+            if (!( model instanceof Patch )) {
+                views.remove(view);
+            }
+        });
+        
+        //keep already existing view for patches in PatchLibrary,
+        //get the ones that are in library but not yet visible.
+        List<Patch> toAdd = new ArrayList<>();
+        for (Patch patch : section.getPatchLibrary().getPatches()) {
+            boolean found = false;
+            for (GView view : views) {
+                Patch modelPatch = (Patch) view.getModel();
+                if (modelPatch.getUID() == patch.getUID()) {
+                    views.remove(view);
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+               toAdd.add( patch );
+            }
+            
+        }
+        
+        //destroy useless views
+        views.forEach((view) -> {
+            gfxScene.destroyView(view);
+        });
+        
+        //create new views
+        toAdd.forEach((patch) -> {
+            gfxScene.createView(patch);
+        });
+        
     }
 
     @Override

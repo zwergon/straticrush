@@ -5,18 +5,13 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.model.wrapper.IPersisted;
-import fr.ifp.kronosflow.polyline.PolyLine;
-
 /**
  *
  * @author lecomtje
  */
-class PersistablePolyline implements IPersisted<PolyLine> {
+class PersistablePolyline extends AbstractPersisted {
 
-    long lineID;
-
+ 
     boolean closed;
 
     //for ICurviPoint
@@ -27,15 +22,7 @@ class PersistablePolyline implements IPersisted<PolyLine> {
     //for Nodes
     long[] nodesIDs;
 
-    @Override
-    public long getUID() {
-        return lineID;
-    }
-
-    public void setLineID(long lineID) {
-        this.lineID = lineID;
-    }
-
+  
     public boolean isClosed() {
         return closed;
     }
@@ -74,11 +61,6 @@ class PersistablePolyline implements IPersisted<PolyLine> {
 
     public void setCurviValues(double[] curviValues) {
         this.curviValues = curviValues;
-    }
-
-    @Override
-    public PolyLine create() {
-        return new ExplicitPolyLine();
     }
 
 }

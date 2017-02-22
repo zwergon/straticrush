@@ -5,8 +5,6 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.wrapper.IPersisted;
 import fr.ifp.kronosflow.uids.UID;
 
@@ -14,10 +12,7 @@ import fr.ifp.kronosflow.uids.UID;
  *
  * @author lecomtje
  */
-public class PersistablePatch implements IPersisted<Patch> {
-
-    // Patch informations
-    private long uid;
+public class PersistablePatch extends AbstractPersisted {
 
     private long unitId;
 
@@ -25,7 +20,7 @@ public class PersistablePatch implements IPersisted<Patch> {
 
     private String name;
 
-    PersistablePolyline border;
+    IPersisted border;
 
     /**
      * ids of the featureIntervals of the patch
@@ -42,15 +37,7 @@ public class PersistablePatch implements IPersisted<Patch> {
      */
     private long[] boundaryfeaturesId = new long[0];
 
-    @Override
-    public long getUID() {
-        return uid;
-    }
-
-    public void setUID(long patchId) {
-        this.uid = patchId;
-    }
-
+    
     public long getUnitId() {
         return unitId;
     }
@@ -109,17 +96,13 @@ public class PersistablePatch implements IPersisted<Patch> {
         this.boundaryfeaturesId = boundaryfeaturesId;
     }
 
-    public PersistablePolyline getBorder() {
+    public IPersisted getBorder() {
         return border;
     }
 
     public void setBorder(PersistablePolyline border) {
         this.border = border;
     }
-    
-     @Override
-    public Patch create() {
-        return new ExplicitPatch();
-    }
+   
 
 }

@@ -34,7 +34,11 @@ public abstract class GView extends GObject {
 		}
 		redraw();
 	}
-		
+        
+        public Object getModel(){
+            return getUserData();
+        }
+        
 	public abstract void setModel( Object object );
 	
 	public abstract void modelChanged( IControllerEvent<?> event );

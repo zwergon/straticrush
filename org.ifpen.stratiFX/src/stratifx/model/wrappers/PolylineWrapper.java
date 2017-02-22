@@ -32,9 +32,6 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
             return false;
         }
         
-        LOGGER.warning("load Polyline", getClass() );
-
-
         toLoad.clearNodes();
         toLoad.clearPoints();
 
@@ -66,8 +63,6 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
     @Override
     public boolean save(PolyLine toSave) {
         
-        LOGGER.warning("save Polyline", getClass() );
-
         if (!(toSave instanceof ExplicitPolyLine)) {
             LOGGER.error("this is not an ExplicitPolyline", getClass());
             return false;
@@ -77,7 +72,7 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
             persistedPolyline = new PersistablePolyline();
         }
 
-        persistedPolyline.setLineID(toSave.getUID().getId());
+        persistedPolyline.setUID(toSave.getUID().getId());
         persistedPolyline.setClosed(toSave.isClosed());
 
         //save curvipoints
@@ -108,12 +103,12 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
     }
 
     @Override
-    public void setPersisted(IPersisted persisted) {
+    public void setPersisted(Object persisted) {
         persistedPolyline = (PersistablePolyline) persisted;
     }
 
     @Override
-    public IPersisted getPersisted() {
+    public Object getPersisted() {
         return persistedPolyline;
     }
     

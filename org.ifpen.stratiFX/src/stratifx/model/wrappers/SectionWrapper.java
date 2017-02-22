@@ -8,7 +8,6 @@ package stratifx.model.wrappers;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.geology.DomainReference;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.wrapper.IPersisted;
@@ -16,6 +15,7 @@ import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -28,8 +28,6 @@ public class SectionWrapper implements IWrapper<Section> {
     public SectionWrapper() {
         super();
     }
-
-   
 
     @Override
     public boolean load(Section wrapped) {
@@ -50,11 +48,11 @@ public class SectionWrapper implements IWrapper<Section> {
         while (ite.hasNext()) {
             Patch patch = ite.next();
             boolean found = false;
-            for ( IPersisted<Patch> persistedPatch : persistedSection.getPatches() ) {
-                
+            for (IPersisted persistedPatch : persistedSection.getPatches()) {
+
                 if (patch.getUID().getId() == persistedPatch.getUID()) {
                     found = true;
-                    WrapperFactory.load( patch, persistedPatch );
+                    WrapperFactory.load(patch, persistedPatch);
                     break;
                 }
             }
@@ -68,7 +66,7 @@ public class SectionWrapper implements IWrapper<Section> {
         patches = library.getPatches();
 
         // Create new patches
-        for (IPersisted<Patch> persistedPatch : persistedSection.getPatches()) {
+        for (IPersisted persistedPatch : persistedSection.getPatches()) {
             boolean found = false;
 
             for (Patch patch : patches) {
@@ -79,12 +77,11 @@ public class SectionWrapper implements IWrapper<Section> {
             }
 
             if (!found) {
-                Patch patch = persistedPatch.create();
+                Patch patch = (Patch)WrapperFactory.build( persistedPatch.getPersistedClass() );
                 wrapped.getPatchLibrary().add(patch);
                 patch.setPatchLibrary(wrapped.getPatchLibrary());
-                
-                
-                WrapperFactory.load( patch, persistedPatch );
+
+                WrapperFactory.load(patch, persistedPatch);
 
             }
         }
@@ -126,33 +123,40 @@ public class SectionWrapper implements IWrapper<Section> {
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
+        
+        Set<IPersisted> persistedPatches = persistedSection.getPatches();
+        persistedPatches.clear();
         for (Patch p : library.getPatches()) {
             PersistablePatch persistedPatch = new PersistablePatch();
             WrapperFactory.save(p, persistedPatch);
-            persistedSection.getPatches().add( persistedPatch );
+            persistedPatches.add(persistedPatch);
         }
 
         // Chargement des paleobathymetry
+        PersistablePolyline bathy = new PersistablePolyline();
         WrapperFactory.save(
                 wrapped.getPatchLibrary().getPaleobathymetry().getPolyline(),
-                persistedSection.getPaleobathymetry()
+                bathy
         );
+        persistedSection.setPaleobathymetry(bathy);
 
+        PersistablePolyline domain = new PersistablePolyline();
         WrapperFactory.save(
                 wrapped.getPatchLibrary().getDomainReference().getPolyline(),
-                persistedSection.getDomainReference()
+                domain
         );
+        persistedSection.setDomainReference(domain);
 
         return true;
     }
 
     @Override
-    public void setPersisted(IPersisted persisted) {
+    public void setPersisted(Object persisted) {
         persistedSection = (PersistableSection) persisted;
     }
 
     @Override
-    public IPersisted getPersisted() {
+    public Object getPersisted() {
         return persistedSection;
     }
 

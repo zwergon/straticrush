@@ -17,6 +17,7 @@ import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.CurviPoint;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.ICurviPoint.CoordType;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +44,13 @@ public class PatchWrapper implements IWrapper<Patch> {
         }
 
         // First, load the polyline
-        WrapperFactory.load( wrapped.getBorder(), persistedPatch.getBorder() );
+        PolyLine border = wrapped.getBorder();
+        if (border == null) {
+            border = (PolyLine) WrapperFactory.build( persistedPatch.getBorder().getPersistedClass() );
+            wrapped.setBorder(border);
+        }
+       
+        WrapperFactory.load( border, persistedPatch.getBorder() );
 
         // Second, the patchInterval for the features
         loadPatchInterval(wrapped);
@@ -99,7 +106,7 @@ public class PatchWrapper implements IWrapper<Patch> {
             persistedPatch = new PersistablePatch(); // First, save the polyline
         }
 
-        PersistablePolyline polyline = persistedPatch.getBorder();
+        PersistablePolyline polyline = (PersistablePolyline)persistedPatch.getBorder();
         if (polyline == null) {
             polyline = new PersistablePolyline();
             persistedPatch.setBorder(polyline);
@@ -262,12 +269,12 @@ public class PatchWrapper implements IWrapper<Patch> {
     }
 
     @Override
-    public void setPersisted(IPersisted persisted) {
+    public void setPersisted(Object persisted) {
         persistedPatch = (PersistablePatch)persisted;
     }
 
     @Override
-    public IPersisted getPersisted() {
+    public Object getPersisted() {
         return persistedPatch;
     }
 }
