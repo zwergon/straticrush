@@ -1,5 +1,6 @@
 package stratifx.application.views;
 
+import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import java.awt.Color;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.property.Property;
+import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;

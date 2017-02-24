@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.ifp.jdeform.controllers.events.DeformEvent;
-import fr.ifp.jdeform.controllers.events.RecomputeAllPatchsEvent;
-import fr.ifp.jdeform.controllers.events.UndoDeformationEvent;
-import fr.ifp.kronosflow.controllers.AbstractChangeController;
 import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
@@ -18,13 +14,11 @@ import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
 import fr.ifp.kronosflow.controllers.property.PropertyEvent;
-import fr.ifp.kronosflow.controllers.units.PatchAddEvent;
-import fr.ifp.kronosflow.controllers.units.PatchDeleteEvent;
-import fr.ifp.kronosflow.controllers.units.UnitRemovedItem;
 import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
+import fr.ifp.kronosflow.geoscheduler.property.TimePropertyUpdater;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
@@ -41,7 +35,6 @@ import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
-import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
 import java.util.ArrayList;
@@ -54,7 +47,6 @@ import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.model.wrappers.PatchWrapper;
-import stratifx.model.wrappers.PersistablePatch;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
 
@@ -92,7 +84,7 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
-     
+
     }
 
     public Section getSection() {
@@ -253,28 +245,31 @@ public class StratiFXService implements IUIController, IControllerService {
         for (IControllerEvent<?> event : summary.values()) {
 
             LOGGER.debug("handle " + event.getClass().getSimpleName(), getClass());
-            if ( event instanceof PropertyEvent ) {
+            if (event instanceof PropertyEvent) {
                 gfxScene.notifyViews(event);
             } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
                 updateVisiblePatches(gfxScene);
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
+
+                new TimePropertyUpdater(section).update();
+
                 gfxScene.notifyViews(event);
             }
         }
     }
-    
-    public void updateVisiblePatches( GFXScene gfxScene ){
-        
+
+    public void updateVisiblePatches(GFXScene gfxScene) {
+
         List<GView> views = new ArrayList<>(gfxScene.getViews());
-        
+
         //keep only GView associated with Patch
         gfxScene.getViews().forEach((view) -> {
             Object model = view.getModel();
-            if (!( model instanceof Patch )) {
+            if (!(model instanceof Patch)) {
                 views.remove(view);
             }
         });
-        
+
         //keep already existing view for patches in PatchLibrary,
         //get the ones that are in library but not yet visible.
         List<Patch> toAdd = new ArrayList<>();
@@ -288,23 +283,23 @@ public class StratiFXService implements IUIController, IControllerService {
                     break;
                 }
             }
-            
+
             if (!found) {
-               toAdd.add( patch );
+                toAdd.add(patch);
             }
-            
+
         }
-        
+
         //destroy useless views
         views.forEach((view) -> {
             gfxScene.destroyView(view);
         });
-        
+
         //create new views
         toAdd.forEach((patch) -> {
             gfxScene.createView(patch);
         });
-        
+
     }
 
     @Override

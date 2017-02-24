@@ -1,5 +1,6 @@
 package stratifx.application.plot;
 
+import stratifx.application.interaction.DisplacementsInteraction;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -413,9 +414,7 @@ public class PlotController
 			style.setAttribute( Kind.DEFORMATION.toString(), "DilatationDeformation" );
 			style.setAttribute( "DilatationType", deformationType );
 		}
-		else {
-			assert false : "This deformation parameter is not handled";
-		}
+		
 		
 		String manipulatorType = uiAction.getManipulatorType();
 		
@@ -429,7 +428,9 @@ public class PlotController
 		else if  ( manipulatorType.equals( "Reset" ) ){
 			interaction = new ResetGeometryInteraction(gfxScene);
 		}
-		
+                else if ( manipulatorType.equals( "Displacements" ) ){
+                        interaction = new DisplacementsInteraction(gfxScene);
+                } 
 		else if  ( manipulatorType.equals( "RemoveUnit" ) ){
 			interaction = new RemoveUnitInteraction(gfxScene);
 		}

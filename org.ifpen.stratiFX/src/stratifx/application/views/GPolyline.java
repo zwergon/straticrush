@@ -3,12 +3,8 @@ package stratifx.application.views;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import fr.ifp.kronosflow.property.PropertyLocation;
 import fr.ifp.kronosflow.warp.IWarp;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GImage;
@@ -137,7 +133,7 @@ public class GPolyline extends GDeformableObject  {
 	@Override
 	public GColor getColor(int x, int y) {
 		
-		if ( gProperty != null ){
+		if ( hasProperty() ){
 			GTransformer transformer = getScene().getTransformer();
 			double[] wCoord = transformer.deviceToWorld(x, y);
 			return gProperty.getColor( wCoord );
@@ -145,5 +141,9 @@ public class GPolyline extends GDeformableObject  {
 		
 		return GColor.black;
 	}
+
+    public boolean hasProperty() {
+        return (gProperty != null);
+    }
 
 }

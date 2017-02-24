@@ -24,6 +24,7 @@
             <items>
               <MenuItem mnemonicParsing="false" text="Options" />
                   <MenuItem mnemonicParsing="false" onAction="#onDeformResetAction" text="Reset" />
+                  <MenuItem mnemonicParsing="false" onAction="#onDeformDisplacementsAction" text="Displacements" />
                   <Menu mnemonicParsing="false" text="NodeMoveTo">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#onDeformNodeChainMailAction" text="ChainMail" />

@@ -219,7 +219,7 @@ public class GObject
    * 
    * @param userData  User data of this graphics object.
    */
-  public void setUserData (Object userData)
+  public final void setUserData (Object userData)
   {
     userData_ = userData;
   }
@@ -1183,7 +1183,7 @@ public class GObject
    * 
    * @param segment  Segment to add.
    */
-  public void addSegment (GSegment segment)
+  public final void addSegment (GSegment segment)
   {
     // Lazy create as not all GObjects will have segments
     if (segments_ == null)
@@ -1591,7 +1591,7 @@ public class GObject
    *
    * @param visibilityMask  Visibility instruction.
    */
-  public void setVisibility (int visibilityMask)
+  public final void setVisibility (int visibilityMask)
   {
     int  oldVisibilityMask = visibilityMask_;
 

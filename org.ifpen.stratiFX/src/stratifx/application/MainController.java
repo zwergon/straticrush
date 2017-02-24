@@ -70,6 +70,10 @@ public class MainController implements Initializable, IUIController {
 		Platform.exit();
 		System.exit(0);
 	}
+        
+        @FXML void onDeformDisplacementsAction( ActionEvent event ){
+            StratiFXService.instance.broadCastAction( new InteractionUIAction("Displacements", "Displacements") );
+        }
 	
 	@FXML void onDeformResetAction( ActionEvent event ){
 		StratiFXService.instance.broadCastAction( new InteractionUIAction("Reset", "Reset") );
