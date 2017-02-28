@@ -11,28 +11,27 @@ import javafx.scene.image.WritableImage;
 import stratifx.canvas.graphics.GImage;
 
 public class GTexture extends GImage {
-	
-	WritableImage fxImg;
 
-	public GTexture(int width, int height, int[] data ) {
-		super(width, height, data);
-	}
-	
-	
-	public Image getImageFX(){
-		return fxImg;
-	}
-	
-	protected void setImage (int width, int height, int data[]){
-		super.setImage(width, height, data);
-		
-		fxImg = new WritableImage(width, height);
-		PixelWriter pw = fxImg.getPixelWriter();
+    WritableImage fxImg;
 
-		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
-		pw.setPixels( 0, 0, width, height, pixelFormat, data, 0, width);
-		
-		
-	}
+    public GTexture() {
+        super(SYMBOL_NONE);
+    }
+
+    public Image getImageFX() {
+        return fxImg;
+    }
+
+    @Override
+    public void setImage(int width, int height, int data[]) {
+        super.setImage(width, height, data);
+
+        fxImg = new WritableImage(width, height);
+        PixelWriter pw = fxImg.getPixelWriter();
+
+        PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
+        pw.setPixels(0, 0, width, height, pixelFormat, data, 0, width);
+
+    }
 
 }

@@ -248,10 +248,12 @@ public class StratiFXService implements IUIController, IControllerService {
             if (event instanceof PropertyEvent) {
                 gfxScene.notifyViews(event);
             } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
+                new TimePropertyUpdater(section).update();
+                
                 updateVisiblePatches(gfxScene);
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
 
-                new TimePropertyUpdater(section).update();
+                
 
                 gfxScene.notifyViews(event);
             }

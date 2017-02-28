@@ -142,14 +142,17 @@ public class PlotController
     public void setWorldExtent( double[] w0, double[] w1, double[] w2 ){
     	
     	gfxScene.setWorldExtent(w0, w1, w2);
+        
+        
+        GWorldExtent wExtent = gfxScene.getWorldExtent();
     	
-    	axisX.setLowerBound(w0[0]);
-    	axisX.setUpperBound(w1[0]);
-    	axisX.setTickUnit( Math.abs(w1[0]-w0[0])/10.);
+    	axisX.setLowerBound(wExtent.left());
+    	axisX.setUpperBound(wExtent.right());
+    	axisX.setTickUnit( wExtent.getWidth()/10.);
     	
-    	axisY.setLowerBound(w0[1]);
-    	axisY.setUpperBound(w2[1]);
-    	axisY.setTickUnit( Math.abs(w2[1]-w0[1])/10.);
+    	axisY.setLowerBound(wExtent.bottom());
+    	axisY.setUpperBound(wExtent.top());
+    	axisY.setTickUnit( wExtent.getHeight()/10.);
     }
     
     

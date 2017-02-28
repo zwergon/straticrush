@@ -50,286 +50,264 @@ import stratifx.canvas.graphics.ICanvas;
 
 public class GFXScene extends GScene implements ICanvas {
 
-	Canvas canvas;
-	
+    Canvas canvas;
 
-	static private Map<String, String> mapViews;
+    static private Map<String, String> mapViews;
 
-	static {
-		mapViews = new HashMap<String, String>();
-		registerView( Patch.class, GPatchView.class );
-		registerView( MeshPatch.class, GPatchView.class );
-		registerView( ExplicitPatch.class, GPatchView.class );
-		registerView( CompositePatch.class, GPatchView.class );
-		registerView( FileMeshPatch.class, GPatchView.class );
-		registerView( TrglPatch.class, GPatchView.class );
-		registerView( PatchInterval.class, GPatchIntervalView.class );
-		registerView( FeatureGeolInterval.class, GPatchIntervalView.class );
-		registerView( Contact.class, GPartitionLineView.class );
-		registerView( Border.class, GPartitionLineView.class );
-		registerView( Paleobathymetry.class, GPaleoView.class );
-	}
+    static {
+        mapViews = new HashMap<String, String>();
+        registerView(Patch.class, GPatchView.class);
+        registerView(MeshPatch.class, GPatchView.class);
+        registerView(ExplicitPatch.class, GPatchView.class);
+        registerView(CompositePatch.class, GPatchView.class);
+        registerView(FileMeshPatch.class, GPatchView.class);
+        registerView(TrglPatch.class, GPatchView.class);
+        registerView(PatchInterval.class, GPatchIntervalView.class);
+        registerView(FeatureGeolInterval.class, GPatchIntervalView.class);
+        registerView(Contact.class, GPartitionLineView.class);
+        registerView(Border.class, GPartitionLineView.class);
+        registerView(Paleobathymetry.class, GPaleoView.class);
+    }
 
-	static public void registerView( Class<?> object_class, Class<?> view_class ){
-		mapViews.put( object_class.getCanonicalName(), view_class.getCanonicalName() );
-	}
-	
-	
-	public GFXScene( Canvas canvas, GWorldExtent extent ) {
+    static public void registerView(Class<?> object_class, Class<?> view_class) {
+        mapViews.put(object_class.getCanonicalName(), view_class.getCanonicalName());
+    }
 
-		this.canvas = canvas;
-		
-	
+    public GFXScene(Canvas canvas, GWorldExtent extent) {
 
-		Bounds localB = canvas.getLayoutBounds();
-		initialize(
-				this,
-				new GRect( 
-						(int)localB.getMinX(),  (int)localB.getMinY(), 
-						(int)localB.getWidth(), (int)localB.getHeight() ),
-				extent
-				);
-	}
+        this.canvas = canvas;
 
-	public GFXScene( Canvas canvas ) {
+        Bounds localB = canvas.getLayoutBounds();
+        initialize(
+                this,
+                new GRect(
+                        (int) localB.getMinX(), (int) localB.getMinY(),
+                        (int) localB.getWidth(), (int) localB.getHeight()),
+                extent
+        );
+    }
 
-		this.canvas = canvas;
+    public GFXScene(Canvas canvas) {
 
-		Bounds localB = canvas.getLayoutBounds();
-		initialize(
-				this,
-				new GRect( 
-						(int)localB.getMinX(),  (int)localB.getMinY(), 
-						(int)localB.getWidth(), (int)localB.getHeight() )
-				);
+        this.canvas = canvas;
 
-	}
+        Bounds localB = canvas.getLayoutBounds();
+        initialize(
+                this,
+                new GRect(
+                        (int) localB.getMinX(), (int) localB.getMinY(),
+                        (int) localB.getWidth(), (int) localB.getHeight())
+        );
 
-	
-	
+    }
 
-	public GView createView( Object object ){
+    public GView createView(Object object) {
 
-		if (  object == null  ) {
-			return null;
-		}
-		GView view = null;
-		try {
-			/*
+        if (object == null) {
+            return null;
+        }
+        GView view = null;
+        try {
+            /*
 			 * TODO go through class inheritance to find the first ascending 
 			 * class valid to create a GView
-			 */
-			String key = object.getClass().getCanonicalName();
+             */
+            String key = object.getClass().getCanonicalName();
 
-			if ( !mapViews.containsKey(key) ){
-				return null;
-			}
+            if (!mapViews.containsKey(key)) {
+                return null;
+            }
 
-			Class<?> c1 = Class.forName( mapViews.get(key) );
-			if ( c1 == null ){
-				return null;
-			}
-			view = (GView)c1.newInstance();
-			if ( null != view ){
-				add( view );
-				view.setModel( object );
-			}
-		}
-		catch( Exception ex){
-			System.out.println(ex.toString());
-		}
+            Class<?> c1 = Class.forName(mapViews.get(key));
+            if (c1 == null) {
+                return null;
+            }
+            view = (GView) c1.newInstance();
+            if (null != view) {
+                add(view);
+                view.setModel(object);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
 
-		return view;
-	}
+        return view;
+    }
 
-	public Collection<GView> getViews(){
-		Collection<GView> views = new ArrayList<GView>();
-		for( GObject object :  getChildren()){
-			if ( object instanceof GView ){
-				views.add((GView)object);
-			}
-		}
+    public Collection<GView> getViews() {
+        Collection<GView> views = new ArrayList<GView>();
+        for (GObject object : getChildren()) {
+            if (object instanceof GView) {
+                views.add((GView) object);
+            }
+        }
 
-		return views;
-	}
+        return views;
+    }
 
-	public void destroyViews( Object object ){
+    public void destroyViews(Object object) {
 
-		Collection<Object> objects = new ArrayList<Object>();
-		objects.add(object);
-		if ( object instanceof KinObject ){
-			KinObject kobject =(KinObject)object;
-			collectChildren( kobject, objects );
-		}
+        Collection<Object> objects = new ArrayList<Object>();
+        objects.add(object);
+        if (object instanceof KinObject) {
+            KinObject kobject = (KinObject) object;
+            collectChildren(kobject, objects);
+        }
 
-		for( GView view : getViews() ){
-			for( Object o : objects ){
-				if ( o == view.getUserData() ){
-					remove(view);
-				}
-			}
-		}
-	}
+        for (GView view : getViews()) {
+            for (Object o : objects) {
+                if (o == view.getUserData()) {
+                    remove(view);
+                }
+            }
+        }
+    }
 
+    public void destroyView(GView view) {
+        remove(view);
+    }
 
-	public void destroyView( GView view ){	
-		remove(view);
-	}
+    public void destroyAllViews() {
+        for (GView view : getViews()) {
+            destroyView(view);
+        }
+    }
 
-	public void destroyAllViews(){
-		for( GView view :  getViews()){
-			destroyView(view);
-		}
-	}
+    public void destroyAll() {
+        removeAll();
+        removeSegments();
 
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
 
-	public void destroyAll(){
-		removeAll();
-		removeSegments();
+    /**
+     * Method that goes though {@link KinObject} tree and collect list of all
+     * children of this root {@link KinObject}.
+     *
+     * @param kobject the root {@link KinObject}
+     * @param objects flat list of children
+     */
+    private void collectChildren(KinObject kobject, Collection<Object> objects) {
+        List<KinObject> children = kobject.getChildren();
+        if (children.isEmpty()) {
+            return;
+        }
+        objects.addAll(children);
+        for (KinObject child : children) {
+            collectChildren(child, objects);
+        }
+    }
 
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-	}
+    /**
+     * Notify all listeners about change in this Shape.
+     *
+     * @param Event Describe the change in the Shape.
+     */
+    public void notifyViews(IControllerEvent<?> event) {
+        for (GObject object : getChildren()) {
+            if (object instanceof GView) {
+                GView view = (GView) object;
+                view.modelChanged(event);
+            }
+        }
+    }
 
-	/**
-	 * Method that goes though {@link KinObject} tree and collect list of all children of
-	 * this root {@link KinObject}.
-	 * @param kobject the root {@link KinObject}
-	 * @param objects flat list of children
-	 */
-	private void collectChildren(KinObject kobject, Collection<Object> objects) {
-		List<KinObject> children = kobject.getChildren();
-		if ( children.isEmpty() ){
-			return;
-		}
-		objects.addAll(children);
-		for( KinObject child : children ){
-			collectChildren(child, objects);
-		}
-	}
+    @Override
+    public void setClipArea(GRegion damageRegion) {
+        // TODO Auto-generated method stub
 
-	/**
-	 * Notify all listeners about change in this Shape.
-	 * 
-	 * @param Event  Describe the change in the Shape.
-	 */
-	public void notifyViews( IControllerEvent<?> event )
-	{
-		for( GObject object : getChildren() ){
-			if ( object instanceof GView ){
-				GView view = (GView)object;
-				view.modelChanged(event);
-			}
-		}
-	}
+    }
 
+    @Override
+    public void clear(GRect extent) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        //gc.clearRect(extent.x, extent.y, extent.width, extent.height );
 
-	@Override
-	public void setClipArea(GRegion damageRegion) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void render(GSegment segment, GStyle style) {
 
-	@Override
-	public void clear( GRect extent ) {
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		//gc.clearRect(extent.x, extent.y, extent.width, extent.height );
+        double[][] xy = segment.getXY();
 
-	}
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
-	@Override
-	public void render( GSegment segment, GStyle style ) {
+        Image img = null;
+        GImage gimage = segment.getTexture();
+        if (gimage != null) {
 
-		double[][] xy = segment.getXY();
-		
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
-		
-		Image img = null;
-		GImage gimage = segment.getTexture();
-		if ( gimage != null ){
-			
-			gc.save();
-			
-			GRect rect = segment.getOwner().getRegion().getExtent();
-			img = ((GTexture)gimage).getImageFX();
+            gc.save();
 
-			gc.beginPath();
-			gc.moveTo(xy[0][0], xy[1][0]) ;
-			for( int i =1; i< segment.size(); i++ ){
-				gc.lineTo(xy[0][i], xy[1][i]) ;
-			}
-			gc.closePath();
-			gc.clip();
-			gc.drawImage(img, rect.x, rect.y );
+            GRect rect = segment.getOwner().getRegion().getExtent();
+            img = ((GTexture) gimage).getImageFX();
 
-			gc.restore();
-		}
-		else
-		{
-			GColor bg = style.getBackgroundColor();
-			if ( null != bg ){
-				
-				float[] rgba = new float[3];
-				bg.getRGBColorComponents(rgba);
-				Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
-				gc.setFill( color );
-				gc.beginPath();
-				gc.moveTo(xy[0][0], xy[1][0]) ;
-				for( int i =1; i< segment.size(); i++ ){
-					gc.lineTo(xy[0][i], xy[1][i]) ;
-		        }
-				gc.closePath();
-				gc.fill();
-				
-			}
-		}
-	    
-	    
-		
-		
+            gc.beginPath();
+            gc.moveTo(xy[0][0], xy[1][0]);
+            for (int i = 1; i < segment.size(); i++) {
+                gc.lineTo(xy[0][i], xy[1][i]);
+            }
+            gc.closePath();
+            gc.clip();
+            gc.drawImage(img, rect.x, rect.y);
 
-		GColor fg = style.getForegroundColor();
-		if ( style.isLineVisible() ){
-			float[] rgba = new float[3];
-			fg.getRGBColorComponents(rgba);
-			Color color = new Color(rgba[0], rgba[1], rgba[2], 1. );
-			gc.setLineCap( StrokeLineCap.BUTT );
-			gc.setLineJoin(StrokeLineJoin.BEVEL);
-			gc.setStroke( color );
-			gc.setLineWidth( style.getLineWidth() );
-			gc.strokePolyline( xy[0], xy[1], segment.size()  );	
-		}
-		
-		
+            gc.restore();
+        } else {
+            GColor bg = style.getBackgroundColor();
+            if (null != bg) {
 
-	}
+                float[] rgba = new float[3];
+                bg.getRGBColorComponents(rgba);
+                Color color = new Color(rgba[0], rgba[1], rgba[2], 1.);
+                gc.setFill(color);
+                gc.beginPath();
+                gc.moveTo(xy[0][0], xy[1][0]);
+                for (int i = 1; i < segment.size(); i++) {
+                    gc.lineTo(xy[0][i], xy[1][i]);
+                }
+                gc.closePath();
+                gc.fill();
 
-	@Override
-	public void render( GText text, GStyle style ) {
-		// TODO Auto-generated method stub
+            }
+        }
 
-	}
+        GColor fg = style.getForegroundColor();
+        if (style.isLineVisible()) {
+            float[] rgba = new float[3];
+            fg.getRGBColorComponents(rgba);
+            Color color = new Color(rgba[0], rgba[1], rgba[2], 1.);
+            gc.setLineCap(StrokeLineCap.BUTT);
+            gc.setLineJoin(StrokeLineJoin.BEVEL);
+            gc.setStroke(color);
+            gc.setLineWidth(style.getLineWidth());
+            gc.strokePolyline(xy[0], xy[1], segment.size());
+        }
 
-	@Override
-	public void render(GImage image) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void render(GText text, GStyle style) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void render(int[] x, int[] y, GImage image) {
-		// TODO Auto-generated method stub
+    }
 
-	}
-	@Override
-	public GRect getStringBox(String string, GFont font) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
+    @Override
+    public void render(GImage image) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void render(int[] x, int[] y, GImage image) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public GRect getStringBox(String string, GFont font) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
