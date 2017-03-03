@@ -97,15 +97,15 @@ public class TriangulateInteraction implements GInteraction {
 			for ( IHandle handle : triangulation.getCells() ){
 				Triangle trgl = (Triangle)handle;
 				
-				Node n1 = (Node) triangulation.getNode(trgl.getNodeId(0));
+				Node n1 = (Node) triangulation.getNode(trgl.getNode(0));
 				xy[0] = n1.x();
 				xy[1] = n1.y();
 				
-				Node n2 = (Node) triangulation.getNode(trgl.getNodeId(1));
+				Node n2 = (Node) triangulation.getNode(trgl.getNode(1));
 				xy[2] = n2.x();
 				xy[3] = n2.y();
 
-				Node n3 = (Node) triangulation.getNode(trgl.getNodeId(2));
+				Node n3 = (Node) triangulation.getNode(trgl.getNode(2));
 				xy[4] = n3.x();
 				xy[5] = n3.y();
 

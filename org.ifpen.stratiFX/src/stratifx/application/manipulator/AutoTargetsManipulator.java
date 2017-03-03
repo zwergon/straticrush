@@ -7,6 +7,7 @@ import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
+import fr.ifp.jdeform.deformation.constraint.ExactTargetsComputer;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
 import fr.ifp.kronosflow.geometry.Point2D;
@@ -156,9 +157,16 @@ public class AutoTargetsManipulator  extends CompositeManipulator {
 			
 			if ( null != IH ) {
 				GColor color = GColor.fromAWTColor(selectedHorizon.getColor());
-				selectedPatchGraphic.addTarget( IH.getPoint(), color.brighter() );
+				//selectedPatchGraphic.addTarget( IH.getPoint(), color.brighter() );
 				
-				targetData.setTarget( new PatchIntersectionItem(selectedHorizon, IH));
+                                PatchIntersectionItem pi = new PatchIntersectionItem(selectedHorizon, IH);
+				targetData.setTarget( pi );
+                                
+                                ExactTargetsComputer computer = new ExactTargetsComputer(pi.getInterval(), pi.getIntersection());
+                                computer.compute();
+                                
+                                selectedPatchGraphic.addTarget(computer.getTargetLine(), color );
+                                
 			}
 			
 			if ( null != IF )  {

@@ -74,7 +74,7 @@ public class GMesh
 		Mesh2D mesh = getMesh();
 		Cell cell = (Cell)gcell.getUserData();
 		
-		UID[] nodes = cell.getNodeIds();
+		UID[] nodes = cell.getNodes();
 
 		int npts = nodes.length+1;
 		double[] xpts = new double[npts];
@@ -83,7 +83,7 @@ public class GMesh
 		IGeometryProvider provider = mesh.getGeometryProvider();
 		
 		for( int i=0; i<npts; i++){
-			double[] xy = provider.getPosition( cell.getNodeId(i % nodes.length) );
+			double[] xy = provider.getPosition( cell.getNode(i % nodes.length) );
 		
 				xpts[i] = xy[0];
 				ypts[i] = xy[1];
@@ -97,7 +97,7 @@ public class GMesh
 		Mesh2D mesh = getMesh();
 		Cell cell = (Cell)gcell.getUserData();
 		
-		UID[] nodes = cell.getNodeIds();
+		UID[] nodes = cell.getNodes();
 
 		int npts = nodes.length+1;
 		double[] xpts = new double[npts];
@@ -113,7 +113,7 @@ public class GMesh
 			if ( meshWarp.getMesh() == mesh ){
 				
 				for( int i=0; i<npts; i++){
-					UID uid = cell.getNodeId(i % nodes.length);
+					UID uid = cell.getNode(i % nodes.length);
 					double[] xy = meshWarp.getTargetPosition(uid);
 					xpts[i] = xy[0];
 					ypts[i] = xy[1];
@@ -127,7 +127,7 @@ public class GMesh
 		//default drawing.
 		double[] dst = new double[2];	
 		for( int i=0; i<npts; i++){
-			double[] xy = provider.getPosition( cell.getNodeId(i % nodes.length) );
+			double[] xy = provider.getPosition( cell.getNode(i % nodes.length) );
 
 			warp.getDeformed(xy, dst);
 			xpts[i] = dst[0];

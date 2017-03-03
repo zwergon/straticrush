@@ -42,7 +42,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
-import stratifx.application.properties.PorosityComputer;
+import fr.ifp.jdeform.decompaction.PorosityComputer;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;

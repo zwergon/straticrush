@@ -46,6 +46,11 @@
                         </Menu>
                     </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Dilatation">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#onDeformDilatationDecompactionAction" text="Decompaction" />
+                    </items>
+                  </Menu>
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Topology">
@@ -74,7 +79,7 @@
                <graphic>
                   <ImageView accessibleRole="TOGGLE_BUTTON" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/zoomIn.gif" />
+                        <Image url="@../icons/zoomIn.gif" />
                      </image>
                   </ImageView>
                </graphic>
@@ -83,7 +88,7 @@
                <graphic>
                   <ImageView accessibleRole="BUTTON" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/oneOne.gif" />
+                        <Image url="@../icons/oneOne.gif" />
                      </image>
                   </ImageView>
                </graphic></Button>

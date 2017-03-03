@@ -44,7 +44,7 @@ public class GCell extends GSegment implements IMeshProvider, IDeformableGeometr
 		
 		Cell cell = getCell();
 
-		UID[] nodes = cell.getNodeIds();
+		UID[] nodes = cell.getNodes();
 
 		int npts = nodes.length+1;
 		double[] xpts = new double[npts];
@@ -54,7 +54,7 @@ public class GCell extends GSegment implements IMeshProvider, IDeformableGeometr
 		IWarp warp = (deformation != null ) ? deformation.getWarp() : null;	
 		
 		for( int i=0; i<npts; i++){
-			double[] xy = provider.getPosition( cell.getNodeId(i % nodes.length) );
+			double[] xy = provider.getPosition( cell.getNode(i % nodes.length) );
 			if ( null != warp ){
 				double[] dst = new double[2];		
 				warp.getDeformed(xy, dst);

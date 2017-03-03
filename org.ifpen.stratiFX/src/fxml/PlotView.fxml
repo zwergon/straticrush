@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="paneId" onMouseClicked="#onMouseClicked" onMouseDragged="#onMouseDragged" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMouseMoved="#onMouseMoved" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" onScroll="#onPlotScrolled" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.plot.PlotController">
-	<children>
-				<Group fx:id="plotGroupId" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-					<children>
-						<Canvas fx:id="canvasId" blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="DISABLE" focusTraversable="true" height="1000.0" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" width="1400.0">
-						</Canvas>
-					</children>
-				</Group>
-	</children>
+    <children>
+        <Group fx:id="plotGroupId" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Canvas fx:id="canvasId" blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="DISABLE" focusTraversable="true" height="1000.0" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" width="1400.0">
+                </Canvas>
+            </children>
+        </Group>
+    </children>
 </AnchorPane>
