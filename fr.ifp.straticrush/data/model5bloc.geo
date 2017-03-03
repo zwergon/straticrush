@@ -55,7 +55,7 @@ Physical Line(3)={9,2};
 
 //Ecriture de la surface
 Plane Surface(0)={0};
- Plane Surface(1)={1};
+Plane Surface(1)={1};
 Plane Surface(2)={2};
 Plane Surface(3)={3};
 
