@@ -38,7 +38,7 @@ public class MainController implements Initializable, IUIController {
             try {
                 treeStage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("../../fxml/TreeUI.fxml"));
+                loader.setLocation(getClass().getResource("/fxml/TreeUI.fxml"));
                 Pane rootLayout = loader.load();
                 Scene scene = new Scene(rootLayout);
                 treeStage.setScene(scene);
@@ -72,14 +72,19 @@ public class MainController implements Initializable, IUIController {
         Platform.exit();
         System.exit(0);
     }
+    
+    @FXML
+    void onToolsDisplacementsAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
+    }
 
     @FXML
-    void onDeformDisplacementsAction(ActionEvent event) {
+    void onToolsTangentAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "Displacements"));
     }
 
     @FXML
-    void onDeformResetAction(ActionEvent event) {
+    void onToolsResetAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Reset", "Reset"));
     }
 

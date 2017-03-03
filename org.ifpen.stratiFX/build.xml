@@ -1,140 +1,53 @@
-<project name="StratiFX" basedir="." default="all" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) --><!-- By default, only the Clean and Build commands use this build script. --><project name="org.ifpen.stratiFX" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+    <description>Builds, tests, and runs the project org.ifpen.stratiFX.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
 
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. Those of them relevant for JavaFX project are: 
 
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-jfx-jar:              called before FX SDK specific <fx:jar> task
+      -post-jfx-jar:             called after FX SDK specific <fx:jar> task
+      -pre-jfx-deploy:           called before FX SDK specific <fx:deploy> task
+      -post-jfx-deploy:          called after FX SDK specific <fx:deploy> task
+      -pre-jfx-native:           called just after -pre-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-jfx-native:          called just after -post-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-clean:               called after cleaning build products
 
-<property name="javafx.sdk.path" value="/work/irlin362_1/lecomtje/Apps/jdk1.8.0_45"/>
-<property name="root.dir" value="/work/irlin362_1/lecomtje/git/kronosflow"/>
-<property name="src.dir" value="src"/>
-<property name="build.dir" value="build"/>
-<property name="classes.dir" value="${build.dir}/classes"/>
-<property name="uids.dir"  value="fr.ifp.kronosflow.uids"/>
-<property name="kernel.dir"  value="fr.ifp.kronosflow.kernel"/>
-<property name="mesh.dir"  value="fr.ifp.kronosflow.mesh"/>
-<property name="model.dir"  value="fr.ifp.kronosflow.model"/>
-<property name="fem2d.dir"  value="fr.ifp.kronosflow.fem2d"/>
-<property name="controllers.dir"  value="fr.ifp.kronosflow.controllers"/>
-<property name="geoscheduler.dir"  value="fr.ifp.kronosflow.geoscheduler"/>
-<property name="jdeform.dir"  value="fr.ifp.kronosflow.jdeform"/>
-<property name="jar.dir"     value="${build.dir}/jar"/>
-<property name="main.class"  value="stratifx.application.Main"/>
-<property name="kronos.kernel.jar"  value="kronos_kernel.jar"/>
-<property name="lib.dir" value="libs"/>
+    (Targets beginning with '-' are not intended to be called on their own.)
 
+    Example of inserting a HTML postprocessor after javaFX SDK deployment:
 
-<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"      
-         uri="javafx:com.sun.javafx.tools.ant"
-         classpath="${javafx.sdk.path}/lib/ant-javafx.jar"/>
+        <target name="-post-jfx-deploy">
+            <basename property="jfx.deployment.base" file="${jfx.deployment.jar}" suffix=".jar"/>
+            <property name="jfx.deployment.html" location="${jfx.deployment.dir}${file.separator}${jfx.deployment.base}.html"/>
+            <custompostprocess>
+                <fileset dir="${jfx.deployment.html}"/>
+            </custompostprocess>
+        </target>
 
+    Example of calling an Ant task from JavaFX SDK. Note that access to JavaFX SDK Ant tasks must be
+    initialized; to ensure this is done add the dependence on -check-jfx-sdk-version target:
 
-<path id="classpath">
-    <fileset dir="${lib.dir}" includes="**/*.jar"/>
-    <pathelement location="${classes.dir}"/>
-</path>
+        <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
+            <echo message="Calling jar task from JavaFX SDK"/>
+            <fx:jar ...>
+                ...
+            </fx:jar>
+        </target>
 
- <target name="clean">
-        <delete dir="${build.dir}"/>
- </target>
+    For more details about JavaFX SDK Ant tasks go to
+    http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm
 
-<target name="compile-uids">
-	<mkdir dir="${classes.dir}"/>
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${uids.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
+    For list of available properties check the files
+    nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
-<target name="compile-kernel" depends="compile-uids">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${kernel.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-<target name="compile-mesh" depends="compile-uids,compile-kernel">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${mesh.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-<target name="compile-model" depends="compile-uids,compile-kernel,compile-mesh">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${model.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-<target name="compile-fem2d" depends="compile-uids,compile-kernel,compile-mesh,compile-model">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${fem2d.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-<target name="compile-controllers" depends="compile-uids,compile-kernel,compile-model">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${controllers.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-
-<target name="compile-geoscheduler" depends="compile-uids,compile-kernel,compile-model,compile-controllers">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${geoscheduler.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-
-<target name="compile-jdeform" depends="compile-uids,compile-kernel,compile-mesh,compile-model,compile-fem2d,compile-controllers,compile-geoscheduler">
-	<javac includeantruntime="false"
-		srcdir="${root.dir}/${jdeform.dir}/src" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-</target>
-
-<target name="compile-libs" depends="compile-uids,compile-kernel,compile-mesh,compile-model,compile-fem2d,compile-controllers,compile-geoscheduler,compile-jdeform"/>
-
-<target name="compile-stratifx" depends="compile-libs">
-	<javac includeantruntime="false"
-		srcdir="${src.dir}" 
-		destdir="${classes.dir}"
-		classpathref="classpath"
-	/>
-	<copy todir="${classes.dir}/fxml">
-		<fileset dir="${src.dir}/fxml"/>
-	</copy>
-</target>
-
-<target name="jar-libs" depends="compile-libs">
-	<jar destfile = "${jar.dir}/${kronos.kernel.jar}"
-	   basedir = "${classes.dir}" >
-        <fileset dir="icons">
-            <include name="**/*.gif" />
-        </fileset>
-	</jar>
-</target>	
-
-<target name="compile" depends="compile-libs,compile-stratifx"/>
-
-<target name="all" depends="clean,compile" />
-
-<target name="run" depends="compile">
-        <java fork="true" dir="." classname="${main.class}">
-        	<classpath>
-                <path refid="classpath"/>
-                <path location="${jar.dir}/${kronos.kernel.jar}.jar"/> 
-            </classpath>
-        </java>
- </target>
-
+    -->
 </project>
