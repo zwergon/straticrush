@@ -9,7 +9,6 @@ import fr.ifp.kronosflow.geometry.Geometry;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
-import stratifx.application.views.GTexture;
 
 /**
  * Class for holding a polyline. <tt>GSegment</tt>s are contained by
@@ -147,7 +146,7 @@ public class GSegment
     }
 
     public void createTexture() {
-        texture_ = new GTexture();
+        texture_ = new GFXTexture();
     }
     
     

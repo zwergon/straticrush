@@ -72,15 +72,16 @@ public class MainController implements Initializable, IUIController {
         Platform.exit();
         System.exit(0);
     }
-    
+
     @FXML
     void onToolsDisplacementsAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "Displacements"));
+
     }
 
     @FXML
     void onToolsTangentAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "Displacements"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
     }
 
     @FXML

@@ -1,6 +1,7 @@
 package stratifx.application.views;
 
 import stratifx.canvas.graphics.GColor;
+import stratifx.canvas.graphics.GFXSymbol;
 import stratifx.canvas.graphics.GImage;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GSegment;
@@ -53,7 +54,7 @@ public class GTranslateObject extends GObject {
 		GStyle symbolStyle = new GStyle();
 		symbolStyle.setForegroundColor (new GColor (0, 0, 255));
 		symbolStyle.setBackgroundColor (new GColor (0, 0, 255));
-		GImage square = new GImage (GImage.SYMBOL_SQUARE1);
+		GImage square = new GFXSymbol (GFXSymbol.SYMBOL_SQUARE1);
 		square.setStyle (symbolStyle);
 
 		line.setVertexImage (square);

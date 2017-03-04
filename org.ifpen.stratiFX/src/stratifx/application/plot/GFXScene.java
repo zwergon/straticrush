@@ -19,11 +19,16 @@ import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
 import fr.ifp.kronosflow.model.triangulation.TrglPatch;
+import java.nio.IntBuffer;
+import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
@@ -32,7 +37,7 @@ import stratifx.application.views.GPaleoView;
 import stratifx.application.views.GPartitionLineView;
 import stratifx.application.views.GPatchIntervalView;
 import stratifx.application.views.GPatchView;
-import stratifx.application.views.GTexture;
+import stratifx.canvas.graphics.GFXTexture;
 import stratifx.application.views.GView;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GColorMap;
@@ -241,7 +246,7 @@ public class GFXScene extends GScene implements ICanvas {
             gc.save();
 
             GRect rect = segment.getOwner().getRegion().getExtent();
-            img = ((GTexture) gimage).getImageFX();
+            img = ((GFXTexture) gimage).getImageFX();
 
             gc.beginPath();
             gc.moveTo(xy[0][0], xy[1][0]);
@@ -300,7 +305,47 @@ public class GFXScene extends GScene implements ICanvas {
 
     @Override
     public void render(int[] x, int[] y, GImage image) {
-        // TODO Auto-generated method stub
+        
+        GRect rectangle = image.getRectangle();
+
+        WritableImage fxImg = new WritableImage(rectangle.width, rectangle.height);
+        PixelWriter pw = fxImg.getPixelWriter();
+
+        GColor gcolor = image.getStyle().getForegroundColor();
+        int color = 0;
+        if (gcolor == null) {
+            return;
+        }
+        
+        //map binary image into one argb color buffer.
+        color = (gcolor.getAlpha() << 24)
+                | (gcolor.getRed() << 16)
+                | (gcolor.getGreen() << 8)
+                | gcolor.getBlue();
+
+ 
+        int[] imgData = image.getImageData();
+        int[] data = new int[rectangle.width * rectangle.height];
+        for (int j = 0; j < rectangle.height; j++) {   
+            int offset = j * rectangle.width;
+            for (int i = 0; i < rectangle.width; i++) {
+                int idx = offset+i;
+                if ( imgData[idx] == 1 ){
+                    data[idx] = color; //foreground color
+                }
+                else {
+                    data[idx] = 0; //background is transparent
+                }
+            }
+        }
+
+        PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
+        pw.setPixels(0, 0, rectangle.width, rectangle.height, pixelFormat, data, 0, rectangle.width);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < x.length; i++) {
+            gc.drawImage(fxImg, x[i]+rectangle.x, y[i]+rectangle.y);
+        }
 
     }
 

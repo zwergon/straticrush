@@ -7,6 +7,7 @@ import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.warp.IWarp;
 import stratifx.canvas.graphics.GColor;
+import stratifx.canvas.graphics.GFXSymbol;
 import stratifx.canvas.graphics.GImage;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GPosition;
@@ -59,9 +60,8 @@ public class GPolyline extends GDeformableObject {
         }
 
         GStyle symbolStyle = new GStyle();
-        symbolStyle.setForegroundColor(new GColor(0, 0, 255));
-        symbolStyle.setBackgroundColor(new GColor(0, 0, 255));
-        GImage square = new GImage(GImage.SYMBOL_SQUARE1);
+        symbolStyle.setForegroundColor(new GColor(100, 100, 150));
+        GImage square = new GFXSymbol(GFXSymbol.SYMBOL_CIRCLE2);
         square.setStyle(symbolStyle);
 
         border.setVertexImage(square);

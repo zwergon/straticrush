@@ -1,4 +1,4 @@
-package stratifx.application.views;
+package stratifx.canvas.graphics;
 
 
 
@@ -10,12 +10,12 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import stratifx.canvas.graphics.GImage;
 
-public class GTexture extends GImage {
+public class GFXTexture extends GImage {
 
     WritableImage fxImg;
 
-    public GTexture() {
-        super(SYMBOL_NONE);
+    public GFXTexture() {
+        super();
     }
 
     public Image getImageFX() {
@@ -24,7 +24,7 @@ public class GTexture extends GImage {
 
     @Override
     public void setImage(int width, int height, int data[]) {
-        super.setImage(width, height, data);
+        initImage(width, height, data);
 
         fxImg = new WritableImage(width, height);
         PixelWriter pw = fxImg.getPixelWriter();
