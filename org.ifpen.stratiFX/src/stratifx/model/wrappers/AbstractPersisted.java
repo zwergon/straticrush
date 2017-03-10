@@ -5,7 +5,6 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.model.wrapper.IPersisted;
 
 /**
  *

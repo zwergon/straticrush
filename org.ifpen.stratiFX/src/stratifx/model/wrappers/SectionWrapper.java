@@ -10,7 +10,6 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.DomainReference;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
-import fr.ifp.kronosflow.model.wrapper.IPersisted;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import java.util.Iterator;

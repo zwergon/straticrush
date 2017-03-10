@@ -11,7 +11,6 @@ import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.LithoFaciesFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
-import fr.ifp.kronosflow.model.wrapper.IPersisted;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.CurviPoint;

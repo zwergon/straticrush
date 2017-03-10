@@ -19,15 +19,21 @@ public class GDisplacement extends GObject {
 
     IUIDDisplacements dBetween;
 
+    List<Displacement> displacements;
+
     GSegment border;
 
     GSegment originalBorder;
 
-    GSegment[] displacements;
+    GSegment[] gDisplacements;
 
-    public GDisplacement(IPolyline iPolyline, IUIDDisplacements dBetween) {
+    public GDisplacement(
+            IPolyline iPolyline,
+            IUIDDisplacements dBetween,
+            List<Displacement> displacements) {
         setUserData(iPolyline);
         this.dBetween = dBetween;
+        this.displacements = displacements;
 
         setVisibility(GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE);
 
@@ -37,13 +43,15 @@ public class GDisplacement extends GObject {
         originalBorder = new GSegment();
         addSegment(originalBorder);
 
-        displacements = new GSegment[iPolyline.size()];
-        for (int i = 0; i < displacements.length; i++) {
-            GStyle style = new GStyle();
-            style.setLineWidth(1);
-            displacements[i] = new GSegment();
-            displacements[i].setStyle(style);
-            addSegment(displacements[i]);
+        if (null != displacements) {
+            gDisplacements = new GSegment[displacements.size()];
+            for (int i = 0; i < gDisplacements.length; i++) {
+                GStyle style = new GStyle();
+                style.setLineWidth(1);
+                gDisplacements[i] = new GSegment();
+                gDisplacements[i].setStyle(style);
+                addSegment(gDisplacements[i]);
+            }
         }
 
     }
@@ -55,6 +63,10 @@ public class GDisplacement extends GObject {
     @Override
     protected void draw() {
         drawBorder();
+
+        if (null != gDisplacements) {
+            drawOriginalBorder();
+        }
 
         if (null != displacements) {
             drawDisplacements();
@@ -90,7 +102,7 @@ public class GDisplacement extends GObject {
         border.setWorldGeometry(xpts, ypts);
     }
 
-    private void drawDisplacements() {
+    private void drawOriginalBorder() {
 
         IPolyline line = getLine();
 
@@ -101,20 +113,16 @@ public class GDisplacement extends GObject {
         double[] ypts = new double[npts];
 
         double[] start;
-        for (int i = 0; i < displacements.length; i++) {
-            GSegment segment = displacements[i];
-
-            ICurviPoint cp = pts.get(i);
+        int i = 0;
+        for (ICurviPoint cp : line.getPoints()) {
 
             Displacement displacement = dBetween.getDisplacement(cp.getUID());
 
             start = displacement.getStart();
-            double[] end = displacement.getTarget();
-
-            segment.setWorldGeometry(start[0], start[1], end[0], end[1]);
 
             xpts[i] = start[0];
             ypts[i] = start[1];
+            i++;
         }
 
         if (line.isClosed()) {
@@ -126,6 +134,31 @@ public class GDisplacement extends GObject {
         }
 
         originalBorder.setWorldGeometry(xpts, ypts);
+
+    }
+
+    private void drawDisplacements() {
+
+        int npts = gDisplacements.length;
+
+        double[] xpts = new double[npts];
+        double[] ypts = new double[npts];
+
+        for (int i = 0; i < npts; i++) {
+
+            GSegment segment = gDisplacements[i];
+
+            Displacement displacement = displacements.get(i);
+
+            double[] start = displacement.getStart();
+            double[] end = displacement.getTarget();
+
+            segment.setWorldGeometry(start[0], start[1], end[0], end[1]);
+
+            xpts[i] = start[0];
+            ypts[i] = start[1];
+            i++;
+        }
 
     }
 

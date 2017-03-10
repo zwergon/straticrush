@@ -8,7 +8,14 @@ package stratifx.application.interaction;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.algo.DisplacementsBetween;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.warp.BarycentricWarp;
+import fr.ifp.kronosflow.warp.Displacement;
 import fr.ifp.kronosflow.warp.IUIDDisplacements;
+import fr.ifp.kronosflow.warp.RBFWarp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GDisplacement;
 import stratifx.canvas.graphics.GColor;
@@ -34,7 +41,7 @@ public class DisplacementsInteraction extends SectionInteraction {
             case GMouseEvent.BUTTON_DOWN:
                 Patch patch = getSelectedPatch(event.x, event.y);
                 if (patch != null) {
-                    createDisplacement(patch);
+                    createDisplacement( patch, event.x, event.y );
                     scene.refresh();
                 }
 
@@ -51,10 +58,31 @@ public class DisplacementsInteraction extends SectionInteraction {
         return true;
     }
 
-    private void createDisplacement(Patch patch) {
+    private void createDisplacement(Patch patch, int x, int y) {
 
         IUIDDisplacements dBetween = getDisplacements();
-        gDisplacement = new GDisplacement(patch.getBorder(), dBetween);
+        
+        Collection<Displacement> displacements = new ArrayList<Displacement>();
+        for( ICurviPoint cp : patch.getBorder().getPoints() ){
+            Displacement displacement = dBetween.getDisplacement(cp.getUID());
+            if ( null != displacement ){
+                displacements.add(displacement);
+            }
+        }
+        
+        RBFWarp warp = new RBFWarp();
+        warp.setDisplacements( displacements );
+        
+        //BarycentricWarp warp = new BarycentricWarp(patch.getBorder(), dBetween);
+        
+        double[] src = scene_.getTransformer().deviceToWorld( x, y );
+        
+        double[] dst = new double[2];
+        warp.getUndeformed(src, dst);
+        
+        List<Displacement> currentDisplacement = new ArrayList<Displacement>();
+        currentDisplacement.add( new Displacement(src, dst)  );
+        gDisplacement = new GDisplacement(patch.getBorder(),  dBetween, currentDisplacement ) ;
 
         GStyle gStyle = new GStyle();
 

@@ -34,7 +34,7 @@ public class GProperty {
     public GColor getColor(double[] xy) {
         IPropertyValue value = property.getAccessor().getValue( new PropertyLocation(provider, xy) );
 
-        return colormap.getColor(value.real());
+        return colormap.getColor(value.last());
     }
 
     private void updateColormap(Property property) {
@@ -49,7 +49,7 @@ public class GProperty {
         IPropertyValue min = stat.getMinValue();
         IPropertyValue max = stat.getMaxValue();
 
-        colormap.setMinMax(min.real(), max.real());
+        colormap.setMinMax(min.last(), max.last());
     }
 
 }

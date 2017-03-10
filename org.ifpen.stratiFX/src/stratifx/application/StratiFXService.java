@@ -44,6 +44,7 @@ import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
 import stratifx.application.properties.PropertiesUIAction;
+import stratifx.application.properties.StratigraphyPropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.model.wrappers.PatchWrapper;
@@ -75,6 +76,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
         PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder());
         PropertyController.registerBuilder("Porosity", new PorosityComputer.Builder());
+        PropertyController.registerBuilder("Stratigraphy", new StratigraphyPropertyComputer.Builder());
         //PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
         //PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
 
@@ -106,6 +108,11 @@ public class StratiFXService implements IUIController, IControllerService {
 
     public void removeController(Type type) {
         controllers.remove(type);
+    }
+    
+    
+    public IUIController getController( Type type ){
+        return controllers.get(type);
     }
 
     public void broadCastAction(UIAction action) {
@@ -249,11 +256,9 @@ public class StratiFXService implements IUIController, IControllerService {
                 gfxScene.notifyViews(event);
             } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
                 new TimePropertyUpdater(section).update();
-                
+
                 updateVisiblePatches(gfxScene);
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
-
-                
 
                 gfxScene.notifyViews(event);
             }
