@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.tree.TreeUIController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.TreeUIController">
    <children>
       <TreeView fx:id="treeViewId" prefHeight="200.0" prefWidth="200.0" />
    </children>

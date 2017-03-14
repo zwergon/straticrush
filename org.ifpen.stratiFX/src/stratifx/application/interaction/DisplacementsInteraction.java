@@ -9,10 +9,11 @@ import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.algo.DisplacementsBetween;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.warp.BarycentricWarp;
+import fr.ifp.kronosflow.warp.barycentric.BarycentricWarp;
 import fr.ifp.kronosflow.warp.Displacement;
 import fr.ifp.kronosflow.warp.IUIDDisplacements;
 import fr.ifp.kronosflow.warp.RBFWarp;
+import fr.ifp.kronosflow.warp.barycentric.HormannBarycentricWarp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -70,10 +71,11 @@ public class DisplacementsInteraction extends SectionInteraction {
             }
         }
         
-        RBFWarp warp = new RBFWarp();
-        warp.setDisplacements( displacements );
+        //RBFWarp warp = new RBFWarp();
+        //warp.setDisplacements( displacements );
         
-        //BarycentricWarp warp = new BarycentricWarp(patch.getBorder(), dBetween);
+        BarycentricWarp warp = new HormannBarycentricWarp();
+        warp.setDisplacements(patch.getBorder(), dBetween);
         
         double[] src = scene_.getTransformer().deviceToWorld( x, y );
         

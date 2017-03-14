@@ -145,14 +145,17 @@ public class GSegment
         return texture_;
     }
 
-    public void createTexture() {
-        texture_ = new GFXTexture();
+    public void useTexture(boolean useTexture) {
+        if (useTexture) {
+            texture_ = new GFXTexture();
+        } else {
+            texture_ = null;
+        }
     }
-    
-    
-    public void updateTexture(){
-        if ( null != texture_ ){
-            
+
+    public void updateTexture() {
+        if (null != texture_) {
+
             int[] data = new int[rectangle_.width * rectangle_.height];
             for (int j = 0; j < rectangle_.height; j++) {
                 int y = rectangle_.y + j;
@@ -173,8 +176,8 @@ public class GSegment
                     data[offset + i] = color;
                 }
             }
-            
-            texture_.setImage( rectangle_.width, rectangle_.height, data );
+
+            texture_.setImage(rectangle_.width, rectangle_.height, data);
         }
     }
 
@@ -264,9 +267,8 @@ public class GSegment
         if (texts_ != null) {
             owner_.getScene().setAnnotationValid(false);
         }
-        
-        
-        if ( texture_ != null ){
+
+        if (texture_ != null) {
             updateTexture();
         }
 
@@ -276,7 +278,7 @@ public class GSegment
      * Compute the rectangle bounding box of this GSegment.
      */
     private void computeRectangle() {
-        
+
         // Actual rectangle depends on line width
         int lineWidth = actualStyle_.getLineWidth() - 1;
 

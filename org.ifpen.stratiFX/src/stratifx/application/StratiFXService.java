@@ -163,7 +163,6 @@ public class StratiFXService implements IUIController, IControllerService {
         caller.publish();
 
         PlotController plot = (PlotController) controllers.get(IUIController.Type.PLOT);
-
         GFXScene gfxScene = plot.getGFXScene();
         gfxScene.refresh();
 

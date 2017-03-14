@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.PropertyUIController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Label text="Properties" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+        <TableView fx:id="tableViewId" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <columns>
+                <TableColumn fx:id="nameColumnId" prefWidth="150.0" text="Name" />
+                <TableColumn fx:id="typeColumnId" prefWidth="75.0" text="Type" />
+            </columns>
+        </TableView>
+        <Button alignment="CENTER" mnemonicParsing="false" onAction="#onResetPropertyAction" text="Reset" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+    </children>
+</GridPane>

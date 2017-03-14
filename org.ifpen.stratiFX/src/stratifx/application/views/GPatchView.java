@@ -16,97 +16,101 @@ import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
 
-
 public class GPatchView extends GView {
-	
-	GPolyline border = null;
-		
-	boolean withPatchGrid = true;
-	
-	public GPatchView(){
-	}
-	
-	@Override
-	public void setModel (Object object)
-	{
-		setUserData( object );
-	
-		Patch patch = (Patch)object;
-		
-		createBorder(patch);
-		
-		if ( withPatchGrid  & ( patch instanceof IMeshProvider ) ){
-			GMesh gMesh = new GMesh( ((IMeshProvider)patch).getMesh() );
-			add( gMesh );
-			
-			gMesh.draw();
-		}
-		
-	}
-	
-	public GObject getBorder(){
-		return border;
-	}
-	
-	
-	public GColor getPatchColor() {
 
-		Patch patch = (Patch)getObject();
+    GPolyline border = null;
 
-		GColor patchColor = null;
-		BodyFeature feature = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
+    boolean withPatchGrid = true;
 
-		if (feature != null) {
-			Color acolor = feature.getColor();
-			patchColor = new GColor(acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha() );
-		}
-		else {
-			patchColor = getRandomPastelColor();
-		}
+    public GPatchView() {
+    }
 
-		return patchColor;
-	}
-	
-	private static GColor getRandomPastelColor() {
-		Random r = new Random();
-		return GColor.getHSBColor(r.nextFloat(), (float) (0.1 + 0.2 * r.nextFloat()),
-				(float) (0.3 + 0.5 * r.nextFloat()));
-	}
+    @Override
+    public void setModel(Object object) {
+        setUserData(object);
 
+        Patch patch = (Patch) object;
 
-	protected void createBorder( Patch patch ) {
-		
-		if ( null != patch.getBorder() ){
-			border = new GPolyline( patch.getBorder()  );
-			
-			GStyle style = new GStyle();
-			style.setBackgroundColor( getPatchColor() );
-			style.setForegroundColor( GColor.black );
-			border.setStyle( style );
-			
-			add(border);
-		}
-			
-	}
-	
-	public Patch getObject(){
-		return (Patch)getUserData();
-	}
-	
-	@Override
-	public void modelChanged( IControllerEvent<?> event ) {	
-		
-		if ( event instanceof PropertyEvent ){
-			PropertyEvent propEvent = (PropertyEvent)event;
-			
-			GProperty gProperty = new GProperty( propEvent.getObject(), getObject() );
-			border.setProperty( gProperty );
-			
-		}
-		
-		redraw();
-	}
+        createBorder(patch);
 
-	
+        if (withPatchGrid & (patch instanceof IMeshProvider)) {
+            GMesh gMesh = new GMesh(((IMeshProvider) patch).getMesh());
+            add(gMesh);
+
+            gMesh.draw();
+        }
+
+    }
+
+    public GObject getBorder() {
+        return border;
+    }
+
+    public GColor getPatchColor() {
+
+        Patch patch = (Patch) getObject();
+
+        GColor patchColor = null;
+        BodyFeature feature = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
+
+        if (feature != null) {
+            Color acolor = feature.getColor();
+            patchColor = new GColor(acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha());
+        } else {
+            patchColor = getRandomPastelColor();
+        }
+
+        return patchColor;
+    }
+
+    private static GColor getRandomPastelColor() {
+        Random r = new Random();
+        return GColor.getHSBColor(r.nextFloat(), (float) (0.1 + 0.2 * r.nextFloat()),
+                (float) (0.3 + 0.5 * r.nextFloat()));
+    }
+
+    protected void createBorder(Patch patch) {
+
+        if (null != patch.getBorder()) {
+            border = new GPolyline(patch.getBorder());
+
+            GStyle style = new GStyle();
+            style.setBackgroundColor(getPatchColor());
+            style.setForegroundColor(GColor.black);
+            border.setStyle(style);
+
+            add(border);
+        }
+
+    }
+
+    public Patch getObject() {
+        return (Patch) getUserData();
+    }
+
+    @Override
+    public void modelChanged(IControllerEvent<?> event) {
+
+        if (event instanceof PropertyEvent) {
+            PropertyEvent propEvent = (PropertyEvent) event;
+            
+            Object eventObject = propEvent.getObject();
+            
+            GProperty gProperty = null;
+            
+            if ( null != eventObject ){
+                Property property = (Property)eventObject;
+                gProperty = new GProperty(property, getObject());
+                
+            }
+            border.setProperty(gProperty);
+            
+
+        }
+        
+        redraw();
+
+        
+    }
 
 }

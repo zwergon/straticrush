@@ -5,7 +5,10 @@ import java.util.List;
 
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.warp.IWarp;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GFXSymbol;
 import stratifx.canvas.graphics.GImage;
@@ -22,19 +25,23 @@ public class GPolyline extends GDeformableObject {
     GProperty gProperty;
 
     GSegment border;
-    
+
     GSegment boundingBox;
-    
-    boolean withBox=false;
-    
+
+    boolean withBox = false;
+
+    PolyLineGeometry geometry;
+
     public GPolyline(IPolyline iPolyline) {
         super(iPolyline);
+
+        geometry = new PolyLineGeometry(iPolyline);
 
         setVisibility(GObject.DATA_VISIBLE | GObject.ANNOTATION_INVISIBLE | GObject.SYMBOLS_INVISIBLE);
 
         border = new GSegment();
         addSegment(border);
-        
+
         if (withBox) {
             boundingBox = new GSegment();
             GStyle bboxStyle = new GStyle();
@@ -65,8 +72,6 @@ public class GPolyline extends GDeformableObject {
         square.setStyle(symbolStyle);
 
         border.setVertexImage(square);
-        
-       
 
     }
 
@@ -102,25 +107,25 @@ public class GPolyline extends GDeformableObject {
         }
 
         border.setWorldGeometry(xpts, ypts);
-        
+
         if (boundingBox != null) {
             GRect bbox = border.getRectangle();
-            
+
             int[] xx = new int[5];
             int[] yy = new int[5];
-            
+
             xx[0] = bbox.x;
             yy[0] = bbox.y;
-            xx[1] = bbox.x+bbox.width;
+            xx[1] = bbox.x + bbox.width;
             yy[1] = bbox.y;
-            xx[2] = bbox.x+bbox.width;
-            yy[2] = bbox.y+bbox.height;
+            xx[2] = bbox.x + bbox.width;
+            yy[2] = bbox.y + bbox.height;
             xx[3] = bbox.x;
-            yy[3] = bbox.y+bbox.height;
+            yy[3] = bbox.y + bbox.height;
             xx[4] = bbox.x;
             yy[4] = bbox.y;
-            
-            boundingBox.setGeometry( xx, yy );
+
+            boundingBox.setGeometry(xx, yy);
         }
 
     }
@@ -161,7 +166,7 @@ public class GPolyline extends GDeformableObject {
 
     public void setProperty(GProperty gProperty) {
         this.gProperty = gProperty;
-        border.createTexture();
+        border.useTexture( gProperty != null );
     }
 
     @Override
@@ -170,6 +175,14 @@ public class GPolyline extends GDeformableObject {
         if (hasProperty()) {
             GTransformer transformer = getScene().getTransformer();
             double[] wCoord = transformer.deviceToWorld(x, y);
+
+            /*if (geometry.isPointInside(wCoord)) {
+                return gProperty.getColor(wCoord);
+            }
+            else {
+                return GColor.BLACK;
+            }*/
+            
             return gProperty.getColor(wCoord);
         }
 

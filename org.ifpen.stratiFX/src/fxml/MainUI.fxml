@@ -93,6 +93,15 @@
                   </ImageView>
                </graphic>
             </ToggleButton>
+            <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onPropertyUIAction">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="/icons/viewProperty.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </ToggleButton>
           <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
