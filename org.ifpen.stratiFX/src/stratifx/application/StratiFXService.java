@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package stratifx.application;
 
 import java.io.File;
@@ -43,6 +58,7 @@ import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
+import fr.ifp.kronosflow.model.property.EnumProperty;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.StratigraphyPropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
@@ -74,9 +90,9 @@ public class StratiFXService implements IUIController, IControllerService {
         KronosContext.registerClass(IExtension.class, RayExtension.class);
         KronosContext.registerClass(IPropertyAccessor.class, ImagePropertyAccessor.class);
 
-        PropertyController.registerBuilder("XY", new XYPropertyComputer.Builder());
-        PropertyController.registerBuilder("Porosity", new PorosityComputer.Builder());
-        PropertyController.registerBuilder("Stratigraphy", new StratigraphyPropertyComputer.Builder());
+        PropertyController.registerBuilder(EnumProperty.XY, new XYPropertyComputer.Builder());
+        PropertyController.registerBuilder(EnumProperty.POROSITY, new PorosityComputer.Builder());
+        PropertyController.registerBuilder(EnumProperty.STRATIGRAPHY, new StratigraphyPropertyComputer.Builder());
         //PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());
         //PropertyController.registerBuilder("Surface", new SurfacePropertyComputer.Builder() );
 
@@ -145,10 +161,10 @@ public class StratiFXService implements IUIController, IControllerService {
     @Override
     public boolean handleAction(UIAction action) {
         switch (action.getType()) {
-            case UIAction.Open:
+            case UIAction.OPEN:
                 return handleOpen();
 
-            case UIAction.Properties:
+            case UIAction.PROPERTIES:
                 return handleProperties((PropertiesUIAction) action);
         }
 
@@ -156,6 +172,11 @@ public class StratiFXService implements IUIController, IControllerService {
     }
 
     private boolean handleProperties(PropertiesUIAction action) {
+        
+        if ( action.getProperty() == EnumProperty.ELONGATION ){
+            return false;
+        }
+        
 
         PropertyControllerCaller caller = new PropertyControllerCaller(this);
         caller.setPropertyKey(action.getProperty());
@@ -223,7 +244,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
         RectD bbox = patchLib.getBoundingBox();
         bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
-        plot.setWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+        plot.initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
 
         gfxScene.refresh();
 

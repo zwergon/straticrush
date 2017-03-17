@@ -1,15 +1,34 @@
+/* 
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package stratifx.application.plot;
 
-import stratifx.application.interaction.DisplacementsInteraction;
+import stratifx.application.interaction.ElongationInteraction;
+import stratifx.application.interaction.PatchDisplacementsInteraction;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
+import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
+import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.style.StyleManager;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
@@ -24,18 +43,22 @@ import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import stratifx.application.GParameters;
 import stratifx.application.IUIController;
+import stratifx.application.StratiFXService;
 import stratifx.application.UIAction;
-import stratifx.application.interaction.DeformationInteraction;
 import stratifx.application.interaction.DilatationInteraction;
+import stratifx.application.interaction.FaultDisplacementsInteraction;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.NodeMoveInteraction;
 import stratifx.application.interaction.RemoveUnitInteraction;
 import stratifx.application.interaction.ResetGeometryInteraction;
 import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.interaction.TopBorderInteraction;
+import stratifx.application.interaction.TriangulateInteraction;
+import stratifx.application.interaction.ZoomInteraction;
+import stratifx.application.properties.PropertiesUIAction;
 import stratifx.canvas.graphics.GWorldExtent;
+import stratifx.canvas.graphics.IZoomHandler;
 import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -43,7 +66,8 @@ import stratifx.canvas.interaction.GMouseEvent;
 public class PlotController
         implements
         Initializable,
-        IUIController {
+        IUIController,
+        IZoomHandler {
 
     @FXML
     private Canvas canvasId;
@@ -89,6 +113,7 @@ public class PlotController
         canvasId.addEventFilter(MouseEvent.ANY, (e) -> canvasId.requestFocus());
 
         gfxScene = new GFXScene(canvasId);
+        gfxScene.setZoomHandler(this);
 
         GWorldExtent extent = gfxScene.getWorldExtent();
 
@@ -122,6 +147,16 @@ public class PlotController
         paneId.setClip(clipRectangle);
 
     }
+    
+    public void initWorldExtent(double x0, double y0, double width, double height){
+        double w0[] = {x0, y0};
+        double w1[] = {x0 + width, y0};
+        double w2[] = {x0, y0 + height};
+
+        gfxScene.initWorldExtent(w0, w1, w2);
+        
+        setWorldExtent(w0, w1, w2);
+    }
 
     public void setWorldExtent(double x0, double y0, double width, double height) {
         double w0[] = {x0, y0};
@@ -135,15 +170,19 @@ public class PlotController
 
         gfxScene.setWorldExtent(w0, w1, w2);
 
-        GWorldExtent wExtent = gfxScene.getWorldExtent();
+        updateAxis();
+    }
 
+    private void updateAxis() {
+        GWorldExtent wExtent = gfxScene.getWorldExtent();
+        
         axisX.setLowerBound(wExtent.left());
         axisX.setUpperBound(wExtent.right());
-        axisX.setTickUnit(wExtent.getWidth() / 10.);
+        axisX.setTickUnit( Math.abs(wExtent.getWidth() / 10.) );
 
         axisY.setLowerBound(wExtent.bottom());
         axisY.setUpperBound(wExtent.top());
-        axisY.setTickUnit(wExtent.getHeight() / 10.);
+        axisY.setTickUnit( Math.abs(wExtent.getHeight() / 10.) );
     }
 
     /**
@@ -334,14 +373,27 @@ public class PlotController
     public boolean handleAction(UIAction action) {
 
         switch (action.getType()) {
-            case UIAction.ZoomOneOne:
+            case UIAction.ZOOMONEONE:
+                gfxScene.unzoom();
                 restoreZoom();
                 break;
 
-            case InteractionUIAction.Interaction:
+            case UIAction.ZOOMRECT:
+                zoomRect();
+                break;
+
+            case InteractionUIAction.INTERACTION:
                 return handleInteractionAction(action);
+
+            case UIAction.PROPERTIES:
+                return handlePropertyInteraction((PropertiesUIAction) action);
         }
         return true;
+    }
+    
+    
+    private void zoomRect(){
+        startInteraction(new ZoomInteraction(gfxScene));
     }
 
     private void restoreZoom() {
@@ -386,6 +438,14 @@ public class PlotController
                 || deformationType.equals("Decompaction")) {
             style.setAttribute(Kind.DEFORMATION.toString(), "DilatationDeformation");
             style.setAttribute("DilatationType", deformationType);
+
+            Section section = StratiFXService.instance.getSection();
+
+            List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(
+                    FaultFeature.class);
+            for (FaultFeature faultFeature : faults) {
+                sceneStyle.setUnusualBehavior(section, faultFeature, true);
+            }
         }
 
         String manipulatorType = uiAction.getManipulatorType();
@@ -397,12 +457,16 @@ public class PlotController
             interaction = new NodeMoveInteraction(gfxScene);
         } else if (manipulatorType.equals("Reset")) {
             interaction = new ResetGeometryInteraction(gfxScene);
-        } else if (manipulatorType.equals("Displacements")) {
-            interaction = new DisplacementsInteraction(gfxScene);
+        } else if (manipulatorType.equals("PatchDisplacements")) {
+            interaction = new PatchDisplacementsInteraction(gfxScene);
+        } else if (manipulatorType.equals("FaultDisplacements")) {
+            interaction = new FaultDisplacementsInteraction(gfxScene);
         } else if (manipulatorType.equals("RemoveUnit")) {
             interaction = new RemoveUnitInteraction(gfxScene);
         } else if (manipulatorType.equals("Dilatation")) {
             interaction = new DilatationInteraction(gfxScene);
+        } else if (manipulatorType.equals("Triangulation")) {
+            interaction = new TriangulateInteraction(gfxScene);
         }
 
         if (interaction != null) {
@@ -412,6 +476,44 @@ public class PlotController
         }
 
         return false;
+    }
+
+    private boolean handlePropertyInteraction(PropertiesUIAction action) {
+
+        Style style = StyleManager.getInstance().createStyle();
+        SceneStyle sceneStyle = new SceneStyle(style);
+        Section section = StratiFXService.instance.getSection();
+
+        sceneStyle.setGridType(GridType.TRGL);
+        sceneStyle.setNatureType(NatureType.EXPLICIT);
+        List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(
+                FaultFeature.class);
+        for (FaultFeature faultFeature : faults) {
+            sceneStyle.setUnusualBehavior(section, faultFeature, true);
+        }
+
+        SectionInteraction interaction = null;
+        switch (action.getProperty()) {
+            case ELONGATION:
+                interaction = new ElongationInteraction(gfxScene);
+                break;
+            default:
+                break;
+        }
+
+        if (interaction != null) {
+            interaction.setStyle(style);
+            startInteraction(interaction);
+            return true;
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public void update() {
+        updateAxis();
     }
 
 }

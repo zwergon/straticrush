@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+Copyright 2017 lecomtje.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -15,102 +31,128 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.MainController">
-   <top>
-      <MenuBar blendMode="SRC_ATOP" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onMenuOpenAction" text="Open" />
-              <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Tools">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onToolsTangentAction" text="Tangents" />
-                  <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsAction" text="Displacements" />
-                  <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Deform">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Options" />
-                  <Menu mnemonicParsing="false" text="NodeMoveTo">
+    <top>
+        <MenuBar blendMode="SRC_ATOP" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#onDeformNodeChainMailAction" text="ChainMail" />
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformNodeMassAction" text="Mass/Spring" />
+                        <MenuItem mnemonicParsing="false" onAction="#onMenuOpenAction" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Top">
+                </Menu>
+                <Menu mnemonicParsing="false" text="Tools">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopMLSAction" text="Moving LS" />
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFlexuralAction" text="Flexural" />
-                        <Menu mnemonicParsing="false" text="FEA Solver">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEADynamicAction" text="Dynamic" />
-                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticAction" text="Static" />
-                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticLSAction" text="Static LS" />
-                              <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAFem2dAction" text="FEM2D" />
-                          </items>
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsTangentAction" text="Tangents" />
+                        <Menu mnemonicParsing="false" text="Displacements">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsPatchAction" text="Patch" />
+                                <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsFaultAction" text="Fault" />
+                            </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Deform">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Options" />
+                        <Menu mnemonicParsing="false" text="NodeMoveTo">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformNodeChainMailAction" text="ChainMail" />
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformNodeMassAction" text="Mass/Spring" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Top">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformTopMLSAction" text="Moving LS" />
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformTopFlexuralAction" text="Flexural" />
+                                <Menu mnemonicParsing="false" text="FEA Solver">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEADynamicAction" text="Dynamic" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticAction" text="Static" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticLSAction" text="Static LS" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAFem2dAction" text="FEM2D" />
+                                    </items>
+                                </Menu>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Dilatation">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformDilatationDecompactionAction" text="Decompaction" />
+                            </items>
                         </Menu>
                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Dilatation">
+                </Menu>
+                <Menu mnemonicParsing="false" text="Topology">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#onDeformDilatationDecompactionAction" text="Decompaction" />
+                        <MenuItem mnemonicParsing="false" onAction="#onTopologyRemoveUnitAction" text="Remove Unit" />
                     </items>
-                  </Menu>
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Topology">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onTopologyRemoveUnitAction" text="Remove Unit" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Properties">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onPropertiesXYAction" text="XY" />
-                  <MenuItem mnemonicParsing="false" onAction="#onPropertiesPorosityAction" text="Porosity" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+                </Menu>
+                <Menu mnemonicParsing="false" text="Properties">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onPropertiesXYAction" text="XY" />
+                        <MenuItem mnemonicParsing="false" onAction="#onPropertiesPorosityAction" text="Porosity" />
+                        <MenuItem mnemonicParsing="false" onAction="#onPropertiesElongationAction" text="Elongation" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <right>
+        <ToolBar blendMode="SRC_ATOP" orientation="VERTICAL" BorderPane.alignment="CENTER_RIGHT">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onTreeUIAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/viewTree.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </ToggleButton>
+                <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onPropertyUIAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/viewProperty.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </ToggleButton>
+                <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/viewMag1.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onZoomRectAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/viewRect.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onShowPointsAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/showPoints.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <right>
-      <ToolBar blendMode="SRC_ATOP" orientation="VERTICAL" BorderPane.alignment="CENTER_RIGHT">
-        <items>
-            <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onTreeUIAction">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="/icons/viewTree.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </ToggleButton>
-            <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onPropertyUIAction">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="/icons/viewProperty.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </ToggleButton>
-          <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
-               <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="/icons/viewMag1.png" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
-        </items>
-      </ToolBar>
-   </right>
+        </ToolBar>
+    </right>
 </BorderPane>

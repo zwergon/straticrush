@@ -1,21 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package stratifx.application.interaction;
 
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.algo.DisplacementsBetween;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.warp.barycentric.BarycentricWarp;
 import fr.ifp.kronosflow.warp.Displacement;
-import fr.ifp.kronosflow.warp.IUIDDisplacements;
-import fr.ifp.kronosflow.warp.RBFWarp;
 import fr.ifp.kronosflow.warp.barycentric.HormannBarycentricWarp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GDisplacement;
@@ -24,12 +30,17 @@ import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
-public class DisplacementsInteraction extends SectionInteraction {
+public class PatchDisplacementsInteraction extends SectionInteraction {
 
     GDisplacement gDisplacement;
+    
+    DisplacementsBetween dBetween;
 
-    public DisplacementsInteraction(GFXScene gfxScene) {
+    public PatchDisplacementsInteraction(GFXScene gfxScene) {
         super(gfxScene);
+        
+        Geoscheduler scheduler = getScheduler();
+        dBetween = new DisplacementsBetween( scheduler.getCurrentPath(), scheduler.getRoot() );
     }
 
     @Override
@@ -60,22 +71,11 @@ public class DisplacementsInteraction extends SectionInteraction {
     }
 
     private void createDisplacement(Patch patch, int x, int y) {
-
-        IUIDDisplacements dBetween = getDisplacements();
         
-        Collection<Displacement> displacements = new ArrayList<Displacement>();
-        for( ICurviPoint cp : patch.getBorder().getPoints() ){
-            Displacement displacement = dBetween.getDisplacement(cp.getUID());
-            if ( null != displacement ){
-                displacements.add(displacement);
-            }
-        }
-        
-        //RBFWarp warp = new RBFWarp();
-        //warp.setDisplacements( displacements );
-        
+        dBetween.delta(patch);
+            
         BarycentricWarp warp = new HormannBarycentricWarp();
-        warp.setDisplacements(patch.getBorder(), dBetween);
+        warp.setDisplacements(dBetween);
         
         double[] src = scene_.getTransformer().deviceToWorld( x, y );
         
@@ -84,7 +84,7 @@ public class DisplacementsInteraction extends SectionInteraction {
         
         List<Displacement> currentDisplacement = new ArrayList<Displacement>();
         currentDisplacement.add( new Displacement(src, dst)  );
-        gDisplacement = new GDisplacement(patch.getBorder(),  dBetween, currentDisplacement ) ;
+        gDisplacement = new GDisplacement(dBetween, currentDisplacement ) ;
 
         GStyle gStyle = new GStyle();
 
@@ -98,11 +98,5 @@ public class DisplacementsInteraction extends SectionInteraction {
         gDisplacement.redraw();
     }
 
-    private DisplacementsBetween getDisplacements() {
-        Geoscheduler scheduler = getScheduler();
-        DisplacementsBetween dBetween = new DisplacementsBetween( scheduler.getCurrentPath() );
-        dBetween.deltaWith(scheduler.getRoot());
-        return dBetween;
-    }
     
 }

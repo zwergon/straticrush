@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package stratifx.canvas.graphics;
 
 import java.util.Collection;
@@ -39,7 +54,12 @@ public class GScene extends GObject {
 
     protected GViewport viewport_;
     protected GWorldExtent worldExtent_;
+    protected GWorldExtent initialWorldExtent_;
     protected GTransformer transformer_;
+    
+    protected IZoomHandler zoomHandler;
+
+    
 
     private boolean isAnnotationValid_;
     private GAnnotator annotator_;
@@ -162,6 +182,14 @@ public class GScene extends GObject {
      */
     public GViewport getViewport() {
         return viewport_;
+    }
+
+    public void initWorldExtent(double w0[], double w1[], double w2[]) {
+        initialWorldExtent_ = new GWorldExtent(w0, w1, w2);
+    }
+    
+    public void setZoomHandler(IZoomHandler zoomHandler) {
+        this.zoomHandler = zoomHandler;
     }
 
     /**
@@ -348,6 +376,113 @@ public class GScene extends GObject {
 
         // Rendering pass 2: ANNOTATION
         refreshAnnotation(visibilityMask, damagedRegion);
+
+    }
+
+    /**
+     * Zoom a specified amount around center of viewport.
+     *
+     * @param zoomFactor Zoom factor. Zoom in with factor < 1.0 and
+     *                    out with factor > 1.0.
+     */
+    public void zoom(double zoomFactor) {
+        double x = viewport_.getCenterX();
+        double y = viewport_.getCenterY();
+
+        zoom((int) Math.round(x), (int) Math.round(y), zoomFactor);
+    }
+
+    /**
+     * Zoom a specific amount using specified point as fixed.
+     *
+     * <ul>
+     * <li> Zoom in: zoom (x, y, 0.9);
+     * <li> Zoom out: zoom (x, y, 1.1);
+     * <li> etc.
+     * </ul>
+     *
+     * @param x X coordinate of fixed point during zoom.
+     * @param y Y coordinate of fixed point during zoom.
+     * @param zoomFactor Zoom factor.
+     */
+    public void zoom(int x, int y, double zoomFactor) {
+        int x0 = viewport_.getX0();
+        int y0 = viewport_.getY0();
+        int x1 = viewport_.getX3();
+        int y1 = viewport_.getY3();
+
+        double width = viewport_.getWidth();
+        double height = viewport_.getHeight();
+
+        x0 += (1.0 - zoomFactor) * (x - x0);
+        x1 -= (1.0 - zoomFactor) * (x1 - x);
+
+        y0 += (1.0 - zoomFactor) * (y - y0);
+        y1 -= (1.0 - zoomFactor) * (y1 - y);
+
+        zoom(x0, y0, x1, y1);
+    }
+
+    /**
+     * Zoom into a specific device area.
+     *
+     * @param x0 X value of first corner of zoom rectangle.
+     * @param y0 Y value of first corner of zoom rectangle.
+     * @param x1 X value of second corner of zoom rectangle.
+     * @param y1 Y value of second corner of zoom rectangle.
+     */
+    public void zoom(int x0, int y0, int x1, int y1) {
+        // Make sure x0,y0 is upper left and x1,y1 is lower right
+        if (x1 < x0) {
+            int temp = x1;
+            x1 = x0;
+            x0 = temp;
+        }
+
+        if (y1 < y0) {
+            int temp = y1;
+            y1 = y0;
+            y0 = temp;
+        }
+
+        // Tranform to world
+        double w0[] = transformer_.deviceToWorld(x0, y1);
+        double w1[] = transformer_.deviceToWorld(x1, y1);
+        double w2[] = transformer_.deviceToWorld(x0, y0);
+
+        zoom(w0, w1, w2);
+    }
+
+    /**
+     * Zoom into a specified world area.
+     *
+     * @param w0 First world coordinate of zoom area [x,y].
+     * @param w1 Second world coordinate of zoom area [x,y].
+     * @param w2 Third world coordinate of zoom area [x,y].
+     */
+    public void zoom(double w0[], double w1[], double w2[]) {
+        //Set new world extent
+        setWorldExtent(w0, w1, w2);
+
+        // Rerender the graphics
+        refresh();
+        
+        if ( zoomHandler != null ){
+            zoomHandler.update();
+        }
+
+    }
+
+    /**
+     * Unzoom. Unzooming sets the current world extent back to the initial world
+     * extent as specified by the client application by setWorldExtent().
+     */
+    public void unzoom() {
+        if (null != initialWorldExtent_) {
+            zoom(initialWorldExtent_.get(0),
+                    initialWorldExtent_.get(1),
+                    initialWorldExtent_.get(2));
+        }
 
     }
 

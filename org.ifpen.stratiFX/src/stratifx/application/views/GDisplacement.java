@@ -1,15 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.geoscheduler.algo.DisplacementsBetween;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.warp.Displacement;
 import fr.ifp.kronosflow.warp.IUIDDisplacements;
+import java.util.Collection;
 import java.util.List;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GSegment;
@@ -27,11 +37,11 @@ public class GDisplacement extends GObject {
 
     GSegment[] gDisplacements;
 
+    boolean closed = true;
+
     public GDisplacement(
-            IPolyline iPolyline,
             IUIDDisplacements dBetween,
             List<Displacement> displacements) {
-        setUserData(iPolyline);
         this.dBetween = dBetween;
         this.displacements = displacements;
 
@@ -56,17 +66,9 @@ public class GDisplacement extends GObject {
 
     }
 
-    public IPolyline getLine() {
-        return (IPolyline) getUserData();
-    }
-
     @Override
     protected void draw() {
-        drawBorder();
-
-        if (null != gDisplacements) {
-            drawOriginalBorder();
-        }
+        drawBorders();
 
         if (null != displacements) {
             drawDisplacements();
@@ -74,67 +76,39 @@ public class GDisplacement extends GObject {
 
     }
 
-    private void drawBorder() {
-        IPolyline line = getLine();
+    private void drawBorders() {
+        Collection<Displacement> pts = dBetween.getDisplacements();
 
-        List<ICurviPoint> pts = line.getPoints();
-
-        int npts = (line.isClosed()) ? pts.size() + 1 : pts.size();
+        int npts = (closed) ? pts.size() + 1 : pts.size();
         double[] xpts = new double[npts];
         double[] ypts = new double[npts];
 
-        double[] w_pt = new double[2];
+        double[] xptsOri = new double[npts];
+        double[] yptsOri = new double[npts];
 
+      
         int i = 0;
-        for (ICurviPoint tp : pts) {
-            line.getPosition(tp, w_pt);
-            xpts[i] = w_pt[0];
-            ypts[i] = w_pt[1];
+        for (Displacement disp : pts) {
+
+            xpts[i] = disp.getStart()[0];
+            ypts[i] = disp.getStart()[1];
+
+            xptsOri[i] = disp.getTarget()[0];
+            yptsOri[i] = disp.getTarget()[1];
             i++;
         }
-        if (line.isClosed()) {
-            ICurviPoint tp = pts.get(0);
-            line.getPosition(tp, w_pt);
-            xpts[npts - 1] = w_pt[0];
-            ypts[npts - 1] = w_pt[1];
+        if (closed) {
+
+            xpts[npts - 1] = xpts[0];
+            ypts[npts - 1] = ypts[0];
+
+            xptsOri[npts - 1] = xptsOri[0];
+            yptsOri[npts - 1] = yptsOri[0];
         }
 
         border.setWorldGeometry(xpts, ypts);
-    }
 
-    private void drawOriginalBorder() {
-
-        IPolyline line = getLine();
-
-        List<ICurviPoint> pts = line.getPoints();
-
-        int npts = (line.isClosed()) ? pts.size() + 1 : pts.size();
-        double[] xpts = new double[npts];
-        double[] ypts = new double[npts];
-
-        double[] start;
-        int i = 0;
-        for (ICurviPoint cp : line.getPoints()) {
-
-            Displacement displacement = dBetween.getDisplacement(cp.getUID());
-
-            start = displacement.getStart();
-
-            xpts[i] = start[0];
-            ypts[i] = start[1];
-            i++;
-        }
-
-        if (line.isClosed()) {
-            ICurviPoint cp = pts.get(0);
-            Displacement displacement = dBetween.getDisplacement(cp.getUID());
-            start = displacement.getStart();
-            xpts[npts - 1] = start[0];
-            ypts[npts - 1] = start[1];
-        }
-
-        originalBorder.setWorldGeometry(xpts, ypts);
-
+        originalBorder.setWorldGeometry(xptsOri, yptsOri);
     }
 
     private void drawDisplacements() {
