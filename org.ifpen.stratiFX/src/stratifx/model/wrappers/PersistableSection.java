@@ -29,6 +29,8 @@ class PersistableSection extends AbstractPersisted {
     IPersisted paleo;
 
     IPersisted reference;
+    
+    IPersisted geologicLibrary;
 
     public Set<IPersisted> getPatches() {
         return patches;
@@ -52,6 +54,14 @@ class PersistableSection extends AbstractPersisted {
 
     public void setDomainReference(PersistablePolyline reference) {
         this.reference = reference;
+    }
+    
+    public void setGeologicLibrary( PersistableGeologicLibrary library ){
+        geologicLibrary = library;
+    }
+    
+    public IPersisted getGeologicalLibrary(){
+        return geologicLibrary;
     }
     
     

@@ -19,6 +19,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.DomainReference;
+import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
@@ -44,6 +45,12 @@ public class SectionWrapper implements IWrapper<Section> {
         if (persistedSection == null) {
             return false;
         }
+
+        GeologicLibrary geologicalLibrary = wrapped.getFeatures();
+        WrapperFactory.load(
+                geologicalLibrary,
+                persistedSection.getGeologicalLibrary()
+        );
 
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
@@ -86,7 +93,7 @@ public class SectionWrapper implements IWrapper<Section> {
             }
 
             if (!found) {
-                Patch patch = (Patch)WrapperFactory.build( persistedPatch.getPersistedClass() );
+                Patch patch = (Patch) WrapperFactory.build(persistedPatch.getPersistedClass());
                 wrapped.getPatchLibrary().add(patch);
                 patch.setPatchLibrary(wrapped.getPatchLibrary());
 
@@ -129,10 +136,16 @@ public class SectionWrapper implements IWrapper<Section> {
             persistedSection = new PersistableSection();
         }
 
+        PersistableGeologicLibrary geologicalLib = new PersistableGeologicLibrary();
+        WrapperFactory.save(
+                wrapped.getFeatures(),
+                geologicalLib
+        );
+        persistedSection.setGeologicLibrary(geologicalLib);
+
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
-        
         Set<IPersisted> persistedPatches = persistedSection.getPatches();
         persistedPatches.clear();
         for (Patch p : library.getPatches()) {

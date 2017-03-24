@@ -58,11 +58,15 @@ import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
+import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
+import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.StratigraphyPropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
+import stratifx.model.wrappers.GeologicLibraryWrapper;
 import stratifx.model.wrappers.PatchWrapper;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
@@ -102,6 +106,7 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
+        WrapperFactory.registerClass(GeologicLibrary.class, GeologicLibraryWrapper.class);
 
     }
 
@@ -125,9 +130,8 @@ public class StratiFXService implements IUIController, IControllerService {
     public void removeController(Type type) {
         controllers.remove(type);
     }
-    
-    
-    public IUIController getController( Type type ){
+
+    public IUIController getController(Type type) {
         return controllers.get(type);
     }
 
@@ -172,11 +176,10 @@ public class StratiFXService implements IUIController, IControllerService {
     }
 
     private boolean handleProperties(PropertiesUIAction action) {
-        
-        if ( action.getProperty() == EnumProperty.ELONGATION ){
+
+        if (action.getProperty() == EnumProperty.ELONGATION) {
             return false;
         }
-        
 
         PropertyControllerCaller caller = new PropertyControllerCaller(this);
         caller.setPropertyKey(action.getProperty());
@@ -253,7 +256,7 @@ public class StratiFXService implements IUIController, IControllerService {
 
     @Override
     public void preHandle(ControllerEventList eventList) {
-        // TODO Auto-generated method stub
+        LOGGER.debug("preHandle ", getClass());
     }
 
     @Override
@@ -275,9 +278,12 @@ public class StratiFXService implements IUIController, IControllerService {
             if (event instanceof PropertyEvent) {
                 gfxScene.notifyViews(event);
             } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
+                saveSection();
+
                 new TimePropertyUpdater(section).update();
 
                 updateVisiblePatches(gfxScene);
+
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
 
                 gfxScene.notifyViews(event);
@@ -338,6 +344,12 @@ public class StratiFXService implements IUIController, IControllerService {
     @Override
     public void activateManipulators(Collection<String> handlerIds) {
         // TODO Auto-generated method stub
+    }
+
+    private void saveSection() {
+        GeoschedulerStep step = section.getGeoscheduler().getCurrent();
+        IWrapper<Section> wrappedSection = step.getWrapper();
+        wrappedSection.save(section);
     }
 
 }

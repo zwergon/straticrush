@@ -20,7 +20,6 @@ import java.util.List;
 
 import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import fr.ifp.kronosflow.controllers.IControllerService;
-import fr.ifp.kronosflow.controllers.units.UnitController;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
@@ -58,6 +57,16 @@ public class RemoveUnitCaller
     public Style getStyle() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void intializeFromStyle(Style style) {
+        //do nothing
+    }
+
+    @Override
+    public void updateStyle() {
+        //do nothing
     }
 
 	
