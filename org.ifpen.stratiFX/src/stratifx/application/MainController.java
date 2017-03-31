@@ -241,6 +241,11 @@ public class MainController implements Initializable, IUIController {
     void onPropertiesPorosityAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.POROSITY));
     }
+    
+     @FXML
+    void onPropertiesStratigraphyAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.STRATIGRAPHY));
+    }
 
     @FXML
     void onPropertiesElongationAction(ActionEvent event) {

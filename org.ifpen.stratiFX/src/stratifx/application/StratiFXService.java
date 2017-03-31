@@ -63,7 +63,7 @@ import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import stratifx.application.properties.PropertiesUIAction;
-import stratifx.application.properties.StratigraphyPropertyComputer;
+import fr.ifp.jdeform.stratigraphy.StratigraphyPropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.model.wrappers.GeologicLibraryWrapper;
@@ -107,6 +107,9 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
         WrapperFactory.registerClass(GeologicLibrary.class, GeologicLibraryWrapper.class);
+        
+        
+        LOGGER.setLogger( new StratiFXLogger() );
 
     }
 

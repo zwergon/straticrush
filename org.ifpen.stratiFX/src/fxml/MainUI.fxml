@@ -93,6 +93,7 @@ limitations under the License.
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#onPropertiesXYAction" text="XY" />
                         <MenuItem mnemonicParsing="false" onAction="#onPropertiesPorosityAction" text="Porosity" />
+                        <MenuItem mnemonicParsing="false" onAction="#onPropertiesStratigraphyAction" text="Stratigraphy" />
                         <MenuItem mnemonicParsing="false" onAction="#onPropertiesElongationAction" text="Elongation" />
                     </items>
                 </Menu>
