@@ -126,6 +126,16 @@ limitations under the License.
                         </ImageView>
                     </graphic>
                 </ToggleButton>
+                <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onShowFeaturesAction">
+                    <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/icons/showPoints.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </ToggleButton>
+                
                 <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
                     <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -153,6 +163,7 @@ limitations under the License.
                         </ImageView>
                     </graphic>
                 </Button>
+               
             </items>
         </ToolBar>
     </right>

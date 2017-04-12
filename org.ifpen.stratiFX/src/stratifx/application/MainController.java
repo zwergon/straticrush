@@ -26,7 +26,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -38,8 +40,47 @@ import stratifx.application.properties.PropertiesUIAction;
 
 public class MainController implements Initializable, IUIController {
 
+    enum StageUI {
+        TREE("/fxml/TreeUI.fxml", IUIController.Type.TREE),
+        PROPERTY("/fxml/PropertyUI.fxml", IUIController.Type.PROPERTY),
+        PARAMETERS("/fxml/ParametersUI.fxml", IUIController.Type.PARAMETERS);
+
+        StageUI(String fxmlName, IUIController.Type type) {
+            this.fxmlName = fxmlName;
+            this.type = type;
+        }
+
+        Stage stage;
+
+        String fxmlName;
+
+        IUIController.Type type;
+
+        public IUIController.Type getType() {
+            return type;
+        }
+
+        public String getFxmlName() {
+            return fxmlName;
+        }
+
+        public void setFxmlName(String fxmlName) {
+            this.fxmlName = fxmlName;
+        }
+
+        public Stage getStage() {
+            return stage;
+        }
+
+        public void setStage(Stage stage) {
+            this.stage = stage;
+        }
+
+    };
+
     Stage treeStage = null;
     Stage propertyStage = null;
+    Stage featureStage = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,94 +90,34 @@ public class MainController implements Initializable, IUIController {
     void onOneOneAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(UIAction.ZOOMONEONE);
     }
-    
-     @FXML
+
+    @FXML
     void onZoomRectAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(UIAction.ZOOMRECT);
     }
-    
-     @FXML
+
+    @FXML
     void onShowPointsAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(UIAction.SHOWPOINTS);
     }
 
+  
+
+   
+    
+      @FXML
+    void onShowFeaturesAction(ActionEvent action) {
+       openDialog((ToggleButton) action.getSource(), StageUI.PARAMETERS); 
+    }
+
     @FXML
     void onTreeUIAction(ActionEvent action) {
-
-        ToggleButton toggle = (ToggleButton) action.getSource();
-        if (toggle.isSelected() && (null == treeStage)) {
-
-            try {
-                treeStage = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/fxml/TreeUI.fxml"));
-                Pane rootLayout = loader.load();
-                Scene scene = new Scene(rootLayout);
-                treeStage.setScene(scene);
-                treeStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        toggle.setSelected(false);
-                        treeStage = null;
-                    }
-                });
-                treeStage.show();
-
-                StratiFXService.instance.registerController(IUIController.Type.TREE, loader.getController());
-
-            } catch (Exception ex) {
-                LOGGER.error("unable to open dialog" + ex.getMessage(), getClass());
-
-            }
-
-        } else {
-            if (null != treeStage) {
-                StratiFXService.instance.removeController(IUIController.Type.TREE);
-                treeStage.hide();
-                treeStage.close();
-                treeStage = null;
-            }
-        }
-
+        openDialog((ToggleButton) action.getSource(), StageUI.TREE);
     }
 
     @FXML
     void onPropertyUIAction(ActionEvent action) {
-
-        ToggleButton toggle = (ToggleButton) action.getSource();
-        if (toggle.isSelected() && (null == propertyStage)) {
-
-            try {
-                propertyStage = new Stage();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/fxml/PropertyUI.fxml"));
-                Pane rootLayout = loader.load();
-                Scene scene = new Scene(rootLayout);
-                propertyStage.setScene(scene);
-                propertyStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        toggle.setSelected(false);
-                        propertyStage = null;
-                    }
-                });
-                propertyStage.show();
-
-                StratiFXService.instance.registerController(IUIController.Type.PROPERTY, loader.getController());
-
-            } catch (Exception ex) {
-                LOGGER.error("unable to open dialog" + ex.getMessage(), getClass());
-
-            }
-
-        } else {
-            if (null != propertyStage) {
-                StratiFXService.instance.removeController(IUIController.Type.PROPERTY);
-                propertyStage.hide();
-                propertyStage.close();
-                propertyStage = null;
-            }
-        }
+        openDialog((ToggleButton) action.getSource(), StageUI.PROPERTY);
 
     }
 
@@ -161,7 +142,7 @@ public class MainController implements Initializable, IUIController {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "FaultDisplacements"));
 
     }
-    
+
     @FXML
     void onToolsTriangulationAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Triangulation", "Triangulation"));
@@ -241,8 +222,8 @@ public class MainController implements Initializable, IUIController {
     void onPropertiesPorosityAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.POROSITY));
     }
-    
-     @FXML
+
+    @FXML
     void onPropertiesStratigraphyAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.STRATIGRAPHY));
     }
@@ -256,6 +237,55 @@ public class MainController implements Initializable, IUIController {
     public boolean handleAction(UIAction action) {
         // TODO Auto-generated method stub
         return false;
+    }
+    
+    
+    /**
+     * Generic method to open an FXML dialog by clicking on an ToggleButton.
+     * @param toggle
+     * @param dialogId 
+     */
+    private void openDialog(ToggleButton toggle, StageUI dialogId) {
+
+        Stage stage = dialogId.getStage();
+        
+        TabPane pane;
+
+        if (toggle.isSelected() && (null == stage)) {
+
+            try {
+                stage = new Stage();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource(dialogId.getFxmlName()));
+                Parent rootLayout = loader.load();
+                Scene scene = new Scene(rootLayout);
+                stage.setScene(scene);
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        toggle.setSelected(false);
+                        dialogId.setStage(null);
+                    }
+                });
+                stage.show();
+                dialogId.setStage(stage);
+
+                StratiFXService.instance.registerController(dialogId.getType(), loader.getController());
+
+            } catch (Exception ex) {
+                LOGGER.error("unable to open dialog" + ex.getMessage(), getClass());
+
+            }
+
+        } else {
+            if (null != stage) {
+                StratiFXService.instance.removeController(dialogId.getType());
+                stage.hide();
+                stage.close();
+                dialogId.setStage(null);
+            }
+        }
+
     }
 
 }

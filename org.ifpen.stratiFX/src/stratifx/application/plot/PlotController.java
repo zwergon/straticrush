@@ -43,6 +43,7 @@ import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import stratifx.application.GParameters;
 import stratifx.application.IUIController;
 import stratifx.application.StratiFXService;
 import stratifx.application.UIAction;
@@ -409,7 +410,7 @@ public class PlotController
 
         String deformationType = uiAction.getDeformationType();
 
-        Style style = StyleManager.getInstance().createStyle();
+        Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
         if (deformationType.equals("VerticalShear")
                 || deformationType.equals("FlexuralSlip")
@@ -480,7 +481,7 @@ public class PlotController
 
     private boolean handlePropertyInteraction(PropertiesUIAction action) {
 
-        Style style = StyleManager.getInstance().createStyle();
+        Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
         Section section = StratiFXService.instance.getSection();
 

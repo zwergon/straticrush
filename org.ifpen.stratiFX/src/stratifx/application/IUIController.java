@@ -21,6 +21,7 @@ public interface IUIController {
         MAIN,
         TREE,
         PROPERTY,
+        PARAMETERS,
         PLOT
     };
 

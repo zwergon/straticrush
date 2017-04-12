@@ -20,7 +20,8 @@ public class UIAction {
     final public static int ZOOMONEONE = 1;
     final public static int OPEN = 2;
     final public static int SHOWPOINTS = 3;
-    final public static int ZOOMRECT = 4;
+    final public static int ZOOMRECT = 5;
+    
 
     final public static int LAST = ZOOMRECT + 1;
 
