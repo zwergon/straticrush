@@ -45,13 +45,13 @@ public class RemoveUnitInteraction extends SectionInteraction {
 
     @Override
     public boolean mouseEvent(GScene scene, GMouseEvent event) {
-        if (scene != scene_) {
+        if (scene != gscene) {
             return false;
         }
 
         switch (event.type) {
             case GMouseEvent.BUTTON_DOWN:
-                GSegment selected = scene_.findSegment(event.x, event.y);
+                GSegment selected = gscene.findSegment(event.x, event.y);
                 if (selected != null) {
                     Patch patch = getSelectedPatch(event.x, event.y);
                     if (patch != null) {
@@ -61,7 +61,7 @@ public class RemoveUnitInteraction extends SectionInteraction {
                             RemoveUnitCaller caller = createCaller();
                             caller.setUnitToRemove(unit);
                         }
-                        scene_.refresh();
+                        gscene.refresh();
                     }
                 }
                 break;
@@ -74,7 +74,7 @@ public class RemoveUnitInteraction extends SectionInteraction {
                 if (link != null) {
                     getScheduler().addCurrent(link);
                     link = null;
-                    scene_.refresh();
+                    gscene.refresh();
                 }
                 break;
 

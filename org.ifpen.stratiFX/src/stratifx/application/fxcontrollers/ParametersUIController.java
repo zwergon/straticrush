@@ -24,6 +24,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -136,6 +137,25 @@ public class ParametersUIController implements
     @Override
     public boolean handleAction(UIAction action) {
         return false;
+    }
+    
+    
+    public void onSceneApplyAction( ActionEvent event ){
+        
+        
+        for( FXFeature fxFeature : data ){
+            if ( fxFeature.feature instanceof StratigraphicEvent  ) {
+                sceneStyle.setUnusualBehavior(section, fxFeature.feature, !fxFeature.isSelected() );
+            }
+            else if ( fxFeature.feature instanceof FaultFeature ){
+                sceneStyle.setUnusualBehavior(section, fxFeature.feature, fxFeature.isSelected() );
+            }
+        }
+        
+    }
+    
+    public void onSceneResetAction( ActionEvent event ){
+        
     }
 
 }

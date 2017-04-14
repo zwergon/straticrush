@@ -21,6 +21,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
                   <Label text="Unblocking Features" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
@@ -33,6 +34,15 @@
                   </RadioButton>
                   <RadioButton mnemonicParsing="false" selected="true" text="Triangles" toggleGroup="$gridGroupId" GridPane.rowIndex="2" />
                   <RadioButton disable="true" mnemonicParsing="false" text="Quad" toggleGroup="$gridGroupId" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="6">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onSceneApplyAction" text="Apply" />
+                        <Button mnemonicParsing="false" onAction="#onSceneResetAction" text="Reset" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

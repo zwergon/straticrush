@@ -38,7 +38,7 @@ public class ElongationInteraction extends SectionInteraction {
 
     @Override
     public boolean mouseEvent(GScene gscene, GMouseEvent event) {
-        if (this.scene_ != gscene) {
+        if (this.gscene != gscene) {
             return false;
         }
 
@@ -59,8 +59,8 @@ public class ElongationInteraction extends SectionInteraction {
                     PolyLineGeometry geometry = new PolyLineGeometry(selectedPatch.getBorder());
                     RectD bbox = geometry.computeBoundingBox();
 
-                    int[] bottomLeft = scene_.getTransformer().worldToDevice(new double[]{bbox.left, bbox.bottom});
-                    int[] topRight = scene_.getTransformer().worldToDevice(new double[]{bbox.right, bbox.top});
+                    int[] bottomLeft = this.gscene.getTransformer().worldToDevice(new double[]{bbox.left, bbox.bottom});
+                    int[] topRight = this.gscene.getTransformer().worldToDevice(new double[]{bbox.right, bbox.top});
 
                     //elongationCube = new ElongationApproximation();
                     elongationCube = new ElongationDataCube();
@@ -166,7 +166,7 @@ public class ElongationInteraction extends SectionInteraction {
 
             double[] data = cube.getCube();
 
-            double[] xy = scene_.getTransformer().deviceToWorld(x, y);
+            double[] xy = gscene.getTransformer().deviceToWorld(x, y);
 
             int idx = image.getIndice(xy);
 

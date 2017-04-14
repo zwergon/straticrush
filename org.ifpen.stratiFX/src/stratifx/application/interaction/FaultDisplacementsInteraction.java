@@ -15,25 +15,16 @@
  */
 package stratifx.application.interaction;
 
+import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.controllers.scene.algo.TargetsExtractor;
-import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
-import fr.ifp.kronosflow.geoscheduler.algo.DisplacementsBetween;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.FeatureInterval;
-import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.model.algo.FaultMasterSlaveBuilder;
-import fr.ifp.kronosflow.model.geology.BoundaryFeature;
+import fr.ifp.jdeform.controllers.scene.algo.FaultMasterSlaveExtractor;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
-import fr.ifp.kronosflow.polyline.IPolylineProvider;
-import fr.ifp.kronosflow.warp.barycentric.BarycentricWarp;
-import fr.ifp.kronosflow.warp.Displacement;
-import fr.ifp.kronosflow.warp.barycentric.HormannBarycentricWarp;
-import java.util.ArrayList;
-import java.util.List;
+import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GDisplacement;
+import stratifx.application.views.GPolyline;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GStyle;
@@ -41,20 +32,17 @@ import stratifx.canvas.interaction.GMouseEvent;
 
 public class FaultDisplacementsInteraction extends SectionInteraction {
 
-    GDisplacement gDisplacement;
+    GPolyline gFault;
 
-    DisplacementsBetween dBetween;
+    Scene scene;
 
     public FaultDisplacementsInteraction(GFXScene gfxScene) {
         super(gfxScene);
-
-        Geoscheduler scheduler = getScheduler();
-        dBetween = new DisplacementsBetween(scheduler.getCurrentPath(), scheduler.getRoot());
     }
 
     @Override
-    public boolean mouseEvent(GScene scene, GMouseEvent event) {
-        if (scene != this.scene_) {
+    public boolean mouseEvent(GScene gscene, GMouseEvent event) {
+        if (gscene != this.gscene) {
             return false;
         }
 
@@ -62,15 +50,17 @@ public class FaultDisplacementsInteraction extends SectionInteraction {
             case GMouseEvent.BUTTON_DOWN:
                 Patch patch = getSelectedPatch(event.x, event.y);
                 if (patch != null) {
-                    selectFault(patch, event.x, event.y);
-                    scene.refresh();
+                    scene = createScene(patch);
+                    selectFault(event.x, event.y);
+                    gscene.redraw();
+                    gscene.refresh();
                 }
 
                 break;
             case GMouseEvent.BUTTON_UP:
-                if (gDisplacement != null) {
-                    scene.remove(gDisplacement);
-                    scene.refresh();
+                if (gFault != null) {
+                    gscene.remove(gFault);
+                    gscene.refresh();
                 }
 
                 break;
@@ -79,15 +69,31 @@ public class FaultDisplacementsInteraction extends SectionInteraction {
         return true;
     }
 
-    private void selectFault(Patch patch, int x, int y) {
+    private void selectFault(int x, int y) {
 
-        double[] src = scene_.getTransformer().deviceToWorld(x, y);
-        
-        TargetsExtractor extractor = new TargetsExtractor(patch, null);
+        double[] src = gscene.getTransformer().deviceToWorld(x, y);
+
+        TargetsExtractor extractor = new TargetsExtractor(scene);
         PatchInterval faultInterval = extractor.findFaultFeature(src);
-        
-        FaultMasterSlaveBuilder builder = new FaultMasterSlaveBuilder( getScheduler().getSection() );
-        builder.compute( (FaultFeature)faultInterval.getInterval().getFeature() );
+
+        if (null == faultInterval) {
+            LOGGER.warning("No fault in the Scene !", getClass());
+            return;
+        }
+
+        FaultFeature faultFeature = (FaultFeature) faultInterval.getInterval().getFeature();
+        LOGGER.debug("fault selected " + faultFeature.getName(), getClass());
+
+        FaultMasterSlaveExtractor builder = new FaultMasterSlaveExtractor(scene);
+        builder.compute(faultFeature);
+
+        gFault = new GPolyline(builder.getMergedFault());
+        gscene.add(gFault);
+
+        GStyle style = new GStyle();
+        style.setForegroundColor(GColor.red);
+        style.setLineWidth(2);
+        gFault.setStyle(style);
 
     }
 

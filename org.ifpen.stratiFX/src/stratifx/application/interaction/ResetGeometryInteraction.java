@@ -47,7 +47,7 @@ public class ResetGeometryInteraction extends DeformationInteraction {
 
 	@Override
 	public boolean mouseEvent(GScene scene, GMouseEvent event) {
-		if ( scene != this.scene_ ){
+		if ( scene != this.gscene ){
 			return false;
 		}
 

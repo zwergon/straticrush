@@ -148,7 +148,7 @@ public class TriangulateInteraction extends SectionInteraction {
 
     @Override
     public boolean mouseEvent(GScene gscene, GMouseEvent event) {
-        if (this.scene_ != gscene) {
+        if (this.gscene != gscene) {
             return false;
         }
 

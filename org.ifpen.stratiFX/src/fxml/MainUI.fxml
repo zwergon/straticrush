@@ -126,11 +126,11 @@ limitations under the License.
                         </ImageView>
                     </graphic>
                 </ToggleButton>
-                <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onShowFeaturesAction">
+                <ToggleButton focusTraversable="false" mnemonicParsing="false" onAction="#onShowParametersAction">
                     <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="/icons/showPoints.png" />
+                                <Image url="/icons/parameters.png" />
                             </image>
                         </ImageView>
                     </graphic>

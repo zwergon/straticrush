@@ -62,7 +62,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
     public void update() {
         synchronized (getController()) {
             manipulator.updateGraphics();
-            scene_.refresh();
+            gscene.refresh();
         }
     }
 
@@ -74,8 +74,8 @@ public abstract class DeformationInteraction extends SectionInteraction {
 
         synchronized (getController()) {
             manipulator.deactivate();
-            scene_.redraw();
-            scene_.refresh();
+            gscene.redraw();
+            gscene.refresh();
         }
 
         animationTimer = null;
@@ -116,7 +116,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
 
     @Override
     public boolean mouseEvent(GScene scene, GMouseEvent event) {
-        if (scene != scene_) {
+        if (scene != gscene) {
             return false;
         }
 
@@ -151,7 +151,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
                     manipulator.onMousePress(event);
                 }
 
-                scene_.refresh();
+                gscene.refresh();
 
                 break;
 
@@ -189,7 +189,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
                             end();
                         }
                     } else {
-                        scene_.refresh();
+                        gscene.refresh();
                     }
                 }
                 break;

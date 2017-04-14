@@ -101,13 +101,9 @@ public class MainController implements Initializable, IUIController {
         StratiFXService.instance.broadCastAction(UIAction.SHOWPOINTS);
     }
 
-  
-
-   
-    
-      @FXML
-    void onShowFeaturesAction(ActionEvent action) {
-       openDialog((ToggleButton) action.getSource(), StageUI.PARAMETERS); 
+    @FXML
+    void onShowParametersAction(ActionEvent action) {
+        openDialog((ToggleButton) action.getSource(), StageUI.PARAMETERS);
     }
 
     @FXML
@@ -238,17 +234,17 @@ public class MainController implements Initializable, IUIController {
         // TODO Auto-generated method stub
         return false;
     }
-    
-    
+
     /**
      * Generic method to open an FXML dialog by clicking on an ToggleButton.
+     *
      * @param toggle
-     * @param dialogId 
+     * @param dialogId
      */
     private void openDialog(ToggleButton toggle, StageUI dialogId) {
 
         Stage stage = dialogId.getStage();
-        
+
         TabPane pane;
 
         if (toggle.isSelected() && (null == stage)) {

@@ -36,14 +36,14 @@ import stratifx.canvas.interaction.GMouseEvent;
 
 public class SectionInteraction implements GInteraction {
 
-    protected GScene scene_;
+    protected GScene gscene;
 
     protected GeoschedulerLink link = null;
 
     protected Style style;
 
     public SectionInteraction(GScene scene) {
-        scene_ = scene;
+        gscene = scene;
     }
 
     public void setStyle(Style style) {
@@ -61,7 +61,7 @@ public class SectionInteraction implements GInteraction {
     }
 
     protected Patch getSelectedPatch(int x, int y) {
-        GSegment selected = scene_.findSegment(x, y);
+        GSegment selected = gscene.findSegment(x, y);
         if (selected != null) {
             GObject gobject = selected.getOwner();
             while (gobject != null) {
@@ -110,7 +110,7 @@ public class SectionInteraction implements GInteraction {
                 case GKeyEvent.VK_Z:
                     if ((event.getKeyModifiers() == GKeyEvent.CTRL_MASK)) {
                         getScheduler().removeCurrent();
-                        scene_.refresh();
+                        gscene.refresh();
                     }
                     break;
 

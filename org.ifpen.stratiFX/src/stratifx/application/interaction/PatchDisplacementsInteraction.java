@@ -45,7 +45,7 @@ public class PatchDisplacementsInteraction extends SectionInteraction {
 
     @Override
     public boolean mouseEvent(GScene scene, GMouseEvent event) {
-        if (scene != this.scene_) {
+        if (scene != this.gscene) {
             return false;
         }
 
@@ -77,7 +77,7 @@ public class PatchDisplacementsInteraction extends SectionInteraction {
         BarycentricWarp warp = new HormannBarycentricWarp();
         warp.setDisplacements(dBetween);
         
-        double[] src = scene_.getTransformer().deviceToWorld( x, y );
+        double[] src = gscene.getTransformer().deviceToWorld( x, y );
         
         double[] dst = new double[2];
         warp.getUndeformed(src, dst);
@@ -93,7 +93,7 @@ public class PatchDisplacementsInteraction extends SectionInteraction {
 
         gDisplacement.setStyle(gStyle);
 
-        scene_.add(gDisplacement);
+        gscene.add(gDisplacement);
 
         gDisplacement.redraw();
     }

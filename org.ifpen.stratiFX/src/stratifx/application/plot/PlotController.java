@@ -439,14 +439,6 @@ public class PlotController
                 || deformationType.equals("Decompaction")) {
             style.setAttribute(Kind.DEFORMATION.toString(), "DilatationDeformation");
             style.setAttribute("DilatationType", deformationType);
-
-            Section section = StratiFXService.instance.getSection();
-
-            List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(
-                    FaultFeature.class);
-            for (FaultFeature faultFeature : faults) {
-                sceneStyle.setUnusualBehavior(section, faultFeature, true);
-            }
         }
 
         String manipulatorType = uiAction.getManipulatorType();
