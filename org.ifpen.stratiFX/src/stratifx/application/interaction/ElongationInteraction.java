@@ -8,8 +8,8 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.decompaction.ElongationDataCube;
+import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.kronosflow.cube.Image;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;

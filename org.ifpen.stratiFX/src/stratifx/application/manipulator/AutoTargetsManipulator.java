@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
 import fr.ifp.jdeform.deformation.constraint.ExactTargetsComputer;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.deformation.items.TranslateItem;
+import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;

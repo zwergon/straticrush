@@ -132,11 +132,10 @@ public class MainController implements Initializable, IUIController {
     void onToolsDisplacementsPatchAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "PatchDisplacements"));
     }
-
+  
     @FXML
-    void onToolsDisplacementsFaultAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Displacements", "FaultDisplacements"));
-
+    void onToolsMasterSlaveAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("MasterSlave", "MasterSlave"));
     }
 
     @FXML

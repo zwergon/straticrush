@@ -15,8 +15,8 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.controllers.scene.Scene;
-import fr.ifp.jdeform.controllers.scene.SceneBuilder;
+import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.jdeform.scene.SceneBuilder;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;

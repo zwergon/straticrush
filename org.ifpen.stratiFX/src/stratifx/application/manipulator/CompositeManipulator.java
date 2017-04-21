@@ -19,11 +19,11 @@ import java.util.List;
 
 import fr.ifp.jdeform.controllers.TranslationController;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.controllers.scene.Scene;
-import fr.ifp.jdeform.controllers.scene.algo.TargetsExtractor;
 import fr.ifp.jdeform.deformation.Deformation;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.IRigidItem;
+import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.jdeform.scene.algo.TargetsExtractor;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.IPolylineProvider;

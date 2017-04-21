@@ -18,9 +18,9 @@ package stratifx.application.manipulator;
 import java.util.ArrayList;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.jdeform.deformation.IDeformationItem;
 import fr.ifp.jdeform.deformation.items.DisplacementItem;
+import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.polyline.ICurviPoint;

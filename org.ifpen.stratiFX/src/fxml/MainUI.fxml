@@ -46,9 +46,9 @@ limitations under the License.
                         <Menu mnemonicParsing="false" text="Displacements">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsPatchAction" text="Patch" />
-                                <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsFaultAction" text="Fault" />
                             </items>
                         </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="MasterSlave" />
                         <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>

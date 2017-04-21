@@ -15,10 +15,10 @@
  */
 package stratifx.application.interaction;
 
+import fr.ifp.jdeform.scene.Scene;
 import java.util.Collection;
 import java.util.List;
 
-import fr.ifp.jdeform.controllers.scene.Scene;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Triangle;
 import fr.ifp.kronosflow.mesh.triangulation.Triangulation;
@@ -33,7 +33,6 @@ import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;
-import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class TriangulateInteraction extends SectionInteraction {

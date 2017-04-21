@@ -16,9 +16,7 @@
 package stratifx.application.interaction;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.controllers.scene.SceneBuilder;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
-import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.canvas.graphics.GScene;

@@ -48,7 +48,7 @@ import stratifx.application.IUIController;
 import stratifx.application.StratiFXService;
 import stratifx.application.UIAction;
 import stratifx.application.interaction.DilatationInteraction;
-import stratifx.application.interaction.FaultDisplacementsInteraction;
+import stratifx.application.interaction.MasterSlaveInteraction;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.NodeMoveInteraction;
 import stratifx.application.interaction.RemoveUnitInteraction;
@@ -452,8 +452,8 @@ public class PlotController
             interaction = new ResetGeometryInteraction(gfxScene);
         } else if (manipulatorType.equals("PatchDisplacements")) {
             interaction = new PatchDisplacementsInteraction(gfxScene);
-        } else if (manipulatorType.equals("FaultDisplacements")) {
-            interaction = new FaultDisplacementsInteraction(gfxScene);
+        } else if (manipulatorType.equals("MasterSlave")) {
+            interaction = new MasterSlaveInteraction(gfxScene);
         } else if (manipulatorType.equals("RemoveUnit")) {
             interaction = new RemoveUnitInteraction(gfxScene);
         } else if (manipulatorType.equals("Dilatation")) {
