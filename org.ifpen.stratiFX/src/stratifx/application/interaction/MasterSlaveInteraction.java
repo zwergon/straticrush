@@ -215,9 +215,12 @@ public class MasterSlaveInteraction extends SectionInteraction {
                 ICurviPoint curviTarget = faultGeometry.getPointAtLength(iMCurvi, length);
 
                 Point2D target = faultSupport.getPosition(curviTarget);
+                //gPoints.addPoint(target.getPosition(), GColor.YELLOW);
 
-                gPoints.addPoint(target.getPosition(), GColor.YELLOW);
-
+                LinePoint lpOnMaster = faultMS.getMasterPoint(target.getPosition());
+                if (lpOnMaster != null) {
+                    gPoints.addPoint(lpOnMaster.getPosition(), GColor.YELLOW);
+                }
             }
             i++;
 
