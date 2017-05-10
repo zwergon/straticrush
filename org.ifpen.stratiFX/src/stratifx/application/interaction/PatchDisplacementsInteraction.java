@@ -23,7 +23,6 @@ import fr.ifp.kronosflow.warp.Displacement;
 import fr.ifp.kronosflow.warp.barycentric.HormannBarycentricWarp;
 import java.util.ArrayList;
 import java.util.List;
-import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GDisplacement;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
@@ -36,7 +35,7 @@ public class PatchDisplacementsInteraction extends SectionInteraction {
     
     DisplacementsBetween dBetween;
 
-    public PatchDisplacementsInteraction(GFXScene gfxScene) {
+    public PatchDisplacementsInteraction(GScene gfxScene) {
         super(gfxScene);
         
         Geoscheduler scheduler = getScheduler();

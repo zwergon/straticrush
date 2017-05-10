@@ -49,6 +49,7 @@ limitations under the License.
                             </items>
                         </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="MasterSlave" />
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
                         <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>

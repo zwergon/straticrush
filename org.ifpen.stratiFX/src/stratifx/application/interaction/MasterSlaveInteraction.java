@@ -32,7 +32,6 @@ import fr.ifp.kronosflow.polyline.LinePoint;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
-import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GPoints;
 import stratifx.application.views.GPolyline;
@@ -53,7 +52,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
 
     Scene scene;
 
-    public MasterSlaveInteraction(GFXScene gfxScene) {
+    public MasterSlaveInteraction(GScene gfxScene) {
         super(gfxScene);
     }
 

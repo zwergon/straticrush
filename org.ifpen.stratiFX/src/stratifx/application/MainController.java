@@ -30,10 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.properties.PropertiesUIAction;
@@ -136,6 +133,11 @@ public class MainController implements Initializable, IUIController {
     @FXML
     void onToolsMasterSlaveAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("MasterSlave", "MasterSlave"));
+    }
+    
+     @FXML
+    void onToolsHorizonMSAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("HorizonMS", "HorizonMS"));
     }
 
     @FXML

@@ -48,6 +48,8 @@ import stratifx.application.IUIController;
 import stratifx.application.StratiFXService;
 import stratifx.application.UIAction;
 import stratifx.application.interaction.DilatationInteraction;
+import stratifx.application.interaction.HorizonMSInteraction;
+import stratifx.application.interaction.InteractionFactory;
 import stratifx.application.interaction.MasterSlaveInteraction;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.NodeMoveInteraction;
@@ -148,14 +150,14 @@ public class PlotController
         paneId.setClip(clipRectangle);
 
     }
-    
-    public void initWorldExtent(double x0, double y0, double width, double height){
+
+    public void initWorldExtent(double x0, double y0, double width, double height) {
         double w0[] = {x0, y0};
         double w1[] = {x0 + width, y0};
         double w2[] = {x0, y0 + height};
 
         gfxScene.initWorldExtent(w0, w1, w2);
-        
+
         setWorldExtent(w0, w1, w2);
     }
 
@@ -176,14 +178,14 @@ public class PlotController
 
     private void updateAxis() {
         GWorldExtent wExtent = gfxScene.getWorldExtent();
-        
+
         axisX.setLowerBound(wExtent.left());
         axisX.setUpperBound(wExtent.right());
-        axisX.setTickUnit( Math.abs(wExtent.getWidth() / 10.) );
+        axisX.setTickUnit(Math.abs(wExtent.getWidth() / 10.));
 
         axisY.setLowerBound(wExtent.bottom());
         axisY.setUpperBound(wExtent.top());
-        axisY.setTickUnit( Math.abs(wExtent.getHeight() / 10.) );
+        axisY.setTickUnit(Math.abs(wExtent.getHeight() / 10.));
     }
 
     /**
@@ -391,9 +393,8 @@ public class PlotController
         }
         return true;
     }
-    
-    
-    private void zoomRect(){
+
+    private void zoomRect() {
         startInteraction(new ZoomInteraction(gfxScene));
     }
 
@@ -443,24 +444,8 @@ public class PlotController
 
         String manipulatorType = uiAction.getManipulatorType();
 
-        SectionInteraction interaction = null;
-        if (manipulatorType.equals("Top")) {
-            interaction = new TopBorderInteraction(gfxScene);
-        } else if (manipulatorType.equals("NodeMove")) {
-            interaction = new NodeMoveInteraction(gfxScene);
-        } else if (manipulatorType.equals("Reset")) {
-            interaction = new ResetGeometryInteraction(gfxScene);
-        } else if (manipulatorType.equals("PatchDisplacements")) {
-            interaction = new PatchDisplacementsInteraction(gfxScene);
-        } else if (manipulatorType.equals("MasterSlave")) {
-            interaction = new MasterSlaveInteraction(gfxScene);
-        } else if (manipulatorType.equals("RemoveUnit")) {
-            interaction = new RemoveUnitInteraction(gfxScene);
-        } else if (manipulatorType.equals("Dilatation")) {
-            interaction = new DilatationInteraction(gfxScene);
-        } else if (manipulatorType.equals("Triangulation")) {
-            interaction = new TriangulateInteraction(gfxScene);
-        }
+        SectionInteraction interaction = InteractionFactory.getInstance()
+                .createInteraction(manipulatorType, gfxScene);
 
         if (interaction != null) {
             interaction.setStyle(style);

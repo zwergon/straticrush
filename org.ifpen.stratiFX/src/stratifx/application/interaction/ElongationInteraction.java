@@ -14,7 +14,6 @@ import fr.ifp.kronosflow.cube.Image;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import stratifx.application.plot.GFXScene;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GColorMap;
 import stratifx.canvas.graphics.GObject;
@@ -32,7 +31,7 @@ public class ElongationInteraction extends SectionInteraction {
     GBox markers;
     ElongationDataCube elongationCube;
 
-    public ElongationInteraction(GFXScene gfxScene) {
+    public ElongationInteraction(GScene gfxScene) {
         super(gfxScene);
     }
 
