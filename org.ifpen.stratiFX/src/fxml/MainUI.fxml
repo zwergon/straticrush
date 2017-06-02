@@ -48,8 +48,12 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsPatchAction" text="Patch" />
                             </items>
                         </Menu>
-                        <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="MasterSlave" />
-                        <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
+                  <Menu mnemonicParsing="false" text="MasterSlave">
+                     <items>
+                              <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="Fault" />
+                              <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
+                     </items>
+                  </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>
@@ -63,6 +67,11 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformNodeMassAction" text="Mass/Spring" />
                             </items>
                         </Menu>
+                  <Menu mnemonicParsing="false" text="GlobalMove">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalFEMAction" text="FEMSolver" />
+                    </items>
+                  </Menu>
                         <Menu mnemonicParsing="false" text="Top">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />

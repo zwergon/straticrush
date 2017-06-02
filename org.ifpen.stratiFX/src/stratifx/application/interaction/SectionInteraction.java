@@ -49,10 +49,14 @@ public class SectionInteraction implements GInteraction {
     public void setStyle(Style style) {
         this.style = style;
     }
+    
+    public Section getSection(){
+        return StratiFXService.instance.getSection();
+    }
 
     public Geoscheduler getScheduler() {
 
-        Section section = StratiFXService.instance.getSection();
+        Section section = getSection();
         if (section instanceof GeoschedulerSection) {
             return ((GeoschedulerSection) section).getGeoscheduler();
         }

@@ -16,7 +16,6 @@
 package stratifx.application.plot;
 
 import stratifx.application.interaction.ElongationInteraction;
-import stratifx.application.interaction.PatchDisplacementsInteraction;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,10 +24,8 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
-import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.model.style.StyleManager;
-import java.util.List;
+import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
@@ -47,17 +44,9 @@ import stratifx.application.GParameters;
 import stratifx.application.IUIController;
 import stratifx.application.StratiFXService;
 import stratifx.application.UIAction;
-import stratifx.application.interaction.DilatationInteraction;
-import stratifx.application.interaction.HorizonMSInteraction;
 import stratifx.application.interaction.InteractionFactory;
-import stratifx.application.interaction.MasterSlaveInteraction;
 import stratifx.application.interaction.InteractionUIAction;
-import stratifx.application.interaction.NodeMoveInteraction;
-import stratifx.application.interaction.RemoveUnitInteraction;
-import stratifx.application.interaction.ResetGeometryInteraction;
 import stratifx.application.interaction.SectionInteraction;
-import stratifx.application.interaction.TopBorderInteraction;
-import stratifx.application.interaction.TriangulateInteraction;
 import stratifx.application.interaction.ZoomInteraction;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.canvas.graphics.GWorldExtent;
@@ -452,6 +441,9 @@ public class PlotController
             startInteraction(interaction);
             return true;
         }
+        else {
+            LOGGER.error("unable to create interaction " + manipulatorType, getClass());
+        }
 
         return false;
     }
@@ -462,13 +454,13 @@ public class PlotController
         SceneStyle sceneStyle = new SceneStyle(style);
         Section section = StratiFXService.instance.getSection();
 
-        sceneStyle.setGridType(GridType.TRGL);
+        /*sceneStyle.setGridType(GridType.TRGL);
         sceneStyle.setNatureType(NatureType.EXPLICIT);
         List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(
                 FaultFeature.class);
         for (FaultFeature faultFeature : faults) {
             sceneStyle.setUnusualBehavior(section, faultFeature, true);
-        }
+        }*/
 
         SectionInteraction interaction = null;
         switch (action.getProperty()) {

@@ -36,22 +36,23 @@ public class GMasterSlave extends GObject {
 
     public GMasterSlave(MasterSlave masterSlave, boolean drawMaster) {
 
+        setUserData(masterSlave);
+
         setName(masterSlave.getFeature().getName());
-        int i = 0;
 
         /*GPoints points = new GPoints();
         add(points);*/
-
         List<PatchInterval> patches = (masterSlave.getMaster().isEmpty()) ? masterSlave.getSlave() : masterSlave.getMaster();
 
+        int i = 0;
         for (PatchInterval pInterval : patches) {
 
             GPolyline line = new GPolyline(pInterval.getInterval());
-            
+
             GColor color = colors[i % colors.length];
 
             GStyle style = new GStyle();
-            style.setForegroundColor( color );
+            style.setForegroundColor(color);
             style.setLineWidth(2);
             line.setStyle(style);
 
@@ -59,14 +60,12 @@ public class GMasterSlave extends GObject {
             double[] pt = new double[2];
             pInterval.getInterval().getPosition(cp, pt);
             points.addPoint(pt, color );*/
-
             add(line);
 
             i++;
         }
 
         //points.toFront();
-
     }
 
     public GMasterSlave(MasterSlave masterSlave) {

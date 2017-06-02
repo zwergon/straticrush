@@ -16,6 +16,7 @@
 package stratifx.application.interaction;
 
 import fr.ifp.jdeform.scene.FaultMS;
+import fr.ifp.jdeform.scene.HorizonMS;
 import fr.ifp.jdeform.scene.MasterSlave;
 import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.jdeform.scene.algo.FaultExtractor;
@@ -32,28 +33,45 @@ import fr.ifp.kronosflow.polyline.LinePoint;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
+import java.util.HashMap;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GPoints;
 import stratifx.application.views.GPolyline;
 import stratifx.canvas.graphics.GColor;
+import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class MasterSlaveInteraction extends SectionInteraction {
-
-    GPolyline gFault;
-
-    GMasterSlave gFaultMS;
-
-    GMasterSlave gHorizonMS;
-
-    GPoints gPoints;
-
+    
+    final static int G_FAULT = 0;
+    final static int G_POINTS = 1;
+    final static int G_FAULT_MS = 2;
+    final static int G_HORIZON_MS = 3;
+    
+    HashMap<Integer, GObject>  gObjects = new HashMap<>();
+    
     Scene scene;
 
     public MasterSlaveInteraction(GScene gfxScene) {
         super(gfxScene);
+    }
+    
+    
+    protected <T> T getGObject( int type ){
+        return (T)gObjects.get(type);
+    }
+    
+    
+    HorizonMS getHorizonMS(){
+        
+        GMasterSlave gHorizonMS = getGObject(G_HORIZON_MS);
+        if ( null != gHorizonMS ){
+            return (HorizonMS)(gHorizonMS.getUserData());
+        }
+        
+        return null;
     }
 
     @Override
@@ -64,35 +82,11 @@ public class MasterSlaveInteraction extends SectionInteraction {
 
         switch (event.type) {
             case GMouseEvent.BUTTON_DOWN:
-                Patch patch = getSelectedPatch(event.x, event.y);
-                if (patch != null) {
-                    scene = createScene(patch);
-                    MasterSlave faultMS = selectFault(event.x, event.y);
-                    MasterSlave horizonMS = selectHorizon(event.x, event.y);
-
-                    if ((null != faultMS) && (null != horizonMS)) {
-                        createIntersection(faultMS, horizonMS);
-                    }
-
-                    gscene.refresh();
-                }
-
+                handleMousePress(event, gscene);
                 break;
             case GMouseEvent.BUTTON_UP:
-                if (gFault != null) {
-                    gscene.remove(gFault);
-                }
-
-                if (gFaultMS != null) {
-                    gscene.remove(gFaultMS);
-                }
-
-                if (gHorizonMS != null) {
-                    gscene.remove(gHorizonMS);
-                }
-
-                if (gPoints != null) {
-                    gscene.remove(gPoints);
+                for( GObject gobject : gObjects.values() ){
+                    gscene.remove(gobject);
                 }
                 gscene.refresh();
 
@@ -102,7 +96,20 @@ public class MasterSlaveInteraction extends SectionInteraction {
         return true;
     }
 
-    private MasterSlave selectFault(int x, int y) {
+    protected void handleMousePress(GMouseEvent event, GScene gscene1) {
+        Patch patch = getSelectedPatch(event.x, event.y);
+        if (patch != null) {
+            scene = createScene(patch);
+            MasterSlave faultMS = selectFault(event.x, event.y);
+            MasterSlave horizonMS = selectHorizon(event.x, event.y);
+            if ((null != faultMS) && (null != horizonMS)) {
+                createIntersection(faultMS, horizonMS);
+            }
+            gscene1.refresh();
+        }
+    }
+
+    protected MasterSlave selectFault(int x, int y) {
 
         double[] src = gscene.getTransformer().deviceToWorld(x, y);
 
@@ -120,7 +127,9 @@ public class MasterSlaveInteraction extends SectionInteraction {
         MasterSlaveExtractor builder = new FaultExtractor(scene);
         builder.compute(selectedFeature);
 
-        gFault = new GPolyline(builder.getMergedLine());
+        GPolyline gFault = new GPolyline(builder.getMergedLine());
+        
+        gObjects.put(G_FAULT, gFault);
 
         gscene.add(gFault);
 
@@ -130,14 +139,10 @@ public class MasterSlaveInteraction extends SectionInteraction {
         gFault.setStyle(style);
         gFault.redraw();
 
-        /*gFaultMS = new GMasterSlave( builder.getMasterSlave());
-        gscene.add(gFaultMS);
-        
-        gFaultMS.redraw();*/
         return builder.getMasterSlave();
     }
 
-    private MasterSlave selectHorizon(int x, int y) {
+    protected MasterSlave selectHorizon(int x, int y) {
 
         double[] src = gscene.getTransformer().deviceToWorld(x, y);
 
@@ -155,8 +160,9 @@ public class MasterSlaveInteraction extends SectionInteraction {
         MasterSlaveExtractor builder = new HorizonExtractor(scene);
         builder.compute(selectedFeature);
 
-        gHorizonMS = new GMasterSlave(builder.getMasterSlave(), false);
-
+        GMasterSlave gHorizonMS = new GMasterSlave(builder.getMasterSlave(), false);
+        
+        gObjects.put(G_HORIZON_MS, gHorizonMS);
         gscene.add(gHorizonMS);
 
         gHorizonMS.redraw();
@@ -165,14 +171,15 @@ public class MasterSlaveInteraction extends SectionInteraction {
 
     }
 
-    private void createIntersection(MasterSlave fault, MasterSlave horizon) {
+    protected void createIntersection(MasterSlave fault, MasterSlave horizon) {
 
         FaultMS faultMS = (FaultMS) fault;
 
         HorizonFaultIntersection intersection = new HorizonFaultIntersection(horizon, fault);
         intersection.compute();
 
-        gPoints = new GPoints();
+        GPoints gPoints = new GPoints();
+        gObjects.put(G_POINTS, gPoints);
 
         PolyLine faultSupport = faultMS.getSupport();
         PolyLineGeometry faultGeometry = new PolyLineGeometry(faultSupport);

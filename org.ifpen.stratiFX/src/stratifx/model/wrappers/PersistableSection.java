@@ -15,6 +15,7 @@
  */
 package stratifx.model.wrappers;
 
+import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ class PersistableSection extends AbstractPersisted {
 
     IPersisted reference;
     
-    IPersisted geologicLibrary;
+    GeologicLibrary geologicLibrary;
 
     public Set<IPersisted> getPatches() {
         return patches;
@@ -56,11 +57,11 @@ class PersistableSection extends AbstractPersisted {
         this.reference = reference;
     }
     
-    public void setGeologicLibrary( PersistableGeologicLibrary library ){
+    public void setGeologicLibrary( GeologicLibrary library ){
         geologicLibrary = library;
     }
     
-    public IPersisted getGeologicalLibrary(){
+    public GeologicLibrary getGeologicalLibrary(){
         return geologicLibrary;
     }
     

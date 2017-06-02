@@ -46,11 +46,7 @@ public class SectionWrapper implements IWrapper<Section> {
             return false;
         }
 
-        GeologicLibrary geologicalLibrary = wrapped.getFeatures();
-        WrapperFactory.load(
-                geologicalLibrary,
-                persistedSection.getGeologicalLibrary()
-        );
+        wrapped.setFeatures( persistedSection.getGeologicalLibrary() );
 
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
@@ -135,13 +131,8 @@ public class SectionWrapper implements IWrapper<Section> {
         if (null == persistedSection) {
             persistedSection = new PersistableSection();
         }
-
-        PersistableGeologicLibrary geologicalLib = new PersistableGeologicLibrary();
-        WrapperFactory.save(
-                wrapped.getFeatures(),
-                geologicalLib
-        );
-        persistedSection.setGeologicLibrary(geologicalLib);
+        
+        persistedSection.setGeologicLibrary(wrapped.getFeatures());
 
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();

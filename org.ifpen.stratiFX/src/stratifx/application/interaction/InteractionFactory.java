@@ -52,6 +52,7 @@ public class InteractionFactory {
         interactionTypes = new HashMap<>();
         register("Top", TopBorderInteraction.class);
         register("NodeMove", NodeMoveInteraction.class);
+        register("Global", GlobalMoveInteraction.class);
         register("Reset", ResetGeometryInteraction.class);
         register("PatchDisplacements", PatchDisplacementsInteraction.class);
         register("MasterSlave", MasterSlaveInteraction.class);

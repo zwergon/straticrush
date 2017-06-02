@@ -164,6 +164,11 @@ public class MainController implements Initializable, IUIController {
     void onDeformNodeMassAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("MassSpring", "NodeMove"));
     }
+    
+    @FXML
+    void onDeformGlobalFEMAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Global"));
+    }
 
     @FXML
     void onDeformTopVSAction(ActionEvent event) {

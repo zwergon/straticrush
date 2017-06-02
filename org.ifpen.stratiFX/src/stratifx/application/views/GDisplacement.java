@@ -15,8 +15,6 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.warp.Displacement;
 import fr.ifp.kronosflow.warp.IUIDDisplacements;
 import java.util.Collection;
@@ -66,9 +64,26 @@ public class GDisplacement extends GObject {
 
     }
 
+    public GDisplacement( List<Displacement> displacements) {
+
+        this.displacements = displacements;
+
+        gDisplacements = new GSegment[displacements.size()];
+        for (int i = 0; i < gDisplacements.length; i++) {
+            GStyle style = new GStyle();
+            style.setLineWidth(1);
+            gDisplacements[i] = new GSegment();
+            gDisplacements[i].setStyle(style);
+            addSegment(gDisplacements[i]);
+        }
+
+    }
+
     @Override
     protected void draw() {
-        drawBorders();
+        if (null != dBetween) {
+            drawBorders();
+        }
 
         if (null != displacements) {
             drawDisplacements();
@@ -86,7 +101,6 @@ public class GDisplacement extends GObject {
         double[] xptsOri = new double[npts];
         double[] yptsOri = new double[npts];
 
-      
         int i = 0;
         for (Displacement disp : pts) {
 
@@ -115,9 +129,6 @@ public class GDisplacement extends GObject {
 
         int npts = gDisplacements.length;
 
-        double[] xpts = new double[npts];
-        double[] ypts = new double[npts];
-
         for (int i = 0; i < npts; i++) {
 
             GSegment segment = gDisplacements[i];
@@ -129,9 +140,6 @@ public class GDisplacement extends GObject {
 
             segment.setWorldGeometry(start[0], start[1], end[0], end[1]);
 
-            xpts[i] = start[0];
-            ypts[i] = start[1];
-            i++;
         }
 
     }

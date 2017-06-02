@@ -66,7 +66,6 @@ import stratifx.application.properties.PropertiesUIAction;
 import fr.ifp.jdeform.stratigraphy.StratigraphyPropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
-import stratifx.model.wrappers.GeologicLibraryWrapper;
 import stratifx.model.wrappers.PatchWrapper;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
@@ -106,10 +105,8 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
-        WrapperFactory.registerClass(GeologicLibrary.class, GeologicLibraryWrapper.class);
-        
-        
-        LOGGER.setLogger( new StratiFXLogger() );
+
+        LOGGER.setLogger(new StratiFXLogger());
 
     }
 
@@ -199,18 +196,19 @@ public class StratiFXService implements IUIController, IControllerService {
 
     private boolean handleOpen() {
 
-        FileChooser fileChooser = new FileChooser();
+        /*FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(primaryStage);
         if (file == null) {
             return false;
         }
 
         String filename = file.getAbsolutePath();
-
+         */
+        String filename = "/home/irsrvhome1/R11/lecomtje/work/git/straticrush/fr.ifp.straticrush/data/nigeriamodel.geo";
         String basename = filename.substring(0, filename.lastIndexOf('.'));
 
         LOGGER.debug("load " + basename, this.getClass());
-
+        
         section = new GeoschedulerSection();
         section.setName(basename);
 
