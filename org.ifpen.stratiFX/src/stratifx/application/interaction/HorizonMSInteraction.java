@@ -9,6 +9,7 @@
 package stratifx.application.interaction;
 
 import fr.ifp.jdeform.deformation.constraint.ExactTargetsComputer;
+import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.scene.HorizonMS;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.model.FeatureInterval;
@@ -63,7 +64,7 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
 
         horizon.sort(HorizonMS.Order.XOrder);
 
-        List<PatchInterval> slaves = horizon.getSlave();
+        List<PatchInterval> slaves = horizon.getSlaves();
 
         if (slaves.isEmpty()) {
             LOGGER.warning("no slaves in this horizon", getClass());
@@ -79,8 +80,10 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
             
             LinePointPair pointPair = getNextPair( interval, targetPos, geometry );
 
-            ExactTargetsComputer targets = new ExactTargetsComputer(interval, pointPair);
-            targets.compute();
+            PatchIntersectionItem pi = new PatchIntersectionItem(interval, pointPair);
+            ExactTargetsComputer targets = new ExactTargetsComputer();
+            targets.initialize(pi);
+            targets.compute(scene);
             
             List<Displacement> displacements = targets.getDisplacements();
             

@@ -9,6 +9,8 @@
 package stratifx.application.manipulator;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.IDeformationItem;
+import fr.ifp.jdeform.deformation.items.HorizonMS2LineItem;
 import fr.ifp.jdeform.scene.MasterSlave;
 import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.jdeform.scene.algo.HorizonExtractor;
@@ -18,8 +20,11 @@ import fr.ifp.kronosflow.mesh.CompositeMesh2D;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
+import java.util.ArrayList;
 import java.util.HashMap;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GMesh;
@@ -33,15 +38,30 @@ import stratifx.canvas.interaction.GMouseEvent;
  */
 public class CompositeMeshManipulator extends CompositeManipulator {
 
-    CompositeMesh2D mesh;
-
     final static int G_MESH = 0;
     final static int G_HORIZON_MS = 1;
 
     HashMap<Integer, GObject> gObjects = new HashMap<>();
 
-    protected <T> T getGObject(int type) {
+    private <T> T getObject(int type) {
+        GObject gObject = gObjects.get(type);
+        if (null != gObject) {
+            return (T) gObject.getUserData();
+        }
+        return null;
+    }
+
+    private <T> T getGObject(int type) {
         return (T) gObjects.get(type);
+    }
+    
+    private PolyLine getTargetLine(){
+        Scene scene = deformationCaller.getScene();
+        Section section = scene.getSection();
+        
+        assert section != null : "Section is null";
+        
+        return section.getPatchLibrary().getPaleobathymetry().getPolyline();
     }
 
     public CompositeMeshManipulator(
@@ -61,7 +81,7 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
         Scene scene = deformationCaller.getScene();
         /* create a composite mesh with all patches*/
-        mesh = new CompositeMesh2D();
+        CompositeMesh2D mesh = new CompositeMesh2D();
         for (Patch patch : scene.getElements()) {
             if (patch instanceof IMeshProvider) {
                 IMeshProvider mPatch = (IMeshProvider) patch;
@@ -92,6 +112,15 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
     @Override
     protected void computeTargets() {
+
+        items = new ArrayList<IDeformationItem>();
+
+        HorizonMS2LineItem hlItem = new HorizonMS2LineItem();
+        hlItem.setHorizonMS(getObject(G_HORIZON_MS));
+        hlItem.setTargetLine(getTargetLine());
+
+        items.add(hlItem);
+
     }
 
     @Override
@@ -110,6 +139,7 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
     @Override
     public void onMouseRelease(GMouseEvent event) {
+        computeTargets();
     }
 
     @Override

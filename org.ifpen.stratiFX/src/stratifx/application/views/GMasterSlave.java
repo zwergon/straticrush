@@ -42,7 +42,7 @@ public class GMasterSlave extends GObject {
 
         /*GPoints points = new GPoints();
         add(points);*/
-        List<PatchInterval> patches = (masterSlave.getMaster().isEmpty()) ? masterSlave.getSlave() : masterSlave.getMaster();
+        List<PatchInterval> patches = (masterSlave.getMasters().isEmpty()) ? masterSlave.getSlaves() : masterSlave.getMasters();
 
         int i = 0;
         for (PatchInterval pInterval : patches) {

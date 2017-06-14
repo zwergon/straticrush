@@ -35,6 +35,7 @@ import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.polyline.IPolylineProvider;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
+import fr.ifp.kronosflow.polyline.PolyLine;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -171,10 +172,13 @@ public class AutoTargetsManipulator extends CompositeManipulator {
                 PatchIntersectionItem pi = new PatchIntersectionItem(selectedHorizon, IH);
                 targetData.setTarget(pi);
 
-                ExactTargetsComputer computer = new ExactTargetsComputer(pi.getInterval(), pi.getIntersection());
-                computer.compute();
+                ExactTargetsComputer computer = new ExactTargetsComputer();
+                computer.initialize(pi);
+                computer.compute(deformationCaller.getScene());
 
-                selectedPatchGraphic.addTarget(computer.getTargetLine(), color);
+                PolyLine target = new ExplicitPolyLine();
+                target.initialize(computer.getTargets());
+                selectedPatchGraphic.addTarget(target, color);
 
             }
 

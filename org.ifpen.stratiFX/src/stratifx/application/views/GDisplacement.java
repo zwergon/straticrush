@@ -16,16 +16,16 @@
 package stratifx.application.views;
 
 import fr.ifp.kronosflow.warp.Displacement;
-import fr.ifp.kronosflow.warp.IUIDDisplacements;
 import java.util.Collection;
 import java.util.List;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;
+import fr.ifp.kronosflow.warp.IDisplacements;
 
 public class GDisplacement extends GObject {
 
-    IUIDDisplacements dBetween;
+    IDisplacements dBetween;
 
     List<Displacement> displacements;
 
@@ -38,7 +38,7 @@ public class GDisplacement extends GObject {
     boolean closed = true;
 
     public GDisplacement(
-            IUIDDisplacements dBetween,
+            IDisplacements dBetween,
             List<Displacement> displacements) {
         this.dBetween = dBetween;
         this.displacements = displacements;

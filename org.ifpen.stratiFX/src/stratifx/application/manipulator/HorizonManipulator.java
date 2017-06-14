@@ -34,84 +34,83 @@ import stratifx.canvas.graphics.GTransformer;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class HorizonManipulator extends CompositeManipulator {
-	
-	GView horizonView;
 
-	public HorizonManipulator(GScene gscene, DeformationControllerCaller caller) {
-		super(gscene, caller);
-	}
-	
-	@Override
-	public void onMousePress(GMouseEvent event) {
-		
-		Scene scene = deformationCaller.getScene();
-		Patch selected = scene.getSelected();
-		if ( null == selected ){
-			return;
-		}
-		
-		
-		GFXScene gfxScene = (GFXScene)gscene;
-		GTransformer transformer = gscene.getTransformer();
-		double[] w_pos = transformer.deviceToWorld(event.x, event.y);
-		PatchInterval selectedHorizon = targetsExtractor.findHorizonFeature( w_pos );
-		if ( null != selectedHorizon ){
-			if ( null != horizonView ){
-				gfxScene.destroyView(horizonView);
-			}
-			
-			horizonView = gfxScene.createView(selectedHorizon);
-		}
-		
-		gscene.refresh();
-			
-	}
+    GView horizonView;
 
-	@Override
-	public void onMouseMove(GMouseEvent event) {
+    public HorizonManipulator(GScene gscene, DeformationControllerCaller caller) {
+        super(gscene, caller);
+    }
 
-		if ( !isActive() ){
-			return;
-		}
-	
-	}
+    @Override
+    public void onMousePress(GMouseEvent event) {
 
-	@Override
-	public void onMouseRelease(GMouseEvent event) {
-		
-		GFXScene gfxScene = (GFXScene)gscene;
+        Scene scene = deformationCaller.getScene();
+        Patch selected = scene.getSelected();
+        if (null == selected) {
+            return;
+        }
 
-		if ( null != horizonView ){
-			gfxScene.destroyView(horizonView);
-		}
+        GFXScene gfxScene = (GFXScene) gscene;
+        GTransformer transformer = gscene.getTransformer();
+        double[] w_pos = transformer.deviceToWorld(event.x, event.y);
+        PatchInterval selectedHorizon = targetsExtractor.findHorizonFeature(w_pos);
+        if (null != selectedHorizon) {
+            if (null != horizonView) {
+                gfxScene.destroyView(horizonView);
+            }
 
-	}
-	
-	
-	@Override
-	public boolean canDeform() {
-		items = new ArrayList<IDeformationItem>();
-		
-		if ( horizonView != null ){
-			
-			PatchInterval interval = (PatchInterval)horizonView.getUserData();
-			
-			IPolyline polyline = interval.getPolyline();
-			for( ICurviPoint cp : polyline.getPoints()){
-				LinePoint lp = new LinePoint( polyline,cp );
-				DisplacementItem item = new DisplacementItem( new LineNoDisplacement(lp) );
-				items.add( item );
-			}
-		}
-		return super.canDeform();
+            horizonView = gfxScene.createView(selectedHorizon);
+        }
 
-	}
+        gscene.refresh();
 
-	@Override
-	protected void computeTargets() {
-		// TODO Auto-generated method stub
+    }
 
-	}
-	
+    @Override
+    public void onMouseMove(GMouseEvent event) {
+
+        if (!isActive()) {
+            return;
+        }
+
+    }
+
+    @Override
+    public void onMouseRelease(GMouseEvent event) {
+
+        GFXScene gfxScene = (GFXScene) gscene;
+
+        if (null != horizonView) {
+            gfxScene.destroyView(horizonView);
+        }
+
+    }
+
+    @Override
+    public boolean canDeform() {
+        items = new ArrayList<IDeformationItem>();
+
+        if (horizonView != null) {
+
+            PatchInterval interval = (PatchInterval) horizonView.getUserData();
+             
+
+            IPolyline polyline = interval.getPolyline();
+            for (ICurviPoint cp : polyline.getPoints()) {
+                LinePoint lp = new LinePoint(polyline, cp);
+                DisplacementItem item = new DisplacementItem(new LineNoDisplacement(lp));
+                item.addDeformed( interval.getPatch() );
+                items.add(item);
+            }
+        }
+        return super.canDeform();
+
+    }
+
+    @Override
+    protected void computeTargets() {
+        // TODO Auto-generated method stub
+
+    }
 
 }
