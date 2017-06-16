@@ -10,9 +10,12 @@ package stratifx.application.manipulator;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.deformation.IDeformationItem;
+import fr.ifp.jdeform.deformation.items.HorizonFaultMSGlidingItem;
 import fr.ifp.jdeform.deformation.items.HorizonMS2LineItem;
+import fr.ifp.jdeform.scene.FaultMS;
 import fr.ifp.jdeform.scene.MasterSlave;
 import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.jdeform.scene.algo.FaultExtractor;
 import fr.ifp.jdeform.scene.algo.HorizonExtractor;
 import fr.ifp.jdeform.scene.algo.MasterSlaveExtractor;
 import fr.ifp.jdeform.scene.algo.TargetsExtractor;
@@ -22,14 +25,19 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
+import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GMesh;
+import stratifx.application.views.GPolyline;
+import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
+import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
 /**
@@ -40,8 +48,11 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
     final static int G_MESH = 0;
     final static int G_HORIZON_MS = 1;
+    final static int G_FAULT_MS = 2;
 
     HashMap<Integer, GObject> gObjects = new HashMap<>();
+
+    List<FaultMS> faultsMS = new ArrayList<>();
 
     private <T> T getObject(int type) {
         GObject gObject = gObjects.get(type);
@@ -54,13 +65,13 @@ public class CompositeMeshManipulator extends CompositeManipulator {
     private <T> T getGObject(int type) {
         return (T) gObjects.get(type);
     }
-    
-    private PolyLine getTargetLine(){
+
+    private PolyLine getTargetLine() {
         Scene scene = deformationCaller.getScene();
         Section section = scene.getSection();
-        
+
         assert section != null : "Section is null";
-        
+
         return section.getPatchLibrary().getPaleobathymetry().getPolyline();
     }
 
@@ -121,6 +132,14 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
         items.add(hlItem);
 
+        for (FaultMS fms : faultsMS) {
+            HorizonFaultMSGlidingItem hfgItem = new HorizonFaultMSGlidingItem();
+            hfgItem.setFault(fms);
+            hfgItem.setHorizon(getObject(G_HORIZON_MS));
+
+            items.add(hfgItem);
+        }
+
     }
 
     @Override
@@ -134,7 +153,21 @@ public class CompositeMeshManipulator extends CompositeManipulator {
             gscene.add(gHorizonMS);
 
             gHorizonMS.redraw();
+
+            faultsMS.clear();
+            Section section = deformationCaller.getService().getSection();
+            List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(FaultFeature.class);
+            for (FaultFeature feature : faults) {
+                if ( feature.getName().equals("F37") || feature.getName().equals("F38") ) {
+
+                    MasterSlave ms = selectFault(feature);
+                    if (ms != null) {
+                        faultsMS.add((FaultMS) ms);
+                    }
+                }
+            }
         }
+
     }
 
     @Override
@@ -168,6 +201,16 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
         return builder.getMasterSlave();
 
+    }
+
+    protected MasterSlave selectFault(FaultFeature selectedFeature) {
+
+        Scene scene = deformationCaller.getScene();
+
+        MasterSlaveExtractor builder = new FaultExtractor(scene);
+        builder.compute(selectedFeature);
+
+        return builder.getMasterSlave();
     }
 
 }

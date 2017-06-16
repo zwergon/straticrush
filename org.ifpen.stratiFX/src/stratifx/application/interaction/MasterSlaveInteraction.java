@@ -208,7 +208,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
         int i = 0;
         for (LinePoint lp : fault.getSlavePoints()) {
 
-            if (i % 3 == 0) {
+            if (i % 1 == 0) {
 
                 double[] pos = new double[2];
                 lp.getPosition(pos);
