@@ -15,6 +15,8 @@
  */
 package stratifx.application.interaction;
 
+import fr.ifp.jdeform.deformation.constraint.FaultGlidingTargetsComputer;
+import fr.ifp.jdeform.deformation.items.HorizonFaultMSGlidingItem;
 import fr.ifp.jdeform.scene.FaultMS;
 import fr.ifp.jdeform.scene.HorizonMS;
 import fr.ifp.jdeform.scene.MasterSlave;
@@ -30,6 +32,7 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.LinePoint;
+import fr.ifp.kronosflow.polyline.LinePointPair;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -44,33 +47,31 @@ import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class MasterSlaveInteraction extends SectionInteraction {
-    
+
     final static int G_FAULT = 0;
     final static int G_POINTS = 1;
     final static int G_FAULT_MS = 2;
     final static int G_HORIZON_MS = 3;
-    
-    HashMap<Integer, GObject>  gObjects = new HashMap<>();
-    
+
+    HashMap<Integer, GObject> gObjects = new HashMap<>();
+
     Scene scene;
 
     public MasterSlaveInteraction(GScene gfxScene) {
         super(gfxScene);
     }
-    
-    
-    protected <T> T getGObject( int type ){
-        return (T)gObjects.get(type);
+
+    protected <T> T getGObject(int type) {
+        return (T) gObjects.get(type);
     }
-    
-    
-    HorizonMS getHorizonMS(){
-        
+
+    HorizonMS getHorizonMS() {
+
         GMasterSlave gHorizonMS = getGObject(G_HORIZON_MS);
-        if ( null != gHorizonMS ){
-            return (HorizonMS)(gHorizonMS.getUserData());
+        if (null != gHorizonMS) {
+            return (HorizonMS) (gHorizonMS.getUserData());
         }
-        
+
         return null;
     }
 
@@ -85,7 +86,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
                 handleMousePress(event, gscene);
                 break;
             case GMouseEvent.BUTTON_UP:
-                for( GObject gobject : gObjects.values() ){
+                for (GObject gobject : gObjects.values()) {
                     gscene.remove(gobject);
                 }
                 gscene.refresh();
@@ -128,7 +129,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
         builder.compute(selectedFeature);
 
         GPolyline gFault = new GPolyline(builder.getMergedLine());
-        
+
         gObjects.put(G_FAULT, gFault);
 
         gscene.add(gFault);
@@ -161,7 +162,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
         builder.compute(selectedFeature);
 
         GMasterSlave gHorizonMS = new GMasterSlave(builder.getMasterSlave(), false);
-        
+
         gObjects.put(G_HORIZON_MS, gHorizonMS);
         gscene.add(gHorizonMS);
 
@@ -173,57 +174,23 @@ public class MasterSlaveInteraction extends SectionInteraction {
 
     protected void createIntersection(MasterSlave fault, MasterSlave horizon) {
 
-        FaultMS faultMS = (FaultMS) fault;
+        HorizonFaultMSGlidingItem item = new HorizonFaultMSGlidingItem();
+        item.setFault((FaultMS) fault);
+        item.setHorizon((HorizonMS) horizon);
 
-        HorizonFaultIntersection intersection = new HorizonFaultIntersection(horizon, fault);
-        intersection.compute();
+        FaultGlidingTargetsComputer fgtComputer = new FaultGlidingTargetsComputer();
+        fgtComputer.initialize(item);
+        fgtComputer.compute(scene);
 
         GPoints gPoints = new GPoints();
         gObjects.put(G_POINTS, gPoints);
 
-        PolyLine faultSupport = faultMS.getSupport();
-        PolyLineGeometry faultGeometry = new PolyLineGeometry(faultSupport);
-
-        //search master side intersection
-        LinePoint iM = intersection.getMasterIntersection();
-        if (iM == null) {
-            LOGGER.warning("no intersection with master side", getClass());
-            return;
-        }
-        ICurviPoint iMCurvi = faultMS.getSupportPoint(iM.getPosition());
-
-        Point2D inter = faultSupport.getPosition(iMCurvi);
-        gPoints.addPoint(inter.getPosition(), GColor.GREEN);
-
-        //search slave side intersection
-        LinePoint iS = intersection.getSlaveIntersection();
-        if (iS == null) {
-            LOGGER.warning("no intersection with slave side", getClass());
-            return;
-        }
-        ICurviPoint iSCurvi = faultMS.getSupportPoint(iS.getPosition());
-        inter = faultSupport.getPosition(iSCurvi);
-        gPoints.addPoint(inter, GColor.RED);
-
         int i = 0;
-        for (LinePoint lp : fault.getSlavePoints()) {
+        for (LinePointPair lpp : fgtComputer.getPointPairs()) {
 
             if (i % 1 == 0) {
 
-                double[] pos = new double[2];
-                lp.getPosition(pos);
-
-                //gPoints.addPoint(pos, GColor.CYAN);
-                ICurviPoint curviCur = faultMS.getSupportPoint(pos);
-
-                double length = faultGeometry.signedLength(iSCurvi, curviCur);
-
-                ICurviPoint curviTarget = faultGeometry.getPointAtLength(iMCurvi, length);
-
-                Point2D target = faultSupport.getPosition(curviTarget);
-                //gPoints.addPoint(target.getPosition(), GColor.YELLOW);
-
-                LinePoint lpOnMaster = faultMS.getMasterPoint(target.getPosition());
+                LinePoint lpOnMaster = lpp.getMatePoint();
                 if (lpOnMaster != null) {
                     gPoints.addPoint(lpOnMaster.getPosition(), GColor.YELLOW);
                 }
