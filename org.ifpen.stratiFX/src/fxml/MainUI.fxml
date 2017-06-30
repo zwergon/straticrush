@@ -43,6 +43,7 @@ limitations under the License.
                 <Menu mnemonicParsing="false" text="Tools">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsTangentAction" text="Tangents" />
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsTimeLineAction" text="TimeLine" />
                         <Menu mnemonicParsing="false" text="Displacements">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsPatchAction" text="Patch" />

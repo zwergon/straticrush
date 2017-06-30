@@ -149,6 +149,11 @@ public class MainController implements Initializable, IUIController {
     void onToolsTangentAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
     }
+    
+    @FXML
+    void onToolsTimeLineAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("TimeLine", "TimeLine"));
+    }
 
     @FXML
     void onToolsResetAction(ActionEvent event) {

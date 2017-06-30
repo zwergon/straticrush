@@ -33,11 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GMesh;
-import stratifx.application.views.GPolyline;
-import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
 /**

@@ -60,6 +60,7 @@ public class InteractionFactory {
         register("RemoveUnit", RemoveUnitInteraction.class);
         register("Dilatation", DilatationInteraction.class);
         register("Triangulation", TriangulateInteraction.class);
+        register("TimeLine", TimeLineInteraction.class);
     }
     
     
