@@ -18,7 +18,6 @@ import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicColumn;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import fr.ifp.kronosflow.polyline.PolylineDirection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

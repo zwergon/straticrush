@@ -55,7 +55,12 @@ limitations under the License.
                               <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
                      </items>
                   </Menu>
-                        <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
+                  <Menu mnemonicParsing="false" text="Griding">
+                     <items>
+                              <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
+                        <MenuItem mnemonicParsing="false" onAction="#onToolsStratiGridAction" text="StratiGrid" />
+                     </items>
+                  </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>
                 </Menu>

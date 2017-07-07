@@ -22,7 +22,7 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.filters.SvgExportPolylines;
+import fr.ifp.kronosflow.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
 import stratifx.application.StratiFXService;

@@ -144,6 +144,11 @@ public class MainController implements Initializable, IUIController {
     void onToolsTriangulationAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Triangulation", "Triangulation"));
     }
+    
+    @FXML
+    void onToolsStratiGridAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("StratiGrid", "StratiGrid"));
+    }
 
     @FXML
     void onToolsTangentAction(ActionEvent event) {

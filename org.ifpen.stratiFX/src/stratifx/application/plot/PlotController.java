@@ -230,7 +230,15 @@ public class PlotController
     }
 
     private int getGFXButton(MouseEvent mouseEvent) {
-        return GMouseEvent.BUTTON_1;
+        switch( mouseEvent.getButton() ){
+            case SECONDARY:
+                return GMouseEvent.BUTTON_3;
+            case MIDDLE:
+                return GMouseEvent.BUTTON_2;
+            default:
+                break;
+        }
+        return  GMouseEvent.BUTTON_1;
     }
 
     private int getGFXModifier(MouseEvent mouseEvent) {
