@@ -8,12 +8,12 @@
  */
 package stratifx.application.properties;
 
+import fr.ifp.kronosflow.model.fit.PolyLinearFit;
 import fr.ifp.kronosflow.geometry.Point2D;
 import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicColumn;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -166,22 +167,62 @@ public class TimeProvider {
 
         distanceLines = new ArrayList<>();
 
+        Map<BoundaryFeature, List<double[]>> pointsMap = new HashMap<>();
+
         for (Patch patch : this.patch.getPatchs()) {
 
             Collection<FeatureGeolInterval> fIntervals = patch.findObjects(FeatureGeolInterval.class);
             for (FeatureGeolInterval fInterval : fIntervals) {
                 BoundaryFeature feature = fInterval.getInterval().getFeature();
                 if (feature instanceof StratigraphicEvent) {
-                    InfinitePolyline line = new InfinitePolyline();
-                    line.initialize(fInterval.getInterval().getPoints2D());
-                    DistanceLine indexedDist = new DistanceLine();
-                    indexedDist.geom = new PolyLineGeometry(line);
-                    indexedDist.feature = feature;
-                    indexedDist.time = timeMap.get(feature);
-                    distanceLines.add(indexedDist);
+
+                    List<double[]> pts = pointsMap.get(feature);
+                    if (pts == null) {
+                        pts = new ArrayList<double[]>();
+                        pointsMap.put(feature, pts);
+                    }
+                    for (Point2D pt : fInterval.getInterval().getPoints2D()) {
+                        pts.add(new double[]{pt.x(), pt.y()});
+                    }
+
                 }
             }
 
+        }
+
+        for (Map.Entry<BoundaryFeature, List<double[]>> entry : pointsMap.entrySet()) {
+            BoundaryFeature feature = entry.getKey();
+            List<double[]> pts = entry.getValue();
+            
+            /*AsciiExportPoints eData = new AsciiExportPoints( "/tmp/" + feature.getName() + "_raw.txt" );
+            eData.addPoints(pts);
+            eData.export();*/
+
+            Collections.sort(pts, new XComparator());
+
+            PolyLinearFit fit = new PolyLinearFit();
+            fit.setSamples(entry.getValue());
+            fit.compute();
+            DistanceLine indexedDist = new DistanceLine();
+            
+           
+            indexedDist.geom = new PolyLineGeometry(fit.getLine());
+            indexedDist.feature = feature;
+            indexedDist.time = timeMap.get(feature);
+            distanceLines.add(indexedDist);
+            
+            /*AsciiExportPoints eFit = new AsciiExportPoints( "/tmp/" + feature.getName() + ".txt" );
+            eFit.addPoint2Ds(fit.getLine().getPoints2D());
+            eFit.export();*/
+        }
+
+    }
+
+    private static class XComparator implements Comparator<double[]> {
+
+        @Override
+        public int compare(double[] o1, double[] o2) {
+            return Double.compare(o1[0], o2[0]);
         }
 
     }
