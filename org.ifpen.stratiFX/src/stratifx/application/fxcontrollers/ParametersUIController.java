@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.StringConverter;
@@ -45,6 +46,9 @@ public class ParametersUIController implements
 
     @FXML
     ListView<ParametersUIController.FXFeature> fxFeaturesListId;
+    
+    @FXML
+    ComboBox gridComboId;
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
     
@@ -100,6 +104,15 @@ public class ParametersUIController implements
         if (section != null) {
             initSceneParameters(section);
         }
+        
+        gridComboId.getItems().addAll( "None", "Trgl", "Grid2D", "StratiGrid");
+        
+        SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
+        gridComboId.getSelectionModel().select(sceneStyle.getGridType());
+        gridComboId.setOnAction((event)->{
+            sceneStyle.setGridType(gridComboId.getValue().toString());
+        });
+        
     }
 
     private void initSceneParameters(GeoschedulerSection section) {
@@ -132,6 +145,8 @@ public class ParametersUIController implements
             data.add(new FXFeature(feature));
         }
         fxFeaturesListId.setItems(data);
+        
+        
     }
 
     @Override
@@ -157,5 +172,13 @@ public class ParametersUIController implements
     public void onSceneResetAction( ActionEvent event ){
         
     }
-
+    
+   
+  /*  
+    @FXML
+    public void onTriangulationAction(ActionEvent event){
+        SceneStyle sceneStyle = new SceneStyle(GParameters.getStyle());
+        sceneStyle.setGridType("Trgl");   
+    }
+*/
 }

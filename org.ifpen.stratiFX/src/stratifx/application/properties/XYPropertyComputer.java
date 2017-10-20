@@ -22,7 +22,7 @@ import fr.ifp.kronosflow.geoscheduler.property.GeoschedulerPropertyComputer;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.style.PropertyStyle;
+import fr.ifp.kronosflow.model.property.PropertyStyle;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;

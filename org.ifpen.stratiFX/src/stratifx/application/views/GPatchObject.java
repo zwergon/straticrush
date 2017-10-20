@@ -88,7 +88,7 @@ public class GPatchObject extends GView  {
 		
 		GStyle style = new GStyle();
 		if ( !surrounding ){
-			style.setBackgroundColor(GColor.CYAN);
+			//style.setBackgroundColor(GColor.CYAN);
 		}
 		else {
 			style.setBackgroundColor(GColor.ORANGE);

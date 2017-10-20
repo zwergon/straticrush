@@ -86,8 +86,8 @@ public class StratiGridInteraction extends SectionInteraction {
             Patch selected = scene.getSelected();
 
             StratigraphicGridBuilder builder = new StratigraphicGridBuilder();
-            builder.extractHorizons(selected);
-            Mesh2D mesh = builder.build(selected.getBorder());
+            builder.initialize(selected);
+            Mesh2D mesh = builder.createMesh(selected.getBorder().getPoints2D());
 
             GMesh gmesh = new GMesh(mesh);
             gscene.add(gmesh);

@@ -42,7 +42,6 @@ import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
-import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
@@ -58,12 +57,14 @@ import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
+import fr.ifp.jdeform.stratigraphy.StratigraphicGridBuilder;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import stratifx.application.properties.PropertiesUIAction;
 import fr.ifp.jdeform.stratigraphy.StratigraphyPropertyComputer;
+import fr.ifp.kronosflow.model.builder.PatchBuilderFactory;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.model.wrappers.PatchWrapper;
@@ -92,6 +93,9 @@ public class StratiFXService implements IUIController, IControllerService {
         KronosContext.registerClass(PolyLine.class, ExplicitPolyLine.class);
         KronosContext.registerClass(IExtension.class, RayExtension.class);
         KronosContext.registerClass(IPropertyAccessor.class, ImagePropertyAccessor.class);
+        
+        
+        PatchBuilderFactory.registerBuilder("StratiGrid", StratigraphicGridBuilder.class);
 
         PropertyController.registerBuilder(EnumProperty.XY, new XYPropertyComputer.Builder());
         PropertyController.registerBuilder(EnumProperty.POROSITY, new PorosityComputer.Builder());
@@ -196,15 +200,14 @@ public class StratiFXService implements IUIController, IControllerService {
 
     private boolean handleOpen() {
 
-        /*FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(primaryStage);
         if (file == null) {
             return false;
         }
 
         String filename = file.getAbsolutePath();
-         */
-        String filename = "/home/irsrvhome1/R11/lecomtje/work/git/straticrush/fr.ifp.straticrush/data/nigeriamodel.geo";
+        //String filename = "/home/irsrvhome1/R11/lecomtje/work/git/straticrush/fr.ifp.straticrush/data/nigeriamodel.geo";
         String basename = filename.substring(0, filename.lastIndexOf('.'));
 
         LOGGER.debug("load " + basename, this.getClass());
@@ -213,8 +216,7 @@ public class StratiFXService implements IUIController, IControllerService {
         section.setName(basename);
 
         SceneStyle sceneStyle = new SceneStyle(section.getStyle());
-        sceneStyle.setNatureType(NatureType.EXPLICIT);
-        sceneStyle.setGridType(GridType.LINE);
+        sceneStyle.setGridType("None");
         sceneStyle.setComplexityType(ComplexityType.SINGLE);
 
         PatchLibrary patchLib = section.getPatchLibrary();

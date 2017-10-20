@@ -17,7 +17,7 @@ package stratifx.application.fxcontrollers;
 
 import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.model.style.PropertyStyle;
+import fr.ifp.kronosflow.model.property.PropertyStyle;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
@@ -86,7 +86,9 @@ public class PropertyUIController
         }
 
     }
-
+    
+    
+   
     @Override
     public boolean handleAction(UIAction action) {
         // TODO Auto-generated method stub
@@ -138,5 +140,8 @@ public class PropertyUIController
 
         gfxScene.refresh();
     }
+    
+   
+
 
 }

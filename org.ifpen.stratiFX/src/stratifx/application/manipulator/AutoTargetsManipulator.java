@@ -36,6 +36,7 @@ import fr.ifp.kronosflow.polyline.IPolylineProvider;
 import fr.ifp.kronosflow.polyline.LineIntersection;
 import fr.ifp.kronosflow.polyline.LinePointPair;
 import fr.ifp.kronosflow.polyline.PolyLine;
+import stratifx.application.views.GDisplacement;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -49,6 +50,8 @@ public class AutoTargetsManipulator extends CompositeManipulator {
     protected List<IPolylineProvider> potentialFaults;
 
     protected TargetData targetData;
+    
+    GDisplacement gDisplacements;
 
     class TargetData {
 
@@ -77,6 +80,27 @@ public class AutoTargetsManipulator extends CompositeManipulator {
         super(gscene, caller);
         targetData = new TargetData();
     }
+
+    @Override
+    public void activate() {
+        super.activate(); 
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate(); 
+        clearDisplacements();
+    }
+    
+    private void clearDisplacements(){
+        
+        if ( null != gDisplacements){
+            gscene.remove(gDisplacements);
+        }
+        gDisplacements = null;
+    }
+    
+    
 
     @Override
     public void onMousePress(GMouseEvent event) {
@@ -130,6 +154,7 @@ public class AutoTargetsManipulator extends CompositeManipulator {
     @Override
     protected void computeTargets() {
         selectedPatchGraphic.clearTargets();
+        clearDisplacements();
         targetData.reset();
 
         LinePointPair IH = null;
@@ -175,6 +200,10 @@ public class AutoTargetsManipulator extends CompositeManipulator {
                 ExactTargetsComputer computer = new ExactTargetsComputer();
                 computer.initialize(pi);
                 computer.compute(deformationCaller.getScene());
+                
+                gDisplacements = new GDisplacement(computer.getDisplacements());
+                gscene.add(gDisplacements);
+                gDisplacements.redraw();
 
                 PolyLine target = new ExplicitPolyLine();
                 target.initialize(computer.getTargets());

@@ -33,7 +33,6 @@ import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
-import fr.ifp.kronosflow.model.triangulation.TrglPatch;
 import java.nio.IntBuffer;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
@@ -77,7 +76,6 @@ public class GFXScene extends GScene implements ICanvas {
         registerView(ExplicitPatch.class, GPatchView.class);
         registerView(CompositePatch.class, GPatchView.class);
         registerView(FileMeshPatch.class, GPatchView.class);
-        registerView(TrglPatch.class, GPatchView.class);
         registerView(PatchInterval.class, GPatchIntervalView.class);
         registerView(FeatureGeolInterval.class, GPatchIntervalView.class);
         registerView(Contact.class, GPartitionLineView.class);
@@ -129,6 +127,8 @@ public class GFXScene extends GScene implements ICanvas {
 			 * class valid to create a GView
              */
             String key = object.getClass().getCanonicalName();
+            
+            System.out.println("create View " + key);
 
             if (!mapViews.containsKey(key)) {
                 return null;

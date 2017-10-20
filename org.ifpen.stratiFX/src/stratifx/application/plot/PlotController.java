@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
-import fr.ifp.kronosflow.model.factory.ModelFactory.GridType;
 import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -410,15 +409,15 @@ public class PlotController
 
         Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
-        if (deformationType.equals("VerticalShear")
+        /*if (deformationType.equals("VerticalShear")
                 || deformationType.equals("FlexuralSlip")
-                || deformationType.equals("MovingLS")) {
-            sceneStyle.setGridType(GridType.LINE);
-            sceneStyle.setNatureType(NatureType.EXPLICIT);
+                || deformationType.equals("MovingLS")
+                || deformationType.equals("Triangulation") 
+                || deformationType.equals("StratiGrid")) {
+            sceneStyle.setGridType("None");
         } else {
-            sceneStyle.setGridType(GridType.TRGL);
-            sceneStyle.setNatureType(NatureType.EXPLICIT);
-        }
+            sceneStyle.setGridType("Trgl");
+        }*/
 
         if (deformationType.equals("VerticalShear")
                 || deformationType.equals("FlexuralSlip")
