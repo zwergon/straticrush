@@ -15,7 +15,6 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import java.awt.Color;
 import java.util.Random;
 
@@ -26,12 +25,13 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.property.Property;
-import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
+import stratifx.canvas.graphics.tooltip.GTooltipInfo;
+import stratifx.canvas.graphics.tooltip.ITooltipInfo;
 
-public class GPatchView extends GView {
+public class GPatchView extends GView implements ITooltipInfo {
 
     GPolyline border = null;
 
@@ -88,6 +88,7 @@ public class GPatchView extends GView {
 
         if (null != patch.getBorder()) {
             border = new GPolyline(patch.getBorder());
+            border.setTooltipInfo(this);
 
             GStyle style = new GStyle();
             style.setBackgroundColor(getPatchColor());
@@ -126,6 +127,12 @@ public class GPatchView extends GView {
         redraw();
 
         
+    }
+
+    @Override
+    public String getInfo(int x, int y) {
+      Patch patch = getObject();
+      return patch.getName();  
     }
 
 }

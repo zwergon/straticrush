@@ -21,9 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.utils.LOGGER;
 
 /**
  * Class for holding a polyline. <tt>GSegment</tt>s are contained by
@@ -768,5 +765,7 @@ public class GSegment
     public void styleChanged(GStyle style) {
         updateStyle();
     }
+    
+   
 
 }

@@ -61,6 +61,7 @@ public class InteractionFactory {
         register("Dilatation", DilatationInteraction.class);
         register("Triangulation", TriangulateInteraction.class);
         register("StratiGrid", StratiGridInteraction.class);
+        register("Compact2D", Compact2DInteraction.class);
         register("TimeLine", TimeLineInteraction.class);
     }
     

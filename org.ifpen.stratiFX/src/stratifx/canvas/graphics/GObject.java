@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.ifp.kronosflow.geometry.CoordSystem;
-import fr.ifp.kronosflow.utils.LOGGER;
+import stratifx.canvas.graphics.tooltip.GTooltipInfo;
+import stratifx.canvas.graphics.tooltip.ITooltipInfo;
 
 /**
  * Class representing a graphical object. The representation is by actual
@@ -85,6 +85,8 @@ public class GObject
     private List<GSegment> segments_;       // of GSegment
     private boolean isDrawn_;
     private Object userData_;       // Application defined
+    
+    private ITooltipInfo toolTipInfo_; 
 
     /**
      * Create a graphical object with specified name.
@@ -1620,6 +1622,28 @@ public class GObject
      */
     public GColor getColor(int x, int y) {
         return null;
+    }
+    
+    
+    public void setTooltipInfo( ITooltipInfo tooltipInfo ){
+        toolTipInfo_ = tooltipInfo;
+    }
+     
+    /**
+     * return tooltip to be displayed.
+     * no tooltip by default, return null.
+     * Override this method to defined a tooltip for your GSegment.
+     * @return
+     */
+    public ITooltipInfo getTooltipInfo(){
+        
+        if ( null != toolTipInfo_ ){
+            return toolTipInfo_;
+        }
+        
+        GTooltipInfo info =  new GTooltipInfo();
+        info.setInfo( getClass().toString() );
+        return info;
     }
 
 }

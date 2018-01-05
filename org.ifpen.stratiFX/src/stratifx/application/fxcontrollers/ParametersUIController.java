@@ -105,7 +105,13 @@ public class ParametersUIController implements
             initSceneParameters(section);
         }
         
-        gridComboId.getItems().addAll( "None", "Trgl", "Grid2D", "StratiGrid");
+        gridComboId.getItems().addAll( 
+                "None", 
+                "Trgl", 
+                "Grid2D", 
+                "Compact2D",
+                "StratiGrid"
+        );
         
         SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
         gridComboId.getSelectionModel().select(sceneStyle.getGridType());
