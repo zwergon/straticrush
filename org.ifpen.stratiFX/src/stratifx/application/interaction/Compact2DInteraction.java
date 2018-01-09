@@ -9,10 +9,13 @@
 package stratifx.application.interaction;
 
 import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.builder.Compact2DPatchBuilder;
 import java.util.HashMap;
+import java.util.List;
 import stratifx.application.views.GMesh;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
@@ -83,9 +86,10 @@ public class Compact2DInteraction extends SectionInteraction {
             scene = createScene(patch);
 
             Patch selected = scene.getSelected();
+            List<Point2D> pts = selected.getBorder().getPoints2D();
 
             Compact2DPatchBuilder builder = new Compact2DPatchBuilder();
-            builder.initialize(selected);
+            builder.initialize(selected, pts);
             Mesh2D mesh = builder.createMesh(selected.getBorder().getPoints2D());
 
             GMesh gmesh = new GMesh(mesh);

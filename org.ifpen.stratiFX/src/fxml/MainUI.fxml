@@ -99,6 +99,11 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformDilatationDecompactionAction" text="Decompaction" />
                             </items>
                         </Menu>
+                  <Menu mnemonicParsing="false" text="AntiGravity">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformAntiGravityDEMAction" text="DEM" />
+                     </items>
+                  </Menu>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Topology">

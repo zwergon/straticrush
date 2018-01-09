@@ -12,8 +12,9 @@ import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.jdeform.stratigraphy.StratigraphicGridBuilder;
+import fr.ifp.kronosflow.geometry.Point2D;
 import java.util.HashMap;
-import static stratifx.application.interaction.TimeLineInteraction.G_MESH;
+import java.util.List;
 import stratifx.application.views.GMesh;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
@@ -84,9 +85,10 @@ public class StratiGridInteraction extends SectionInteraction {
             scene = createScene(patch);
 
             Patch selected = scene.getSelected();
+             List<Point2D> pts = selected.getBorder().getPoints2D();
 
             StratigraphicGridBuilder builder = new StratigraphicGridBuilder();
-            builder.initialize(selected);
+            builder.initialize(selected, pts);
             Mesh2D mesh = builder.createMesh(selected.getBorder().getPoints2D());
 
             GMesh gmesh = new GMesh(mesh);

@@ -63,6 +63,7 @@ public class InteractionFactory {
         register("StratiGrid", StratiGridInteraction.class);
         register("Compact2D", Compact2DInteraction.class);
         register("TimeLine", TimeLineInteraction.class);
+        register("AntiGravity", AntiGravityInteraction.class);
     }
     
     

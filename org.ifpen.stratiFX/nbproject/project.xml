@@ -31,6 +31,14 @@
                 <id>jar</id>
             </reference>
             <reference>
+                <foreign-project>fr_ifp_kronosflow_dem</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
                 <foreign-project>fr_ifp_kronosflow_fem2d</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>

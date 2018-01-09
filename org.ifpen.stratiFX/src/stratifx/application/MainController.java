@@ -224,6 +224,13 @@ public class MainController implements Initializable, IUIController {
     void onDeformDilatationDecompactionAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Decompaction", "Dilatation"));
     }
+    
+    
+    @FXML
+    void onDeformAntiGravityDEMAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("DEM", "AntiGravity"));
+    }
+    
 
     @FXML
     void onTopologyRemoveUnitAction(ActionEvent event) {

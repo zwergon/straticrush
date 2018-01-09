@@ -914,6 +914,14 @@ is divided into following sections:
         </antcall>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
+            <param location="${project.fr_ifp_kronosflow_dem}" name="call.subproject"/>
+            <param location="${project.fr_ifp_kronosflow_dem}/build.xml" name="call.script"/>
+            <param name="call.target" value="jar"/>
+            <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
+            <param name="transfer.not.archive.disabled" value="true"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.fr_ifp_kronosflow_fem2d}" name="call.subproject"/>
             <param location="${project.fr_ifp_kronosflow_fem2d}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
@@ -1457,6 +1465,14 @@ is divided into following sections:
             <param name="call.built.properties" value="${built-clean.properties}"/>
             <param location="${project.fr_ifp_kronosflow_controllers}" name="call.subproject"/>
             <param location="${project.fr_ifp_kronosflow_controllers}/build.xml" name="call.script"/>
+            <param name="call.target" value="clean"/>
+            <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
+            <param name="transfer.not.archive.disabled" value="true"/>
+        </antcall>
+        <antcall target="-maybe-call-dep">
+            <param name="call.built.properties" value="${built-clean.properties}"/>
+            <param location="${project.fr_ifp_kronosflow_dem}" name="call.subproject"/>
+            <param location="${project.fr_ifp_kronosflow_dem}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>
             <param name="transfer.built-clean.properties" value="${built-clean.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>
