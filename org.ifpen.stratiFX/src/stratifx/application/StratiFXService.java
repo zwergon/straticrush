@@ -15,6 +15,7 @@
  */
 package stratifx.application;
 
+import fr.ifp.dem.deformation.DEMDeformation;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +43,6 @@ import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
-import fr.ifp.kronosflow.model.factory.ModelFactory.NatureType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
@@ -57,9 +57,9 @@ import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
+import fr.ifp.jdeform.deformation.DeformationFactory;
 import fr.ifp.jdeform.stratigraphy.StratigraphicGridBuilder;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
-import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import stratifx.application.properties.PropertiesUIAction;
@@ -109,6 +109,9 @@ public class StratiFXService implements IUIController, IControllerService {
         WrapperFactory.registerClass(ExplicitPatch.class, PatchWrapper.class);
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
+        
+        
+        DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
 
         LOGGER.setLogger(new StratiFXLogger());
 

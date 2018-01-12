@@ -463,15 +463,7 @@ public class PlotController
         } else {
         sceneStyle.setGridType("Trgl");
         }*/
-        
-        if (deformationType.equals("VerticalShear")
-                || deformationType.equals("FlexuralSlip")
-                || deformationType.equals("MovingLS")
-                || deformationType.equals("ChainMail")
-                || deformationType.equals("MassSpring")
-                || deformationType.equals("Reset")) {
-            style.setAttribute(Kind.DEFORMATION.toString(), deformationType);
-        } else if (deformationType.equals("Dynamic")
+        if (deformationType.equals("Dynamic")
                 || deformationType.equals("Static")
                 || deformationType.equals("StaticLS")
                 || deformationType.equals("FEM2D")) {
@@ -481,6 +473,8 @@ public class PlotController
                 || deformationType.equals("Decompaction")) {
             style.setAttribute(Kind.DEFORMATION.toString(), "DilatationDeformation");
             style.setAttribute("DilatationType", deformationType);
+        } else {
+            style.setAttribute(Kind.DEFORMATION.toString(), deformationType); 
         }
         
         String manipulatorType = uiAction.getManipulatorType();

@@ -8,8 +8,13 @@
  */
 package stratifx.application.manipulator;
 
-import fr.ifp.dem.Material;
+import fr.ifp.dem.deformation.MaterialItem;
+import fr.ifp.dem.model.InteractableGraph;
+import fr.ifp.dem.model.Material;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.jdeform.deformation.IDeformationItem;
+import fr.ifp.jdeform.scene.Scene;
+import java.util.ArrayList;
 import stratifx.application.views.GMaterial;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
@@ -34,6 +39,10 @@ public class DEMManipulator extends CompositeManipulator {
     public void activate() {
         super.activate();
         gMaterial = new GMaterial(material);
+        
+        /*Deformation deformation = (Deformation) deformationCaller.getDeformation();
+        gMaterial.setDeformation(deformation);*/
+        
         gscene.add(gMaterial);
         gMaterial.redraw();
 
@@ -53,5 +62,30 @@ public class DEMManipulator extends CompositeManipulator {
     @Override
     public void onMouseRelease(GMouseEvent event) {
     }
+
+    @Override
+    public boolean canDeform() {
+        items = new ArrayList<IDeformationItem>();
+        
+        MaterialItem item = new MaterialItem(material);
+        
+        Scene scene = deformationCaller.getScene();
+        item.addDeformed(scene.getSelected());
+        items.add(item);
+        
+        return super.canDeform();
+    }
+
+    @Override
+    public void updateGraphics() {
+        gMaterial.redraw();
+        super.updateGraphics(); 
+        
+    }
+    
+    
+    
+    
+    
     
 }

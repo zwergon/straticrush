@@ -16,7 +16,8 @@
 package stratifx.application.interaction;
 
 
-import fr.ifp.dem.Material;
+import fr.ifp.dem.model.InteractableGraph;
+import fr.ifp.dem.model.Material;
 import fr.ifp.dem.util.Compact2DEM;
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.jdeform.scene.Scene;
