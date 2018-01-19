@@ -30,8 +30,10 @@ public class GMaterial
         super(material);
 
         InteractableGraph graph = material.getGraph();
-        for ( Interactable particle : graph.getInteractables() ) {
-            addParticle( (Particle)particle);
+        for ( Interactable interactable : graph.getInteractables() ) {
+            if ( interactable instanceof Particle ){
+                addParticle( (Particle)interactable);
+            }
         }
     }
 

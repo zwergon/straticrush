@@ -54,6 +54,9 @@ public class AntiGravityInteraction extends DeformationInteraction {
             
             Material material = Compact2DEM.create(compact);
             
+            material.addWallToDomain();
+            material.update();
+            
             
             return new DEMManipulator(gscene, caller, material);
         }
