@@ -17,7 +17,7 @@ package stratifx.canvas.graphics;
 
 public  class GFont extends Object {
 	
-	public static final int NORMAL    = 1 << 0;
+	public static final int NORMAL    = 1;
 	public static final int BOLD      = 1 << 1;
 	public static final int ITALIC    = 1 << 2;
 	public static final int UNDERLINE = 1 << 3;

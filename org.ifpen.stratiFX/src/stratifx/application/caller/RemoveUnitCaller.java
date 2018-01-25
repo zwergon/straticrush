@@ -32,8 +32,6 @@ public class RemoveUnitCaller
 	implements
         IGeoschedulerCaller<UnitController> {
 
-    private List<Patch> removedPatchs;
-    
     StratigraphicUnit unitToRemove;
 
     public RemoveUnitCaller(IControllerService service) {
@@ -49,7 +47,7 @@ public class RemoveUnitCaller
     
         UnitController controller = getController();
         if ( (controller != null) && ( unitToRemove != null ) ) {
-            removedPatchs = controller.removePatches(getService().getSection(), unitToRemove );
+            List<Patch> removedPatchs = controller.removePatches(getService().getSection(), unitToRemove);
         }
     }
 

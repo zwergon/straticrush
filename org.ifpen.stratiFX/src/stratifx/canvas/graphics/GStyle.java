@@ -81,7 +81,7 @@ import javax.imageio.ImageIO;
 public class GStyle
   implements Cloneable
 {
-	public static final int  MASK_FOREGROUNDCOLOR = 1 << 0;
+	public static final int  MASK_FOREGROUNDCOLOR = 1;
 	public static final int  MASK_BACKGROUNDCOLOR = 1 << 1;  
 	public static final int  MASK_LINEWIDTH       = 1 << 2;
 	public static final int  MASK_FONT            = 1 << 3;

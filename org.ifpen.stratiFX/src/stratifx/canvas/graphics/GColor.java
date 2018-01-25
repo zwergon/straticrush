@@ -266,7 +266,7 @@ import java.awt.Color;
               rangeError = true;
               badComponentString = badComponentString + " Blue";
           }
-          if ( rangeError == true ) {
+          if (rangeError) {
           throw new IllegalArgumentException("Color parameter outside of expected range:"
                                              + badComponentString);
           }
@@ -300,7 +300,7 @@ import java.awt.Color;
               rangeError = true;
               badComponentString = badComponentString + " Blue";
           }
-          if ( rangeError == true ) {
+          if (rangeError) {
           throw new IllegalArgumentException("Color parameter outside of expected range:"
                                              + badComponentString);
           }
@@ -351,7 +351,7 @@ import java.awt.Color;
           value = ((a & 0xFF) << 24) |
                   ((r & 0xFF) << 16) |
                   ((g & 0xFF) << 8)  |
-                  ((b & 0xFF) << 0);
+                  ((b & 0xFF));
           testColorValueRange(r,g,b,a);
       }
   
@@ -485,7 +485,7 @@ import java.awt.Color;
           * @see #getRGB
           */
          public int getBlue() {
-             return (getRGB() >> 0) & 0xFF;
+             return (getRGB()) & 0xFF;
          }
      
          /**
@@ -717,7 +717,7 @@ import java.awt.Color;
        public static GColor getColor(String nm, int v) {
            Integer intval = Integer.getInteger(nm);
            int i = (intval != null) ? intval.intValue() : v;
-           return new GColor((i >> 16) & 0xFF, (i >> 8) & 0xFF, (i >> 0) & 0xFF);
+           return new GColor((i >> 16) & 0xFF, (i >> 8) & 0xFF, (i) & 0xFF);
        }
    
        /**
@@ -790,7 +790,7 @@ import java.awt.Color;
                    break;
                }
            }
-           return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
+           return 0xff000000 | (r << 16) | (g << 8) | (b);
        }
    
        /**

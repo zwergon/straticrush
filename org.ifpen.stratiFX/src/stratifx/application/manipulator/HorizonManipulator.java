@@ -70,7 +70,6 @@ public class HorizonManipulator extends CompositeManipulator {
     public void onMouseMove(GMouseEvent event) {
 
         if (!isActive()) {
-            return;
         }
 
     }

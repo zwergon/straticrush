@@ -55,7 +55,7 @@ public class GKeyEvent extends GEvent {
 	 */
 	private static final long serialVersionUID = -2352130953028126954L;
 	
-	public static final int  SHIFT_MASK       = 1 <<  0;
+	public static final int  SHIFT_MASK       = 1;
 	public static final int  CTRL_MASK        = 1 <<  1;
 	public static final int  META_MASK        = 1 <<  2;
 	public static final int  ALT_MASK         = 1 <<  3;
