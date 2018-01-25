@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: DataModel
-Bundle-SymbolicName: fr.ifp.openflow.datamodel.core
-Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: fr.ifp.reservoir.model.business.lithostrati
