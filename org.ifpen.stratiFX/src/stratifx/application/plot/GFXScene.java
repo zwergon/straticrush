@@ -15,25 +15,15 @@
  */
 package stratifx.application.plot;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.model.CompositePatch;
-import fr.ifp.kronosflow.model.FeatureGeolInterval;
-import fr.ifp.kronosflow.model.KinObject;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchInterval;
+import fr.ifp.kronosflow.model.*;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.file.FileMeshPatch;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
-import java.nio.IntBuffer;
+import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -44,24 +34,11 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
-import stratifx.application.views.GPaleoView;
-import stratifx.application.views.GPartitionLineView;
-import stratifx.application.views.GPatchIntervalView;
-import stratifx.application.views.GPatchView;
-import stratifx.canvas.graphics.GFXTexture;
-import stratifx.application.views.GView;
-import stratifx.canvas.graphics.GColor;
-import stratifx.canvas.graphics.GFont;
-import stratifx.canvas.graphics.GImage;
-import stratifx.canvas.graphics.GObject;
-import stratifx.canvas.graphics.GRect;
-import stratifx.canvas.graphics.GRegion;
-import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GSegment;
-import stratifx.canvas.graphics.GStyle;
-import stratifx.canvas.graphics.GText;
-import stratifx.canvas.graphics.GWorldExtent;
-import stratifx.canvas.graphics.ICanvas;
+import stratifx.application.views.*;
+import stratifx.canvas.graphics.*;
+
+import java.nio.IntBuffer;
+import java.util.*;
 
 public class GFXScene extends GScene implements ICanvas {
 
@@ -128,7 +105,7 @@ public class GFXScene extends GScene implements ICanvas {
              */
             String key = object.getClass().getCanonicalName();
             
-            System.out.println("create View " + key);
+            LOGGER.debug("create View " + key, getClass());
 
             if (!mapViews.containsKey(key)) {
                 return null;
