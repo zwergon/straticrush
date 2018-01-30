@@ -105,7 +105,7 @@ public class GFXScene extends GScene implements ICanvas {
              */
             String key = object.getClass().getCanonicalName();
             
-            LOGGER.debug("create View " + key, getClass());
+            //LOGGER.debug("create View " + key, getClass());
 
             if (!mapViews.containsKey(key)) {
                 return null;
@@ -195,7 +195,6 @@ public class GFXScene extends GScene implements ICanvas {
     /**
      * Notify all listeners about change in this Shape.
      *
-     * @param Event Describe the change in the Shape.
      */
     public void notifyViews(IControllerEvent<?> event) {
         for (GObject object : getChildren()) {

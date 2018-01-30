@@ -85,7 +85,9 @@ public class SectionInteraction implements GInteraction {
 
         if ((patch.getPatchLibrary().getPatches().size() == 1)
                 && (patch instanceof MeshPatch)) {
-            return new Scene(patch);
+            Scene scene = new Scene();
+            scene.setSelected(patch);
+            return scene;
         }
 
         return SceneBuilder.createDefaultScene(patch, style);
