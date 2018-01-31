@@ -22,6 +22,7 @@ import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.geoscheduler.IGeoschedulerCaller;
 import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
 import fr.ifp.kronosflow.model.style.Style;
 
@@ -67,6 +68,5 @@ public class RemoveUnitCaller
         //do nothing
     }
 
-	
 
 }

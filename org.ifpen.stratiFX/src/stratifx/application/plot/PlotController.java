@@ -99,7 +99,7 @@ public class PlotController
     @FXML
     private void onPlotScrolled(ScrollEvent event) {
         
-        double sx = 0;
+        /*double sx = 0;
         if (event.getDeltaY() < 0) {
             sx = plotGroupId.getScaleX() * 0.95;
         } else {
@@ -108,6 +108,13 @@ public class PlotController
         
         plotGroupId.setScaleX(sx);
         plotGroupId.setScaleY(sx);
+        */
+
+        if (event.getDeltaY() < 0) {
+            gfxScene.zoom(0.95 );
+        } else {
+            gfxScene.zoom( 1.05 );
+        }
         
     }
     
@@ -260,24 +267,42 @@ public class PlotController
     @FXML
     private void onMouseClicked(MouseEvent mouseEvent) {
         resetTooltip();
+        setTooltipPos(mouseEvent);
+
+        if (mouseEvent.isMiddleButtonDown()) {
+            mouseEvent.consume();
+            return;
+        }
     }
     
     @FXML
     private void onMouseMoved(MouseEvent mouseEvent) {
         resetTooltip();
         setTooltipPos(mouseEvent);
-       
+
+        if (mouseEvent.isMiddleButtonDown()) {
+            mouseEvent.consume();
+            return;
+        }
     }
     
     @FXML
     private void onMousePressed(MouseEvent mouseEvent) {
-        
-        xy[0] = mouseEvent.getX();
-        xy[1] = mouseEvent.getY();
-        
+
         resetTooltip();
         setTooltipPos(mouseEvent);
-        
+
+
+        if (mouseEvent.isMiddleButtonDown()) {
+
+            xy[0] = mouseEvent.getX();
+            xy[1] = mouseEvent.getY();
+
+            mouseEvent.consume();
+            return;
+        }
+
+
         if (gfxHandleMouse(GMouseEvent.BUTTON_DOWN, mouseEvent)) {
             mouseEvent.consume();
         }
@@ -285,6 +310,11 @@ public class PlotController
     
     @FXML
     private void onMouseReleased(MouseEvent mouseEvent) {
+
+        if (mouseEvent.isMiddleButtonDown()) {
+            mouseEvent.consume();
+            return;
+        }
         
         resetTooltip();
         if (gfxHandleMouse(GMouseEvent.BUTTON_UP, mouseEvent)) {
@@ -297,25 +327,27 @@ public class PlotController
         
         resetTooltip();
         setTooltipPos(mouseEvent);
-        
+
         if (mouseEvent.isMiddleButtonDown()) {
-            
+
             double[] dxy = new double[]{
-                plotGroupId.getTranslateX() + mouseEvent.getX() - xy[0],
-                plotGroupId.getTranslateY() + mouseEvent.getY() - xy[1]
+                    mouseEvent.getX() - xy[0],
+                    mouseEvent.getY() - xy[1]
             };
-            
-            plotGroupId.setTranslateX(dxy[0]);
-            plotGroupId.setTranslateY(dxy[1]);
-            
+
+            gfxScene.pan((int)dxy[0], (int)dxy[1]);
+
             xy[0] = mouseEvent.getX();
             xy[1] = mouseEvent.getY();
-            
+
+            mouseEvent.consume();
             return;
         }
+
         if (gfxHandleMouse(GMouseEvent.BUTTON_DRAG, mouseEvent)) {
             mouseEvent.consume();
         }
+
     }
     
     @FXML
@@ -419,11 +451,10 @@ public class PlotController
         switch (action.getType()) {
             case UIAction.ZOOMONEONE:
                 gfxScene.unzoom();
-                restoreZoom();
                 break;
                 
             case UIAction.ZOOMRECT:
-                zoomRect();
+                startInteraction(new ZoomInteraction(gfxScene));
                 break;
                 
             case InteractionUIAction.INTERACTION:
@@ -434,18 +465,8 @@ public class PlotController
         }
         return true;
     }
-    
-    private void zoomRect() {
-        startInteraction(new ZoomInteraction(gfxScene));
-    }
-    
-    private void restoreZoom() {
-        plotGroupId.setScaleX(1);
-        plotGroupId.setScaleY(1);
-        plotGroupId.setTranslateX(0);
-        plotGroupId.setTranslateY(0);
-    }
-    
+
+
     private boolean handleInteractionAction(UIAction action) {
         
         InteractionUIAction uiAction = (InteractionUIAction) action;

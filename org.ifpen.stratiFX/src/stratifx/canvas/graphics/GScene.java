@@ -380,6 +380,22 @@ public class GScene extends GObject {
     }
 
     /**
+     * Pan a specific device distance.
+     *
+     * @param dx  Distance to pan in x direction.
+     * @param dy  Distance to pan in y direction.
+     */
+    public void pan (int dx, int dy)
+    {
+        int x0 = viewport_.getX0() - dx;
+        int y0 = viewport_.getY0() - dy;
+        int x1 = viewport_.getX3() - dx;
+        int y1 = viewport_.getY3() - dy;
+
+        zoom (x0, y0, x1, y1);
+    }
+
+    /**
      * Zoom a specified amount around center of viewport.
      *
      * @param zoomFactor Zoom factor. Zoom in with factor < 1.0 and

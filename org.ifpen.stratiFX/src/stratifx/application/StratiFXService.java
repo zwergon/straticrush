@@ -22,20 +22,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.ifp.kronosflow.controllers.AbstractControllerCaller;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.controllers.events.UpdateEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
-import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.extensions.IExtension;
 import fr.ifp.kronosflow.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.geoscheduler.property.TimePropertyUpdater;
-import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.algo.ComputeContact;
@@ -51,10 +49,10 @@ import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.property.IPropertyAccessor;
 import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
-import java.util.ArrayList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stratifx.application.plot.GFXScene;
+import stratifx.application.plot.GViewsFactory;
 import stratifx.application.plot.PlotController;
 import fr.ifp.jdeform.decompaction.PorosityComputer;
 import fr.ifp.jdeform.deformation.DeformationFactory;
@@ -244,18 +242,19 @@ public class StratiFXService implements IUIController, IControllerService {
         GFXScene gfxScene = plot.getGFXScene();
         gfxScene.destroyAll();
 
-        // Create a graphic object
-        for (Patch patch : patchLib.getPatches()) {
-            gfxScene.createView(patch);
+        GView view = GViewsFactory.createView(section);
+        if ( null != view ) {
+            gfxScene.add(view);
+
+            RectD bbox = patchLib.getBoundingBox();
+            bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
+            plot.initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+
+            gfxScene.refresh();
         }
-
-        gfxScene.createView(patchLib.getPaleobathymetry());
-
-        RectD bbox = patchLib.getBoundingBox();
-        bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
-        plot.initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
-
-        gfxScene.refresh();
+        else {
+            LOGGER.error("unable to create view for Section " + section.getName(), getClass());
+        }
 
         return true;
     }
@@ -278,68 +277,22 @@ public class StratiFXService implements IUIController, IControllerService {
             summary.put(event.getEventAction(), event);
         });
 
+
         for (IControllerEvent<?> event : summary.values()) {
 
             LOGGER.debug("handle " + event.getClass().getSimpleName(), getClass());
-            if (event instanceof PropertyEvent) {
-                gfxScene.notifyViews(event);
-            } else if (event instanceof AbstractControllerCaller.UpdateEvent) {
+            if (event instanceof UpdateEvent) {
                 saveSection();
-
                 new TimePropertyUpdater(section).update();
-
-                updateVisiblePatches(gfxScene);
-
                 ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
-
-                gfxScene.notifyViews(event);
-            }
-        }
-    }
-
-    public void updateVisiblePatches(GFXScene gfxScene) {
-
-        List<GView> views = new ArrayList<>(gfxScene.getViews());
-
-        //keep only GView associated with Patch
-        gfxScene.getViews().forEach((view) -> {
-            Object model = view.getModel();
-            if (!(model instanceof Patch)) {
-                views.remove(view);
-            }
-        });
-
-        //keep already existing view for patches in PatchLibrary,
-        //get the ones that are in library but not yet visible.
-        List<Patch> toAdd = new ArrayList<>();
-        for (Patch patch : section.getPatchLibrary().getPatches()) {
-            boolean found = false;
-            for (GView view : views) {
-                Patch modelPatch = (Patch) view.getModel();
-                if (modelPatch.getUID() == patch.getUID()) {
-                    views.remove(view);
-                    found = true;
-                    break;
-                }
             }
 
-            if (!found) {
-                toAdd.add(patch);
-            }
-
+            gfxScene.notifyViews(event);
         }
 
-        //destroy useless views
-        views.forEach((view) -> {
-            gfxScene.destroyView(view);
-        });
-
-        //create new views
-        toAdd.forEach((patch) -> {
-            gfxScene.createView(patch);
-        });
 
     }
+
 
     @Override
     public List<String> deactivateActiveManipulators() {

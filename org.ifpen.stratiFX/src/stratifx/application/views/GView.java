@@ -27,15 +27,15 @@ import stratifx.canvas.graphics.GStyle;
  *
  */
 public abstract class GView extends GObject {
-	
+
 	public GView(String name){
 		super(name);
 	}
-	
+
 	public GView(){
 		super();
 	}
-		
+
 	public void useSelectedStyle(){
 		GStyle gstyle = getStyle();
 		if ( gstyle != null ){
@@ -49,13 +49,13 @@ public abstract class GView extends GObject {
 		}
 		redraw();
 	}
-        
-        public Object getModel(){
-            return getUserData();
-        }
-        
+
+	public Object getModel(){
+		return getUserData();
+	}
+
 	public abstract void setModel( Object object );
-	
+
 	public abstract void modelChanged( IControllerEvent<?> event );
 
 }

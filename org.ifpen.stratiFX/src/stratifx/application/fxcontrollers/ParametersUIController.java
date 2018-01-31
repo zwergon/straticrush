@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -160,7 +162,8 @@ public class ParametersUIController implements
         return false;
     }
     
-    
+
+    @FXML
     public void onSceneApplyAction( ActionEvent event ){
         
         
@@ -174,17 +177,16 @@ public class ParametersUIController implements
         }
         
     }
-    
+
+    @FXML
+    public void onDisplayApplyAction( ActionEvent action ){
+        LOGGER.debug("onDialogApplyAction", getClass());
+    }
+
+    @FXML
     public void onSceneResetAction( ActionEvent event ){
         
     }
     
-   
-  /*  
-    @FXML
-    public void onTriangulationAction(ActionEvent event){
-        SceneStyle sceneStyle = new SceneStyle(GParameters.getStyle());
-        sceneStyle.setGridType("Trgl");   
-    }
-*/
+
 }

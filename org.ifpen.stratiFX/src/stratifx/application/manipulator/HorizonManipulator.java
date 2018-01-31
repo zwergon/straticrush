@@ -28,6 +28,7 @@ import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.polyline.LinePoint;
 import fr.ifp.kronosflow.warp.LineNoDisplacement;
 import stratifx.application.plot.GFXScene;
+import stratifx.application.plot.GViewsFactory;
 import stratifx.application.views.GView;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GTransformer;
@@ -56,10 +57,13 @@ public class HorizonManipulator extends CompositeManipulator {
         PatchInterval selectedHorizon = targetsExtractor.findHorizonFeature(w_pos);
         if (null != selectedHorizon) {
             if (null != horizonView) {
-                gfxScene.destroyView(horizonView);
+                gfxScene.remove(horizonView);
             }
 
-            horizonView = gfxScene.createView(selectedHorizon);
+            horizonView = GViewsFactory.createView(selectedHorizon);
+            if ( null != horizonView ) {
+                gfxScene.add(horizonView);
+            }
         }
 
         gscene.refresh();
@@ -80,7 +84,7 @@ public class HorizonManipulator extends CompositeManipulator {
         GFXScene gfxScene = (GFXScene) gscene;
 
         if (null != horizonView) {
-            gfxScene.destroyView(horizonView);
+            gfxScene.remove(horizonView);
         }
 
     }

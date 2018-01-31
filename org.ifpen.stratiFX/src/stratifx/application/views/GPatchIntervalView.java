@@ -24,8 +24,7 @@ import stratifx.canvas.graphics.GStyle;
 public class GPatchIntervalView extends GView {
 	
 	private GInterval gline;
-	
-	
+
 	public void setModel (Object object)
 	{
 		setUserData( object );

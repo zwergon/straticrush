@@ -26,6 +26,7 @@ import fr.ifp.kronosflow.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
 import stratifx.application.StratiFXService;
+import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GPatchView;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
@@ -110,13 +111,16 @@ public class SectionInteraction implements GInteraction {
 
     @Override
     public boolean keyEvent(GScene scene, GKeyEvent event) {
+
+
         if (event.type == GKeyEvent.KEY_PRESSED) {
             switch (event.getKeyCode()) {
 
                 case GKeyEvent.VK_Z:
+                    GFXScene gfxScene = (GFXScene)scene;
                     if ((event.getKeyModifiers() == GKeyEvent.CTRL_MASK)) {
                         getScheduler().removeCurrent();
-                        gscene.refresh();
+                        gfxScene.refresh();
                     }
                     break;
 

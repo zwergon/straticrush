@@ -8,6 +8,7 @@
  */
 package stratifx.application.interaction;
 
+import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
@@ -48,6 +49,8 @@ public class ZoomInteraction
     private final GObject interaction_;
     private final GSegment rubberBand_;
 
+    private boolean active_;
+
     private int x_[], y_[];
     private int x0_, y0_;
     private double zoomFactor_;
@@ -84,6 +87,8 @@ public class ZoomInteraction
         // For the rubberband geometry
         x_ = new int[5];
         y_ = new int[5];
+
+        active_ = false;
     }
 
     /**
@@ -114,8 +119,7 @@ public class ZoomInteraction
             case GMouseEvent.BUTTON_1:
                 handleButton1(event);
                 break;
-            case GMouseEvent.BUTTON_2:
-                handleButton2(event);
+            default:
                 break;
         }
 
@@ -126,6 +130,7 @@ public class ZoomInteraction
         switch (event.type) {
 
             case GMouseEvent.BUTTON_DOWN:
+                active_ = true;
                 x0_ = event.x;
                 y0_ = event.y;
 
@@ -134,148 +139,44 @@ public class ZoomInteraction
                 break;
 
             case GMouseEvent.BUTTON_UP:
-                interaction_.remove();
-                rubberBand_.setGeometry((int[]) null);
+                if ( active_ ) {
+                    interaction_.remove();
+                    rubberBand_.setGeometry((int[]) null);
 
-                int dx = Math.abs(event.x - x0_);
-                int dy = Math.abs(event.y - y0_);
+                    int dx = Math.abs(event.x - x0_);
+                    int dy = Math.abs(event.y - y0_);
 
-                // If the rubber band is very small, interpret it as a click
-                if (dx > 3 && dy > 3) {
-                    scene_.zoom(x0_, y0_, event.x, event.y);
+                    // If the rubber band is very small, interpret it as a click
+                    if (dx > 3 && dy > 3) {
+                        scene_.zoom(x0_, y0_, event.x, event.y);
+                    }
+                    active_ = false;
                 }
                 break;
 
             case GMouseEvent.BUTTON_DRAG:
+                if ( active_ ) {
+                    x_[0] = x0_;
+                    x_[1] = event.x;
+                    x_[2] = event.x;
+                    x_[3] = x0_;
+                    x_[4] = x0_;
 
-                x_[0] = x0_;
-                x_[1] = event.x;
-                x_[2] = event.x;
-                x_[3] = x0_;
-                x_[4] = x0_;
+                    y_[0] = y0_;
+                    y_[1] = y0_;
+                    y_[2] = event.y;
+                    y_[3] = event.y;
+                    y_[4] = y0_;
 
-                y_[0] = y0_;
-                y_[1] = y0_;
-                y_[2] = event.y;
-                y_[3] = event.y;
-                y_[4] = y0_;
-
-                rubberBand_.setGeometry(x_, y_);
-                scene_.refresh();
-                break;
-
-            /*case GMouseEvent.BUTTON2_DOWN :
-                x0_ = event.x;
-                y0_ = event.y;
-                break;
-                
-                case GMouseEvent.BUTTON2_DRAG :
-                
-                dx = event.x - x0_;
-                dy = event.y - y0_;
-                
-                scene_.pan( dx, dy);
-                
-                x0_ = event.x;
-                y0_ = event.y;
-                
-                break;
-                
-                
-                case GMouseEvent.BUTTON3_DOWN:
-                
-                break;
-                
-                
-                
-                
-                case GMouseEvent.WHEEL_MOUSE_DOWN:
-                scene_.zoom(ZOOM_FACTOR);
-                break;
-                
-                case GMouseEvent.WHEEL_MOUSE_UP:
-                scene_.zoom(1./ZOOM_FACTOR);
-                break;*/
-        }
-    }
-
-    
-     private void handleButton2(GMouseEvent event) {
-        switch (event.type) {
-
-            case GMouseEvent.BUTTON_DOWN:
-                x0_ = event.x;
-                y0_ = event.y;
-
-                scene_.add(interaction_);  // Front
-
-                break;
-
-            case GMouseEvent.BUTTON_UP:
-                interaction_.remove();
-                rubberBand_.setGeometry((int[]) null);
-
-                int dx = Math.abs(event.x - x0_);
-                int dy = Math.abs(event.y - y0_);
-
-                // If the rubber band is very small, interpret it as a click
-                if (dx > 3 && dy > 3) {
-                    scene_.zoom(x0_, y0_, event.x, event.y);
+                    rubberBand_.setGeometry(x_, y_);
+                    scene_.refresh();
                 }
                 break;
 
-            case GMouseEvent.BUTTON_DRAG:
 
-                x_[0] = x0_;
-                x_[1] = event.x;
-                x_[2] = event.x;
-                x_[3] = x0_;
-                x_[4] = x0_;
-
-                y_[0] = y0_;
-                y_[1] = y0_;
-                y_[2] = event.y;
-                y_[3] = event.y;
-                y_[4] = y0_;
-
-                rubberBand_.setGeometry(x_, y_);
-                scene_.refresh();
-                break;
-
-            /*case GMouseEvent.BUTTON2_DOWN :
-                x0_ = event.x;
-                y0_ = event.y;
-                break;
-                
-                case GMouseEvent.BUTTON2_DRAG :
-                
-                dx = event.x - x0_;
-                dy = event.y - y0_;
-                
-                scene_.pan( dx, dy);
-                
-                x0_ = event.x;
-                y0_ = event.y;
-                
-                break;
-                
-                
-                case GMouseEvent.BUTTON3_DOWN:
-                
-                break;
-                
-                
-                
-                
-                case GMouseEvent.WHEEL_MOUSE_DOWN:
-                scene_.zoom(ZOOM_FACTOR);
-                break;
-                
-                case GMouseEvent.WHEEL_MOUSE_UP:
-                scene_.zoom(1./ZOOM_FACTOR);
-                break;*/
         }
     }
+
 
     
     @Override

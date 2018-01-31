@@ -45,6 +45,7 @@ public class GPatchView extends GView implements ITooltipInfo {
         setUserData(object);
 
         Patch patch = (Patch) object;
+        setName(patch.getName());
 
         createBorder(patch);
 
