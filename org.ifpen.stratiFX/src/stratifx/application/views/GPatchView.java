@@ -24,6 +24,7 @@ import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.property.Property;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
@@ -91,6 +92,7 @@ public class GPatchView extends GView implements ITooltipInfo {
             border = new GPolyline(patch.getBorder());
             border.setTooltipInfo(this);
 
+
             GStyle style = new GStyle();
             style.setBackgroundColor(getPatchColor());
             style.setForegroundColor(GColor.black);
@@ -103,6 +105,45 @@ public class GPatchView extends GView implements ITooltipInfo {
 
     public Patch getObject() {
         return (Patch) getUserData();
+    }
+
+    @Override
+    public void styleChanged(Style style) {
+
+        if ( border == null ){
+            return;
+        }
+
+        GStyle gstyle = border.getStyle();
+
+        DisplayStyle displayStyle = new DisplayStyle(style);
+        if ( displayStyle.getWithLines() ){
+            if ( !gstyle.isLineVisible() ){
+                gstyle.setLineStyle(GStyle.LINESTYLE_SOLID);
+            }
+        } else {
+            if ( gstyle.isLineVisible() ) {
+                gstyle.setLineStyle(GStyle.LINESTYLE_INVISIBLE);
+            }
+        }
+
+        if ( displayStyle.getWithSolid() ){
+            if ( gstyle.getBackgroundColor() == null ){
+                gstyle.setBackgroundColor(getPatchColor());
+            }
+        } else {
+            if ( gstyle.getBackgroundColor() != null ) {
+                gstyle.unsetBackgroundColor();
+            }
+        }
+
+        if ( null != border ){
+            border.setVisibility( displayStyle.getWithSymbol() ? SYMBOLS_VISIBLE : SYMBOLS_INVISIBLE );
+            border.setVisibility( displayStyle.getWithAnnotation() ? ANNOTATION_VISIBLE : ANNOTATION_INVISIBLE );
+        }
+
+        redraw();
+
     }
 
     @Override

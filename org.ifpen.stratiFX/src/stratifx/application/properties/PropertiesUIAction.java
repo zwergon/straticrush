@@ -16,20 +16,12 @@
 package stratifx.application.properties;
 
 import fr.ifp.kronosflow.model.property.EnumProperty;
-import fr.ifp.kronosflow.property.PropertyInfo;
-import stratifx.application.UIAction;
+import stratifx.application.main.UIAction;
 
-public class PropertiesUIAction extends UIAction {
+public class PropertiesUIAction extends UIAction<EnumProperty> {
 
-    EnumProperty propertyName;
-
-    public PropertiesUIAction( EnumProperty property) {
-        super(PROPERTIES);
-        this.propertyName = property;
-    }
-
-    public EnumProperty getProperty() {
-        return propertyName;
+    public PropertiesUIAction( EnumProperty property ) {
+        super(PROPERTIES, property);
     }
 
 }

@@ -25,7 +25,7 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
-import stratifx.application.StratiFXService;
+import stratifx.application.main.StratiFXService;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GPatchView;
 import stratifx.canvas.graphics.GObject;

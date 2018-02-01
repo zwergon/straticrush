@@ -16,6 +16,7 @@
 package stratifx.application.views;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
+import fr.ifp.kronosflow.model.style.Style;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
 
@@ -36,20 +37,6 @@ public abstract class GView extends GObject {
 		super();
 	}
 
-	public void useSelectedStyle(){
-		GStyle gstyle = getStyle();
-		if ( gstyle != null ){
-			if ( gstyle.getBackgroundColor() != null ) {
-				gstyle.setBackgroundColor( gstyle.getBackgroundColor().brighter() );
-			}
-			if ( gstyle.getForegroundColor() != null ) {
-				gstyle.setForegroundColor( gstyle.getForegroundColor().brighter() );
-			}
-			gstyle.setLineWidth( gstyle.getLineWidth() + 2 );
-		}
-		redraw();
-	}
-
 	public Object getModel(){
 		return getUserData();
 	}
@@ -57,5 +44,9 @@ public abstract class GView extends GObject {
 	public abstract void setModel( Object object );
 
 	public abstract void modelChanged( IControllerEvent<?> event );
+
+	public void styleChanged( Style style ) {
+	    //do nothing by default
+    }
 
 }

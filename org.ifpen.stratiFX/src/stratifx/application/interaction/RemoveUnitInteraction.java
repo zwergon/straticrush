@@ -19,7 +19,7 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLinkType;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
-import stratifx.application.StratiFXService;
+import stratifx.application.main.StratiFXService;
 import stratifx.application.caller.RemoveUnitCaller;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GSegment;

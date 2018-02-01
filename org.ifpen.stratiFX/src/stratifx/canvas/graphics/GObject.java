@@ -83,10 +83,11 @@ public class GObject
     private GStyle style_;          // As specified by application
     private GStyle actualStyle_;    // Adjusted for inherits
     private List<GSegment> segments_;       // of GSegment
-    private boolean isDrawn_;
     private Object userData_;       // Application defined
     
-    private ITooltipInfo toolTipInfo_; 
+    private ITooltipInfo toolTipInfo_;
+
+    protected ICallbackHandler callbackHandler;
 
     /**
      * Create a graphical object with specified name.
@@ -101,7 +102,6 @@ public class GObject
         isRegionValid_ = true;
         segments_ = null;
         visibilityMask_ = VISIBLE;
-        isDrawn_ = false;
 
         style_ = null;
         actualStyle_ = new GStyle();
@@ -144,7 +144,15 @@ public class GObject
     }
 
     /**
-     * Conveience method for getting the transformation object of the scene of
+     * Convenience method to set an {@link ICallbackHandler} object that may
+     * be notified from inside {@link GObject} methods
+     */
+    public void setCallbackHandler(ICallbackHandler callbackHandler) {
+        this.callbackHandler = callbackHandler;
+    }
+
+    /**
+     * Convenience method for getting the transformation object of the scene of
      * this object.
      *
      * @return Transformation object for this graphic object (or null if the
@@ -1300,8 +1308,6 @@ public class GObject
      * @param visibilityMask
      */
     public void redraw(int visibilityMask) {
-        // If not visible at this level, skip here but mark as not drawn
-        isDrawn_ = false;
 
         visibilityMask &= visibilityMask_;
         if (visibilityMask == 0) {
@@ -1323,8 +1329,6 @@ public class GObject
         // Let application object draw itself
         draw();
 
-        // Marks as redrawn
-        isDrawn_ = true;
     }
 
     /**

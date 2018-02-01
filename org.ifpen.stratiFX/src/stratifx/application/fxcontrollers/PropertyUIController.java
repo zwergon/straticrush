@@ -21,7 +21,7 @@ import fr.ifp.kronosflow.model.property.PropertyStyle;
 import fr.ifp.kronosflow.property.Property;
 import fr.ifp.kronosflow.property.PropertyDB;
 import fr.ifp.kronosflow.property.PropertyInfo;
-import fr.ifp.kronosflow.utils.LOGGER;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,9 +33,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import stratifx.application.IUIController;
-import stratifx.application.StratiFXService;
-import stratifx.application.UIAction;
+import stratifx.application.main.IUIController;
+import stratifx.application.main.StratiFXService;
+import stratifx.application.main.UIAction;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.PlotController;
 

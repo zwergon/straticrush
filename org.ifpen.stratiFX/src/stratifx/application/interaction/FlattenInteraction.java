@@ -16,8 +16,6 @@
 package stratifx.application.interaction;
 
 import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.Deformation;
-import stratifx.application.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.application.manipulator.MonoTargetManipulator;
 import stratifx.canvas.graphics.GScene;

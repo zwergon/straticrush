@@ -36,8 +36,7 @@ class GAnnotator
   private static final int     MAX_ATTEMTS = 300;
   private static final double  DLENGTH     = 8.0;
     
-  private final GScene  scene_;   
-  private final GRegion  region_;  // Annotation region
+  private final GScene  scene_;
 
   // Precomputed viewport numbers for speed
   private int     vx0_, vy0_;
@@ -59,7 +58,7 @@ class GAnnotator
    */
   GAnnotator (GScene scene)
   {
-    region_  = new GRegion();
+
     scene_ = scene;
   }
 
@@ -71,8 +70,6 @@ class GAnnotator
    */
   void reset()
   {
-    region_.set (scene_.getRegion());
-
     // Precompute some viewport numbers
     GViewport viewport = scene_.getViewport();
     int p0[] = viewport.getP0();  // x,y
@@ -106,6 +103,8 @@ class GAnnotator
   {
     // Return here if nothing to position
     if (positionals == null) return;
+
+    GRegion sceneRegion = scene_.getRegion();
 
     int objectNo = 0;
     for (Iterator i = positionals.iterator(); i.hasNext(); ) {
@@ -158,26 +157,26 @@ class GAnnotator
     	  // For a static positional we're now done
     	  if ((positionHint & GPosition.STATIC) != 0 |
     			  (positionHint & GPosition.MIDDLE) != 0)
-    		  positional.setVisible (region_.isIntersecting (positional.
+    		  positional.setVisible (sceneRegion.isIntersecting (positional.
     				  getRectangle()));
     	  else { // GPosition.DYNAMIC and don't allow overlapping
     		  if (!positional.isAllowingOverlaps() &&
-    				  !region_.isInside (positional.getRectangle()))
+    				  !sceneRegion.isInside (positional.getRectangle()))
     			  findNonOverlappingPosition (positional, x, y, pointNo);
     	  }
       }
       
-      // If positional was moved update damage
+      // If positional was moved call damage
       if (!oldRectangle.equals (positional.getRectangle())) {
         if (wasVisible || positional.isVisible())
           segment.getOwner().flagRegionValid (false);
       }
 
-      // If a valid position was found update the annotation region
+      // If a valid position was found call the annotation region
       if (positional.isVisible() &&
           (positional.getPositionHint() & GPosition.STATIC) == 0 &&
           !positional.isAllowingOverlaps())
-        region_.subtract (positional.getRectangle());
+        sceneRegion.subtract (positional.getRectangle());
 
       if (!positional.isLinePositional()) objectNo++;
     }
@@ -350,6 +349,8 @@ class GAnnotator
   {
     // Find current position along polyline
     int x0, y0;
+
+    GRegion sceneRegion = scene_.getRegion();
     
     if (distance_ == 0.0) {
       x0 = x[pointNo];
@@ -401,7 +402,7 @@ class GAnnotator
           leftRectangle.x -= dx;
           leftRectangle.y -= dy;
 
-          if (region_.isInside (leftRectangle)) {
+          if (sceneRegion.isInside (leftRectangle)) {
             positional.getRectangle().copy (leftRectangle);
             return;
           }
@@ -423,7 +424,7 @@ class GAnnotator
           rightRectangle.x -= dx;
           rightRectangle.y -= dy;
 
-          if (region_.isInside (rightRectangle)) {
+          if (sceneRegion.isInside (rightRectangle)) {
             positional.getRectangle().copy (rightRectangle);            
             return;            
           }

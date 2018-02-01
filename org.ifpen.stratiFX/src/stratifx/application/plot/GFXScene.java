@@ -21,6 +21,7 @@ import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.file.FileMeshPatch;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
+import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -34,6 +35,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import stratifx.application.views.*;
 import stratifx.canvas.graphics.*;
 
@@ -157,7 +160,18 @@ public class GFXScene extends GScene implements ICanvas {
 
     @Override
     public void render(GText text, GStyle style) {
-        // TODO Auto-generated method stub
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        GColor fg = style.getForegroundColor();
+
+        float[] rgba = new float[3];
+        fg.getRGBColorComponents(rgba);
+        Color color = new Color(rgba[0], rgba[1], rgba[2], 1.);
+        gc.setLineWidth(1.);
+        gc.setFill(color);
+
+        GRect rect = text.getRectangle();
+        gc.fillText(text.getText(), rect.x, rect.y);
 
     }
 
@@ -215,12 +229,20 @@ public class GFXScene extends GScene implements ICanvas {
 
     @Override
     public GRect getStringBox(String string, GFont font) {
-        // TODO Auto-generated method stub
-        return null;
+        Text theText = new Text(string);
+        Font theFont = new Font(font.getFontName(), font.getSize());
+
+        theText.setFont(theFont);
+
+        return new GRect(0,0,
+                (int)theText.getBoundsInLocal().getWidth(),
+                (int)theText.getBoundsInLocal().getHeight()
+        );
     }
 
     /**
-     * Notify all listeners about change in this Shape.
+     * Notify all {@link GView} about change occurred
+     * in {@link fr.ifp.kronosflow.controllers.AbstractChangeController}.
      *
      */
     public void notifyViews(IControllerEvent<?> event) {
@@ -233,23 +255,22 @@ public class GFXScene extends GScene implements ICanvas {
         }
     }
 
-
     /**
-     * Method that goes though {@link KinObject} tree and collect list of all
-     * children of this root {@link KinObject}.
+     * Notify all {@link GView} about change occurred
+     * in the {@link Style} parameter
      *
-     * @param kobject the root {@link KinObject}
-     * @param objects flat list of children
      */
-    private void collectChildren(KinObject kobject, Collection<Object> objects) {
-        List<KinObject> children = kobject.getChildren();
-        if (children.isEmpty()) {
-            return;
-        }
-        objects.addAll(children);
-        for (KinObject child : children) {
-            collectChildren(child, objects);
+    public void notifyViews(Style style) {
+
+        for (GObject object : getChildren()) {
+            if (object instanceof GView) {
+                GView view = (GView) object;
+                view.styleChanged(style);
+            }
         }
     }
+
+
+   
 
 }

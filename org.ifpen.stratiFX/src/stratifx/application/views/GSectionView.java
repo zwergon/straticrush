@@ -6,6 +6,7 @@ import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.caller.PatchDeleteEvent;
 import stratifx.application.caller.UnitRemovedItem;
@@ -32,6 +33,8 @@ public class GSectionView extends GView {
 
         createPatchViews();
 
+
+
         PatchLibrary patchLib = section.getPatchLibrary();
         GView view = GViewsFactory.createView(patchLib.getPaleobathymetry());
         add(view);
@@ -47,14 +50,23 @@ public class GSectionView extends GView {
         else if (event instanceof UpdateEvent) {
             handleUpdateEvent( (UpdateEvent)event);
         }
-        else if ( event instanceof PropertyEvent){
+        else if (event instanceof PropertyEvent){
             handlePropertyEvent((PropertyEvent)event);
         }
 
     }
 
+    @Override
+    public void styleChanged(Style style) {
+        List<GObject> children = getChildren();
+        for (GObject gObject : children) {
+            if (gObject instanceof GView) {
+                ((GView) gObject).styleChanged(style);
+            }
+        }
+    }
+
     private void handleDeleteEvent(PatchDeleteEvent deleteEvent ){
-        LOGGER.debug("handleDeleteEvent", getClass());
         UnitRemovedItem item = deleteEvent.getObject();
         for (Patch patch : item.getPatches()) {
             for (GObject gObject : getChildren()) {
@@ -67,13 +79,11 @@ public class GSectionView extends GView {
                     }
                 }
             }
-
         }
     }
 
     private void handleUpdateEvent( UpdateEvent updateEvent ){
         if (updateEvent.getUpdateType() != UpdateEvent.Type.COMPUTE) {
-            LOGGER.debug("handleUpdateEvent", getClass());
             removePatchViews();
             createPatchViews();
             redraw();

@@ -29,7 +29,7 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerLinkType;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.polyline.IPolyline;
 import fr.ifp.kronosflow.utils.LOGGER;
-import stratifx.application.StratiFXService;
+import stratifx.application.main.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GKeyEvent;

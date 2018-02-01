@@ -16,9 +16,6 @@
 package stratifx.canvas.graphics;
 
 import java.util.Collection;
-import java.util.Iterator;
-
-import fr.ifp.kronosflow.geometry.RectD;
 
 /**
  * The GScene is the link between a GWindow and the graphics objects.
@@ -56,10 +53,6 @@ public class GScene extends GObject {
     protected GWorldExtent worldExtent_;
     protected GWorldExtent initialWorldExtent_;
     protected GTransformer transformer_;
-    
-    protected IZoomHandler zoomHandler;
-
-    
 
     private boolean isAnnotationValid_;
     private GAnnotator annotator_;
@@ -186,10 +179,6 @@ public class GScene extends GObject {
 
     public void initWorldExtent(double w0[], double w1[], double w2[]) {
         initialWorldExtent_ = new GWorldExtent(w0, w1, w2);
-    }
-    
-    public void setZoomHandler(IZoomHandler zoomHandler) {
-        this.zoomHandler = zoomHandler;
     }
 
     /**
@@ -483,8 +472,8 @@ public class GScene extends GObject {
         // Rerender the graphics
         refresh();
         
-        if ( zoomHandler != null ){
-            zoomHandler.update();
+        if ( callbackHandler != null ){
+            callbackHandler.call();
         }
 
     }

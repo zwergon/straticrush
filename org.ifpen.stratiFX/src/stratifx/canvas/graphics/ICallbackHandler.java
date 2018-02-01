@@ -9,6 +9,6 @@
 package stratifx.canvas.graphics;
 
 
-public interface IZoomHandler {
-    void update();
+public interface ICallbackHandler {
+    void call();
 }

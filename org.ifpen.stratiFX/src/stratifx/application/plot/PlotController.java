@@ -15,6 +15,10 @@
 */
 package stratifx.application.plot;
 
+import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.property.EnumProperty;
+import stratifx.application.caller.EventUIAction;
 import stratifx.application.interaction.ElongationInteraction;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +28,6 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.utils.LOGGER;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -41,19 +44,20 @@ import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import stratifx.application.GParameters;
-import stratifx.application.IUIController;
-import stratifx.application.StratiFXService;
-import stratifx.application.UIAction;
+import stratifx.application.main.GParameters;
+import stratifx.application.main.IUIController;
+import stratifx.application.main.StratiFXService;
+import stratifx.application.main.UIAction;
 import stratifx.application.interaction.InteractionFactory;
 import stratifx.application.interaction.InteractionUIAction;
 import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.interaction.ZoomInteraction;
 import stratifx.application.properties.PropertiesUIAction;
+import stratifx.application.views.GView;
+import stratifx.application.views.StyleUIAction;
 import stratifx.canvas.graphics.GObject;
-import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GWorldExtent;
-import stratifx.canvas.graphics.IZoomHandler;
+import stratifx.canvas.graphics.ICallbackHandler;
 import stratifx.canvas.graphics.tooltip.GTooltipTimer;
 import stratifx.canvas.graphics.tooltip.ITooltipAction;
 import stratifx.canvas.graphics.tooltip.ITooltipInfo;
@@ -65,7 +69,7 @@ public class PlotController
         implements
         Initializable,
         IUIController,
-        IZoomHandler,
+        ICallbackHandler,
         ITooltipAction {
     
     @FXML
@@ -86,9 +90,8 @@ public class PlotController
     GInteraction interaction_;
     
     Tooltip tooltip;
+
     GTooltipTimer timer;
-    
-    
     
     double[] xy = new double[2];
     
@@ -124,7 +127,7 @@ public class PlotController
         canvasId.addEventFilter(MouseEvent.ANY, (e) -> canvasId.requestFocus());
         
         gfxScene = new GFXScene(canvasId);
-        gfxScene.setZoomHandler(this);
+        gfxScene.setCallbackHandler(this);
         
         GWorldExtent extent = gfxScene.getWorldExtent();
         
@@ -457,13 +460,58 @@ public class PlotController
                 startInteraction(new ZoomInteraction(gfxScene));
                 break;
                 
-            case InteractionUIAction.INTERACTION:
+            case UIAction.INTERACTION:
                 return handleInteractionAction(action);
                 
             case UIAction.PROPERTIES:
                 return handlePropertyInteraction((PropertiesUIAction) action);
+
+            case UIAction.STYLE:
+                return handleStyleAction((StyleUIAction)action);
+
+            case UIAction.EVENT:
+                return handleEventAction((EventUIAction)action);
+
+            case UIAction.OPEN:
+                return handleOpenAction();
         }
         return true;
+    }
+
+    private boolean handleOpenAction(){
+
+        gfxScene.destroyAll();
+
+        Section section = StratiFXService.instance.getSection();
+
+        GView view = GViewsFactory.createView(section);
+        if ( null != view ) {
+            gfxScene.add(view);
+
+            PatchLibrary patchLib = section.getPatchLibrary();
+            RectD bbox = patchLib.getBoundingBox();
+            bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
+            initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+
+            gfxScene.refresh();
+        }
+        else {
+            LOGGER.error("unable to create view for Section " + section.getName(), getClass());
+        }
+
+        return false;
+    }
+
+    private boolean handleStyleAction(StyleUIAction action ) {
+        gfxScene.notifyViews( action.getData() );
+        gfxScene.refresh();
+        return false;
+    }
+
+    private boolean handleEventAction(EventUIAction action ) {
+        gfxScene.notifyViews( action.getData() );
+        gfxScene.refresh();
+        return false;
     }
 
 
@@ -516,6 +564,10 @@ public class PlotController
     }
     
     private boolean handlePropertyInteraction(PropertiesUIAction action) {
+
+        if (action.getData() != EnumProperty.ELONGATION) {
+            return false;
+        }
         
         Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
@@ -530,7 +582,7 @@ public class PlotController
         }*/
         
         SectionInteraction interaction = null;
-        switch (action.getProperty()) {
+        switch (action.getData()) {
             case ELONGATION:
                 interaction = new ElongationInteraction(gfxScene);
                 break;
@@ -549,7 +601,7 @@ public class PlotController
     }
     
     @Override
-    public void update() {
+    public void call() {
         updateAxis();
     }
     

@@ -15,19 +15,16 @@
  */
 package stratifx.application.interaction;
 
-import stratifx.application.UIAction;
+import stratifx.application.main.UIAction;
 
-public class InteractionUIAction extends UIAction {
-	
-	String deformationType;
-	
+public class InteractionUIAction extends UIAction<String> {
+
 	String manipulatorType;
 	
 	String callerType;
 
 	public InteractionUIAction( String deformationType, String manipulatorType, String callerType ) {
-		super(INTERACTION);
-		this.deformationType = deformationType;
+		super(INTERACTION, deformationType);
 		this.manipulatorType = manipulatorType;
 		this.callerType = callerType;
 	}
@@ -41,7 +38,7 @@ public class InteractionUIAction extends UIAction {
 	}
 
 	public String getDeformationType() {
-		return deformationType;
+		return getData();
 	}
 
 	public String getManipulatorType() {

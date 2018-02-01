@@ -24,14 +24,13 @@ import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerTree;
 import fr.ifp.kronosflow.model.graph.GraphEdge;
-import fr.ifp.kronosflow.model.graph.Vertex;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import stratifx.application.IUIController;
-import stratifx.application.StratiFXService;
-import stratifx.application.UIAction;
+import stratifx.application.main.IUIController;
+import stratifx.application.main.StratiFXService;
+import stratifx.application.main.UIAction;
 
 public class TreeUIController
         implements

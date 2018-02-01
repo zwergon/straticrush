@@ -262,7 +262,7 @@ public class GSegment
      */
     private void updateContext() {
 
-        // Nothing to update if we are not in the tree
+        // Nothing to call if we are not in the tree
         if (owner_ == null) {
             return;
         }

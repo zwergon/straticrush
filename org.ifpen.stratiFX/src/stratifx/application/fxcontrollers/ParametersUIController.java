@@ -14,7 +14,7 @@ import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.model.style.Style;
+
 import java.net.URL;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,14 +29,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.StringConverter;
-import stratifx.application.GParameters;
-import stratifx.application.IUIController;
-import stratifx.application.StratiFXService;
-import stratifx.application.UIAction;
+import stratifx.application.main.GParameters;
+import stratifx.application.main.IUIController;
+import stratifx.application.main.StratiFXService;
+import stratifx.application.main.UIAction;
+import stratifx.application.views.DisplayStyle;
+import stratifx.application.views.StyleUIAction;
 
 /**
  *
@@ -51,6 +54,18 @@ public class ParametersUIController implements
     
     @FXML
     ComboBox gridComboId;
+
+    @FXML
+    CheckBox displayWithSolidId;
+
+    @FXML
+    CheckBox displayWithLineId;
+
+    @FXML
+    CheckBox displayWithSymbolId;
+
+    @FXML
+    CheckBox displayWithAnnotationId;
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
     
@@ -120,7 +135,13 @@ public class ParametersUIController implements
         gridComboId.setOnAction((event)->{
             sceneStyle.setGridType(gridComboId.getValue().toString());
         });
-        
+
+        DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
+        displayWithLineId.setSelected(displayStyle.getWithLines());
+        displayWithSolidId.setSelected(displayStyle.getWithSolid());
+        displayWithSymbolId.setSelected(displayStyle.getWithSymbol());
+        displayWithAnnotationId.setSelected(displayStyle.getWithAnnotation());
+
     }
 
     private void initSceneParameters(GeoschedulerSection section) {
@@ -165,8 +186,9 @@ public class ParametersUIController implements
 
     @FXML
     public void onSceneApplyAction( ActionEvent event ){
-        
-        
+
+
+
         for( FXFeature fxFeature : data ){
             if ( fxFeature.feature instanceof StratigraphicEvent  ) {
                 sceneStyle.setUnusualBehavior(section, fxFeature.feature, !fxFeature.isSelected() );
@@ -180,7 +202,20 @@ public class ParametersUIController implements
 
     @FXML
     public void onDisplayApplyAction( ActionEvent action ){
+
         LOGGER.debug("onDialogApplyAction", getClass());
+
+        DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
+
+        displayStyle.setWithLines(displayWithLineId.isSelected());
+        displayStyle.setWithSolid(displayWithSolidId.isSelected());
+        displayStyle.setWithSymbol(displayWithSymbolId.isSelected());
+        displayStyle.setWithAnnotation(displayWithAnnotationId.isSelected());
+
+        StratiFXService.instance.broadCastAction(
+                new StyleUIAction(displayStyle.getStyle())
+        );
+
     }
 
     @FXML
