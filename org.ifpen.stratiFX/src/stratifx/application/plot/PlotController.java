@@ -1,57 +1,44 @@
 /*
-* Copyright 2017 lecomtje.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2017 lecomtje.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package stratifx.application.plot;
 
+import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
 import fr.ifp.kronosflow.geometry.RectD;
 import fr.ifp.kronosflow.model.PatchLibrary;
-import fr.ifp.kronosflow.model.property.EnumProperty;
-import stratifx.application.caller.EventUIAction;
-import stratifx.application.interaction.ElongationInteraction;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
+import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.utils.LOGGER;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.geometry.Side;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.input.*;
+import javafx.scene.layout.Pane;
+import stratifx.application.caller.EventUIAction;
+import stratifx.application.interaction.*;
 import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
-import stratifx.application.interaction.InteractionFactory;
-import stratifx.application.interaction.InteractionUIAction;
-import stratifx.application.interaction.SectionInteraction;
-import stratifx.application.interaction.ZoomInteraction;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.views.GView;
 import stratifx.application.views.StyleUIAction;
@@ -66,139 +53,153 @@ import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
 public class PlotController
+        extends Pane
         implements
-        Initializable,
         IUIController,
         ICallbackHandler,
         ITooltipAction {
-    
-    @FXML
+
     private Canvas canvasId;
-    
-    @FXML
-    private Group plotGroupId;
-    
-    @FXML
-    private AnchorPane paneId;
-    
+
     NumberAxis axisY;
-    
+
     NumberAxis axisX;
-    
+
     GFXScene gfxScene;
-    
+
     GInteraction interaction_;
-    
+
     Tooltip tooltip;
 
     GTooltipTimer timer;
-    
+
     double[] xy = new double[2];
-    
+
     public GFXScene getGFXScene() {
         return gfxScene;
     }
-    
-    @FXML
-    private void onPlotScrolled(ScrollEvent event) {
-        
-        /*double sx = 0;
-        if (event.getDeltaY() < 0) {
-            sx = plotGroupId.getScaleX() * 0.95;
-        } else {
-            sx = plotGroupId.getScaleX() * 1.05;
-        }
-        
-        plotGroupId.setScaleX(sx);
-        plotGroupId.setScaleY(sx);
-        */
 
-        if (event.getDeltaY() < 0) {
-            gfxScene.zoom(0.95 );
-        } else {
-            gfxScene.zoom( 1.05 );
-        }
-        
-    }
-    
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        
-        canvasId.addEventFilter(MouseEvent.ANY, (e) -> canvasId.requestFocus());
-        
+    public void initialize(double w, double h) {
+
+        canvasId = new Canvas();
+        getChildren().add(canvasId);
+        canvasId.setWidth(w);
+        canvasId.setHeight(h);
+
         gfxScene = new GFXScene(canvasId);
         gfxScene.setCallbackHandler(this);
-        
+
         GWorldExtent extent = gfxScene.getWorldExtent();
-        
+
         double left = extent.left();
         double right = extent.right();
         double width = extent.getWidth();
         axisX = new NumberAxis(left, right, width / 10.);
         axisX.setMouseTransparent(true);
         axisX.setSide(Side.BOTTOM);
-        axisX.setPrefWidth(canvasId.getWidth());
-        axisX.setLayoutX(canvasId.getLayoutX());
+        axisX.setPrefWidth(canvasId.getWidth() - 20);
+        axisX.setLayoutX(canvasId.getLayoutX() + 10);
         axisX.setLayoutY(canvasId.getLayoutY() + canvasId.getHeight() / 2.);
-        plotGroupId.getChildren().add(axisX);
-        
+        getChildren().add(axisX);
+
         double bottom = extent.bottom();
         double top = extent.top();
         double height = extent.getHeight();
         axisY = new NumberAxis(bottom, top, height / 10.);
         axisY.setMouseTransparent(true);
         axisY.setSide(Side.LEFT);
-        axisY.setPrefHeight(canvasId.getHeight());
+        axisY.setPrefHeight(canvasId.getHeight() - 20);
         axisY.setLayoutX(canvasId.getLayoutX());
-        axisY.setLayoutY(canvasId.getLayoutY());
-        plotGroupId.getChildren().add(axisY);
-        
-        Rectangle clipRectangle = new Rectangle(
-                canvasId.getLayoutX(),
-                canvasId.getLayoutY(),
-                canvasId.getWidth(),
-                canvasId.getHeight());
-        paneId.setClip(clipRectangle);
-        
+        axisY.setLayoutY(canvasId.getLayoutY() + 10);
+        getChildren().add(axisY);
+
+
+        setOnMouseEntered(this::onMouseEntered);
+        setOnMouseExited(this::onMouseExited);
+        setOnMouseDragged(this::onMouseDragged);
+        setOnMouseClicked(this::onMouseClicked);
+        setOnMouseMoved(this::onMouseMoved);
+        setOnMousePressed(this::onMousePressed);
+        setOnMouseReleased(this::onMouseReleased);
+        setOnScroll(this::onPlotScrolled);
+        setOnKeyPressed(this::onKeyPressed);
+        setOnKeyReleased(this::onKeyReleased);
+        widthProperty().addListener(this::changeWidth);
+        heightProperty().addListener(this::changeHeight);
+
+        canvasId.addEventFilter(MouseEvent.ANY, (e) -> canvasId.requestFocus());
+
+
     }
-    
+
+    private void changeWidth(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        canvasId.setWidth(newValue.doubleValue());
+
+        Bounds localB = canvasId.getLayoutBounds();
+        gfxScene.setViewport(
+                (int) localB.getMinX(), (int) localB.getMinY(),
+                (int) localB.getWidth(), (int) localB.getHeight());
+
+        gfxScene.refresh();
+
+        axisX.setPrefWidth(canvasId.getWidth() - 20);
+        axisX.setLayoutX(canvasId.getLayoutX() + 10);
+        axisY.setLayoutX(canvasId.getLayoutX());
+    }
+
+    private void changeHeight(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        canvasId.setHeight(newValue.doubleValue());
+
+        Bounds localB = canvasId.getLayoutBounds();
+        gfxScene.setViewport(
+                (int) localB.getMinX(), (int) localB.getMinY(),
+                (int) localB.getWidth(), (int) localB.getHeight());
+
+        gfxScene.refresh();
+
+        axisY.setPrefHeight(canvasId.getHeight() - 20);
+        axisX.setLayoutY(canvasId.getLayoutY() + canvasId.getHeight() / 2.);
+        axisY.setLayoutY(canvasId.getLayoutY() + 10);
+    }
+
+
     public void initWorldExtent(double x0, double y0, double width, double height) {
         double w0[] = {x0, y0};
         double w1[] = {x0 + width, y0};
         double w2[] = {x0, y0 + height};
-        
+
         gfxScene.initWorldExtent(w0, w1, w2);
-        
+
         setWorldExtent(w0, w1, w2);
     }
-    
+
     public void setWorldExtent(double x0, double y0, double width, double height) {
         double w0[] = {x0, y0};
         double w1[] = {x0 + width, y0};
         double w2[] = {x0, y0 + height};
-        
+
         setWorldExtent(w0, w1, w2);
     }
-    
+
     public void setWorldExtent(double[] w0, double[] w1, double[] w2) {
-        
+
         gfxScene.setWorldExtent(w0, w1, w2);
-        
+
         updateAxis();
     }
-    
+
     private void updateAxis() {
         GWorldExtent wExtent = gfxScene.getWorldExtent();
-        
+
         axisX.setLowerBound(wExtent.left());
         axisX.setUpperBound(wExtent.right());
         axisX.setTickUnit(Math.abs(wExtent.getWidth() / 10.));
-        
+
         axisY.setLowerBound(wExtent.bottom());
         axisY.setUpperBound(wExtent.top());
         axisY.setTickUnit(Math.abs(wExtent.getHeight() / 10.));
     }
-    
+
     /**
      * Install the specified interaction on this window. As a window can
      * administrate only one interaction at the time, the current interaction
@@ -210,13 +211,13 @@ public class PlotController
         if (interaction_ != null) {
             stopInteraction();
         }
-        
+
         interaction_ = interaction;
         if (null != interaction) {
             interaction_.start(gfxScene);
         }
     }
-    
+
     /**
      * Stop the current interaction. The current interaction will get an ABORT
      * event so it has the possibility to do cleanup. If no interaction is
@@ -227,17 +228,17 @@ public class PlotController
         if (interaction_ == null) {
             return;
         }
-        
+
         interaction_.stop(gfxScene);
         interaction_ = null;
     }
-    
+
     private boolean gfxHandleMouse(int type, MouseEvent mouseEvent) {
         if (null != interaction_) {
             PickResult result = mouseEvent.getPickResult();
             if (result.getIntersectedNode().equals(canvasId)) {
                 Point3D pt = result.getIntersectedPoint();
-                
+
                 GMouseEvent gevent = new GMouseEvent(
                         type,
                         getGFXButton(mouseEvent),
@@ -250,9 +251,9 @@ public class PlotController
         }
         return false;
     }
-    
+
     private int getGFXButton(MouseEvent mouseEvent) {
-        switch( mouseEvent.getButton() ){
+        switch (mouseEvent.getButton()) {
             case SECONDARY:
                 return GMouseEvent.BUTTON_3;
             case MIDDLE:
@@ -260,14 +261,19 @@ public class PlotController
             default:
                 break;
         }
-        return  GMouseEvent.BUTTON_1;
+        return GMouseEvent.BUTTON_1;
     }
-    
-    private int getGFXModifier(MouseEvent mouseEvent) {
-        return 0;
+
+    private void onPlotScrolled(ScrollEvent event) {
+
+        if (event.getDeltaY() < 0) {
+            gfxScene.zoom(0.95);
+        } else {
+            gfxScene.zoom(1.05);
+        }
+
     }
-    
-    @FXML
+
     private void onMouseClicked(MouseEvent mouseEvent) {
         resetTooltip();
         setTooltipPos(mouseEvent);
@@ -277,8 +283,7 @@ public class PlotController
             return;
         }
     }
-    
-    @FXML
+
     private void onMouseMoved(MouseEvent mouseEvent) {
         resetTooltip();
         setTooltipPos(mouseEvent);
@@ -288,8 +293,7 @@ public class PlotController
             return;
         }
     }
-    
-    @FXML
+
     private void onMousePressed(MouseEvent mouseEvent) {
 
         resetTooltip();
@@ -310,24 +314,22 @@ public class PlotController
             mouseEvent.consume();
         }
     }
-    
-    @FXML
+
     private void onMouseReleased(MouseEvent mouseEvent) {
 
         if (mouseEvent.isMiddleButtonDown()) {
             mouseEvent.consume();
             return;
         }
-        
+
         resetTooltip();
         if (gfxHandleMouse(GMouseEvent.BUTTON_UP, mouseEvent)) {
             mouseEvent.consume();
         }
     }
-    
-    @FXML
+
     private void onMouseDragged(MouseEvent mouseEvent) {
-        
+
         resetTooltip();
         setTooltipPos(mouseEvent);
 
@@ -338,7 +340,7 @@ public class PlotController
                     mouseEvent.getY() - xy[1]
             };
 
-            gfxScene.pan((int)dxy[0], (int)dxy[1]);
+            gfxScene.pan((int) dxy[0], (int) dxy[1]);
 
             xy[0] = mouseEvent.getX();
             xy[1] = mouseEvent.getY();
@@ -352,48 +354,42 @@ public class PlotController
         }
 
     }
-    
-    @FXML
+
     private void onMouseEntered(MouseEvent mouseEvent) {
-        if ( null == timer ){
+        if (null == timer) {
             timer = new GTooltipTimer();
             timer.setAction(this);
             setTooltipPos(mouseEvent);
             timer.start();
         }
     }
-    
-    @FXML
+
     private void onMouseExited(MouseEvent mouseEvent) {
-        
+
         try {
-            if ( ( timer != null ) && ( timer.isAlive() ) ){
+            if ((timer != null) && (timer.isAlive())) {
                 timer.canStop();
                 timer.wait();
             }
-        }
-        catch(Exception ex ){
-        }
-        finally {
+        } catch (Exception ex) {
+        } finally {
             timer = null;
         }
     }
-    
-    @FXML
+
     private void onKeyPressed(KeyEvent keyEvent) {
         resetTooltip();
         if (gfxHandleKey(GKeyEvent.KEY_PRESSED, keyEvent)) {
             keyEvent.consume();
         }
     }
-    
-    @FXML
+
     private void onKeyReleased(KeyEvent keyEvent) {
         if (gfxHandleKey(GKeyEvent.KEY_RELEASED, keyEvent)) {
             keyEvent.consume();
         }
     }
-    
+
     private boolean gfxHandleKey(int type, KeyEvent keyEvent) {
         if (null != interaction_) {
             GKeyEvent gevent = new GKeyEvent(
@@ -404,35 +400,39 @@ public class PlotController
                     GKeyEvent.KEY_LOCATION_STANDARD
             );
             return interaction_.keyEvent(gfxScene, gevent);
-            
+
         }
         return false;
     }
-    
+
+    private int getGFXModifier(MouseEvent mouseEvent) {
+        return 0;
+    }
+
     private int getGFXKeyCode(KeyEvent keyEvent) {
-        
+
         KeyCode code = keyEvent.getCode();
-        
+
         String name = code.getName();
         if (name.length() == 1) {
             return name.charAt(0);
         }
-        
+
         switch (code) {
             case ESCAPE:
                 return GKeyEvent.VK_ESCAPE;
             case SPACE:
                 return GKeyEvent.VK_SPACE;
         }
-        
+
         return 0;
     }
-    
+
     private char getGFXKeyChar(KeyEvent keyEvent) {
         // TODO Auto-generated method stub
         return 0;
     }
-    
+
     private int getGFXModifier(KeyEvent keyEvent) {
         int modifier = 0;
         if (keyEvent.isControlDown()) {
@@ -444,33 +444,33 @@ public class PlotController
         if (keyEvent.isShiftDown()) {
             modifier |= GKeyEvent.SHIFT_MASK;
         }
-        
+
         return modifier;
     }
-    
+
     @Override
     public boolean handleAction(UIAction action) {
-        
+
         switch (action.getType()) {
             case UIAction.ZOOMONEONE:
                 gfxScene.unzoom();
                 break;
-                
+
             case UIAction.ZOOMRECT:
                 startInteraction(new ZoomInteraction(gfxScene));
                 break;
-                
+
             case UIAction.INTERACTION:
                 return handleInteractionAction(action);
-                
+
             case UIAction.PROPERTIES:
                 return handlePropertyInteraction((PropertiesUIAction) action);
 
             case UIAction.STYLE:
-                return handleStyleAction((StyleUIAction)action);
+                return handleStyleAction((StyleUIAction) action);
 
             case UIAction.EVENT:
-                return handleEventAction((EventUIAction)action);
+                return handleEventAction((EventUIAction) action);
 
             case UIAction.OPEN:
                 return handleOpenAction();
@@ -478,14 +478,14 @@ public class PlotController
         return true;
     }
 
-    private boolean handleOpenAction(){
+    private boolean handleOpenAction() {
 
         gfxScene.destroyAll();
 
         Section section = StratiFXService.instance.getSection();
 
         GView view = GViewsFactory.createView(section);
-        if ( null != view ) {
+        if (null != view) {
             gfxScene.add(view);
 
             PatchLibrary patchLib = section.getPatchLibrary();
@@ -494,33 +494,32 @@ public class PlotController
             initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
 
             gfxScene.refresh();
-        }
-        else {
+        } else {
             LOGGER.error("unable to create view for Section " + section.getName(), getClass());
         }
 
         return false;
     }
 
-    private boolean handleStyleAction(StyleUIAction action ) {
-        gfxScene.notifyViews( action.getData() );
+    private boolean handleStyleAction(StyleUIAction action) {
+        gfxScene.notifyViews(action.getData());
         gfxScene.refresh();
         return false;
     }
 
-    private boolean handleEventAction(EventUIAction action ) {
-        gfxScene.notifyViews( action.getData() );
+    private boolean handleEventAction(EventUIAction action) {
+        gfxScene.notifyViews(action.getData());
         gfxScene.refresh();
         return false;
     }
 
 
     private boolean handleInteractionAction(UIAction action) {
-        
+
         InteractionUIAction uiAction = (InteractionUIAction) action;
-        
+
         String deformationType = uiAction.getDeformationType();
-        
+
         Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
         /*if (deformationType.equals("VerticalShear")
@@ -543,32 +542,31 @@ public class PlotController
             style.setAttribute(Kind.DEFORMATION.toString(), "DilatationDeformation");
             style.setAttribute("DilatationType", deformationType);
         } else {
-            style.setAttribute(Kind.DEFORMATION.toString(), deformationType); 
+            style.setAttribute(Kind.DEFORMATION.toString(), deformationType);
         }
-        
+
         String manipulatorType = uiAction.getManipulatorType();
-        
+
         SectionInteraction interaction = InteractionFactory.getInstance()
                 .createInteraction(manipulatorType, gfxScene);
-        
+
         if (interaction != null) {
             interaction.setStyle(style);
             startInteraction(interaction);
             return true;
-        }
-        else {
+        } else {
             LOGGER.error("unable to create interaction " + manipulatorType, getClass());
         }
-        
+
         return false;
     }
-    
+
     private boolean handlePropertyInteraction(PropertiesUIAction action) {
 
         if (action.getData() != EnumProperty.ELONGATION) {
             return false;
         }
-        
+
         Style style = GParameters.getStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
         Section section = StratiFXService.instance.getSection();
@@ -580,7 +578,7 @@ public class PlotController
         for (FaultFeature faultFeature : faults) {
         sceneStyle.setUnusualBehavior(section, faultFeature, true);
         }*/
-        
+
         SectionInteraction interaction = null;
         switch (action.getData()) {
             case ELONGATION:
@@ -589,66 +587,66 @@ public class PlotController
             default:
                 break;
         }
-        
+
         if (interaction != null) {
             interaction.setStyle(style);
             startInteraction(interaction);
             return true;
         }
-        
+
         return false;
-        
+
     }
-    
+
     @Override
     public void call() {
         updateAxis();
     }
-    
-    
+
+
     @Override
     public void show(int x, int y) {
-        
+
         GObject gObject = gfxScene.find(x, y);
-        if ( gObject != null ){
+        if (gObject != null) {
             ITooltipInfo info = gObject.getTooltipInfo();
-            if ( info != null ){
-                
+            if (info != null) {
+
                 Point2D scenePos = canvasId.localToScreen(x, y);
                 tooltip = new Tooltip();
-                tooltip.setText( info.getInfo(x, y) );
+                tooltip.setText(info.getInfo(x, y));
                 tooltip.show(
                         StratiFXService.instance.getPrimaryStage(),
                         scenePos.getX(), scenePos.getY());
-                   
+
             }
         }
-        
+
     }
-    
+
     @Override
     public void hide() {
-        if ( null != tooltip ){
+        if (null != tooltip) {
             tooltip.hide();
         }
     }
-    
-    
-    private void resetTooltip(){
-        if ( ( null != tooltip ) && tooltip.isShowing() ){
+
+
+    private void resetTooltip() {
+        if ((null != tooltip) && tooltip.isShowing()) {
             tooltip.hide();
         }
-        
-        if ( timer != null ){
+
+        if (timer != null) {
             timer.reset();
         }
     }
-    
-    private void setTooltipPos( MouseEvent mouseEvent ){
-        if ( timer != null ){
+
+    private void setTooltipPos(MouseEvent mouseEvent) {
+        if (timer != null) {
             Point2D pt = canvasId.screenToLocal(mouseEvent.getScreenX(), mouseEvent.getScreenY());
-            timer.setPos( (int)pt.getX(), (int)pt.getY());
+            timer.setPos((int) pt.getX(), (int) pt.getY());
         }
     }
-    
+
 }

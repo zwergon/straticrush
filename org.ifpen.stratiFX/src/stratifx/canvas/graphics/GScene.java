@@ -137,6 +137,10 @@ public class GScene extends GObject {
         // Set the new region for this scene
         updateRegion();
 
+        if ( null != worldExtent_ ) {
+            adjustWorldExtent();
+        }
+
         transformer_.update(viewport_, worldExtent_);
 
         // Redraw
