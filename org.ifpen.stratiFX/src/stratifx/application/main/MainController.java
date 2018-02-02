@@ -40,7 +40,8 @@ public class MainController implements Initializable, IUIController {
     enum StageUI {
         TREE("/fxml/TreeUI.fxml", IUIController.Type.TREE),
         PROPERTY("/fxml/PropertyUI.fxml", IUIController.Type.PROPERTY),
-        PARAMETERS("/fxml/ParametersUI.fxml", IUIController.Type.PARAMETERS);
+        PARAMETERS("/fxml/ParametersUI.fxml", IUIController.Type.PARAMETERS),
+        GRAPH("/fxml/Graph.fxml", IUIController.Type.GRAPH);
 
         StageUI(String fxmlName, IUIController.Type type) {
             this.fxmlName = fxmlName;
@@ -94,13 +95,13 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
-    void onShowPointsAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(UIAction.SHOWPOINTS);
+    void onShowParametersAction(ActionEvent action) {
+        openDialog((ToggleButton) action.getSource(), StageUI.PARAMETERS);
     }
 
     @FXML
-    void onShowParametersAction(ActionEvent action) {
-        openDialog((ToggleButton) action.getSource(), StageUI.PARAMETERS);
+    void onGraphUIAction(ActionEvent action) {
+        openDialog((ToggleButton) action.getSource(), StageUI.GRAPH);
     }
 
     @FXML

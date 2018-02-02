@@ -17,13 +17,14 @@ package stratifx.application.main;
 
 public interface IUIController {
 
-    public static enum Type {
+    enum Type {
         MAIN,
         TREE,
         PROPERTY,
         PARAMETERS,
-        PLOT
-    };
+        PLOT,
+        GRAPH
+    }
 
-    public boolean handleAction(UIAction action);
+    boolean handleAction(UIAction action);
 }
