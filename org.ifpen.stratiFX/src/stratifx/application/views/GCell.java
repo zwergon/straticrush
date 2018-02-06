@@ -89,7 +89,7 @@ public class GCell extends GSegment implements IMeshProvider, IDeformableGeometr
 	/*@Override
 	public GTooltipInfo getTooltipInfo() {
 		GTooltipInfo info = new GTooltipInfo();
-		String msg = new String( "Cell uid: " + cell.getUID() );
+		String msg = new String( "CellFX uid: " + cell.getUID() );
 		double[] values = getValues();
 		if ( values != null ){
 			for( int i=0; i<values.length; i++ ){

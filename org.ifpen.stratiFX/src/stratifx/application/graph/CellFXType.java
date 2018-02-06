@@ -1,6 +1,6 @@
 package stratifx.application.graph;
 
-public enum CellType {
+public enum CellFXType {
 
     RECTANGLE,
     TRIANGLE

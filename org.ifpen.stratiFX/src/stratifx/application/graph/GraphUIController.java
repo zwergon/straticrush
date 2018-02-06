@@ -15,23 +15,20 @@
  */
 package stratifx.application.graph;
 
-import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
-import fr.ifp.kronosflow.geoscheduler.GeoschedulerTree;
-import fr.ifp.kronosflow.model.graph.GraphEdge;
+import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.jdeform.scene.SceneBuilder;
+import fr.ifp.jdeform.scene.sequence.DefaultSequenceBuilder;
+import fr.ifp.jdeform.scene.sequence.ISequenceBuilder;
+import fr.ifp.jdeform.scene.sequence.Sequence;
+import fr.ifp.kronosflow.model.Section;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.AnchorPane;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GraphUIController
@@ -39,7 +36,7 @@ public class GraphUIController
         Initializable,
         IUIController {
 
-    Graph graph;
+    GraphFX graphFX;
 
     @FXML
     ScrollPane paneId;
@@ -52,41 +49,30 @@ public class GraphUIController
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        graph = new Graph();
 
-        addGraphComponents();
+        Section section = StratiFXService.instance.getSection();
 
-        Layout layout = new RandomLayout(graph);
+        if ( section == null ){
+            return;
+        }
+
+        Scene scene = SceneBuilder.createDefaultScene(section.getPatchLibrary());
+
+        ISequenceBuilder builder = new DefaultSequenceBuilder(scene);
+
+        Sequence sequence = builder.create();
+
+
+        graphFX = new GraphFX(sequence.getGraph());
+        graphFX.initialize();
+
+        Layout layout = new LevelLayout(graphFX);
         layout.execute();
 
-        paneId.setContent(graph.getCellLayer());
+        paneId.setContent(graphFX.getCellFXLayer());
 
     }
 
-    private void addGraphComponents() {
 
-        Model model = graph.getModel();
-
-        graph.beginUpdate();
-
-        model.addCell("Cell A", CellType.RECTANGLE);
-        model.addCell("Cell B", CellType.RECTANGLE);
-        model.addCell("Cell C", CellType.RECTANGLE);
-        model.addCell("Cell D", CellType.TRIANGLE);
-        model.addCell("Cell E", CellType.TRIANGLE);
-        model.addCell("Cell F", CellType.RECTANGLE);
-        model.addCell("Cell G", CellType.RECTANGLE);
-
-        model.addEdge("Cell A", "Cell B");
-        model.addEdge("Cell A", "Cell C");
-        model.addEdge("Cell B", "Cell C");
-        model.addEdge("Cell C", "Cell D");
-        model.addEdge("Cell B", "Cell E");
-        model.addEdge("Cell D", "Cell F");
-        model.addEdge("Cell D", "Cell G");
-
-        graph.endUpdate();
-
-    }
 
 }

@@ -3,20 +3,17 @@ package stratifx.application.graph;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 
-public class Edge extends Group {
+public class EdgeFX extends Group {
 
-    protected Cell source;
-    protected Cell target;
+    protected CellFX source;
+    protected CellFX target;
 
     Line line;
 
-    public Edge(Cell source, Cell target) {
+    public EdgeFX(CellFX source, CellFX target) {
 
         this.source = source;
         this.target = target;
-
-        source.addCellChild(target);
-        target.addCellParent(source);
 
         line = new Line();
 
@@ -30,11 +27,11 @@ public class Edge extends Group {
 
     }
 
-    public Cell getSource() {
+    public CellFX getSource() {
         return source;
     }
 
-    public Cell getTarget() {
+    public CellFX getTarget() {
         return target;
     }
 

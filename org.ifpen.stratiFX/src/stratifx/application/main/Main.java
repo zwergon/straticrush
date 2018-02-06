@@ -16,6 +16,7 @@
 package stratifx.application.main;
 	
 import java.io.IOException;
+import java.net.URL;
 
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.application.Application;
@@ -65,7 +66,8 @@ public class Main extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/fxml/MainUI.fxml"));
+            URL url = Main.class.getResource("/fxml/MainUI.fxml");
+            loader.setLocation(url);
             BorderPane rootLayout = loader.load();
             
             StratiFXService.instance.registerController( IUIController.Type.MAIN, loader.getController() );

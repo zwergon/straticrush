@@ -1390,7 +1390,7 @@ public class GKeyEvent extends GEvent {
 		case VK_COMPOSE:
 			return "Compose";
 		case VK_ALT_GRAPH:
-			return "Alt Graph";
+			return "Alt GraphFX";
 		case VK_STOP:
 			return "Stop";
 		case VK_AGAIN:

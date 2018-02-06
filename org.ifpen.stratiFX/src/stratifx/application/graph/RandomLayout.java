@@ -1,30 +1,29 @@
 package stratifx.application.graph;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class RandomLayout extends Layout {
 
-    Graph graph;
 
     Random rnd = new Random();
 
-    public RandomLayout(Graph graph) {
-
-        this.graph = graph;
-
+    public RandomLayout(GraphFX graphFX) {
+        super(graphFX);
     }
 
+    @Override
     public void execute() {
 
-        List<Cell> cells = graph.getModel().getAllCells();
+        Collection<CellFX> cellFXES = graphFX.getAllCells();
 
-        for (Cell cell : cells) {
+        for (CellFX cellFX : cellFXES) {
 
             double x = rnd.nextDouble() * 500;
             double y = rnd.nextDouble() * 500;
 
-            cell.relocate(x, y);
+            cellFX.relocate(x, y);
 
         }
 

@@ -53,7 +53,7 @@ public class CenteredNodeInScrollPaneExample extends Application  {
   final RadioButton  topLeft    = new RadioButton("Top Left");
   final ToggleGroup  nodeToggle = new ToggleGroup();
   final RadioButton  showSquare = new RadioButton("Square");
-  final RadioButton  showGraph  = new RadioButton("Graph");
+  final RadioButton  showGraph  = new RadioButton("GraphFX");
 
   // the node to be manipulated.
   final ScrollPane scrollPane = new ScrollPane();
@@ -255,7 +255,7 @@ public class CenteredNodeInScrollPaneExample extends Application  {
     NumberAxis xAxis = new NumberAxis(); xAxis.setLabel("X Axis");
     NumberAxis yAxis = new NumberAxis(); yAxis.setLabel("Y Axis");
     LineChart<Number,Number> graph = new LineChart<Number,Number>(xAxis,yAxis);
-    graph.setTitle("Test Graph");
+    graph.setTitle("Test GraphFX");
     graph.setCreateSymbols(false);
 
     // add starting data

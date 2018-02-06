@@ -8,10 +8,10 @@ public class MouseGestures {
 
     final DragContext dragContext = new DragContext();
 
-    Graph graph;
+    GraphFX graphFX;
 
-    public MouseGestures( Graph graph) {
-        this.graph = graph;
+    public MouseGestures( GraphFX graphFX) {
+        this.graphFX = graphFX;
     }
 
     public void makeDraggable( final Node node) {

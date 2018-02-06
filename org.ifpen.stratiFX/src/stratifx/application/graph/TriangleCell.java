@@ -1,12 +1,13 @@
 package stratifx.application.graph;
 
+import fr.ifp.kronosflow.model.graph.Vertex;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-public class TriangleCell extends Cell {
+public class TriangleCell extends CellFX {
 
-    public TriangleCell( String id) {
-        super( id);
+    public TriangleCell( Vertex vertex ) {
+        super(vertex);
 
         double width = 50;
         double height = 50;
