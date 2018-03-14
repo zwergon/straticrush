@@ -187,6 +187,11 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onDeformGlobalWebKineAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Global"));
+    }
+
+    @FXML
     void onDeformTopVSAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("VerticalShear", "Top"));
     }
@@ -219,6 +224,11 @@ public class MainController implements Initializable, IUIController {
     @FXML
     void onDeformTopFEAFem2dAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Top"));
+    }
+
+    @FXML
+    void onDeformTopFEAWebKineAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Top"));
     }
 
     @FXML

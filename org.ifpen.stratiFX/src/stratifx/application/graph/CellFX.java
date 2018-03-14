@@ -1,15 +1,11 @@
 package stratifx.application.graph;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.ifp.kronosflow.model.graph.Vertex;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 
-public class CellFX extends Pane implements IHandle {
+public class CellFX  implements IHandle {
 
     Vertex vertex;
 
@@ -21,7 +17,6 @@ public class CellFX extends Pane implements IHandle {
 
     public void setView(Node view) {
         this.view = view;
-        getChildren().add(view);
     }
 
     public Node getView() {

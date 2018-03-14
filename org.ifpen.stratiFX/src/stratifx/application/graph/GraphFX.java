@@ -7,7 +7,6 @@ import fr.ifp.kronosflow.model.graph.Graph;
 import fr.ifp.kronosflow.model.graph.GraphEdge;
 import fr.ifp.kronosflow.model.graph.Vertex;
 import fr.ifp.kronosflow.uids.UID;
-import javafx.scene.layout.Pane;
 
 import java.util.*;
 
@@ -32,7 +31,7 @@ public class GraphFX {
         mouseGestures = new MouseGestures(this);
     }
 
-    public Pane getCellFXLayer() {
+    public CellFXLayer getCellLayer() {
         return this.cellFXLayer;
     }
 
@@ -50,7 +49,7 @@ public class GraphFX {
 
     public void initialize() {
 
-        getCellFXLayer().getChildren().removeAll();
+        cellFXLayer.getChildren().removeAll();
 
         List<Vertex> vertices = graph.getVertices();
         Collection<CellFX> fxCells = new ArrayList<>(vertices.size());
@@ -64,12 +63,12 @@ public class GraphFX {
             fxEdges.add(createEdge(edge));
         }
 
-        getCellFXLayer().getChildren().addAll(fxEdges);
-        getCellFXLayer().getChildren().addAll(fxCells);
+        cellFXLayer.getChildren().addAll(fxEdges);
+        cellFXLayer.addCells(fxCells);
 
         // enable dragging of cells
         for (CellFX cellFX : fxCells) {
-            mouseGestures.makeDraggable(cellFX);
+            mouseGestures.makeDraggable(cellFX.getView());
         }
 
     }
@@ -78,10 +77,10 @@ public class GraphFX {
 
         CellFX fxCell = null;
         if ( vertex instanceof PatchNode) {
-            fxCell = new RectangleCell(vertex);
+            fxCell = new PatchCell(vertex);
         }
         else if ( vertex instanceof ContactNode ){
-            fxCell = new TriangleCell(vertex);
+            fxCell = new ContactCell(vertex);
         }
 
         if ( fxCell != null ) {

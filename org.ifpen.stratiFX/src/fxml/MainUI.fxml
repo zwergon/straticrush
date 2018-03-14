@@ -77,6 +77,7 @@ limitations under the License.
                   <Menu mnemonicParsing="false" text="GlobalMove">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalFEMAction" text="FEMSolver" />
+                        <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalWebKineAction" text="WebKine" />
                     </items>
                   </Menu>
                         <Menu mnemonicParsing="false" text="Top">
@@ -90,6 +91,7 @@ limitations under the License.
                                         <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticAction" text="Static" />
                                         <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAStaticLSAction" text="Static LS" />
                                         <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAFem2dAction" text="FEM2D" />
+                                        <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEAWebKineAction" text="WebKine" />
                                     </items>
                                 </Menu>
                             </items>

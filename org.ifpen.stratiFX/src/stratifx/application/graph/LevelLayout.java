@@ -2,6 +2,9 @@ package stratifx.application.graph;
 
 import fr.ifp.jdeform.scene.sequence.SequenceGraph;
 import fr.ifp.jdeform.scene.sequence.SequenceNode;
+import fr.ifp.kronosflow.utils.LOGGER;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 
 import java.util.List;
 
@@ -25,7 +28,9 @@ public class LevelLayout extends Layout {
 
             CellFX cellFX = graphFX.getCell(node);
 
-            cellFX.relocate(x, y);
+            Node n = cellFX.getView();
+            Bounds bounds = n.getLayoutBounds();
+            n.relocate(x + bounds.getMinX(), y+bounds.getMinY());
             i++;
         }
 

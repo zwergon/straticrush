@@ -3,16 +3,14 @@ package stratifx.application.graph;
 import fr.ifp.kronosflow.model.graph.Vertex;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
-public class TriangleCell extends CellFX {
+public class ContactCell extends CellFX {
 
-    public TriangleCell( Vertex vertex ) {
+    public ContactCell(Vertex vertex ) {
         super(vertex);
 
-        double width = 50;
-        double height = 50;
-
-        Polygon view = new Polygon( width / 2, 0, width, height, 0, height);
+        Rectangle view = new Rectangle( -5, -5, 10, 10);
 
         view.setStroke(Color.RED);
         view.setFill(Color.RED);

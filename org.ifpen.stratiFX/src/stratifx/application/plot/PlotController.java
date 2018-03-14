@@ -534,7 +534,8 @@ public class PlotController
         if (deformationType.equals("Dynamic")
                 || deformationType.equals("Static")
                 || deformationType.equals("StaticLS")
-                || deformationType.equals("FEM2D")) {
+                || deformationType.equals("FEM2D")
+                || deformationType.equals("WebKine")) {
             style.setAttribute(Kind.DEFORMATION.toString(), "NodeLinksDeformation");
             style.setAttribute(Kind.SOLVER.toString(), deformationType);
         } else if (deformationType.equals("Thermal")

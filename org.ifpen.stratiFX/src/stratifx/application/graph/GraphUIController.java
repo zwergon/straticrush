@@ -69,7 +69,7 @@ public class GraphUIController
         Layout layout = new LevelLayout(graphFX);
         layout.execute();
 
-        paneId.setContent(graphFX.getCellFXLayer());
+        paneId.setContent(graphFX.getCellLayer());
 
     }
 

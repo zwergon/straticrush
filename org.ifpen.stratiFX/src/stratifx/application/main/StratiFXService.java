@@ -60,6 +60,7 @@ import stratifx.application.plot.PlotController;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
+import stratifx.application.webkine.WebSolver;
 import stratifx.model.wrappers.PatchWrapper;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
@@ -114,6 +115,8 @@ public class StratiFXService implements
         
         
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
+
+        DeformationFactory.getInstance().register( DeformationFactory.Kind.SOLVER, "WebKine", WebSolver.class);
 
         LOGGER.setLogger(new StratiFXLogger());
 

@@ -23,7 +23,7 @@ public class RandomLayout extends Layout {
             double x = rnd.nextDouble() * 500;
             double y = rnd.nextDouble() * 500;
 
-            cellFX.relocate(x, y);
+            cellFX.getView().relocate(x, y);
 
         }
 
