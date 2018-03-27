@@ -8,7 +8,7 @@
     </properties>
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
-        <element id="module-output" name="org.ifpen.stratiFX" />
+        <element id="module-output" name="fr.ifp.stratiFX" />
       </element>
     </root>
   </artifact>

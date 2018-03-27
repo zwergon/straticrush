@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/iml/Kine3D.iml" filepath="$PROJECT_DIR$/iml/Kine3D.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../kronosflow/fr.ifp.kronosflow.dem/fr.ifp.kronosflow.dem.iml" filepath="$PROJECT_DIR$/../../kronosflow/fr.ifp.kronosflow.dem/fr.ifp.kronosflow.dem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.dem.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.dem.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.fem2d.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.fem2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.geoscheduler.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.geoscheduler.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.jdeform.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.jdeform.iml" />
@@ -12,7 +11,8 @@
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.mesh.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.mesh.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.model.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.model.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.uids.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.uids.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.ifpen.stratiFX.iml" filepath="$PROJECT_DIR$/org.ifpen.stratiFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fr.ifp.stratiFX.iml" filepath="$PROJECT_DIR$/fr.ifp.stratiFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" />
     </modules>
   </component>
 </project>

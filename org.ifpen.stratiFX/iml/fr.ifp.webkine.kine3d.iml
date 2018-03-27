@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../../../git-webkine/kine3d/target/classes" />
     <output-test url="file://$MODULE_DIR$/../../../../git-webkine/kine3d/target/test-classes" />
+    <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../git-webkine/kine3d">
       <sourceFolder url="file://$MODULE_DIR$/../../../../git-webkine/kine3d/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../git-webkine/kine3d/src/main/resources" type="java-resource" />

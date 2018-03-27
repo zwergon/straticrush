@@ -8,6 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.controllers" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.fem2d" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.dem" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.geoscheduler" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.jdeform" />
@@ -15,7 +16,6 @@
     <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.uids" />
-    <orderEntry type="module" module-name="Kine3D" />
-    <orderEntry type="module" module-name="fr.ifp.kronosflow.fem2d" />
+    <orderEntry type="module" module-name="fr.ifp.webkine.kine3d" />
   </component>
 </module>
