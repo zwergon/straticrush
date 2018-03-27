@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d">
+      <sourceFolder url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.controllers" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.kernel" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.uids" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />
+  </component>
+</module>

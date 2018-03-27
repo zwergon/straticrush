@@ -3,6 +3,7 @@ package stratifx.application.webkine;
 import fr.ifp.jdeform.deformation.constraint.DeformLink;
 import fr.ifp.kronosflow.geometry.Geometry;
 import fr.ifp.kronosflow.mesh.NodeLink;
+import fr.ifp.kronosflow.mesh.regions.RegionLink;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifpen.kine.constraint.*;
@@ -16,13 +17,25 @@ import java.util.Set;
 
 public class ConstraintMapper {
 
+    IEncoderService encoderService;
 
-    static public ConstraintSet fromDeformLinks(Collection<DeformLink> links ){
+    ConstraintSet constraintSet;
 
-        IEncoderService encoderService = new DefaultEncoderService();
+    public ConstraintMapper(){
 
-        ConstraintSet constraintSet = new ConstraintSet();
+        encoderService = new DefaultEncoderService();
+
+        constraintSet = new ConstraintSet();
         constraintSet.setSolver(new Solver());
+
+    }
+
+
+    public ConstraintSet fromDeformLinks(Collection<DeformLink> links ){
+
+
+
+
 
         Displacements displacements = new Displacements();
         displacements.setName("displ001");
@@ -33,7 +46,7 @@ public class ConstraintMapper {
 
             switch( deformLink.getType()){
                 case DISPLACEMENT:
-                    extractDisplacement(encoderService, displacements, deformLink, fixedUIDS);
+                    extractDisplacement(displacements, deformLink, fixedUIDS);
                     break;
                 default:
                     break;
@@ -45,12 +58,17 @@ public class ConstraintMapper {
         DofLinks dofLinks = new DofLinks();
         dofLinks.setName("ddl001");
 
+
+
         for( DeformLink deformLink : links ){
 
             switch( deformLink.getType()){
-                case POINTPAIR:
-                    extractPointPair(encoderService, dofLinks, deformLink, fixedUIDS);
+                case POINT_PAIR:
+                    extractPointPair(dofLinks, deformLink, fixedUIDS);
                     break;
+
+                case MS_REGIONS:
+                    extractContacts(deformLink, fixedUIDS );
                 default:
                     break;
             }
@@ -61,13 +79,25 @@ public class ConstraintMapper {
         return constraintSet;
     }
 
-    private static void extractDisplacement(
-            IEncoderService encoderService,
+
+    private void extractContacts(
+            DeformLink deformLink,
+            Set<UID> uids
+    ){
+        Contact contact = new Contact();
+        contact.setName("contact");
+
+        RegionLink regionLink = (RegionLink)deformLink.getLink();
+
+
+    }
+
+    private void extractDisplacement(
             Displacements displacements,
             DeformLink deformLink,
             Set<UID> fixedUids )
     {
-        NodeLink nodeLink = deformLink.getLink();
+        NodeLink nodeLink = (NodeLink)deformLink.getLink();
 
         Collection<UID> uids = nodeLink.getLinkedNodes();
         if ( uids.size() == 1 ){
@@ -90,13 +120,12 @@ public class ConstraintMapper {
         }
     }
 
-    private static void extractPointPair(
-            IEncoderService encoderService,
+    private void extractPointPair(
             DofLinks dofLinks,
             DeformLink deformLink,
             Set<UID> fixedUids )
     {
-        NodeLink nodeLink = deformLink.getLink();
+        NodeLink nodeLink = (NodeLink)deformLink.getLink();
 
         double[] k = nodeLink.getConstant();
         DofLink dofLink = new DofLink();

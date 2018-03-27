@@ -155,12 +155,9 @@ public class CompositeMeshManipulator extends CompositeManipulator {
             Section section = deformationCaller.getService().getSection();
             List<FaultFeature> faults = section.getFeatures().getGeologicFeaturesByClass(FaultFeature.class);
             for (FaultFeature feature : faults) {
-                if ( feature.getName().equals("F37") || feature.getName().equals("F38") ) {
-
-                    MasterSlave ms = selectFault(feature);
-                    if (ms != null) {
-                        faultsMS.add((FaultMS) ms);
-                    }
+                MasterSlave ms = selectFault(feature);
+                if (ms != null) {
+                    faultsMS.add((FaultMS) ms);
                 }
             }
         }

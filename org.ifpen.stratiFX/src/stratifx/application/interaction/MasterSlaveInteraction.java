@@ -15,7 +15,7 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.deformation.constraint.FaultGlidingTargetsComputer;
+import fr.ifp.jdeform.deformation.constraint.FaultPointPairTargetsComputer;
 import fr.ifp.jdeform.deformation.items.HorizonFaultMSGlidingItem;
 import fr.ifp.jdeform.scene.FaultMS;
 import fr.ifp.jdeform.scene.HorizonMS;
@@ -173,7 +173,7 @@ public class MasterSlaveInteraction extends SectionInteraction {
         item.setFault((FaultMS) fault);
         item.setHorizon((HorizonMS) horizon);
 
-        FaultGlidingTargetsComputer fgtComputer = new FaultGlidingTargetsComputer();
+        FaultPointPairTargetsComputer fgtComputer = new FaultPointPairTargetsComputer();
         fgtComputer.initialize(item);
         fgtComputer.compute(scene);
 
