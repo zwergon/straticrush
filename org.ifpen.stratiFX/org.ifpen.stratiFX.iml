@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.controllers" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.dem" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.geoscheduler" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.jdeform" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.kernel" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.uids" />
+    <orderEntry type="module" module-name="Kine3D" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.fem2d" />
+  </component>
+</module>
