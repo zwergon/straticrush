@@ -222,7 +222,7 @@ import java.awt.Color;
       /**
        * The alpha value as a <code>float</code> component.
        * If <code>frgbvalue</code> is <code>null</code>, this is not valid
-       * data, so compute from the <code>int</code> color value.
+       * section, so compute from the <code>int</code> color value.
        * @serial
        * @see #getRGBComponents
        * @see #getComponents

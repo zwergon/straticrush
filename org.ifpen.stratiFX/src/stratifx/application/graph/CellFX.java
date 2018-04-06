@@ -11,7 +11,11 @@ public class CellFX  implements IHandle {
 
     Node view;
 
-    protected CellFX( Vertex vertex ){
+    CellFXType type;
+
+
+    protected CellFX( CellFXType type, Vertex vertex){
+        this.type = type;
         this.vertex = vertex;
     }
 
@@ -26,5 +30,9 @@ public class CellFX  implements IHandle {
     @Override
     public UID getUID() {
         return vertex.getUID();
+    }
+
+    public CellFXType getType() {
+        return type;
     }
 }

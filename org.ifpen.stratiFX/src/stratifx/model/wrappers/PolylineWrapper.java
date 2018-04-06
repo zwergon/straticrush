@@ -21,6 +21,8 @@ import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
+import stratifx.model.persistable.PersistablePolyline;
+
 import java.util.List;
 
 /**
@@ -44,7 +46,7 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
         toLoad.clearNodes();
         toLoad.clearPoints();
 
-        toLoad.setUID(persistedPolyline.getUID());
+        toLoad.setUID(persistedPolyline.getUid());
         toLoad.setClosed(persistedPolyline.isClosed());
 
 
@@ -53,6 +55,8 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
         double[] curviPos = persistedPolyline.getCurviPositions();
         double[] curviValues = persistedPolyline.getCurviValues();
         for (int i = 0; i < curviIDs.length; i++) {
+
+            //TODO: USE ABSTRACT CLASSES to handle CELLPOINT
             ExplicitPoint ep = (ExplicitPoint)toLoad.addPoint(
                     new double[]{
                         curviPos[2 * i],
@@ -78,10 +82,9 @@ public class PolylineWrapper implements IWrapper<PolyLine> {
         }
 
         if (null == persistedPolyline) {
-            persistedPolyline = new PersistablePolyline();
+            persistedPolyline = new PersistablePolyline(toSave);
         }
 
-        persistedPolyline.setUID(toSave.getUID().getId());
         persistedPolyline.setClosed(toSave.isClosed());
 
         //save curvipoints

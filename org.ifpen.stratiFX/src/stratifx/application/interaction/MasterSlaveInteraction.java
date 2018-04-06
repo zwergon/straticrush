@@ -43,12 +43,7 @@ import stratifx.canvas.interaction.GMouseEvent;
 
 public class MasterSlaveInteraction extends SectionInteraction {
 
-    final static int G_FAULT = 0;
-    final static int G_POINTS = 1;
-    final static int G_FAULT_MS = 2;
-    final static int G_HORIZON_MS = 3;
 
-    HashMap<Integer, GObject> gObjects = new HashMap<>();
 
     Scene scene;
 
@@ -56,9 +51,6 @@ public class MasterSlaveInteraction extends SectionInteraction {
         super(gfxScene);
     }
 
-    protected <T> T getGObject(int type) {
-        return (T) gObjects.get(type);
-    }
 
     HorizonMS getHorizonMS() {
 

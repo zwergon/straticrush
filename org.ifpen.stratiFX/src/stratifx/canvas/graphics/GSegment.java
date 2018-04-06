@@ -90,18 +90,18 @@ public class GSegment
     }
 
     /**
-     * Set user data of this GSegment.
+     * Set user section of this GSegment.
      *
-     * @param userData User data of this GSegment.
+     * @param userData User section of this GSegment.
      */
     public void setUserData(Object userData) {
         userData_ = userData;
     }
 
     /**
-     * Return user data of this GSegment.
+     * Return user section of this GSegment.
      *
-     * @return User data of this GSegment.
+     * @return User section of this GSegment.
      */
     public Object getUserData() {
         return userData_;

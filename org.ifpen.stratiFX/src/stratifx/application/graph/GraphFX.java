@@ -75,17 +75,11 @@ public class GraphFX {
 
     private CellFX createCell(Vertex vertex) {
 
-        CellFX fxCell = null;
-        if ( vertex instanceof PatchNode) {
-            fxCell = new PatchCell(vertex);
-        }
-        else if ( vertex instanceof ContactNode ){
-            fxCell = new ContactCell(vertex);
-        }
+        CellFX fxCell = new CircleCell(vertex);
 
-        if ( fxCell != null ) {
-            vertexToCell.put(vertex.getUID(), fxCell);
-        }
+
+        vertexToCell.put(vertex.getUID(), fxCell);
+
         return fxCell;
     }
 

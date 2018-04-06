@@ -18,10 +18,13 @@ package stratifx.application.main;
 
 public class UIAction<T> {
 
-    final public static int ZOOMONEONE = 1;
-    final public static int OPEN = 2;
-    final public static int SHOWPOINTS = 3;
-    final public static int ZOOMRECT = 5;
+
+    final public static int OPEN = 1;
+    final public static int SAVE = 2;
+    final public static int LOAD = 3;
+
+    final public static int ZOOMONEONE = 6;
+    final public static int ZOOMRECT = 7;
     
 
     final public static int LAST = ZOOMRECT + 1;

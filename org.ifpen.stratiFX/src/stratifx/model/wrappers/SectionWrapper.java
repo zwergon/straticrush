@@ -18,11 +18,13 @@ package stratifx.model.wrappers;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.geology.DomainReference;
-import fr.ifp.kronosflow.model.geology.GeologicLibrary;
-import fr.ifp.kronosflow.model.geology.Paleobathymetry;
+import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
+import fr.ifp.kronosflow.polyline.PolyLine;
+import stratifx.model.persistable.*;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +48,14 @@ public class SectionWrapper implements IWrapper<Section> {
             return false;
         }
 
-        wrapped.setFeatures( persistedSection.getGeologicalLibrary() );
+        GeologicLibrary geologicLibrary =
+                (GeologicLibrary)WrapperFactory.build(persistedSection.getGeologicalLibrary().getPersistedClass());
+        WrapperFactory.load(
+                geologicLibrary,
+                persistedSection.getGeologicalLibrary()
+        );
+        wrapped.setFeatures( geologicLibrary );
+        wrapped.setStratigraphicColumn( geologicLibrary.findObject(StratigraphicColumn.class) );
 
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
@@ -62,7 +71,7 @@ public class SectionWrapper implements IWrapper<Section> {
             boolean found = false;
             for (IPersisted persistedPatch : persistedSection.getPatches()) {
 
-                if (patch.getUID().getId() == persistedPatch.getUID()) {
+                if (patch.getUID().getId() == persistedPatch.getUid()) {
                     found = true;
                     WrapperFactory.load(patch, persistedPatch);
                     break;
@@ -82,7 +91,7 @@ public class SectionWrapper implements IWrapper<Section> {
             boolean found = false;
 
             for (Patch patch : patches) {
-                if (patch.getUID().getId() == persistedPatch.getUID()) {
+                if (patch.getUID().getId() == persistedPatch.getUid()) {
                     found = true;
                     break;
                 }
@@ -129,35 +138,37 @@ public class SectionWrapper implements IWrapper<Section> {
     public boolean save(Section wrapped) {
 
         if (null == persistedSection) {
-            persistedSection = new PersistableSection();
+            persistedSection = new PersistableSection(wrapped);
         }
-        
-        persistedSection.setGeologicLibrary(wrapped.getFeatures());
+
+        GeologicLibrary geologicLibrary = wrapped.getFeatures();
+
+        PersistableGeologicLib persistableGeologicLib = new PersistableGeologicLib(geologicLibrary);
+        WrapperFactory.save(geologicLibrary, persistableGeologicLib);
+        persistedSection.setGeologicLibrary(persistableGeologicLib);
+
 
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
-        Set<IPersisted> persistedPatches = persistedSection.getPatches();
+        List<IPersisted> persistedPatches = persistedSection.getPatches();
         persistedPatches.clear();
         for (Patch p : library.getPatches()) {
-            PersistablePatch persistedPatch = new PersistablePatch();
+            PersistablePatch persistedPatch = new PersistablePatch(p);
             WrapperFactory.save(p, persistedPatch);
             persistedPatches.add(persistedPatch);
         }
 
         // Chargement des paleobathymetry
-        PersistablePolyline bathy = new PersistablePolyline();
-        WrapperFactory.save(
-                wrapped.getPatchLibrary().getPaleobathymetry().getPolyline(),
-                bathy
-        );
+        PolyLine bathymetry = wrapped.getPatchLibrary().getPaleobathymetry().getPolyline();
+        PersistablePolyline bathy = new PersistablePolyline(bathymetry);
+        WrapperFactory.save(bathymetry, bathy );
         persistedSection.setPaleobathymetry(bathy);
 
-        PersistablePolyline domain = new PersistablePolyline();
-        WrapperFactory.save(
-                wrapped.getPatchLibrary().getDomainReference().getPolyline(),
-                domain
-        );
+
+        PolyLine referenceDomain = wrapped.getPatchLibrary().getDomainReference().getPolyline();
+        PersistablePolyline domain = new PersistablePolyline(referenceDomain);
+        WrapperFactory.save(referenceDomain, domain );
         persistedSection.setDomainReference(domain);
 
         return true;
@@ -172,5 +183,8 @@ public class SectionWrapper implements IWrapper<Section> {
     public Object getPersisted() {
         return persistedSection;
     }
+
+
+
 
 }

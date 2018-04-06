@@ -7,6 +7,7 @@ import fr.ifp.kronosflow.mesh.Triangle;
 import fr.ifp.kronosflow.mesh.regions.RegionOneD;
 import fr.ifp.kronosflow.polyline.Node;
 import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
 import fr.ifpen.kine.encoder.DefaultEncoderService;
 import fr.ifpen.kine.encoder.IEncoderService;
 import fr.ifpen.kine.mesh.Mesh;
@@ -23,13 +24,11 @@ public class MeshMapper {
 
     IEncoderService encoderService;
 
-    int nRegions;
-
 
     public MeshMapper(){
         mesh = new Mesh();
         encoderService = new DefaultEncoderService();
-        nRegions = 0;
+
     }
 
 
@@ -60,7 +59,9 @@ public class MeshMapper {
         }
 
         //Creates a Region with all cells for material
-        Region materialRegion = mesh.findOrCreateRegion( encoderService.regionId(Region.Type.CELL, ++nRegions));
+
+        UID uid = new UID();
+        Region materialRegion = mesh.findOrCreateRegion( encoderService.regionId(Region.Type.CELL, uid.getId()));
         materialRegion.setName("Material");
         materialRegion.setIds( mesh.getCellIds() );
         mesh.addRegion(materialRegion);
@@ -82,17 +83,25 @@ public class MeshMapper {
 
 
     private Region fromRegionOneD( RegionOneD regionOneD ){
-        Region region = mesh.findOrCreateRegion( encoderService.regionId(Region.Type.CELL, ++nRegions) );
+        Region region = mesh.findOrCreateRegion( encoderService.regionId(Region.Type.CELL, regionOneD.getUID().getId()) );
         region.setName( regionOneD.getName() );
 
+        Set<String> ids = new HashSet<>();
         for( Edge edge : regionOneD.getEdges() ){
             fr.ifpen.kine.mesh.Edge kEdge = new fr.ifpen.kine.mesh.Edge();
+            kEdge.setId(encoderService.cellId(Topology.EDGE, edge.getUID().getId()));
+
             kEdge.setIds( new String[]{
                     encoderService.cellId(Topology.NODE, edge.getNode(0).getId()),
                     encoderService.cellId(Topology.NODE, edge.getNode(1).getId())
             });
-            mesh.addCell(encoderService.cellId(Topology.EDGE, edge.getUID().getId()), kEdge);
+
+            ids.add(kEdge.getId());
+
+            mesh.addCell(kEdge.getId(), kEdge);
         }
+
+        region.setIds(ids);
 
         return region;
     }

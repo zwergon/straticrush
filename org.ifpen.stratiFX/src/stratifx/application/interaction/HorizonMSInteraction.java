@@ -11,7 +11,9 @@ package stratifx.application.interaction;
 import fr.ifp.jdeform.deformation.constraint.ExactTargetsComputer;
 import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
 import fr.ifp.jdeform.scene.HorizonMS;
+import fr.ifp.kronosflow.geometry.Geometry;
 import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
@@ -25,6 +27,8 @@ import fr.ifp.kronosflow.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifp.kronosflow.warp.Displacement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import stratifx.application.views.GDisplacement;
 import stratifx.canvas.graphics.GScene;
@@ -36,7 +40,7 @@ import stratifx.canvas.interaction.GMouseEvent;
  */
 public class HorizonMSInteraction extends MasterSlaveInteraction {
     
-    final static int G_DISPLACEMENTS = 4;
+
     
     List<Displacement> allDisplacement =  new ArrayList<>();
 
@@ -86,10 +90,11 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
             targets.compute(scene);
             
             List<Displacement> displacements = targets.getDisplacements();
-            
+
             allDisplacement.addAll(displacements);
-              
+
             targetPos = displacements.get( displacements.size() -1 ).getTarget();
+
 
         }
         
@@ -118,16 +123,36 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
         PatchInterval firstInterval = slaves.get(0);
         FeatureInterval fInterval = firstInterval.getInterval();
         
-        double[] pos = new double[2];
-        fInterval.getPosition(fInterval.first(), pos);
-        
-        return pos;
+        double[] start = new double[2];
+        fInterval.getPosition(fInterval.first(), start);
+
+        double[] end = new double[2];
+        fInterval.getPosition(fInterval.last(), end);
+
+        if ( start[0] > end[0 ]) {
+            return end;
+        }
+        else {
+            return start;
+        }
+
+
     }
     
     private LinePointPair getNextPair( PatchInterval interval, double[] target, PolyLineGeometry geometry ){
        
         FeatureInterval fInterval = interval.getInterval();
-        LinePoint lp = new LinePoint(fInterval, fInterval.first());
+        LinePoint lpStart = new LinePoint(fInterval, fInterval.first());
+
+        Point2D start = lpStart.getPosition();
+
+        LinePoint lpEnd = new LinePoint(fInterval, fInterval.last());
+        Point2D end = lpEnd.getPosition();
+
+        LinePoint lp = lpStart;
+        if ( start.x() > end.x() ){
+            lp = lpEnd;
+        }
 
         //where on the bathy
         ICurviPoint cpProj = geometry.projectVertically( new Point2D(target), null);

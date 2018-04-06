@@ -32,7 +32,7 @@ public abstract class GImage extends GPositional {
     }
 
     /**
-     * Create a image based on specified color data.
+     * Create a image based on specified color section.
      *
      * @see GAwtImage#setPositionHint(int)
      *
@@ -47,7 +47,7 @@ public abstract class GImage extends GPositional {
     }
 
     /**
-     * Create a image based on specified color data. Use defult position hints.
+     * Create a image based on specified color section. Use defult position hints.
      *
      * @param width Width of image.
      * @param height Height of image.
@@ -62,7 +62,7 @@ public abstract class GImage extends GPositional {
     }
 
     /**
-     * Set image data.
+     * Set image section.
      *
      * @param width Width of image.
      * @param height Height of image.
@@ -72,7 +72,7 @@ public abstract class GImage extends GPositional {
         rectangle_.width = width;
         rectangle_.height = height;
 
-        // Copy the image data locally
+        // Copy the image section locally
         int size = width * height;
         imageData_ = new int[size];
         for (int i = 0; i < size; i++) {

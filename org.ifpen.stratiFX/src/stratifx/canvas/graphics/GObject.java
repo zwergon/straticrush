@@ -205,28 +205,28 @@ public class GObject
     }
 
     /**
-     * Set user data of this graphics object.
+     * Set user section of this graphics object.
      *
-     * @param userData User data of this graphics object.
+     * @param userData User section of this graphics object.
      */
     public final void setUserData(Object userData) {
         userData_ = userData;
     }
 
     /**
-     * Return user data of this graphics object.
+     * Return user section of this graphics object.
      *
-     * @return User data of this graphics object.
+     * @return User section of this graphics object.
      */
     public Object getUserData() {
         return userData_;
     }
 
     /**
-     * Find sub object based on user data tag. Search from this (included) and
+     * Find sub object based on user section tag. Search from this (included) and
      * in entire sub tree, depth first.
      *
-     * @param userData User data of child to find.
+     * @param userData User section of child to find.
      * @return Requested object (or null if not found).
      */
     public GObject find(Object userData) {
@@ -247,9 +247,9 @@ public class GObject
     }
 
     /**
-     * Find a segment with specified user data. Start search in this node.
+     * Find a segment with specified user section. Start search in this node.
      *
-     * @param userData User data of requested segment.
+     * @param userData User section of requested segment.
      * @return Segment (or null if not found).
      */
     public GSegment findSegment(Object userData) {
@@ -1212,7 +1212,7 @@ public class GObject
         // Compute actual visibility of this object
         visibilityMask &= visibilityMask_;
 
-        // If data is not visible on this level, return
+        // If section is not visible on this level, return
         if ((visibilityMask & DATA_VISIBLE) == 0) {
             return;
         }

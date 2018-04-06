@@ -51,18 +51,15 @@ public class RemoveUnitInteraction extends SectionInteraction {
 
         switch (event.type) {
             case GMouseEvent.BUTTON_DOWN:
-                GSegment selected = gscene.findSegment(event.x, event.y);
-                if (selected != null) {
-                    Patch patch = getSelectedPatch(event.x, event.y);
-                    if (patch != null) {
-                        StratigraphicUnit unit = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
+                Patch patch = getSelectedPatch(event.x, event.y);
+                if (patch != null) {
+                    StratigraphicUnit unit = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
 
-                        if (unit != null) {
-                            RemoveUnitCaller caller = createCaller();
-                            caller.setUnitToRemove(unit);
-                        }
-                        gscene.refresh();
+                    if (unit != null) {
+                        RemoveUnitCaller caller = createCaller();
+                        caller.setUnitToRemove(unit);
                     }
+                    gscene.refresh();
                 }
                 break;
 

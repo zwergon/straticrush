@@ -21,7 +21,6 @@ import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.LithoFaciesFeature;
@@ -32,6 +31,9 @@ import fr.ifp.kronosflow.polyline.CurviPoint;
 import fr.ifp.kronosflow.polyline.ICurviPoint;
 import fr.ifp.kronosflow.polyline.ICurviPoint.CoordType;
 import fr.ifp.kronosflow.polyline.PolyLine;
+import stratifx.model.persistable.PersistablePatch;
+import stratifx.model.persistable.PersistablePolyline;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,7 +73,7 @@ public class PatchWrapper implements IWrapper<Patch> {
 
         // Some Metadata
         wrapped.setName(persistedPatch.getName());
-        wrapped.setUID( persistedPatch.getUID());
+        wrapped.setUID( persistedPatch.getUid());
 
         // StratiUnit
         // On récupere la geological lib
@@ -117,12 +119,12 @@ public class PatchWrapper implements IWrapper<Patch> {
     public boolean save(Patch wrapped) {
 
         if ( null == persistedPatch ) {
-            persistedPatch = new PersistablePatch(); // First, save the polyline
+            persistedPatch = new PersistablePatch(wrapped); // First, save the polyline
         }
 
         PersistablePolyline polyline = (PersistablePolyline)persistedPatch.getBorder();
         if (polyline == null) {
-            polyline = new PersistablePolyline();
+            polyline = new PersistablePolyline(wrapped.getBorder());
             persistedPatch.setBorder(polyline);
         }
         
@@ -133,7 +135,7 @@ public class PatchWrapper implements IWrapper<Patch> {
 
         // Some Metadata
         persistedPatch.setName(wrapped.getName());
-        persistedPatch.setUID(wrapped.getUID().getId());
+        persistedPatch.setUid(wrapped.getUID().getId());
 
         // StratiUnit
         StratigraphicUnit unit = wrapped.getGeologicFeaturesByClass(StratigraphicUnit.class);

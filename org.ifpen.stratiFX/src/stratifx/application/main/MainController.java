@@ -121,9 +121,25 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onMenuSaveAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(UIAction.SAVE);
+    }
+
+    @FXML
+    void onMenuLoadAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(UIAction.LOAD);
+    }
+
+    @FXML
     void onCloseAction(ActionEvent event) {
         Platform.exit();
         System.exit(0);
+    }
+
+    @FXML
+    void onEditMovePointsAction( ActionEvent event ){
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("MovePoints", "MovePoints"));
+
     }
 
     @FXML

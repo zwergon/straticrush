@@ -37,7 +37,14 @@ limitations under the License.
                 <Menu mnemonicParsing="false" text="File">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#onMenuOpenAction" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#onMenuSaveAction" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#onMenuLoadAction" text="Load" />
                         <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onEditMovePointsAction" text="Move Points" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Tools">

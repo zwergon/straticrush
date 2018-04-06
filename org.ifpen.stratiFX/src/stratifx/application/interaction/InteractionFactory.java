@@ -12,6 +12,10 @@ import fr.ifp.kronosflow.utils.LOGGER;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
+
+import stratifx.application.interaction.deform.*;
+import stratifx.application.interaction.edit.MovePointsInteraction;
+import stratifx.application.interaction.tools.*;
 import stratifx.application.plot.GFXScene;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GInteraction;
@@ -64,6 +68,7 @@ public class InteractionFactory {
         register("Compact2D", Compact2DInteraction.class);
         register("TimeLine", TimeLineInteraction.class);
         register("AntiGravity", AntiGravityInteraction.class);
+        register("MovePoints", MovePointsInteraction.class);
     }
     
     

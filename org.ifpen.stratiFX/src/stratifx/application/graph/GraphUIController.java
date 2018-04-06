@@ -17,6 +17,9 @@ package stratifx.application.graph;
 
 import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.jdeform.scene.SceneBuilder;
+import fr.ifp.jdeform.scene.network.FaultNetwork;
+import fr.ifp.jdeform.scene.network.FaultNetworkBuilder;
+import fr.ifp.jdeform.scene.network.IFaultNetworkBuilder;
 import fr.ifp.jdeform.scene.sequence.DefaultSequenceBuilder;
 import fr.ifp.jdeform.scene.sequence.ISequenceBuilder;
 import fr.ifp.jdeform.scene.sequence.Sequence;
@@ -24,6 +27,7 @@ import fr.ifp.kronosflow.model.Section;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
+import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
@@ -56,17 +60,17 @@ public class GraphUIController
             return;
         }
 
-        Scene scene = SceneBuilder.createDefaultScene(section.getPatchLibrary());
+        Scene scene = SceneBuilder.createDefaultScene(section.getPatchLibrary(), GParameters.getStyle());
 
-        ISequenceBuilder builder = new DefaultSequenceBuilder(scene);
+        IFaultNetworkBuilder builder = new FaultNetworkBuilder();
 
-        Sequence sequence = builder.create();
+        FaultNetwork network = builder.create(scene);
 
 
-        graphFX = new GraphFX(sequence.getGraph());
+        graphFX = new GraphFX(network.getGraph());
         graphFX.initialize();
 
-        Layout layout = new LevelLayout(graphFX);
+        Layout layout = new RandomLayout(graphFX);
         layout.execute();
 
         paneId.setContent(graphFX.getCellLayer());

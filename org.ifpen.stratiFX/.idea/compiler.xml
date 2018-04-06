@@ -12,14 +12,16 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile name="Maven default annotation processors profile">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="fr.ifp.webkine.kine3d" />
         <module name="Kine3D" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="fr.ifp.webkine.kine3d" target="1.8" />
       <module name="Kine3D" target="1.8" />
     </bytecodeTargetLevel>
   </component>

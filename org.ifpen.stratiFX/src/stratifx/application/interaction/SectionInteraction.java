@@ -17,6 +17,7 @@ package stratifx.application.interaction;
 
 import fr.ifp.jdeform.scene.Scene;
 import fr.ifp.jdeform.scene.SceneBuilder;
+import fr.ifp.kronosflow.geometry.Vector2D;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
@@ -25,23 +26,36 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
+import fr.ifp.kronosflow.polyline.ICurviPoint;
+import fr.ifp.kronosflow.polyline.IPolyline;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GPatchView;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GSegment;
+import stratifx.canvas.graphics.GTransformer;
 import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
 
+import java.util.HashMap;
+
 public class SectionInteraction implements GInteraction {
+
+    protected final static int G_POINTS = 1;
+    protected final static int G_FAULT_MS = 2;
+    protected final static int G_HORIZON_MS = 3;
+    protected  final static int G_FAULT = 0;
+    protected final static int G_DISPLACEMENTS = 4;
 
     protected GScene gscene;
 
     protected GeoschedulerLink link = null;
 
     protected Style style;
+
+    protected HashMap<Integer, GObject> gObjects = new HashMap<>();
 
     public SectionInteraction(GScene scene) {
         gscene = scene;
@@ -65,6 +79,11 @@ public class SectionInteraction implements GInteraction {
         return null;
     }
 
+    protected <T> T getGObject(int type) {
+        return (T) gObjects.get(type);
+    }
+
+
     protected Patch getSelectedPatch(int x, int y) {
         GSegment selected = gscene.findSegment(x, y);
         if (selected != null) {
@@ -76,6 +95,27 @@ public class SectionInteraction implements GInteraction {
                 gobject = gobject.getParent();
             }
 
+        }
+
+        return null;
+    }
+
+    protected ICurviPoint getSelectedPoint( Patch patch, int x, int y ){
+
+        GTransformer transformer = gscene.getTransformer();
+        double[] pos = new double[2];
+
+        IPolyline border = patch.getBorder();
+        for( ICurviPoint cp : border.getPoints() ){
+            border.getPosition(cp, pos);
+            int[] screenPos = transformer.worldToDevice(pos);
+            int[] dXY = new int[]{
+                    screenPos[0]-x,
+                    screenPos[1]-y
+            };
+            if ( dXY[0]*dXY[0] + dXY[1]*dXY[1] < 16 ){
+                return cp;
+            }
         }
 
         return null;

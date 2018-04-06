@@ -677,7 +677,7 @@ public class GStyle
      *
      * @param width  Tile width.
      * @param height Tile height.
-     * @param data   Pattern data (0s and 1s indicating set/unset).
+     * @param data   Pattern section (0s and 1s indicating set/unset).
      */
     public void setFillPattern(int width, int height, int data[]) {
         fillWidth_ = width;

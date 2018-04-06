@@ -9,6 +9,9 @@
 package stratifx.application.views;
 
 import fr.ifp.kronosflow.geometry.Point2D;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GFXSymbol;
@@ -47,6 +50,16 @@ public class GPoints extends GObject {
     public void addPoint(double[] pt) {
         addPoint(pt, new GColor(100, 100, 150));
 
+    }
+
+    public Collection<Point2D> getPoint2Ds(){
+
+        List<Point2D> pts = new ArrayList<>();
+        for (GSegment gPoint : getSegments()) {
+            pts.add((Point2D) gPoint.getUserData());
+        }
+
+        return pts;
     }
 
     @Override

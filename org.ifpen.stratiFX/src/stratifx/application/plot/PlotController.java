@@ -236,7 +236,7 @@ public class PlotController
     private boolean gfxHandleMouse(int type, MouseEvent mouseEvent) {
         if (null != interaction_) {
             PickResult result = mouseEvent.getPickResult();
-            if (result.getIntersectedNode().equals(canvasId)) {
+            if ( (result != null) && result.getIntersectedNode().equals(canvasId)) {
                 Point3D pt = result.getIntersectedPoint();
 
                 GMouseEvent gevent = new GMouseEvent(
@@ -473,6 +473,7 @@ public class PlotController
                 return handleEventAction((EventUIAction) action);
 
             case UIAction.OPEN:
+            case UIAction.LOAD:
                 return handleOpenAction();
         }
         return true;
