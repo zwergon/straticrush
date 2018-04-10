@@ -30,6 +30,8 @@ public abstract class AbstractLoader {
         loaderMap.put(GeologicLibrary.class.getCanonicalName(), GeologicLibLoader.class );
         loaderMap.put(StratigraphicUnit.class.getCanonicalName(), UnitLoader.class );
         loaderMap.put(StratigraphicEvent.class.getCanonicalName(), FeatureLoader.class );
+        loaderMap.put(UnassignedBodyFeature.class.getCanonicalName(), FeatureLoader.class);
+        loaderMap.put(UnassignedBoundaryFeature.class.getCanonicalName(), FeatureLoader.class);
         loaderMap.put(FaultFeature.class.getCanonicalName(), FeatureLoader.class );
         loaderMap.put(StratigraphicColumn.class.getCanonicalName(), StratiColumnLoader.class );
 

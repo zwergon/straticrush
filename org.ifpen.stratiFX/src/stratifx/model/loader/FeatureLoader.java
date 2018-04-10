@@ -16,9 +16,7 @@ public class FeatureLoader extends AbstractLoader{
     public IPersisted load(JSONObject jsonFeature ) {
 
         PersistableGeologicFeature persistableFeature = (PersistableGeologicFeature)data;
-
-        persistableFeature.setGeologicType( (String)jsonFeature.get("geologicType"));
-        persistableFeature.setAwtColor( (Long)jsonFeature.get("awtColor"));
+        persistableFeature.setRgbColor( (String)jsonFeature.get("rgbColor"));
 
         LOGGER.debug("load " + data.getClass() + "(" + data.getName() +")", getClass());
 

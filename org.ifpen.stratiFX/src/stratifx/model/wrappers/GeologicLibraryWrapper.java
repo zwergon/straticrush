@@ -3,6 +3,7 @@ package stratifx.model.wrappers;
 import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
+import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.model.persistable.*;
 
 import java.util.ArrayList;
@@ -28,17 +29,30 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
             return false;
         }
 
-        wrapped.setName( persistableGeologicLib.getName() );
-        wrapped.setUID( persistableGeologicLib.getUid() );
 
         for( IPersisted persistedFeature : persistableGeologicLib.getGeologicFeatures() ){
 
             GeologicFeature feature = (GeologicFeature)WrapperFactory.build(persistedFeature.getPersistedClass());
-            feature.setName( persistedFeature.getName() );
-            feature.setUID( persistedFeature.getUid() );
-            feature.setAwtcolor( ((PersistableGeologicFeature)persistedFeature).getAwtColor() );
+            if ( null != feature ) {
 
-            wrapped.addGeologicFeature(feature);
+                if ( ( feature instanceof UnassignedBodyFeature ) ||  ( feature instanceof UnassignedBoundaryFeature ) ){
+                    GeologicFeature unassignedFeature = wrapped.findObject(feature.getClass());
+                    unassignedFeature.setUID( persistedFeature.getUid() );
+                    unassignedFeature.setName( persistedFeature.getName() );
+                    unassignedFeature.setRgbColor( ((PersistableGeologicFeature)persistedFeature).getRgbColor() );
+                    continue;
+                }
+
+
+                feature.setName(persistedFeature.getName());
+                feature.setUID(persistedFeature.getUid());
+                feature.setRgbColor(((PersistableGeologicFeature) persistedFeature).getRgbColor());
+
+                wrapped.addGeologicFeature(feature);
+            }
+            else {
+                LOGGER.warning("unable to load feature " + persistedFeature.getPersistedClass(), getClass() );
+            }
 
         }
 
@@ -59,13 +73,13 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
 
             StratigraphicUnit unit = column.appendUnit(event);
             unit.setUID( persistedUnit.getUid() );
-            unit.setAwtcolor(((PersistableUnit) persisted).getAwtColor() );
+            unit.setRgbColor(((PersistableUnit) persisted).getRgbColor() );
 
             wrapped.addGeologicFeature(event);
 
         }
 
-        //so far units are recreated and not reassigned to persisted ones.
+
 
 
         return true;
@@ -94,15 +108,15 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
                 continue;
             }
             PersistableGeologicFeature persistableGeologicFeature = new PersistableGeologicFeature(feature);
-            persistableGeologicFeature.setAwtColor( feature.getAwtcolor() );
-            persistableGeologicFeature.setGeologicType( feature.getGeologicalType() );
-
-            if ( feature instanceof BoundaryFeature ){
-                persistableGeologicFeature.setExtendable( ((BoundaryFeature) feature).isExtendable() );
-            }
-
+            persistableGeologicFeature.setRgbColor( feature.getRgbColor() );
             persisted.add( persistableGeologicFeature );
         }
+
+        //Stratigraphic units where skipped, special treatment for Unassigned Body Feature
+        StratigraphicUnit unassignedBody = (StratigraphicUnit)geologicLibrary.getUnassignedBodyFeature();
+        PersistableGeologicFeature persistableGeologicFeature = new PersistableGeologicFeature(unassignedBody);
+        persistableGeologicFeature.setRgbColor( unassignedBody.getRgbColor() );
+        persisted.add( persistableGeologicFeature );
 
         return persisted;
     }
@@ -114,13 +128,12 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
 
         for( StratigraphicUnit unit : column.units() ){
             PersistableUnit persistableUnit = new PersistableUnit(unit);
-            persistableUnit.setAwtColor(unit.getAwtcolor());
-            persistableUnit.setGeologicType(unit.getGeologicalType());
+            persistableUnit.setRgbColor(unit.getRgbColor());
+
 
             StratigraphicEvent topEvent = unit.getTop();
             PersistableGeologicFeature persistedTopEvent = new PersistableGeologicFeature(topEvent);
-            persistedTopEvent.setGeologicType(topEvent.getGeologicalType());
-            persistedTopEvent.setAwtColor(topEvent.getAwtcolor());
+            persistedTopEvent.setRgbColor(topEvent.getRgbColor());
             persistableUnit.setTopEvent(persistedTopEvent);
 
             persistedUnits.add(persistableUnit);
@@ -134,10 +147,7 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
         List<IPersisted> persistedEvents = new ArrayList<>();
         for( StratigraphicEvent event : column.events() ){
             PersistableGeologicFeature persistableGeologicFeature = new PersistableGeologicFeature(event);
-            persistableGeologicFeature.setAwtColor(event.getAwtcolor());
-            persistableGeologicFeature.setGeologicType(event.getGeologicalType());
-            persistableGeologicFeature.setExtendable(event.isExtendable());
-
+            persistableGeologicFeature.setRgbColor(event.getRgbColor());
             persistedEvents.add(persistableGeologicFeature);
         }
 

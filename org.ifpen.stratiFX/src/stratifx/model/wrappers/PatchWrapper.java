@@ -21,10 +21,7 @@ import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.model.geology.BoundaryFeature;
-import fr.ifp.kronosflow.model.geology.GeologicLibrary;
-import fr.ifp.kronosflow.model.geology.LithoFaciesFeature;
-import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.polyline.CurviPoint;
@@ -80,15 +77,15 @@ public class PatchWrapper implements IWrapper<Patch> {
         GeologicLibrary library = ((Section) wrapped.getParent().getParent()).getFeatures();
 
         // StratiUnit
-        StratigraphicUnit unit = wrapped.getGeologicFeaturesByClass(StratigraphicUnit.class);
-
+        BodyFeature unit = wrapped.getBodyFeature();
         if (unit == null || persistedPatch.getUnitId() != unit.getUID().getId()) {
             if (unit != null) {
                 wrapped.removeFeature(unit);
             }
 
-            for (StratigraphicUnit feature : library
-                    .getGeologicFeaturesByClass(StratigraphicUnit.class)) {
+            List<StratigraphicUnit> features = library
+                    .getGeologicFeaturesByClass(StratigraphicUnit.class);
+            for (StratigraphicUnit feature : features) {
                 if (persistedPatch.getUnitId() == feature.getUID().getId()) {
                     wrapped.setFeature(feature);
                     break;
@@ -138,7 +135,7 @@ public class PatchWrapper implements IWrapper<Patch> {
         persistedPatch.setUid(wrapped.getUID().getId());
 
         // StratiUnit
-        StratigraphicUnit unit = wrapped.getGeologicFeaturesByClass(StratigraphicUnit.class);
+        BodyFeature unit = wrapped.getBodyFeature();
         if (unit != null) {
             persistedPatch.setUnitId(unit.getUID().getId());
         } else {
@@ -172,7 +169,7 @@ public class PatchWrapper implements IWrapper<Patch> {
             features.put(feature.getUID().getId(), feature);
         });
 
-        features.put(library.getUnassignedFeature().getUID().getId(), library.getUnassignedFeature());
+        features.put(library.getUnassignedBoundaryFeature().getUID().getId(), library.getUnassignedBoundaryFeature());
 
         // On prend tout sauf les contacts
         for (PatchInterval interval : intervals) {

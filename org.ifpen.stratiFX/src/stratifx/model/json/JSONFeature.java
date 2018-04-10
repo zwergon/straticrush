@@ -6,10 +6,6 @@ public class JSONFeature extends JSONPersisted {
 
     JSONFeature(PersistableGeologicFeature persisted) {
         super(persisted);
-
-
-        put("geologicType", persisted.getGeologicType());
-        put("awtColor", persisted.getAwtColor());
-        put("extendable", persisted.isExtendable());
+        put("rgbColor", persisted.getRgbColor());
     }
 }

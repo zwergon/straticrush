@@ -24,6 +24,7 @@ import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
+import fr.ifp.kronosflow.model.geology.UnassignedBodyFeature;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.property.Property;
 import stratifx.canvas.graphics.GColor;
@@ -65,14 +66,13 @@ public class GPatchView extends GView implements ITooltipInfo {
 
     public GColor getPatchColor() {
 
-        Patch patch = (Patch) getObject();
+        Patch patch = getObject();
 
-        GColor patchColor = null;
-        BodyFeature feature = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
+        Color aColor = patch.getColor();
 
-        if (feature != null) {
-            Color acolor = feature.getColor();
-            patchColor = new GColor(acolor.getRed(), acolor.getGreen(), acolor.getBlue(), acolor.getAlpha());
+        GColor patchColor;
+        if (aColor != null) {
+            patchColor = new GColor(aColor.getRed(), aColor.getGreen(), aColor.getBlue(), aColor.getAlpha());
         } else {
             patchColor = getRandomPastelColor();
         }
