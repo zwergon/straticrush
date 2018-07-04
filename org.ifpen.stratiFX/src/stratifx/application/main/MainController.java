@@ -270,6 +270,11 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onPropertiesTimeAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.TIME));
+    }
+
+    @FXML
     void onPropertiesPorosityAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new PropertiesUIAction(EnumProperty.POROSITY));
     }

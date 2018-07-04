@@ -64,6 +64,7 @@ import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.GViewsFactory;
 import stratifx.application.plot.PlotController;
 import stratifx.application.properties.PropertiesUIAction;
+import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.views.GView;
 import stratifx.application.webkine.WebSolver;
@@ -113,6 +114,7 @@ public class StratiFXService implements
         PatchBuilderFactory.registerBuilder("StratiGrid", StratigraphicGridBuilder.class);
 
         PropertyController.registerBuilder(EnumProperty.XY, new XYPropertyComputer.Builder());
+        PropertyController.registerBuilder(EnumProperty.TIME, new TimePropertyComputer.Builder());
         PropertyController.registerBuilder(EnumProperty.POROSITY, new PorosityComputer.Builder());
         PropertyController.registerBuilder(EnumProperty.STRATIGRAPHY, new StratigraphyPropertyComputer.Builder());
         //PropertyController.registerBuilder("Poisson", new PoissonComputer.Builder());

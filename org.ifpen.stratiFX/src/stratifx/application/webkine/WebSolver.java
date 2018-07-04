@@ -14,6 +14,7 @@ import fr.ifpen.kine.client.SimulationClient;
 import fr.ifpen.kine.constraint.ConstraintSet;
 import fr.ifpen.kine.constraint.Displacements;
 import fr.ifpen.kine.constraint.Material;
+import fr.ifpen.kine.filters.ExportJSON;
 import fr.ifpen.kine.mesh.Mesh;
 import fr.ifpen.kine.mesh.Region;
 import fr.ifpen.kine.process.ProcessResult;
@@ -62,7 +63,6 @@ public class WebSolver extends MeshSolver {
             defaultMaterial.setRegionId( materialRegion.getId() );
 
             constraintSet.addMaterial(defaultMaterial);
-
 
             if ( !MeshClient.write(mesh) ){
                 return false;

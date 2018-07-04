@@ -13,17 +13,17 @@ import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Edge;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.uids.UID;
-import stratifx.application.properties.TimeProvider;
+import fr.ifp.kronosflow.model.time.ITimeProvider;
 
 /**
  *
  * @author lecomtje
  */
 public class NodesValueExtractor extends AbstractValueExtractor {
-    
-    TimeProvider timeProvider;
 
-    public NodesValueExtractor(Mesh2D mesh, double isoValue, TimeProvider provider ) {
+    ITimeProvider timeProvider;
+
+    public NodesValueExtractor(Mesh2D mesh, double isoValue, ITimeProvider provider ) {
         super(mesh, isoValue);
         this.timeProvider = provider;
     }
