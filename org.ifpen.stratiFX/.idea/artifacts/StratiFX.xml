@@ -1,0 +1,40 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="StratiFX">
+    <output-path>$PROJECT_DIR$/out/artifacts/StratiFX</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="stratifx.application.main.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="StratiFX" />
+        <option name="vendor" value="IFPEN" />
+        <option name="version" value="0.1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="fr_ifp_stratiFX.jar">
+        <element id="module-output" name="fr.ifp.stratiFX" />
+        <element id="module-output" name="fr.ifp.kronosflow.controllers" />
+        <element id="module-output" name="fr.ifp.kronosflow.dem" />
+        <element id="module-output" name="fr.ifp.kronosflow.fem2d" />
+        <element id="module-output" name="fr.ifp.kronosflow.geoscheduler" />
+        <element id="module-output" name="fr.ifp.kronosflow.jdeform" />
+        <element id="module-output" name="fr.ifp.kronosflow.kernel" />
+        <element id="module-output" name="fr.ifp.kronosflow.mesh" />
+        <element id="module-output" name="fr.ifp.kronosflow.model" />
+        <element id="module-output" name="fr.ifp.kronosflow.uids" />
+        <element id="module-output" name="fr.ifp.webkine.kine3d" />
+        <element id="library" level="project" name="org.apache.commons:commons-math3:3.3" />
+        <element id="library" level="project" name="org.springframework:spring-web:4.3.13.RELEASE" />
+        <element id="library" level="project" name="org.springframework:spring-context:4.3.13.RELEASE" />
+        <element id="library" level="project" name="com.cedarsoftware:json-io:4.10.0" />
+        <element id="library" level="project" name="org.slf4j:slf4j-api:1.7.25" />
+        <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-annotations:2.8.4" />
+        <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.8.10" />
+        <element id="library" level="project" name="com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.10" />
+        <element id="library" level="project" name="com.fasterxml.jackson:jackson-datatype-json-org:1.8.0" />
+        <element id="library" level="project" name="com.googlecode.json-simple:json-simple:1.1.1" />
+      </element>
+    </root>
+  </artifact>
+</component>
