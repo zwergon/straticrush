@@ -13,6 +13,7 @@ import fr.ifp.kronosflow.mesh.builder.TrglMeshBuilder;
 import fr.ifp.kronosflow.mesh.triangulation.RegularBorderSampler;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
+import fr.ifp.kronosflow.model.time.NeutralFiberTimeProvider;
 import fr.ifp.kronosflow.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.interaction.AbstractValueExtractor;
@@ -89,7 +90,7 @@ public class TimeLineInteraction extends SectionInteraction {
         
         Patch patch = getSelectedPatch(event.x, event.y);
 
-        ITimeProvider provider = new DistanceTimeProvider(getSection());
+        ITimeProvider provider = new NeutralFiberTimeProvider(getSection());
         provider.setPatch(patch);
         double[] xy = gscene.getTransformer().deviceToWorld(event.x, event.y);
         double timeValue = provider.getTime(xy);
@@ -131,7 +132,6 @@ public class TimeLineInteraction extends SectionInteraction {
 
         }
 
-
     }
 
     private Map<Patch, Mesh2D>  retrieveMeshes(Patch patch) {
@@ -140,18 +140,10 @@ public class TimeLineInteraction extends SectionInteraction {
 
         BodyFeature feature = patch.getBodyFeature();
         for( Patch p : patch.getPatchLibrary().getPatches()) {
-
-
-
-            RegularBorderSampler sampler = new RegularBorderSampler();
-            sampler.setProximity(200);
-            sampler.setBorder(new ArrayList<>(p.getBorder().getPoints2D()));
-            sampler.execute();
             if ( feature.equals(p.getBodyFeature())){
-
                 TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
                 meshBuilder.setBeautify(false);
-                Mesh2D mesh = meshBuilder.createMesh( sampler.getNodes() );
+                Mesh2D mesh = meshBuilder.createMesh( p.getBorder().getPoints2D() );
                 meshes.put(p, mesh);
             }
         }
