@@ -90,15 +90,16 @@ public class TimeLineInteraction extends SectionInteraction {
         
         Patch patch = getSelectedPatch(event.x, event.y);
 
-        ITimeProvider provider = new NeutralFiberTimeProvider(getSection());
+        Map<Patch, Mesh2D> meshes = retrieveMeshes(patch);
+
+        ITimeProvider provider = new NeutralFiberTimeProvider(meshes.keySet());
+
         provider.setPatch(patch);
         double[] xy = gscene.getTransformer().deviceToWorld(event.x, event.y);
         double timeValue = provider.getTime(xy);
 
         LOGGER.debug("time picked: " + timeValue, getClass());
 
-
-        Map<Patch, Mesh2D> meshes = retrieveMeshes(patch);
 
         int iObjects = 0;
         for(Map.Entry<Patch, Mesh2D> entry : meshes.entrySet() ){
@@ -138,7 +139,7 @@ public class TimeLineInteraction extends SectionInteraction {
 
         Map<Patch, Mesh2D> meshes = new HashMap<>();
 
-        BodyFeature feature = patch.getBodyFeature();
+        /*BodyFeature feature = patch.getBodyFeature();
         for( Patch p : patch.getPatchLibrary().getPatches()) {
             if ( feature.equals(p.getBodyFeature())){
                 TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
@@ -146,7 +147,12 @@ public class TimeLineInteraction extends SectionInteraction {
                 Mesh2D mesh = meshBuilder.createMesh( p.getBorder().getPoints2D() );
                 meshes.put(p, mesh);
             }
-        }
+        }*/
+
+        TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
+        meshBuilder.setBeautify(false);
+        Mesh2D mesh = meshBuilder.createMesh( patch.getBorder().getPoints2D() );
+        meshes.put(patch, mesh);
 
         return meshes;
     }
