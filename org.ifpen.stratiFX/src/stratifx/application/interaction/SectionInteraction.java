@@ -15,19 +15,18 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.jdeform.scene.SceneBuilder;
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.SceneBuilder;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
-import fr.ifp.kronosflow.filters.SvgExportPolylines;
+import fr.ifp.kronosflow.kernel.filters.SvgExportPolylines;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.IPolyline;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.IPolyline;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.views.GPatchView;

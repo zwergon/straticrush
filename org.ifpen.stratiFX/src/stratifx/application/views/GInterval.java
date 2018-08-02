@@ -17,13 +17,13 @@ package stratifx.application.views;
 
 import java.util.List;
 
-import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.extensions.ray.ExtensionPoint;
+import fr.ifp.kronosflow.kernel.extensions.IExtension;
+import fr.ifp.kronosflow.kernel.extensions.ExtensionPoint;
 import fr.ifp.kronosflow.model.FeatureInterval;
-import fr.ifp.kronosflow.polyline.CurviPoint;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import fr.ifp.kronosflow.warp.IWarp;
+import fr.ifp.kronosflow.kernel.polyline.CurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.warp.IWarp;
 import stratifx.canvas.graphics.GSegment;
 
 public class GInterval extends GDeformableObject {

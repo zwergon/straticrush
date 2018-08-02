@@ -8,12 +8,12 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.dem.model.Interactable;
-import fr.ifp.dem.model.InteractableGraph;
-import fr.ifp.dem.model.Material;
-import fr.ifp.dem.model.Particle;
+import fr.ifp.kronosflow.dem.model.Interactable;
+import fr.ifp.kronosflow.dem.model.InteractableGraph;
+import fr.ifp.kronosflow.dem.model.Material;
+import fr.ifp.kronosflow.dem.model.Particle;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.warp.IWarp;
+import fr.ifp.kronosflow.kernel.warp.IWarp;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;

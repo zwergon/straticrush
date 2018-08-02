@@ -3,11 +3,11 @@ package stratifx.application.plot;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.*;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
-import fr.ifp.kronosflow.model.file.FileMeshPatch;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
 import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.topology.Border;
 import fr.ifp.kronosflow.model.topology.Contact;
+import fr.ifp.kronosflow.model.LineSet;
 import stratifx.application.views.*;
 
 import java.util.HashMap;
@@ -23,7 +23,6 @@ public class GViewsFactory {
         registerView(MeshPatch.class, GPatchView.class);
         registerView(ExplicitPatch.class, GPatchView.class);
         registerView(CompositePatch.class, GPatchView.class);
-        registerView(FileMeshPatch.class, GPatchView.class);
         registerView(PatchInterval.class, GPatchIntervalView.class);
         registerView(FeatureGeolInterval.class, GPatchIntervalView.class);
         registerView(Contact.class, GPartitionLineView.class);
@@ -31,6 +30,7 @@ public class GViewsFactory {
         registerView(Paleobathymetry.class, GPaleoView.class);
         registerView(Section.class, GSectionView.class);
         registerView(GeoschedulerSection.class, GSectionView.class);
+        registerView(LineSet.class, GLineSetView.class);
     }
 
     static public void registerView(Class<?> object_class, Class<?> view_class) {

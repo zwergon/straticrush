@@ -15,11 +15,11 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.property.IPropertyProvider;
-import fr.ifp.kronosflow.property.IPropertyValue;
-import fr.ifp.kronosflow.property.Property;
-import fr.ifp.kronosflow.property.PropertyLocation;
-import fr.ifp.kronosflow.property.PropertyStatistic;
+import fr.ifp.kronosflow.kernel.property.IPropertyProvider;
+import fr.ifp.kronosflow.kernel.property.IPropertyValue;
+import fr.ifp.kronosflow.kernel.property.Property;
+import fr.ifp.kronosflow.kernel.property.PropertyLocation;
+import fr.ifp.kronosflow.kernel.property.PropertyStatistic;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GColorMap;

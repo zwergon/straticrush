@@ -15,7 +15,7 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.kronosflow.deform.deformation.Deformation;
 
 public interface IDeformableGeometry {
 	

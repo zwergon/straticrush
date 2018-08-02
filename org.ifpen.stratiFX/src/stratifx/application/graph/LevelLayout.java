@@ -1,7 +1,7 @@
 package stratifx.application.graph;
 
-import fr.ifp.jdeform.scene.sequence.SequenceGraph;
-import fr.ifp.jdeform.scene.sequence.SequenceNode;
+import fr.ifp.kronosflow.deform.scene.sequence.SequenceGraph;
+import fr.ifp.kronosflow.deform.scene.sequence.SequenceNode;
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;

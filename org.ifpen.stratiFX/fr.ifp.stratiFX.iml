@@ -11,7 +11,7 @@
     <orderEntry type="module" module-name="fr.ifp.kronosflow.fem2d" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.dem" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.geoscheduler" />
-    <orderEntry type="module" module-name="fr.ifp.kronosflow.jdeform" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.deform" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.kernel" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />
@@ -21,7 +21,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.10" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.10" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.8.10" level="project" />
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="com.cedarsoftware:json-io:4.10.0" level="project" />
   </component>

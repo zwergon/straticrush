@@ -8,9 +8,9 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.jdeform.scene.MasterSlave;
+import fr.ifp.kronosflow.deform.scene.MasterSlave;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
+
 import java.util.List;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;

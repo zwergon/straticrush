@@ -10,16 +10,14 @@ package stratifx.application.interaction.tools;
 
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.builder.TrglMeshBuilder;
-import fr.ifp.kronosflow.mesh.triangulation.RegularBorderSampler;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.BodyFeature;
 import fr.ifp.kronosflow.model.time.NeutralFiberTimeProvider;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.interaction.AbstractValueExtractor;
 import stratifx.application.interaction.NodesValueExtractor;
 import stratifx.application.interaction.SectionInteraction;
-import fr.ifp.kronosflow.model.time.DistanceTimeProvider;
 import fr.ifp.kronosflow.model.time.ITimeProvider;
 import stratifx.application.views.GMesh;
 import stratifx.application.views.GPolyline;
@@ -29,7 +27,6 @@ import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -139,7 +136,7 @@ public class TimeLineInteraction extends SectionInteraction {
 
         Map<Patch, Mesh2D> meshes = new HashMap<>();
 
-        /*BodyFeature feature = patch.getBodyFeature();
+        BodyFeature feature = patch.getBodyFeature();
         for( Patch p : patch.getPatchLibrary().getPatches()) {
             if ( feature.equals(p.getBodyFeature())){
                 TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
@@ -147,12 +144,12 @@ public class TimeLineInteraction extends SectionInteraction {
                 Mesh2D mesh = meshBuilder.createMesh( p.getBorder().getPoints2D() );
                 meshes.put(p, mesh);
             }
-        }*/
+        }
 
-        TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
+        /*TrglMeshBuilder meshBuilder = new TrglMeshBuilder();
         meshBuilder.setBeautify(false);
         Mesh2D mesh = meshBuilder.createMesh( patch.getBorder().getPoints2D() );
-        meshes.put(patch, mesh);
+        meshes.put(patch, mesh);*/
 
         return meshes;
     }

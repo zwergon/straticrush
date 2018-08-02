@@ -8,13 +8,13 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.geometry.Vector2D;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.polyline.IGeometryProvider;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.kernel.polyline.IGeometryProvider;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;

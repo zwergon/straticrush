@@ -16,7 +16,7 @@
 package stratifx.application.interaction.deform;
 
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
 import stratifx.application.interaction.deform.DeformationInteraction;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.application.manipulator.Vector2DManipulator;

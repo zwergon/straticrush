@@ -16,15 +16,7 @@
 package stratifx.application.plot;
 
 import fr.ifp.kronosflow.controllers.events.IControllerEvent;
-import fr.ifp.kronosflow.model.*;
-import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
-import fr.ifp.kronosflow.model.file.FileMeshPatch;
-import fr.ifp.kronosflow.model.geology.Paleobathymetry;
-import fr.ifp.kronosflow.model.implicit.MeshPatch;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.model.topology.Border;
-import fr.ifp.kronosflow.model.topology.Contact;
-import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -41,7 +33,6 @@ import stratifx.application.views.*;
 import stratifx.canvas.graphics.*;
 
 import java.nio.IntBuffer;
-import java.util.*;
 
 public class GFXScene extends GScene implements ICanvas {
 

@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.ifp.kronosflow.geometry.Geometry;
+import fr.ifp.kronosflow.kernel.geometry.Geometry;
 
 /**
  * Class for holding a polyline. <tt>GSegment</tt>s are contained by

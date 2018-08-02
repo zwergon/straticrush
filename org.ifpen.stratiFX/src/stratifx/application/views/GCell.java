@@ -15,13 +15,13 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.jdeform.deformation.Deformation;
+import fr.ifp.kronosflow.deform.deformation.Deformation;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.polyline.IGeometryProvider;
+import fr.ifp.kronosflow.kernel.polyline.IGeometryProvider;
 import fr.ifp.kronosflow.uids.UID;
-import fr.ifp.kronosflow.warp.IWarp;
+import fr.ifp.kronosflow.kernel.warp.IWarp;
 import stratifx.canvas.graphics.GSegment;
 
 public class GCell extends GSegment implements IMeshProvider, IDeformableGeometry {

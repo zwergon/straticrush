@@ -15,7 +15,7 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.geometry.Geometry;
+import fr.ifp.kronosflow.kernel.geometry.Geometry;
 import fr.ifp.kronosflow.model.ContactInterval;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Patch;
@@ -24,10 +24,10 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
-import fr.ifp.kronosflow.polyline.CurviPoint;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.ICurviPoint.CoordType;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.CurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint.CoordType;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import stratifx.model.persistable.PersistablePatch;
 import stratifx.model.persistable.PersistablePolyline;
 

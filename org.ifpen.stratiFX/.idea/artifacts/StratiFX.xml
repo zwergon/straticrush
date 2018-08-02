@@ -18,7 +18,7 @@
         <element id="module-output" name="fr.ifp.kronosflow.dem" />
         <element id="module-output" name="fr.ifp.kronosflow.fem2d" />
         <element id="module-output" name="fr.ifp.kronosflow.geoscheduler" />
-        <element id="module-output" name="fr.ifp.kronosflow.jdeform" />
+        <element id="module-output" name="fr.ifp.kronosflow.deform" />
         <element id="module-output" name="fr.ifp.kronosflow.kernel" />
         <element id="module-output" name="fr.ifp.kronosflow.mesh" />
         <element id="module-output" name="fr.ifp.kronosflow.model" />

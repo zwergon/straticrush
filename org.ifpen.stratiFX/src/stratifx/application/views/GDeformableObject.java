@@ -15,8 +15,8 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.jdeform.deformation.Deformation;
-import fr.ifp.kronosflow.warp.IWarp;
+import fr.ifp.kronosflow.deform.deformation.Deformation;
+import fr.ifp.kronosflow.kernel.warp.IWarp;
 import stratifx.canvas.graphics.GObject;
 
 public abstract class GDeformableObject  

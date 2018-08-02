@@ -15,13 +15,13 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.warp.Displacement;
+import fr.ifp.kronosflow.kernel.warp.Displacement;
 import java.util.Collection;
 import java.util.List;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GSegment;
 import stratifx.canvas.graphics.GStyle;
-import fr.ifp.kronosflow.warp.IDisplacements;
+import fr.ifp.kronosflow.kernel.warp.IDisplacements;
 
 public class GDisplacement extends GObject {
 

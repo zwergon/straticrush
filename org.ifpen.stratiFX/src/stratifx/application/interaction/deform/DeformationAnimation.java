@@ -18,7 +18,7 @@ package stratifx.application.interaction.deform;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fr.ifp.jdeform.controllers.DeformationController;
+import fr.ifp.kronosflow.deform.controllers.DeformationController;
 import javafx.application.Platform;
 
 class DeformationAnimation extends TimerTask {

@@ -1,9 +1,12 @@
 package stratifx.application.properties;
 
+import fr.ifp.kronosflow.kernel.property.IPropertyAccessor;
+import fr.ifp.kronosflow.kernel.property.IPropertyProvider;
+import fr.ifp.kronosflow.kernel.property.Property;
+import fr.ifp.kronosflow.kernel.property.PropertyLocation;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.property.EnumProperty;
-import fr.ifp.kronosflow.property.*;
 import fr.ifp.kronosflow.model.time.ITimeProvider;
 import fr.ifp.kronosflow.utils.LOGGER;
 

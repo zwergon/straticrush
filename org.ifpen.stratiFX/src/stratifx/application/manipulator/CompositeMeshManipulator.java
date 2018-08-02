@@ -8,17 +8,17 @@
  */
 package stratifx.application.manipulator;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.IDeformationItem;
-import fr.ifp.jdeform.deformation.items.HorizonFaultMSGlidingItem;
-import fr.ifp.jdeform.deformation.items.HorizonMS2LineItem;
-import fr.ifp.jdeform.scene.FaultMS;
-import fr.ifp.jdeform.scene.MasterSlave;
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.jdeform.scene.algo.FaultExtractor;
-import fr.ifp.jdeform.scene.algo.HorizonExtractor;
-import fr.ifp.jdeform.scene.algo.MasterSlaveExtractor;
-import fr.ifp.jdeform.scene.algo.TargetsExtractor;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.deformation.IDeformationItem;
+import fr.ifp.kronosflow.deform.deformation.items.HorizonFaultMSGlidingItem;
+import fr.ifp.kronosflow.deform.deformation.items.HorizonMS2LineItem;
+import fr.ifp.kronosflow.deform.scene.FaultMS;
+import fr.ifp.kronosflow.deform.scene.MasterSlave;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.algo.FaultExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.HorizonExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.MasterSlaveExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.TargetsExtractor;
 import fr.ifp.kronosflow.mesh.CompositeMesh2D;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
@@ -26,7 +26,7 @@ import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 import java.util.ArrayList;
 import java.util.HashMap;

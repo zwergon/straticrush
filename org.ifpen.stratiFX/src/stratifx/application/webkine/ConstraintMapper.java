@@ -1,7 +1,7 @@
 package stratifx.application.webkine;
 
-import fr.ifp.jdeform.deformation.constraint.DeformLink;
-import fr.ifp.kronosflow.geometry.Geometry;
+import fr.ifp.kronosflow.deform.deformation.constraint.DeformLink;
+import fr.ifp.kronosflow.kernel.geometry.Geometry;
 import fr.ifp.kronosflow.mesh.NodeLink;
 import fr.ifp.kronosflow.mesh.regions.RegionLink;
 import fr.ifp.kronosflow.uids.UID;

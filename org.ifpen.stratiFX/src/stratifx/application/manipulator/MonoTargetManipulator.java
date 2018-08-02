@@ -17,18 +17,18 @@ package stratifx.application.manipulator;
 
 import java.util.ArrayList;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.IDeformationItem;
-import fr.ifp.jdeform.deformation.IRigidItem;
-import fr.ifp.jdeform.deformation.items.LinePairingItem;
-import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
-import fr.ifp.jdeform.deformation.items.TranslateItem;
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.deformation.IDeformationItem;
+import fr.ifp.kronosflow.deform.deformation.IRigidItem;
+import fr.ifp.kronosflow.deform.deformation.items.LinePairingItem;
+import fr.ifp.kronosflow.deform.deformation.items.PatchIntersectionItem;
+import fr.ifp.kronosflow.deform.deformation.items.TranslateItem;
+import fr.ifp.kronosflow.kernel.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
-import fr.ifp.kronosflow.polyline.LineIntersection;
-import fr.ifp.kronosflow.polyline.LinePointPair;
+import fr.ifp.kronosflow.kernel.polyline.LineIntersection;
+import fr.ifp.kronosflow.kernel.polyline.LinePointPair;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;

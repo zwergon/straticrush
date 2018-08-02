@@ -15,8 +15,7 @@
  */
 package stratifx.model.persistable;
 
-import fr.ifp.kronosflow.polyline.PolyLine;
-import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 
 /**
  *

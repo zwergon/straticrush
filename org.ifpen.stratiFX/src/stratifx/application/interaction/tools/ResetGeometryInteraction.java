@@ -15,7 +15,7 @@
  */
 package stratifx.application.interaction.tools;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
 import fr.ifp.kronosflow.geoscheduler.Geoscheduler;
 import fr.ifp.kronosflow.model.Patch;
 import stratifx.application.interaction.deform.DeformationInteraction;

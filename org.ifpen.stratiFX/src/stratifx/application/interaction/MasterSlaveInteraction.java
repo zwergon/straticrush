@@ -15,23 +15,22 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.deformation.constraint.FaultPointPairTargetsComputer;
-import fr.ifp.jdeform.deformation.items.HorizonFaultMSGlidingItem;
-import fr.ifp.jdeform.scene.FaultMS;
-import fr.ifp.jdeform.scene.HorizonMS;
-import fr.ifp.jdeform.scene.MasterSlave;
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.jdeform.scene.algo.FaultExtractor;
-import fr.ifp.jdeform.scene.algo.HorizonExtractor;
-import fr.ifp.jdeform.scene.algo.MasterSlaveExtractor;
-import fr.ifp.jdeform.scene.algo.TargetsExtractor;
+import fr.ifp.kronosflow.deform.deformation.constraint.FaultPointPairTargetsComputer;
+import fr.ifp.kronosflow.deform.deformation.items.HorizonFaultMSGlidingItem;
+import fr.ifp.kronosflow.deform.scene.FaultMS;
+import fr.ifp.kronosflow.deform.scene.HorizonMS;
+import fr.ifp.kronosflow.deform.scene.MasterSlave;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.algo.FaultExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.HorizonExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.MasterSlaveExtractor;
+import fr.ifp.kronosflow.deform.scene.algo.TargetsExtractor;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
-import fr.ifp.kronosflow.polyline.LinePoint;
-import fr.ifp.kronosflow.polyline.LinePointPair;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
+import fr.ifp.kronosflow.kernel.polyline.LinePointPair;
 import fr.ifp.kronosflow.utils.LOGGER;
-import java.util.HashMap;
 import stratifx.application.views.GMasterSlave;
 import stratifx.application.views.GPoints;
 import stratifx.application.views.GPolyline;

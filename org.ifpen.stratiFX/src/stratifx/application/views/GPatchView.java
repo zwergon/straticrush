@@ -22,15 +22,11 @@ import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.mesh.IMeshProvider;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.geology.BodyFeature;
-import fr.ifp.kronosflow.model.geology.StratigraphicUnit;
-import fr.ifp.kronosflow.model.geology.UnassignedBodyFeature;
 import fr.ifp.kronosflow.model.style.Style;
-import fr.ifp.kronosflow.property.Property;
+import fr.ifp.kronosflow.kernel.property.Property;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GStyle;
-import stratifx.canvas.graphics.tooltip.GTooltipInfo;
 import stratifx.canvas.graphics.tooltip.ITooltipInfo;
 
 public class GPatchView extends GView implements ITooltipInfo {

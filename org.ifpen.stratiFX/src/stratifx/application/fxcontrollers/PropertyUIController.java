@@ -18,9 +18,9 @@ package stratifx.application.fxcontrollers;
 import fr.ifp.kronosflow.controllers.property.PropertyEvent;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.property.PropertyStyle;
-import fr.ifp.kronosflow.property.Property;
-import fr.ifp.kronosflow.property.PropertyDB;
-import fr.ifp.kronosflow.property.PropertyInfo;
+import fr.ifp.kronosflow.kernel.property.Property;
+import fr.ifp.kronosflow.kernel.property.PropertyDB;
+import fr.ifp.kronosflow.kernel.property.PropertyInfo;
 
 import java.net.URL;
 import java.util.ResourceBundle;

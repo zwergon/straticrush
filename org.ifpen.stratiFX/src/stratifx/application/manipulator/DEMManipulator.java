@@ -8,12 +8,11 @@
  */
 package stratifx.application.manipulator;
 
-import fr.ifp.dem.deformation.MaterialItem;
-import fr.ifp.dem.model.InteractableGraph;
-import fr.ifp.dem.model.Material;
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.IDeformationItem;
-import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.kronosflow.dem.deformation.MaterialItem;
+import fr.ifp.kronosflow.dem.model.Material;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.deformation.IDeformationItem;
+import fr.ifp.kronosflow.deform.scene.Scene;
 import java.util.ArrayList;
 import stratifx.application.views.GMaterial;
 import stratifx.canvas.graphics.GScene;

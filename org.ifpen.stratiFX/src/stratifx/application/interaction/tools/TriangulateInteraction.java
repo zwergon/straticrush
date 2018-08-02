@@ -15,16 +15,16 @@
  */
 package stratifx.application.interaction.tools;
 
-import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.Scene;
 import java.util.Collection;
 import java.util.List;
 
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Triangle;
 import fr.ifp.kronosflow.mesh.triangulation.Triangulation;
 import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.uids.IHandle;
 import stratifx.application.interaction.SectionInteraction;
 import stratifx.canvas.graphics.GColor;

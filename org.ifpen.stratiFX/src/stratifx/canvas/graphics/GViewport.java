@@ -17,7 +17,7 @@ package stratifx.canvas.graphics;
 
 
 
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.kernel.geometry.Vector2D;
 
 
 

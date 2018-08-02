@@ -18,10 +18,10 @@ package stratifx.application.views;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.IPolyline;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import fr.ifp.kronosflow.warp.IWarp;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.IPolyline;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.warp.IWarp;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GFXSymbol;
 import stratifx.canvas.graphics.GImage;

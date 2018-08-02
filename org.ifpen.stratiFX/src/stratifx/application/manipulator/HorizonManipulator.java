@@ -17,16 +17,16 @@ package stratifx.application.manipulator;
 
 import java.util.ArrayList;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.IDeformationItem;
-import fr.ifp.jdeform.deformation.items.DisplacementItem;
-import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.deformation.IDeformationItem;
+import fr.ifp.kronosflow.deform.deformation.items.DisplacementItem;
+import fr.ifp.kronosflow.deform.scene.Scene;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.IPolyline;
-import fr.ifp.kronosflow.polyline.LinePoint;
-import fr.ifp.kronosflow.warp.LineNoDisplacement;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.IPolyline;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
+import fr.ifp.kronosflow.kernel.warp.LineNoDisplacement;
 import stratifx.application.plot.GFXScene;
 import stratifx.application.plot.GViewsFactory;
 import stratifx.application.views.GView;

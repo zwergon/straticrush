@@ -15,7 +15,7 @@
  */
 package stratifx.application.manipulator;
 
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
 import stratifx.canvas.graphics.GScene;
 
 public class Point2DManipulator extends Vector2DManipulator {

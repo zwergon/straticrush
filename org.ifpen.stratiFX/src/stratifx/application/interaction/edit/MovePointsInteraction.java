@@ -1,11 +1,11 @@
 package stratifx.application.interaction.edit;
 
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchPoint;
 import fr.ifp.kronosflow.model.topology.ContactGraph;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.views.GPoints;

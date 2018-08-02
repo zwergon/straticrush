@@ -2,8 +2,8 @@ package stratifx.model.loader;
 
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
+import fr.ifp.kronosflow.kernel.polyline.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.kernel.polyline.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.utils.LOGGER;
 import org.json.simple.JSONArray;

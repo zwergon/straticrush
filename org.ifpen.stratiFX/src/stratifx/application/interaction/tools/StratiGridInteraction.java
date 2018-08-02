@@ -8,11 +8,11 @@
  */
 package stratifx.application.interaction.tools;
 
-import fr.ifp.jdeform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.Scene;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.jdeform.stratigraphy.StratigraphicGridBuilder;
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.deform.stratigraphy.StratigraphicGridBuilder;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import java.util.HashMap;
 import java.util.List;
 

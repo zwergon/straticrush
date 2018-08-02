@@ -16,11 +16,11 @@
 package stratifx.application.interaction.deform;
 
 
-import fr.ifp.dem.model.Material;
-import fr.ifp.dem.util.Compact2DEM;
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.dem.model.Material;
+import fr.ifp.kronosflow.dem.util.Compact2DEM;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.compact2D.Compact2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.builder.Compact2DPatchBuilder;

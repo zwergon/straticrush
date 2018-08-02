@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d/bin" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d">
-      <sourceFolder url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.fem2d/src" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.fem2d">
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.fem2d/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.fem2d/tests" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -13,5 +13,7 @@
     <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.uids" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
 </module>

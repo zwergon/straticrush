@@ -1,8 +1,8 @@
 package stratifx.application.graph;
 
-import fr.ifp.jdeform.scene.sequence.ContactNode;
-import fr.ifp.jdeform.scene.sequence.PatchNode;
-import fr.ifp.jdeform.scene.sequence.SequenceNode;
+import fr.ifp.kronosflow.deform.scene.sequence.ContactNode;
+import fr.ifp.kronosflow.deform.scene.sequence.PatchNode;
+import fr.ifp.kronosflow.deform.scene.sequence.SequenceNode;
 import fr.ifp.kronosflow.model.graph.Graph;
 import fr.ifp.kronosflow.model.graph.GraphEdge;
 import fr.ifp.kronosflow.model.graph.Vertex;

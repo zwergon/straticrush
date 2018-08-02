@@ -35,12 +35,19 @@ limitations under the License.
         <MenuBar blendMode="SRC_ATOP" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onMenuOpenAction" text="Open" />
-                        <MenuItem mnemonicParsing="false" onAction="#onMenuSaveAction" text="Save" />
-                        <MenuItem mnemonicParsing="false" onAction="#onMenuLoadAction" text="Load" />
-                        <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
-                    </items>
+                    <Menu mnemonicParsing="false" text="Section">
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#onMenuOpenAction" text="Open" />
+                            <MenuItem mnemonicParsing="false" onAction="#onMenuSaveAction" text="Save" />
+                            <MenuItem mnemonicParsing="false" onAction="#onMenuLoadAction" text="Load" />
+                        </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Lines">
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#onMenuLinesLoadAction" text="load JSON"/>
+                        </items>
+                    </Menu>
+                    <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>

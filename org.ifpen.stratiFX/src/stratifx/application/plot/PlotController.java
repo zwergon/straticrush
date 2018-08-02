@@ -15,9 +15,10 @@
  */
 package stratifx.application.plot;
 
-import fr.ifp.jdeform.deformation.DeformationFactory.Kind;
-import fr.ifp.kronosflow.geometry.RectD;
-import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.deform.deformation.DeformationFactory.Kind;
+import fr.ifp.kronosflow.kernel.geometry.IBoundingBox;
+import fr.ifp.kronosflow.kernel.geometry.RectD;
+import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.property.EnumProperty;
@@ -51,6 +52,9 @@ import stratifx.canvas.graphics.tooltip.ITooltipInfo;
 import stratifx.canvas.interaction.GInteraction;
 import stratifx.canvas.interaction.GKeyEvent;
 import stratifx.canvas.interaction.GMouseEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlotController
         extends Pane
@@ -474,6 +478,7 @@ public class PlotController
 
             case UIAction.OPEN:
             case UIAction.LOAD:
+            case UIAction.IMPORT_LINES:
                 return handleOpenAction();
         }
         return true;
@@ -483,21 +488,36 @@ public class PlotController
 
         gfxScene.destroyAll();
 
-        Section section = StratiFXService.instance.getSection();
+        KinObject objects = StratiFXService.instance.getDisplayedObjects();
 
-        GView view = GViewsFactory.createView(section);
-        if (null != view) {
-            gfxScene.add(view);
+        RectD bbox = null;
+        List<GView> gviews = new ArrayList<>();
 
-            PatchLibrary patchLib = section.getPatchLibrary();
-            RectD bbox = patchLib.getBoundingBox();
-            bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
-            initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+        for( KinObject object : objects.getChildren() ){
+            if ( object instanceof IBoundingBox ){
+                if (bbox == null){
+                    bbox = ((IBoundingBox) object).getBoundingBox();
+                }
+                else {
+                    bbox.union(((IBoundingBox) object).getBoundingBox());
+                }
+            }
 
-            gfxScene.refresh();
-        } else {
-            LOGGER.error("unable to create view for Section " + section.getName(), getClass());
+
+            GView view = GViewsFactory.createView(object);
+            if ( null != view ){
+                gviews.add(view);
+            }
         }
+
+        for( GView view : gviews ) {
+            gfxScene.add(view);
+        }
+
+        bbox.inset(-bbox.width() / 10., -bbox.height() / 10.);
+        initWorldExtent(bbox.left, bbox.top, bbox.width(), bbox.height());
+
+        gfxScene.refresh();
 
         return false;
     }

@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="kronosflow">
+    <output-path>$PROJECT_DIR$/out/artifacts/kronosflow</output-path>
+    <root id="archive" name="kronosflow.jar">
+      <element id="module-output" name="fr.ifp.kronosflow.contours" />
+      <element id="module-output" name="fr.ifp.kronosflow.controllers" />
+      <element id="module-output" name="fr.ifp.kronosflow.deform" />
+      <element id="module-output" name="fr.ifp.kronosflow.dem" />
+      <element id="module-output" name="fr.ifp.kronosflow.fem2d" />
+      <element id="module-output" name="fr.ifp.kronosflow.geoscheduler" />
+      <element id="module-output" name="fr.ifp.kronosflow.incubator" />
+      <element id="module-output" name="fr.ifp.kronosflow.kernel" />
+      <element id="module-output" name="fr.ifp.kronosflow.mesh" />
+      <element id="module-output" name="fr.ifp.kronosflow.model" />
+      <element id="module-output" name="fr.ifp.kronosflow.uids" />
+    </root>
+  </artifact>
+</component>

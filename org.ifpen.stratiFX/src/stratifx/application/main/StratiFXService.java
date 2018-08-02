@@ -15,12 +15,11 @@
  */
 package stratifx.application.main;
 
-import com.cedarsoftware.util.io.JsonWriter;
-import fr.ifp.dem.deformation.DEMDeformation;
-import fr.ifp.jdeform.decompaction.PorosityComputer;
-import fr.ifp.jdeform.deformation.DeformationFactory;
-import fr.ifp.jdeform.stratigraphy.StratigraphicGridBuilder;
-import fr.ifp.jdeform.stratigraphy.StratigraphyPropertyComputer;
+import fr.ifp.kronosflow.dem.deformation.DEMDeformation;
+import fr.ifp.kronosflow.deform.decompaction.PorosityComputer;
+import fr.ifp.kronosflow.deform.deformation.DeformationFactory;
+import fr.ifp.kronosflow.deform.stratigraphy.StratigraphicGridBuilder;
+import fr.ifp.kronosflow.deform.stratigraphy.StratigraphyPropertyComputer;
 import fr.ifp.kronosflow.controllers.ControllerEventList;
 import fr.ifp.kronosflow.controllers.IControllerService;
 import fr.ifp.kronosflow.controllers.events.EnumEventAction;
@@ -28,19 +27,18 @@ import fr.ifp.kronosflow.controllers.events.IControllerEvent;
 import fr.ifp.kronosflow.controllers.events.UpdateEvent;
 import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
-import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.extensions.ray.RayExtension;
-import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.kernel.extensions.IExtension;
+import fr.ifp.kronosflow.kernel.extensions.ray.RayExtension;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerStep;
 import fr.ifp.kronosflow.geoscheduler.property.TimePropertyUpdater;
-import fr.ifp.kronosflow.model.PatchLibrary;
+import fr.ifp.kronosflow.model.KinObject;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.algo.ComputeContact;
 import fr.ifp.kronosflow.model.builder.PatchBuilderFactory;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
-import fr.ifp.kronosflow.model.explicit.InfinitePolyline;
+import fr.ifp.kronosflow.kernel.polyline.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.kernel.polyline.explicit.InfinitePolyline;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
@@ -49,36 +47,27 @@ import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
-import fr.ifp.kronosflow.polyline.PolyLine;
-import fr.ifp.kronosflow.property.IPropertyAccessor;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.property.IPropertyAccessor;
 import fr.ifp.kronosflow.utils.KronosContext;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifpen.kine.filters.ExportJSON;
+import fr.ifp.kronosflow.utils.TempDir;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.ir.debug.JSONWriter;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import stratifx.application.caller.EventUIAction;
-import stratifx.application.plot.GFXScene;
-import stratifx.application.plot.GViewsFactory;
-import stratifx.application.plot.PlotController;
+import fr.ifp.kronosflow.model.LineSet;
+import stratifx.application.filters.LineSetImportJSON;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
-import stratifx.application.views.GView;
 import stratifx.application.webkine.WebSolver;
 import stratifx.model.filters.JSONSectionLoad;
 import stratifx.model.filters.JSONSectionSave;
-import stratifx.model.json.JSONSection;
-import stratifx.model.persistable.PersistablePolyline;
-import stratifx.model.persistable.PersistableSection;
 import stratifx.model.wrappers.GeologicLibraryWrapper;
 import stratifx.model.wrappers.PatchWrapper;
 import stratifx.model.wrappers.PolylineWrapper;
 import stratifx.model.wrappers.SectionWrapper;
 
-import java.awt.*;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -89,7 +78,10 @@ public class StratiFXService implements
         IUIController,
         IControllerService {
 
-    GeoschedulerSection section;
+
+    DisplayedObjects displayedObjects;
+
+    //GeoschedulerSection section;
 
     private Stage primaryStage;
 
@@ -102,6 +94,8 @@ public class StratiFXService implements
     }
 
     protected StratiFXService() {
+
+        displayedObjects = new DisplayedObjects();
 
         controllers = new HashMap<IUIController.Type, IUIController>();
 
@@ -138,8 +132,12 @@ public class StratiFXService implements
 
     }
 
+    public KinObject getDisplayedObjects(){
+        return displayedObjects;
+    }
+
     public Section getSection() {
-        return section;
+        return displayedObjects.findObject(Section.class);
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -198,6 +196,9 @@ public class StratiFXService implements
             case UIAction.OPEN:
                 return handleOpen();
 
+            case UIAction.IMPORT_LINES:
+                return handleImportLines();
+
             case UIAction.SAVE:
                 return handleSave();
 
@@ -219,11 +220,13 @@ public class StratiFXService implements
 
 
     private boolean handleEventAction( EventUIAction action ){
+
+        GeoschedulerSection section = (GeoschedulerSection)getSection();
         IControllerEvent<?> event = action.getData();
         if (event instanceof UpdateEvent) {
             saveSection();
             new TimePropertyUpdater(section).update();
-            ComputeContact.recalculateAllPatches(getSection().getPatchLibrary());
+            ComputeContact.recalculateAllPatches(section.getPatchLibrary());
         }
 
         return false; //to further handle event.
@@ -247,13 +250,14 @@ public class StratiFXService implements
 
     private boolean handleSave() {
 
+        Section section = getSection();
         if ( null == section ){
             return false;
         }
 
         JSONSectionSave saver = new JSONSectionSave();
         saver.setSection(section);
-        saver.setFileName("/tmp/section.json");
+        saver.setFileName(TempDir.getTmpAbsolutePath() + "section.json");
         saver.execute();
 
         return true;
@@ -262,22 +266,56 @@ public class StratiFXService implements
 
     private boolean handleLoad() {
 
+        GeoschedulerSection section = null;
 
         JSONSectionLoad loader = new JSONSectionLoad();
-        loader.setFileName("/tmp/section.json");
+        loader.setFileName(TempDir.getTmpAbsolutePath() + "section.json");
         if ( loader.execute() ){
             section = (GeoschedulerSection)loader.getSection();
         }
-        ComputeContact.recalculateAllPatches(section.getPatchLibrary());
 
-        section.getGeoscheduler().getRoot().getWrapper().save(section);
+        if ( null != section ) {
+
+            ComputeContact.recalculateAllPatches(section.getPatchLibrary());
+
+            section.getGeoscheduler().getRoot().getWrapper().save(section);
+
+            setCurrentSection(section);
+
+        }
 
         //false to propagate event action
         return false;
     }
 
 
+    private boolean handleImportLines() {
+
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file == null) {
+            return false;
+        }
+
+        LineSetImportJSON importer = new LineSetImportJSON(file.getAbsolutePath());
+        if ( importer.execute() ) {
+
+            LineSet lineSet = importer.getLineSet();
+
+            LOGGER.info(String.format("read %d lines from file", lineSet.size()), getClass());
+
+            LineSet oldLineSet = displayedObjects.findObject(LineSet.class);
+            if ( oldLineSet != null ){
+                displayedObjects.remove(oldLineSet);
+            }
+            displayedObjects.add(lineSet);
+        }
+
+        return false;
+    }
+
     private boolean handleOpen() {
+
 
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(primaryStage);
@@ -286,12 +324,11 @@ public class StratiFXService implements
         }
 
         String filename = file.getAbsolutePath();
-        //String filename = "/home/irsrvhome1/R11/lecomtje/work/git/straticrush/fr.ifp.straticrush/section/nigeriamodel.geo";
         String basename = filename.substring(0, filename.lastIndexOf('.'));
 
         LOGGER.debug("load " + basename, this.getClass());
 
-        section = new GeoschedulerSection();
+        GeoschedulerSection section = new GeoschedulerSection();
         section.setName(basename);
 
         SceneStyle sceneStyle = new SceneStyle(section.getStyle());
@@ -313,6 +350,8 @@ public class StratiFXService implements
 
         //TODO create root. 
         section.getGeoscheduler().getRoot().getWrapper().save(section);
+
+        setCurrentSection(section);
 
         //false to propagate event action
         return false;
@@ -351,9 +390,28 @@ public class StratiFXService implements
     }
 
     private void saveSection() {
+
+        GeoschedulerSection section = (GeoschedulerSection)getSection();
+
         GeoschedulerStep step = section.getGeoscheduler().getCurrent();
         IWrapper<Section> wrappedSection = step.getWrapper();
         wrappedSection.save(section);
+    }
+
+
+    private void setCurrentSection( Section section ){
+        GeoschedulerSection oldSection = (GeoschedulerSection)getSection();
+        if ( null != oldSection ){
+            displayedObjects.remove(oldSection);
+        }
+        displayedObjects.add(section);
+    }
+
+
+    class DisplayedObjects extends KinObject {
+        public DisplayedObjects(){
+            super();
+        }
     }
 
 

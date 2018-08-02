@@ -15,11 +15,11 @@
  */
 package stratifx.model.wrappers;
 
-import fr.ifp.kronosflow.model.explicit.ExplicitPoint;
-import fr.ifp.kronosflow.model.explicit.ExplicitPolyLine;
+import fr.ifp.kronosflow.kernel.polyline.explicit.ExplicitPoint;
+import fr.ifp.kronosflow.kernel.polyline.explicit.ExplicitPolyLine;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.model.persistable.PersistablePolyline;
 

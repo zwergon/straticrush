@@ -15,16 +15,16 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.kernel.geometry.RectD;
 import fr.ifp.kronosflow.model.FeatureGeolInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.Interval;
-import fr.ifp.kronosflow.polyline.LinePoint;
-import fr.ifp.kronosflow.polyline.LinePointPair;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
-import fr.ifp.kronosflow.polyline.PolylineDirection;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.Interval;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
+import fr.ifp.kronosflow.kernel.polyline.LinePointPair;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.polyline.PolylineDirection;
 import fr.ifp.kronosflow.utils.LOGGER;
 
 /**

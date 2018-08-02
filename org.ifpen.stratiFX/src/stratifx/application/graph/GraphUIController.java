@@ -15,14 +15,14 @@
  */
 package stratifx.application.graph;
 
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.jdeform.scene.SceneBuilder;
-import fr.ifp.jdeform.scene.network.FaultNetwork;
-import fr.ifp.jdeform.scene.network.FaultNetworkBuilder;
-import fr.ifp.jdeform.scene.network.IFaultNetworkBuilder;
-import fr.ifp.jdeform.scene.sequence.DefaultSequenceBuilder;
-import fr.ifp.jdeform.scene.sequence.ISequenceBuilder;
-import fr.ifp.jdeform.scene.sequence.Sequence;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.SceneBuilder;
+import fr.ifp.kronosflow.deform.scene.network.FaultNetwork;
+import fr.ifp.kronosflow.deform.scene.network.FaultNetworkBuilder;
+import fr.ifp.kronosflow.deform.scene.network.IFaultNetworkBuilder;
+import fr.ifp.kronosflow.deform.scene.sequence.DefaultSequenceBuilder;
+import fr.ifp.kronosflow.deform.scene.sequence.ISequenceBuilder;
+import fr.ifp.kronosflow.deform.scene.sequence.Sequence;
 import fr.ifp.kronosflow.model.Section;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

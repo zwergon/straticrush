@@ -8,12 +8,12 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.decompaction.ElongationDataCube;
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.kronosflow.cube.Image;
-import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.deform.decompaction.ElongationDataCube;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.kernel.cube.Image;
+import fr.ifp.kronosflow.kernel.geometry.RectD;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
 import stratifx.canvas.graphics.GColor;
 import stratifx.canvas.graphics.GColorMap;
 import stratifx.canvas.graphics.GObject;

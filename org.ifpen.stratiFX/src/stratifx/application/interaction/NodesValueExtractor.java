@@ -8,7 +8,7 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.kernel.geometry.Vector2D;
 import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Edge;
 import fr.ifp.kronosflow.mesh.Mesh2D;

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.uids/bin" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.uids">
-      <sourceFolder url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.uids/src" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.uids">
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.uids/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

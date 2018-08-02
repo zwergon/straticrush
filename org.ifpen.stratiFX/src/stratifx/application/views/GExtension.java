@@ -15,10 +15,10 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.extensions.IExtension;
-import fr.ifp.kronosflow.extensions.IExtensionPoint;
-import fr.ifp.kronosflow.extensions.ray.RayExtension;
-import fr.ifp.kronosflow.polyline.LinePoint;
+import fr.ifp.kronosflow.kernel.extensions.IExtension;
+import fr.ifp.kronosflow.kernel.extensions.IExtensionPoint;
+import fr.ifp.kronosflow.kernel.extensions.ray.RayExtension;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
 import stratifx.canvas.graphics.GSegment;
 
 public class GExtension extends GSegment {

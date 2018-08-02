@@ -8,7 +8,7 @@
  */
 package stratifx.application.views;
 
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.Collection;

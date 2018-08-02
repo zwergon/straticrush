@@ -21,13 +21,11 @@ import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
-import fr.ifp.kronosflow.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import stratifx.model.persistable.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  *

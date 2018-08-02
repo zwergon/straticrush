@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.dem/bin" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.dem">
-      <sourceFolder url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.dem/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../kronosflow/fr.ifp.kronosflow.dem/tests" isTestSource="true" />
+    <content url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.dem">
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.dem/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.dem/tests" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.controllers" />
-    <orderEntry type="module" module-name="fr.ifp.kronosflow.jdeform" />
+    <orderEntry type="module" module-name="fr.ifp.kronosflow.deform" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.kernel" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.mesh" />
     <orderEntry type="module" module-name="fr.ifp.kronosflow.model" />

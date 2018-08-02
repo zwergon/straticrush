@@ -8,27 +8,23 @@
  */
 package stratifx.application.interaction;
 
-import fr.ifp.jdeform.deformation.constraint.ExactTargetsComputer;
-import fr.ifp.jdeform.deformation.items.PatchIntersectionItem;
-import fr.ifp.jdeform.scene.HorizonMS;
-import fr.ifp.kronosflow.geometry.Geometry;
-import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.deform.deformation.constraint.ExactTargetsComputer;
+import fr.ifp.kronosflow.deform.deformation.items.PatchIntersectionItem;
+import fr.ifp.kronosflow.deform.scene.HorizonMS;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.model.FeatureInterval;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.PatchInterval;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.geology.Paleobathymetry;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.LinePoint;
-import fr.ifp.kronosflow.polyline.LinePointPair;
-import fr.ifp.kronosflow.polyline.PolyLine;
-import fr.ifp.kronosflow.polyline.PolyLineGeometry;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
+import fr.ifp.kronosflow.kernel.polyline.LinePointPair;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.PolyLineGeometry;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.warp.Displacement;
+import fr.ifp.kronosflow.kernel.warp.Displacement;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import stratifx.application.views.GDisplacement;
 import stratifx.canvas.graphics.GScene;

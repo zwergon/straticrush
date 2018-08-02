@@ -17,17 +17,17 @@ package stratifx.application.properties;
 
 import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.controllers.property.PropertyComputer;
-import fr.ifp.kronosflow.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.geoscheduler.property.GeoschedulerPropertyComputer;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.property.PropertyStyle;
-import fr.ifp.kronosflow.polyline.ICurviPoint;
-import fr.ifp.kronosflow.polyline.PolyLine;
-import fr.ifp.kronosflow.property.IPropertyAccessor;
-import fr.ifp.kronosflow.property.Property;
-import fr.ifp.kronosflow.property.PropertyLocation;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.property.IPropertyAccessor;
+import fr.ifp.kronosflow.kernel.property.Property;
+import fr.ifp.kronosflow.kernel.property.PropertyLocation;
 import fr.ifp.kronosflow.utils.LOGGER;
 import java.util.Collection;
 

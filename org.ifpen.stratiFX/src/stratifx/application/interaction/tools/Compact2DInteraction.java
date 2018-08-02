@@ -8,9 +8,8 @@
  */
 package stratifx.application.interaction.tools;
 
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.kronosflow.geometry.Point2D;
-import fr.ifp.kronosflow.geometry.RectD;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.model.builder.Compact2DPatchBuilder;

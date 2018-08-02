@@ -17,17 +17,17 @@ package stratifx.application.manipulator;
 
 import java.util.List;
 
-import fr.ifp.jdeform.controllers.TranslationController;
-import fr.ifp.jdeform.controllers.callers.DeformationControllerCaller;
-import fr.ifp.jdeform.deformation.Deformation;
-import fr.ifp.jdeform.deformation.IDeformationItem;
-import fr.ifp.jdeform.deformation.IRigidItem;
-import fr.ifp.jdeform.scene.Scene;
-import fr.ifp.jdeform.scene.algo.TargetsExtractor;
-import fr.ifp.kronosflow.geometry.Vector2D;
+import fr.ifp.kronosflow.deform.controllers.TranslationController;
+import fr.ifp.kronosflow.deform.controllers.callers.DeformationControllerCaller;
+import fr.ifp.kronosflow.deform.deformation.Deformation;
+import fr.ifp.kronosflow.deform.deformation.IDeformationItem;
+import fr.ifp.kronosflow.deform.deformation.IRigidItem;
+import fr.ifp.kronosflow.deform.scene.Scene;
+import fr.ifp.kronosflow.deform.scene.algo.TargetsExtractor;
+import fr.ifp.kronosflow.kernel.geometry.Vector2D;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.polyline.IPolylineProvider;
-import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.kernel.polyline.IPolylineProvider;
+import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.uids.IHandle;
 import stratifx.application.views.GPatchObject;
 import stratifx.canvas.graphics.GObject;

@@ -1,20 +1,19 @@
 package stratifx.application.webkine;
 
-import fr.ifp.jdeform.deformation.DeformationStyle;
-import fr.ifp.jdeform.deformation.MeshSolver;
-import fr.ifp.jdeform.deformation.constraint.DeformLink;
+import fr.ifp.kronosflow.deform.deformation.DeformationStyle;
+import fr.ifp.kronosflow.deform.deformation.MeshSolver;
+import fr.ifp.kronosflow.deform.deformation.constraint.DeformLink;
 import fr.ifp.kronosflow.mesh.Mesh2D;
-import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifp.kronosflow.warp.Displacement;
-import fr.ifp.kronosflow.warp.NodeDisplacement;
+import fr.ifp.kronosflow.kernel.warp.Displacement;
+import fr.ifp.kronosflow.kernel.warp.NodeDisplacement;
 import fr.ifpen.kine.client.ConstraintClient;
 import fr.ifpen.kine.client.MeshClient;
 import fr.ifpen.kine.client.SimulationClient;
 import fr.ifpen.kine.constraint.ConstraintSet;
 import fr.ifpen.kine.constraint.Displacements;
 import fr.ifpen.kine.constraint.Material;
-import fr.ifpen.kine.filters.ExportJSON;
 import fr.ifpen.kine.mesh.Mesh;
 import fr.ifpen.kine.mesh.Region;
 import fr.ifpen.kine.process.ProcessResult;

@@ -131,6 +131,11 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onMenuLinesLoadAction(ActionEvent event){
+        StratiFXService.instance.broadCastAction(UIAction.IMPORT_LINES);
+    }
+
+    @FXML
     void onCloseAction(ActionEvent event) {
         Platform.exit();
         System.exit(0);

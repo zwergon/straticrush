@@ -5,7 +5,7 @@ import fr.ifp.kronosflow.mesh.Edge;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.Triangle;
 import fr.ifp.kronosflow.mesh.regions.RegionOneD;
-import fr.ifp.kronosflow.polyline.Node;
+import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifpen.kine.encoder.DefaultEncoderService;
