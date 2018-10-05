@@ -77,19 +77,12 @@ public class PatchWrapper implements IWrapper<Patch> {
         GeologicLibrary library = ((Section) wrapped.getParent().getParent()).getFeatures();
 
         // StratiUnit
-        BodyFeature unit = wrapped.getBodyFeature();
-        if (unit == null || persistedPatch.getUnitId() != unit.getUID().getId()) {
-            if (unit != null) {
-                wrapped.removeFeature(unit);
-            }
-
-            List<StratigraphicUnit> features = library
-                    .getGeologicFeaturesByClass(StratigraphicUnit.class);
-            for (StratigraphicUnit feature : features) {
-                if (persistedPatch.getUnitId() == feature.getUID().getId()) {
-                    wrapped.setFeature(feature);
-                    break;
-                }
+        List<StratigraphicUnit> features = library
+                .getGeologicFeaturesByClass(StratigraphicUnit.class);
+        for (StratigraphicUnit feature : features) {
+            if (persistedPatch.getUnitId() == feature.getUID().getId()) {
+                wrapped.setFeature(feature);
+                break;
             }
         }
 

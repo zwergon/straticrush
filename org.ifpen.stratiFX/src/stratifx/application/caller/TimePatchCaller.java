@@ -94,6 +94,7 @@ public class TimePatchCaller
 
     private StratigraphicEvent findOrCreateEvent(double time) {
 
+
         Section section = getService().getSection();
         StratigraphicColumn column = section.getStratigraphicColumn();
 
@@ -129,12 +130,14 @@ public class TimePatchCaller
         StratigraphicEvent newHorizon = new StratigraphicEvent();
         newHorizon.setAge(time);
         newHorizon.setName( "Sub" + unit.getTop().getName() );
-        StratigraphicUnit newUnit = column.insertBelow( unit, newHorizon);
+        StratigraphicUnit newUnit = column.insertBelow(unit, newHorizon);
+
+        AbstractControllerEvent<?> event = new FeatureEvent(EnumEventAction.ADD,
+                EnumEventType.FEATURE, column, newHorizon);
+        controller.push(event);
 
         Color oldColor = unit.getColor();
         newUnit.setColor( oldColor.brighter() ) ;
-
-        System.out.println(column);
 
         return newHorizon;
     }

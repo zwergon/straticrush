@@ -58,51 +58,21 @@ public class SectionWrapper implements IWrapper<Section> {
         // Save all the section information in the persistableSection
         PatchLibrary library = wrapped.getPatchLibrary();
 
-        // search if all patches are in the PersistableSection
+        // remove old patches
         List<Patch> patches = library.getPatches();
-
-        Iterator<Patch> ite = patches.iterator();
-
-        // Remove useless patch
-        while (ite.hasNext()) {
-            Patch patch = ite.next();
-            boolean found = false;
-            for (IPersisted persistedPatch : persistedSection.getPatches()) {
-
-                if (patch.getUID().getId() == persistedPatch.getUid()) {
-                    found = true;
-                    WrapperFactory.load(patch, persistedPatch);
-                    break;
-                }
-            }
-
-            if (!found) {
-                library.remove(patch);
-            }
+        for( Patch patch : patches ){
+            library.remove(patch);
         }
-
-        // Reload the patches
-        patches = library.getPatches();
 
         // Create new patches
         for (IPersisted persistedPatch : persistedSection.getPatches()) {
-            boolean found = false;
 
-            for (Patch patch : patches) {
-                if (patch.getUID().getId() == persistedPatch.getUid()) {
-                    found = true;
-                    break;
-                }
-            }
+            Patch patch = (Patch) WrapperFactory.build(persistedPatch.getPersistedClass());
+            library.add(patch);
+            patch.setPatchLibrary(library);
 
-            if (!found) {
-                Patch patch = (Patch) WrapperFactory.build(persistedPatch.getPersistedClass());
-                wrapped.getPatchLibrary().add(patch);
-                patch.setPatchLibrary(wrapped.getPatchLibrary());
+            WrapperFactory.load(patch, persistedPatch);
 
-                WrapperFactory.load(patch, persistedPatch);
-
-            }
         }
 
         // Chargement des paleobathymetry
