@@ -8,17 +8,22 @@
  */
 package stratifx.application.interaction.tools;
 
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLink;
+import fr.ifp.kronosflow.geoscheduler.GeoschedulerLinkType;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.builder.TrglMeshBuilder;
 import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.geology.BodyFeature;
+import fr.ifp.kronosflow.model.Section;
+import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.model.time.NeutralFiberTimeProvider;
 import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.utils.LOGGER;
+import stratifx.application.caller.TimePatchCaller;
 import stratifx.application.interaction.AbstractValueExtractor;
 import stratifx.application.interaction.NodesValueExtractor;
 import stratifx.application.interaction.SectionInteraction;
 import fr.ifp.kronosflow.model.time.ITimeProvider;
+import stratifx.application.main.StratiFXService;
 import stratifx.application.views.GMesh;
 import stratifx.application.views.GPolyline;
 import stratifx.canvas.graphics.GColor;
@@ -27,6 +32,8 @@ import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.graphics.GStyle;
 import stratifx.canvas.interaction.GMouseEvent;
 
+import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +58,14 @@ public class TimeLineInteraction extends SectionInteraction {
 
     HashMap<Integer, GObject> gObjects = new HashMap<>();
 
+    protected TimePatchCaller createCaller() {
+        TimePatchCaller caller = new TimePatchCaller(StratiFXService.instance);
+
+        link = new GeoschedulerLink(GeoschedulerLinkType.SPLIT_PATCH, caller);
+
+        return caller;
+    }
+
 
     public TimeLineInteraction(GScene scene) {
         super(scene);
@@ -71,6 +86,11 @@ public class TimeLineInteraction extends SectionInteraction {
                 for (GObject gobject : gObjects.values()) {
                     gscene.remove(gobject);
                 }
+
+                if (link != null) {
+                    getScheduler().addCurrent(link);
+                    link = null;
+                }
                 gscene.refresh();
 
                 break;
@@ -80,12 +100,16 @@ public class TimeLineInteraction extends SectionInteraction {
     }
 
     private void handleMousePress(GMouseEvent event) {
-        
-        if (event.button != GMouseEvent.BUTTON_1 ){
+
+        if (event.button != GMouseEvent.BUTTON_1) {
             return;
         }
-        
+
         Patch patch = getSelectedPatch(event.x, event.y);
+
+        if ( null == patch ){
+            return;
+        }
 
         Map<Patch, Mesh2D> meshes = retrieveMeshes(patch);
 
@@ -97,9 +121,13 @@ public class TimeLineInteraction extends SectionInteraction {
 
         LOGGER.debug("time picked: " + timeValue, getClass());
 
+        TimePatchCaller caller = createCaller();
+        caller.setTime(timeValue);
+
+        StratigraphicUnit unit = patch.getGeologicFeaturesByClass(StratigraphicUnit.class);
 
         int iObjects = 0;
-        for(Map.Entry<Patch, Mesh2D> entry : meshes.entrySet() ){
+        for (Map.Entry<Patch, Mesh2D> entry : meshes.entrySet()) {
             Mesh2D mesh = entry.getValue();
             Patch p = entry.getKey();
 
@@ -112,12 +140,17 @@ public class TimeLineInteraction extends SectionInteraction {
             AbstractValueExtractor tle = new NodesValueExtractor(mesh, timeValue, provider);
             tle.buildLines();
 
+            Collection<PolyLine> lines = tle.getPolyLine();
+            if ( lines.size() == 1 ){
+                caller.addPatchToSplit(p, lines.iterator().next());
+            }
+
             int i = 0;
-            for (PolyLine line : tle.getPolyLine()) {
+            for (PolyLine line : lines) {
 
                 GPolyline gline = new GPolyline(line);
                 GStyle style = new GStyle();
-                style.setForegroundColor( colors[i % colors.length] );
+                style.setForegroundColor(colors[i % colors.length]);
                 style.setLineWidth(2);
                 gline.setStyle(style);
 
@@ -128,9 +161,17 @@ public class TimeLineInteraction extends SectionInteraction {
                 i++;
             }
 
+
         }
 
+
+
     }
+
+
+
+
+
 
     private Map<Patch, Mesh2D>  retrieveMeshes(Patch patch) {
 

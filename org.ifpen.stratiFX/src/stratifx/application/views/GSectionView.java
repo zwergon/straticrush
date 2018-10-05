@@ -8,6 +8,7 @@ import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.utils.LOGGER;
+import stratifx.application.caller.PatchAddEvent;
 import stratifx.application.caller.PatchDeleteEvent;
 import stratifx.application.caller.UnitRemovedItem;
 import stratifx.application.plot.GViewsFactory;
@@ -47,6 +48,9 @@ public class GSectionView extends GView {
         if (event instanceof PatchDeleteEvent) {
             handleDeleteEvent( (PatchDeleteEvent)event);
         }
+        else if ( event instanceof  PatchAddEvent ){
+            handleAddEvent((PatchAddEvent)event);
+        }
         else if (event instanceof UpdateEvent) {
             handleUpdateEvent( (UpdateEvent)event);
         }
@@ -82,6 +86,15 @@ public class GSectionView extends GView {
         }
     }
 
+    private void handleAddEvent(PatchAddEvent patchAddEvent ){
+        List<Patch> patches = patchAddEvent.getObject();
+        for (Patch patch : patches) {
+            GView view = GViewsFactory.createView(patch);
+            add(view);
+        }
+        redraw();
+    }
+
     private void handleUpdateEvent( UpdateEvent updateEvent ){
         if (updateEvent.getUpdateType() != UpdateEvent.Type.COMPUTE) {
             removePatchViews();
@@ -105,6 +118,8 @@ public class GSectionView extends GView {
         Section section = getSection();
 
         PatchLibrary patchLib = section.getPatchLibrary();
+
+        LOGGER.debug(String.format("Creates %d views", patchLib.getPatches().size()), getClass());
 
         // Create a graphic object
         for (Patch patch : patchLib.getPatches()) {
