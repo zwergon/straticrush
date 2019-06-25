@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/fr.ifp.kronosflow.contours.iml" filepath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/fr.ifp.kronosflow.contours.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.contours.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.contours.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.deform.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.deform.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.dem.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.dem.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.fem2d.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.fem2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.geoscheduler.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.geoscheduler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.incubator/fr.ifp.kronosflow.incubator.iml" filepath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.incubator/fr.ifp.kronosflow.incubator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.incubator.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.incubator.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.kernel.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.kernel.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.mesh.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.mesh.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.model.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.model.iml" />

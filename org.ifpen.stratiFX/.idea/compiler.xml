@@ -20,9 +20,5 @@
         <module name="Kine3D" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="fr.ifp.webkine.kine3d" target="1.8" />
-      <module name="Kine3D" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
