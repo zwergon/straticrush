@@ -69,6 +69,7 @@ public class InteractionFactory {
         register("TimeLine", TimeLineInteraction.class);
         register("AntiGravity", AntiGravityInteraction.class);
         register("MovePoints", MovePointsInteraction.class);
+        register("BL2DMesh", BL2DMeshInteraction.class);
     }
     
     

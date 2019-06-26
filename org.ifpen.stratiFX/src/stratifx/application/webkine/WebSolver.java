@@ -8,10 +8,7 @@ import fr.ifp.kronosflow.kernel.warp.Displacement;
 import fr.ifp.kronosflow.kernel.warp.NodeDisplacement;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifpen.kine.client.ConstraintClient;
-import fr.ifpen.kine.client.MeshClient;
-import fr.ifpen.kine.client.SimulationClient;
-import fr.ifpen.kine.client.WebKineClient;
+import fr.ifpen.kine.client.*;
 import fr.ifpen.kine.constraint.ConstraintSet;
 import fr.ifpen.kine.constraint.Displacements;
 import fr.ifpen.kine.constraint.Material;
@@ -28,13 +25,13 @@ public class WebSolver extends MeshSolver {
     boolean withDeleteSession = true;
 
     static {
-        WebKineClient.setBaseUrl("http://irpcm358412:8090/api");
+        WebKineClient.setBaseUrl("http://irlin326287:8090/api");
         //WebKineClient.setBaseUrl("http://10.8.3.209:9000/api");
     }
 
     @Override
     public boolean solve(Collection<DeformLink> nodeLinks) {
-        Long simulationId = SimulationClient.createSimulationNow();
+        Long simulationId = SimulationClient.createSimulationNow("aster");
 
         Mesh2D mesh2d = getMesh();
 
@@ -64,16 +61,16 @@ public class WebSolver extends MeshSolver {
 
             constraintSet.addMaterial(defaultMaterial);
 
-            if ( !MeshClient.write(mesh) ){
+            if ( !AsterClient.write(mesh) ){
                 return false;
             }
 
-            if ( !ConstraintClient.write(constraintSet) ){
+            if ( !AsterClient.write(constraintSet) ){
                 return false;
             }
 
 
-            if ( SimulationClient.launchSimulation(simulationId) <= 0 ){
+            if ( AsterClient.launchSimulation(simulationId) <= 0 ){
                 return false;
             }
         }
