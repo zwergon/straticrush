@@ -18,6 +18,7 @@ import fr.ifpen.kine.constraint.Material;
 import fr.ifpen.kine.mesh.Mesh;
 import fr.ifpen.kine.mesh.Region;
 import fr.ifpen.kine.process.ProcessState;
+import fr.ifpen.kine.process.StateBit;
 
 import java.util.Collection;
 
@@ -78,26 +79,27 @@ public class WebSolver extends MeshSolver {
         }
 
 
-
-        ProcessState state = null;
+        StateBit stateBit = new StateBit();
+        ProcessState processState = null;
         try {
 
             do {
 
                 Thread.sleep(200);
 
-                state = SimulationClient.getState(simulationId);
-            } while( !state.isEndedAster() );
+                processState = SimulationClient.getState(simulationId);
+                stateBit.setState(processState.getState());
+            } while( !processState.isEnded(stateBit) );
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
         }
 
-        if  ( state != null ) {
+        if  ( processState != null ) {
 
-            if ( state.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
+            if ( processState.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
 
-                Displacements displacements = SimulationClient.getDisplacements(simulationId);
+                Displacements displacements = (Displacements)SimulationClient.getResults(simulationId);
                 if ( null != displacements ) {
                     handleDisplacements(mesh2d, displacements);
                 }
@@ -112,7 +114,7 @@ public class WebSolver extends MeshSolver {
                 return true;
             }
             else {
-                LOGGER.error("WebSolver quit with diagnosis " + state.getDiagnosis() + " and error code " + state.getErrorCode(), getClass());
+                LOGGER.error("WebSolver quit with diagnosis " + processState.getDiagnosis() + " and error code " + processState.getErrorCode(), getClass());
             }
 
 

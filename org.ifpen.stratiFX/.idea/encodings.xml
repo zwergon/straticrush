@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/ContourExtractor.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/MarkFast.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/Polyline.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/io/exporter/MEditExporter.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/io/importer/TxtImporter.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/mesh/AddSegmentCommand.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/mesh/Edges.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/mesh/Mesh.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/mesh/MeshChecker.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/Angle.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/BBox.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/EdgeQuadTree.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/PointPointIntersector.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/SegmentSegmentIntersector.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/VertexQuadTree.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/intersector/PureSegmentPointIntersector.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/intersector/PureSegmentSegmentIntersector.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/quadtree/QuadTree.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/src/fr/ifp/kronosflow/contours/util/quadtree/QuadTreeNode.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/tests/data/TestData.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/tests/fr/ifp/kronosflow/contours/ContourExtractorTest.java" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours/tests/fr/ifp/kronosflow/contours/IntersectorTest.java" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.contours" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/../../git-webkine/kine3d" charset="UTF-8" />
   </component>
 </project>
