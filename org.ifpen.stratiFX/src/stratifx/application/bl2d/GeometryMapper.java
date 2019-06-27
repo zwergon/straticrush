@@ -20,6 +20,7 @@ public class GeometryMapper {
 
         for (Point2D p : ps){
             pts.add(new Point(Integer.toString(id),Double.toString(p.x()),Double.toString(p.y())));
+            id++;
         }
 
         return pts;
@@ -34,18 +35,18 @@ public class GeometryMapper {
         Point fP = null;
 
         for (Point pt : pts){
-            if(cP != null){
-                bP = new Point(cP.getPointID(),cP.getPointX(),cP.getPointY());
-            }
-            else{
-                fP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
-            }
 
-            cP = pt;
+            cP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
 
             if(bP != null && cP != null){
                 cs.add(new Curve(Integer.toString(id),"NULL",bP.getPointID(),new ArrayList<String>(),cP.getPointID(),"NULL"));
+                id++;
             }
+
+            if(bP == null){
+                fP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
+            }
+
             bP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
         }
 
@@ -57,7 +58,7 @@ public class GeometryMapper {
     public List<Domain> createDummyDomain(List<Curve> cs){
         List<Domain> ds = new ArrayList<Domain>();
 
-        Curve c = cs.remove(0);
+        Curve c = cs.get(0);
         ds.add(new Domain(c.getCurveID(),"-1",0));
 
         return ds;

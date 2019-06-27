@@ -8,6 +8,8 @@ public class EnvMapper {
 
     public Env defaultEnv(){
         Env env = new Env();
+        env.setElement("q1.1");
+        env.setHmax(200.0);
         return env;
     }
 }

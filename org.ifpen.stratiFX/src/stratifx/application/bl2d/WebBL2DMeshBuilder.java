@@ -1,6 +1,7 @@
 package stratifx.application.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
+import fr.ifp.kronosflow.mesh.NodeLink;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -18,6 +19,7 @@ import fr.ifpen.kine.mesh.Topology;
 import fr.ifpen.kine.process.ProcessState;
 import fr.ifpen.kine.process.StateBit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +71,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
 
                 Thread.sleep(200);
 
-                state = SimulationClient.getState(simulationId);
+                state = BL2DClient.getState(simulationId);
                 stateBit.setState(state.getState());
             } while( !state.isEnded(stateBit) );
         } catch (InterruptedException e) {
@@ -82,7 +84,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
 
             if ( state.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
 
-                Mesh resMesh = (Mesh) SimulationClient.getResults(simulationId);
+                Mesh resMesh = (Mesh) BL2DClient.getResults(simulationId);
                 if ( null != resMesh ) {
                     return fromMesh(resMesh);
                 }
@@ -104,6 +106,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         DefaultEncoderService enc = new DefaultEncoderService();
         BL2DMesh bl2dMesh = new BL2DMesh();
         Map<String, Node> nodes = mesh.getNodesMap();
+
         for(Map.Entry<String, Node> n: nodes.entrySet()){
             double[] pt = n.getValue().getPoint3D();
             double[] p = {pt[0],pt[1]};
