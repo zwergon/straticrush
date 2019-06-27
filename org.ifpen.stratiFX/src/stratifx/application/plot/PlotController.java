@@ -269,7 +269,7 @@ public class PlotController
     }
 
     private void onPlotScrolled(ScrollEvent event) {
-
+        resetTooltip();
         if (event.getDeltaY() < 0) {
             gfxScene.zoom(0.95);
         } else {
@@ -629,6 +629,9 @@ public class PlotController
     @Override
     public void show(int x, int y) {
 
+        if  ( null != tooltip  ){
+            return;
+        }
         GObject gObject = gfxScene.find(x, y);
         if (gObject != null) {
             ITooltipInfo info = gObject.getTooltipInfo();
@@ -650,6 +653,7 @@ public class PlotController
     public void hide() {
         if (null != tooltip) {
             tooltip.hide();
+            tooltip = null;
         }
     }
 
@@ -657,6 +661,7 @@ public class PlotController
     private void resetTooltip() {
         if ((null != tooltip) && tooltip.isShowing()) {
             tooltip.hide();
+            tooltip = null;
         }
 
         if (timer != null) {
