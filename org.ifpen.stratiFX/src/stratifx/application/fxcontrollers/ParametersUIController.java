@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import fr.ifp.kronosflow.utils.LOGGER;
+import fr.ifpen.kine.BL2D.Env;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -29,11 +30,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
+import stratifx.application.bl2d.EnvMapper;
+import stratifx.application.bl2d.EnvStyle;
 import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
@@ -66,6 +68,39 @@ public class ParametersUIController implements
 
     @FXML
     CheckBox displayWithAnnotationId;
+
+    @FXML
+    ComboBox element;
+
+    @FXML
+    TextField verb;
+
+    @FXML
+    TextField hmin;
+
+    @FXML
+    TextField hmax;
+
+    @FXML
+    Label el;
+
+    @FXML
+    Label verbl;
+
+    @FXML
+    Label hminl;
+
+    @FXML
+    Label hmaxl;
+
+    @FXML
+    ComboBox griding;
+
+    @FXML
+    Label bl2denv;
+
+    @FXML
+    HBox appl;
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
     
@@ -129,7 +164,66 @@ public class ParametersUIController implements
                 "Compact2D",
                 "StratiGrid"
         );
-        
+
+        element.getItems().addAll(
+                "p1",
+                "q1.0",
+                "q1.1"
+        );
+
+        griding.getItems().addAll(
+                "None",
+                "BL2DMesh"
+        );
+
+
+        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
+        /*
+        element.setOnAction((event)->{
+            envStyle.setEnvElement(element.getValue().toString());
+        });*/
+
+        griding.setOnAction((event)->{
+            if(griding.getValue().toString().equals("BL2DMesh")){
+                bl2denv.setVisible(true);
+                el.setVisible(true);
+                element.setVisible(true);
+                verbl.setVisible(true);
+                verb.setVisible(true);
+                hminl.setVisible(true);
+                hmin.setVisible(true);
+                hmaxl.setVisible(true);
+                hmax.setVisible(true);
+            }
+            else{
+                bl2denv.setVisible(false);
+                el.setVisible(false);
+                element.setVisible(false);
+                verbl.setVisible(false);
+                verb.setVisible(false);
+                hminl.setVisible(false);
+                hmin.setVisible(false);
+                hmaxl.setVisible(false);
+                hmax.setVisible(false);
+            }
+        });
+        if(envStyle.getEnvElement()!=null){
+            element.setValue(envStyle.getEnvElement());
+        }
+        else{
+            element.setValue("p1");
+        }
+
+        if(envStyle.getEnvVerb()!=null){
+            verb.setText(envStyle.getEnvVerb().toString());
+        }
+        if(envStyle.getEnvHmin()!=null){
+            hmin.setText(envStyle.getEnvHmin());
+        }
+        if(envStyle.getEnvHmax()!=null){
+            hmax.setText(envStyle.getEnvHmax());
+        }
+
         SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
         gridComboId.getSelectionModel().select(sceneStyle.getGridType());
         gridComboId.setOnAction((event)->{
@@ -216,6 +310,31 @@ public class ParametersUIController implements
                 new StyleUIAction(displayStyle.getStyle())
         );
 
+    }
+
+    @FXML
+    public void onEnvApplyAction(ActionEvent action){
+        LOGGER.debug("onEnvApplyAction",getClass());
+        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
+        envStyle.setEnvElement(element.getValue().toString());
+        if(!verb.getText().isEmpty()){
+            envStyle.setEnvVerb(Integer.valueOf(verb.getText()));
+        }
+        else{
+            envStyle.removeEnvVerb();
+        }
+        if(!hmin.getText().isEmpty()){
+            envStyle.setEnvHmin(hmin.getText());
+        }
+        else{
+            envStyle.removeEnvHmin();
+        }
+        if(!hmax.getText().isEmpty()){
+            envStyle.setEnvHmax(hmax.getText());
+        }
+        else{
+            envStyle.removeEnvHmax();
+        }
     }
 
     @FXML
