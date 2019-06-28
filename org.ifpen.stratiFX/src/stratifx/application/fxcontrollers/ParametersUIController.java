@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifpen.kine.BL2D.Env;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -34,7 +33,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
-import stratifx.application.bl2d.EnvMapper;
 import stratifx.application.bl2d.EnvStyle;
 import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
@@ -178,10 +176,6 @@ public class ParametersUIController implements
 
 
         EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
-        /*
-        element.setOnAction((event)->{
-            envStyle.setEnvElement(element.getValue().toString());
-        });*/
 
         griding.setOnAction((event)->{
             if(griding.getValue().toString().equals("BL2DMesh")){
