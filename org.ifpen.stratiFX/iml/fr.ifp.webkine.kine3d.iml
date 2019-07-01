@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$USER_HOME$/git-webkine/kine3d/target/classes" />
     <output-test url="file://$USER_HOME$/git-webkine/kine3d/target/test-classes" />
-    <content url="file://$USER_HOME$/WebKine/kine3d">
-      <sourceFolder url="file://$USER_HOME$/WebKine/kine3d/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/WebKine/kine3d/src/test/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/WebKine/kine3d/src" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/WebKine/kine3d/src/test" isTestSource="true" />
-      <excludeFolder url="file://$USER_HOME$/WebKine/kine3d/target" />
+    <content url="file://$MODULE_DIR$/../../../git-webkine/kine3d">
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-webkine/kine3d/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-webkine/kine3d/src/test/java" isTestSource="true" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
