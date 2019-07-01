@@ -79,7 +79,9 @@ public class SectionWrapper implements IWrapper<Section> {
         Paleobathymetry paleo = wrapped.getPatchLibrary().getPaleobathymetry();
         if (paleo == null) {
             paleo = new Paleobathymetry();
+            paleo.setName("Paleobathymetry");
             wrapped.getPatchLibrary().add(paleo);
+            paleo.initLine();
         }
 
         WrapperFactory.load(
@@ -90,7 +92,9 @@ public class SectionWrapper implements IWrapper<Section> {
         DomainReference reference = wrapped.getPatchLibrary().getDomainReference();
         if (reference == null) {
             reference = new DomainReference();
+            reference.setName("Domain Reference");
             wrapped.getPatchLibrary().add(reference);
+            reference.initLine();
         }
 
         WrapperFactory.load(
