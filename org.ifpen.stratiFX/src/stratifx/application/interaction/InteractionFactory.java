@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import stratifx.application.compact2d.Compact2DInteraction;
 import stratifx.application.interaction.deform.*;
 import stratifx.application.interaction.edit.MovePointsInteraction;
 import stratifx.application.interaction.tools.*;
@@ -35,7 +36,7 @@ public class InteractionFactory {
     }
 
     /**
-     * @return the {@link DeformationFactory} singleton instance
+     * @return the {@link InteractionFactory} singleton instance
      */
     public static InteractionFactory getInstance() {
         return factory;
@@ -65,11 +66,10 @@ public class InteractionFactory {
         register("Dilatation", DilatationInteraction.class);
         register("Triangulation", TriangulateInteraction.class);
         register("StratiGrid", StratiGridInteraction.class);
-        register("Compact2D", Compact2DInteraction.class);
         register("TimeLine", TimeLineInteraction.class);
         register("AntiGravity", AntiGravityInteraction.class);
         register("MovePoints", MovePointsInteraction.class);
-        register("BL2DMesh", BL2DMeshInteraction.class);
+
     }
     
     

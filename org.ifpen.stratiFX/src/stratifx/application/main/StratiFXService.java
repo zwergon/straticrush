@@ -56,7 +56,10 @@ import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifp.kronosflow.utils.TempDir;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import stratifx.application.bl2d.BL2DParamInfo;
 import stratifx.application.caller.EventUIAction;
+import stratifx.application.compact2d.Compact2DParamInfo;
+import stratifx.application.fxcontrollers.MenuParamInfo;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
@@ -122,7 +125,9 @@ public class StratiFXService implements
         WrapperFactory.registerClass(ExplicitPolyLine.class, PolylineWrapper.class);
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
         WrapperFactory.registerClass(GeologicLibrary.class, GeologicLibraryWrapper.class);
-        
+
+        MenuParamInfo.register( new BL2DParamInfo() );
+        MenuParamInfo.register( new Compact2DParamInfo() );
         
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
 

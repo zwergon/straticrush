@@ -15,11 +15,9 @@ import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.beans.property.BooleanProperty;
@@ -29,17 +27,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-import stratifx.application.bl2d.EnvStyle;
 import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
 import stratifx.application.views.DisplayStyle;
 import stratifx.application.views.StyleUIAction;
+import javafx.fxml.FXMLLoader;
 
 /**
  *
@@ -68,43 +68,21 @@ public class ParametersUIController implements
     CheckBox displayWithAnnotationId;
 
     @FXML
-    ComboBox element;
+    ComboBox gridingType;
 
     @FXML
-    TextField verb;
+    VBox Griding;
 
-    @FXML
-    TextField hmin;
+    Pane gridingPane;
 
-    @FXML
-    TextField hmax;
-
-    @FXML
-    Label el;
-
-    @FXML
-    Label verbl;
-
-    @FXML
-    Label hminl;
-
-    @FXML
-    Label hmaxl;
-
-    @FXML
-    ComboBox griding;
-
-    @FXML
-    Label bl2denv;
-
-    @FXML
-    HBox appl;
+    Map<String, Pane> gridingMap = new HashMap<>();
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
     
     GeoschedulerSection section;
     
     SceneStyle sceneStyle;
+
 
     class FXFeature {
 
@@ -163,60 +141,6 @@ public class ParametersUIController implements
                 "StratiGrid"
         );
 
-        element.getItems().addAll(
-                "p1",
-                "q1.0",
-                "q1.1"
-        );
-
-        griding.getItems().addAll(
-                "None",
-                "BL2DMesh"
-        );
-
-
-        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
-
-        griding.setOnAction((event)->{
-            if(griding.getValue().toString().equals("BL2DMesh")){
-                bl2denv.setVisible(true);
-                el.setVisible(true);
-                element.setVisible(true);
-                verbl.setVisible(true);
-                verb.setVisible(true);
-                hminl.setVisible(true);
-                hmin.setVisible(true);
-                hmaxl.setVisible(true);
-                hmax.setVisible(true);
-            }
-            else{
-                bl2denv.setVisible(false);
-                el.setVisible(false);
-                element.setVisible(false);
-                verbl.setVisible(false);
-                verb.setVisible(false);
-                hminl.setVisible(false);
-                hmin.setVisible(false);
-                hmaxl.setVisible(false);
-                hmax.setVisible(false);
-            }
-        });
-        if(envStyle.getEnvElement()!=null){
-            element.setValue(envStyle.getEnvElement());
-        }
-        else{
-            element.setValue("p1");
-        }
-
-        if(envStyle.getEnvVerb()!=null){
-            verb.setText(envStyle.getEnvVerb().toString());
-        }
-        if(envStyle.getEnvHmin()!=null){
-            hmin.setText(envStyle.getEnvHmin());
-        }
-        if(envStyle.getEnvHmax()!=null){
-            hmax.setText(envStyle.getEnvHmax());
-        }
 
         SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
         gridComboId.getSelectionModel().select(sceneStyle.getGridType());
@@ -230,6 +154,58 @@ public class ParametersUIController implements
         displayWithSymbolId.setSelected(displayStyle.getWithSymbol());
         displayWithAnnotationId.setSelected(displayStyle.getWithAnnotation());
 
+
+        initGridingTab();
+
+    }
+
+    private void initGridingTab() {
+
+        ObservableList<String> items = gridingType.getItems();
+
+        for( IGridingParameter parameter : MenuParamInfo.getParameters( IGridingParameter.class )){
+            MenuParamInfo mpi = (MenuParamInfo)parameter;
+
+            String key = mpi.getKey();
+
+            items.add(key);
+
+            if ( mpi.getFxmlFile() != null ) {
+                try {
+                    Pane pane = FXMLLoader.load(getClass().getResource(mpi.getFxmlFile()));
+                    Griding.getChildren().add(pane);
+                    mpi.setPane(pane);
+
+
+                } catch (IOException ex) {
+                    LOGGER.error("unable to create inside gridingPane", getClass());
+                }
+            }
+
+        }
+
+        gridingPane = null;
+
+        gridingType.setOnAction((event)->{
+
+            String key = gridingType.getValue().toString();
+
+            MenuParamInfo gpi = MenuParamInfo.getMenuParamInfo(key);
+            gridingPane = gpi.getPane();
+            if ( gridingPane != null ){
+                gridingPane.setVisible(true);
+            }
+
+            for( Node node : Griding.getChildren() ){
+                if ( node instanceof Pane ){
+                    Pane pane = (Pane)node;
+                    if ( pane != gridingPane ){
+                        pane.setVisible(false);
+                    }
+                }
+            }
+
+        });
     }
 
     private void initSceneParameters(GeoschedulerSection section) {
@@ -275,8 +251,6 @@ public class ParametersUIController implements
     @FXML
     public void onSceneApplyAction( ActionEvent event ){
 
-
-
         for( FXFeature fxFeature : data ){
             if ( fxFeature.feature instanceof StratigraphicEvent  ) {
                 sceneStyle.setUnusualBehavior(section, fxFeature.feature, !fxFeature.isSelected() );
@@ -304,31 +278,6 @@ public class ParametersUIController implements
                 new StyleUIAction(displayStyle.getStyle())
         );
 
-    }
-
-    @FXML
-    public void onEnvApplyAction(ActionEvent action){
-        LOGGER.debug("onEnvApplyAction",getClass());
-        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
-        envStyle.setEnvElement(element.getValue().toString());
-        if(!verb.getText().isEmpty()){
-            envStyle.setEnvVerb(Integer.valueOf(verb.getText()));
-        }
-        else{
-            envStyle.removeEnvVerb();
-        }
-        if(!hmin.getText().isEmpty()){
-            envStyle.setEnvHmin(hmin.getText());
-        }
-        else{
-            envStyle.removeEnvHmin();
-        }
-        if(!hmax.getText().isEmpty()){
-            envStyle.setEnvHmax(hmax.getText());
-        }
-        else{
-            envStyle.removeEnvHmax();
-        }
     }
 
     @FXML

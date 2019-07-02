@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
 <TabPane prefHeight="520.0" prefWidth="498.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.ParametersUIController">
    <tabs>
       <Tab closable="false" text="Scene">
@@ -109,53 +110,12 @@
       </Tab>
       <Tab closable="false" text="Griding">
          <content>
-            <GridPane>
+            <VBox fx:id="Griding">
                <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
-               <columnConstraints>
-                  <ColumnConstraints minWidth="200" prefWidth="200"
-                                     maxWidth="Infinity" halignment="LEFT">
-                  </ColumnConstraints>
-                  <ColumnConstraints minWidth="200" prefWidth="200"
-                                     maxWidth="Infinity" halignment="RIGHT" hgrow="ALWAYS">
-                  </ColumnConstraints>
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="60.0" valignment="BOTTOM" vgrow="NEVER" />
-               </rowConstraints>
                <children>
-                  <ComboBox fx:id="griding" prefHeight="20" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                  <Label text="BL2D Env Settings" fx:id="bl2denv" GridPane.rowIndex="1" GridPane.columnIndex="0" visible="false" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="el" text="Element : " GridPane.columnIndex="0" GridPane.rowIndex="2" visible="false"></Label>
-                  <ComboBox fx:id="element" prefHeight="20" GridPane.columnIndex="1" GridPane.rowIndex="2" visible="false"/>
-                  <Label fx:id="verbl" text="Verb : " GridPane.columnIndex="0" GridPane.rowIndex="3" visible="false"></Label>
-                  <TextField fx:id="verb" prefHeight="20" GridPane.columnIndex="1" GridPane.rowIndex="3" visible="false"></TextField>
-                  <Label fx:id="hminl" text="Hmin : " GridPane.columnIndex="0" GridPane.rowIndex="4" visible="false"></Label>
-                  <TextField fx:id="hmin" prefHeight="20" GridPane.columnIndex="1" GridPane.rowIndex="4" visible="false"></TextField>
-                  <Label fx:id="hmaxl" text="Hmax : " GridPane.columnIndex="0" GridPane.rowIndex="5" visible="false"></Label>
-                  <TextField fx:id="hmax" prefHeight="20" GridPane.columnIndex="1" GridPane.rowIndex="5" visible="false"></TextField>
-                  <HBox prefWidth="200.0" spacing="5.0" GridPane.rowIndex="9">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#onEnvApplyAction" text="Apply" />
-                     </children>
-                     <GridPane.margin>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-                     </GridPane.margin>
-                  </HBox>
+                  <ComboBox fx:id="gridingType" prefHeight="20" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                </children>
-            </GridPane>
+            </VBox>
          </content>
       </Tab>
    </tabs>

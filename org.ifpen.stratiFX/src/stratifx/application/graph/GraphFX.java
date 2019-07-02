@@ -1,7 +1,5 @@
 package stratifx.application.graph;
 
-import fr.ifp.kronosflow.deform.scene.sequence.ContactNode;
-import fr.ifp.kronosflow.deform.scene.sequence.PatchNode;
 import fr.ifp.kronosflow.deform.scene.sequence.SequenceNode;
 import fr.ifp.kronosflow.model.graph.Graph;
 import fr.ifp.kronosflow.model.graph.GraphEdge;
@@ -51,7 +49,7 @@ public class GraphFX {
 
         cellFXLayer.getChildren().removeAll();
 
-        List<Vertex> vertices = graph.getVertices();
+        Collection<Vertex> vertices = graph.getVertices();
         Collection<CellFX> fxCells = new ArrayList<>(vertices.size());
         for (Vertex vertex : vertices) {
             fxCells.add(createCell(vertex));

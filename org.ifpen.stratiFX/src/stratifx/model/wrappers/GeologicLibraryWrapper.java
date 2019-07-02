@@ -132,11 +132,13 @@ public class GeologicLibraryWrapper implements IWrapper<GeologicLibrary> {
 
 
             StratigraphicEvent topEvent = unit.getTop();
-            PersistableGeologicFeature persistedTopEvent = new PersistableGeologicFeature(topEvent);
-            persistedTopEvent.setRgbColor(topEvent.getRgbColor());
-            persistableUnit.setTopEvent(persistedTopEvent);
+            if ( topEvent != null ) {
+                PersistableGeologicFeature persistedTopEvent = new PersistableGeologicFeature(topEvent);
+                persistedTopEvent.setRgbColor(topEvent.getRgbColor());
+                persistableUnit.setTopEvent(persistedTopEvent);
 
-            persistedUnits.add(persistableUnit);
+                persistedUnits.add(persistableUnit);
+            }
         }
 
         return persistedUnits;

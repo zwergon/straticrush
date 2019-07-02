@@ -69,7 +69,7 @@ public class CompositeMeshManipulator extends CompositeManipulator {
 
         assert section != null : "Section is null";
 
-        return section.getPatchLibrary().getPaleobathymetry().getPolyline();
+        return (PolyLine)section.getPatchLibrary().getPaleobathymetry().getPolyline();
     }
 
     public CompositeMeshManipulator(

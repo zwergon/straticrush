@@ -1,11 +1,21 @@
-package stratifx.application.interaction.tools;
-
+/*
+ * Copyright (C) 2014-2017 by IFPEN
+ * All rights reserved.
+ * 
+ * IFPEN Headquarters:
+ * 1 & 4, avenue de Bois-Preau
+ * 92852 Rueil-Malmaison Cedex - France
+ */
+package stratifx.application.compact2d;
 
 import fr.ifp.kronosflow.deform.scene.Scene;
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.Patch;
-import stratifx.application.bl2d.WebBL2DMeshBuilder;
+import fr.ifp.kronosflow.model.builder.Compact2DPatchBuilder;
+import java.util.HashMap;
+import java.util.List;
+
 import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.views.GMesh;
 import stratifx.canvas.graphics.GColor;
@@ -13,30 +23,31 @@ import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GMouseEvent;
 
-import java.util.HashMap;
-import java.util.List;
-
-public class BL2DMeshInteraction extends SectionInteraction {
+/**
+ *
+ * @author lecomtje
+ */
+public class Compact2DInteraction extends SectionInteraction {
 
     final static int G_MESH = 0;
 
     static GColor[] colors = new GColor[]{
-            GColor.CYAN,
-            GColor.GREEN,
-            GColor.MAGENTA,
-            GColor.ORANGE,
-            GColor.PINK,
-            GColor.RED,
-            GColor.WHITE,
-            GColor.YELLOW,
-            GColor.BLUE
+        GColor.CYAN,
+        GColor.GREEN,
+        GColor.MAGENTA,
+        GColor.ORANGE,
+        GColor.PINK,
+        GColor.RED,
+        GColor.WHITE,
+        GColor.YELLOW,
+        GColor.BLUE
     };
 
     HashMap<Integer, GObject> gObjects = new HashMap<>();
 
     Scene scene;
 
-    public BL2DMeshInteraction(GScene scene) {
+    public Compact2DInteraction(GScene scene) {
         super(scene);
     }
 
@@ -78,7 +89,8 @@ public class BL2DMeshInteraction extends SectionInteraction {
             Patch selected = scene.getSelected();
             List<Point2D> pts = selected.getBorder().getPoints2D();
 
-            WebBL2DMeshBuilder builder = new WebBL2DMeshBuilder();
+            Compact2DPatchBuilder builder = new Compact2DPatchBuilder();
+            builder.initialize(selected, pts);
             Mesh2D mesh = builder.createMesh(selected.getBorder().getPoints2D());
 
             GMesh gmesh = new GMesh(mesh);

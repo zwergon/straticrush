@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 package stratifx.application.main;
-	
-import java.io.IOException;
-import java.net.URL;
 
-import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import stratifx.application.fxcontrollers.MenuParamInfo;
 import stratifx.application.plot.PlotController;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
 
 
 public class Main extends Application {
@@ -58,6 +59,8 @@ public class Main extends Application {
 			System.exit(0);
 		});
 	}
+
+
 	
 	 /**
      * Initializes the root layout.
@@ -71,7 +74,28 @@ public class Main extends Application {
             BorderPane rootLayout = loader.load();
             
             StratiFXService.instance.registerController( IUIController.Type.MAIN, loader.getController() );
-            
+
+            MenuBar menuBar = (MenuBar)rootLayout.lookup("#MainMenuBar");
+
+
+            for(Map.Entry<String, MenuParamInfo> entry : MenuParamInfo.getMenuParamInfos().entrySet()){
+                String key = entry.getKey();
+                MenuParamInfo menuParamInfo = entry.getValue();
+
+                Menu menu = findMenu(menuBar, menuParamInfo.getMenuId());
+                if ( null == menu ) continue;
+
+                MenuItem item = new MenuItem(key);
+                item.setOnAction(event -> {
+                    StratiFXService.instance.broadCastAction(menuParamInfo.getUIAction());
+                });
+
+                menu.getItems().add(item);
+            }
+
+
+
+
             return rootLayout;
                  
         } catch (IOException e) {
@@ -80,8 +104,39 @@ public class Main extends Application {
         
         return null;
     }
-	
-	 /**
+
+    private Menu _findMenu(Menu parent, String fxId ){
+
+        String mId = parent.getId();
+        if ((mId != null) && mId.equals(fxId)){
+            return parent;
+        }
+
+        for(MenuItem item : parent.getItems()){
+            if ( item instanceof Menu ) {
+                Menu foundItem =_findMenu((Menu)item, fxId);
+                if ( foundItem != null ){
+                    return foundItem;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Menu findMenu(MenuBar menuBar, String fxId) {
+        Menu foundMenu = null;
+        for( Menu menu : menuBar.getMenus()){
+            foundMenu = _findMenu(menu, fxId);
+            if (foundMenu != null){
+                break;
+            }
+        }
+
+        return foundMenu;
+    }
+
+    /**
      * Initializes the root layout.
      */
     public void createCenterPlot( BorderPane rootLayout ) {

@@ -16,23 +16,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.main.MainController">
     <top>
-        <MenuBar blendMode="SRC_ATOP" BorderPane.alignment="CENTER">
+        <MenuBar blendMode="SRC_ATOP" BorderPane.alignment="CENTER" fx:id="MainMenuBar">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <Menu mnemonicParsing="false" text="Section">
@@ -69,13 +58,11 @@ limitations under the License.
                               <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Griding">
+                  <Menu mnemonicParsing="false" fx:id="GridingMenu" text="Griding">
                      <items>
                          <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
-                         <MenuItem mnemonicParsing="false" onAction="#onToolsBL2DMeshAction" text="BL2DMesh" />
-                        <MenuItem mnemonicParsing="false" onAction="#onToolsStratiGridAction" text="StratiGrid" />
-                        <MenuItem mnemonicParsing="false" onAction="#onToolsGridingCompact2DAction" text="Compact2D" />
-                     </items>
+                         <MenuItem mnemonicParsing="false" onAction="#onToolsStratiGridAction" text="StratiGrid" />
+                        </items>
                   </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>

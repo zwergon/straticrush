@@ -132,13 +132,13 @@ public class SectionWrapper implements IWrapper<Section> {
         }
 
         // Chargement des paleobathymetry
-        PolyLine bathymetry = wrapped.getPatchLibrary().getPaleobathymetry().getPolyline();
+        PolyLine bathymetry = (PolyLine)wrapped.getPatchLibrary().getPaleobathymetry().getPolyline();
         PersistablePolyline bathy = new PersistablePolyline(bathymetry);
         WrapperFactory.save(bathymetry, bathy );
         persistedSection.setPaleobathymetry(bathy);
 
 
-        PolyLine referenceDomain = wrapped.getPatchLibrary().getDomainReference().getPolyline();
+        PolyLine referenceDomain = (PolyLine)wrapped.getPatchLibrary().getDomainReference().getPolyline();
         PersistablePolyline domain = new PersistablePolyline(referenceDomain);
         WrapperFactory.save(referenceDomain, domain );
         persistedSection.setDomainReference(domain);

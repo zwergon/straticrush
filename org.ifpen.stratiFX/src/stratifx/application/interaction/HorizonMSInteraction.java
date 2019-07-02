@@ -108,7 +108,7 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
         Section section = getSection();
         Paleobathymetry bathy = section.getPatchLibrary().getPaleobathymetry();
         
-        return bathy.getPolyline();
+        return (PolyLine)bathy.getPolyline();
     }
 
     
