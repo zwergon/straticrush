@@ -16,6 +16,7 @@ import fr.ifpen.kine.mesh.Mesh;
 import fr.ifpen.kine.mesh.Region;
 import fr.ifpen.kine.process.ProcessState;
 import fr.ifpen.kine.process.StateBit;
+import stratifx.application.main.GParameters;
 
 import java.util.Collection;
 
@@ -24,13 +25,16 @@ public class WebSolver extends MeshSolver {
 
     boolean withDeleteSession = true;
 
-    static {
-        WebKineClient.setBaseUrl("http://irlin326287:8090/api");
-        //WebKineClient.setBaseUrl("http://10.8.3.209:9000/api");
+    public WebSolver(){
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+
+        WebKineClient.setBaseUrl( serviceStyle.getBaseUrl());
     }
 
     @Override
     public boolean solve(Collection<DeformLink> nodeLinks) {
+
         Long simulationId = SimulationClient.createSimulationNow("aster");
 
         Mesh2D mesh2d = getMesh();
@@ -105,7 +109,7 @@ public class WebSolver extends MeshSolver {
                 }
 
                 if ( withDeleteSession ) {
-                    //SimulationClient.deleteSimulation(simulationId);
+                    SimulationClient.deleteSimulation(simulationId);
                 }
 
                 return true;

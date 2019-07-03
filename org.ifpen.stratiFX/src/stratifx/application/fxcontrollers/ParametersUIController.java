@@ -25,6 +25,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -40,6 +41,7 @@ import stratifx.application.main.UIAction;
 import stratifx.application.views.DisplayStyle;
 import stratifx.application.views.StyleUIAction;
 import javafx.fxml.FXMLLoader;
+import stratifx.application.webkine.WebServiceStyle;
 
 /**
  *
@@ -51,7 +53,9 @@ public class ParametersUIController implements
 
     @FXML
     ListView<ParametersUIController.FXFeature> fxFeaturesListId;
-    
+
+    private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
+
     @FXML
     ComboBox gridComboId;
 
@@ -77,8 +81,13 @@ public class ParametersUIController implements
 
     Map<String, Pane> gridingMap = new HashMap<>();
 
-    private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
-    
+    @FXML
+    TextField hostText;
+
+    @FXML
+    Spinner<Integer> portSpinner;
+
+
     GeoschedulerSection section;
     
     SceneStyle sceneStyle;
@@ -157,6 +166,19 @@ public class ParametersUIController implements
 
         initGridingTab();
 
+        initWebServiceTab();
+
+    }
+
+    private void initWebServiceTab() {
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+
+        hostText.setText( serviceStyle.getHost() );
+        portSpinner.getValueFactory().setValue( serviceStyle.getPort() );
+
+        hostText.setOnAction(event -> serviceStyle.setHost(hostText.getText()));
+        portSpinner.valueProperty().addListener(event -> serviceStyle.setPort(portSpinner.getValue()));
     }
 
     private void initGridingTab() {

@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.UIAction;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class BL2DEnvUIController implements Initializable, IUIController {
 
     @FXML
-    GridPane bl2dPane;
+    AnchorPane bl2dPane;
 
     @FXML
     ComboBox element;
@@ -74,7 +74,6 @@ public class BL2DEnvUIController implements Initializable, IUIController {
             hmax.setText(envStyle.getEnvHmax());
         }
 
-        bl2dPane.setVgap(30);
         bl2dPane.setVisible(false);
 
     }

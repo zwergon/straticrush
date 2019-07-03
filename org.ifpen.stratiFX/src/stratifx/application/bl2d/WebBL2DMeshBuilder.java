@@ -103,6 +103,11 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return null;
     }
 
+    @Override
+    public Mesh2D createMesh(Set<fr.ifp.kronosflow.kernel.polyline.Node> nodes) {
+        return null;
+    }
+
     private BL2DMesh fromMesh(Mesh mesh){
         DefaultEncoderService enc = new DefaultEncoderService();
         BL2DMesh bl2dMesh = new BL2DMesh();

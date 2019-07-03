@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -13,10 +19,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<TabPane prefHeight="520.0" prefWidth="498.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.ParametersUIController">
+
+<TabPane prefHeight="520.0" prefWidth="498.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.ParametersUIController">
    <tabs>
       <Tab closable="false" text="Scene">
          <content>
@@ -111,12 +117,54 @@
       <Tab closable="false" text="Griding">
          <content>
             <VBox fx:id="Griding">
-               <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+               <padding><Insets bottom="40" left="40" right="40" top="40" /></padding>
                <children>
                   <ComboBox fx:id="gridingType" prefHeight="20" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                </children>
             </VBox>
          </content>
+      </Tab>
+      <Tab fx:id="webServiceTab" text="WebService" closable="false">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <VBox layoutX="199.0" layoutY="100.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Host : " />
+                              <TextField fx:id="hostText" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Port : "/>
+                              <Spinner fx:id="portSpinner" initialValue="8090" max="10000" min="7000" />
+                           </children>
+                        </HBox>
+                         <CheckBox disable="true" layoutX="32.0" layoutY="190.0" mnemonicParsing="false" text="Proxy" />
+                         <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <Label text="Proxy Host : " />
+                                 <TextField fx:id="proxyHostText" text="irproxyweb1"/>
+                             </children>
+                         </HBox>
+                         <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <Label text="Proxy Port : " />
+                                 <Spinner fx:id="proxyPortSpinner" initialValue="8090" max="10000" min="7000" />
+                             </children>
+                         </HBox>
+                     </children>
+
+                  </VBox>
+
+               </children>
+            </AnchorPane>
+        </content>
       </Tab>
    </tabs>
 </TabPane>
