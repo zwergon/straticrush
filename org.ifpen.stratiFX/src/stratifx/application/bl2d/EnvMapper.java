@@ -20,6 +20,10 @@ public class EnvMapper{
         if(hmax!=null){
             env.setHmax(Double.valueOf(hmax));
         }
+        System.out.println(env.getElement());
+        System.out.println(env.getVerb());
+        System.out.println(env.getHmin());
+        System.out.println(env.getHmax());
         return env;
     }
 

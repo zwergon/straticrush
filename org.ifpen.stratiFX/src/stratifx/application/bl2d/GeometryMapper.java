@@ -2,82 +2,66 @@ package stratifx.application.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.kernel.polyline.Node;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
+import fr.ifp.kronosflow.kernel.polyline.SortedList;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifpen.kine.BL2D.geometry.*;
+import stratifx.application.main.GParameters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GeometryMapper {
 
+    private int maxPoints = 0;
+    private int maxCurves = 0;
+    private int maxDomains = 0;
+    private List<Point> pointList = new ArrayList<Point>();
+    private List<String> imposedPoints = new ArrayList<String>();
+    private List<Curve> curveList = new ArrayList<Curve>();
+    private List<RefOnPoint> refOnPointList = new ArrayList<RefOnPoint>();
+    private List<RefOnCurve> refOnCurveList = new ArrayList<RefOnCurve>();
+    private List<Domain> domainList = new ArrayList<Domain>();
+
     public GeometryMapper(){ }
 
-    public List<Point> createDummyPoints(List<Point2D> ps){
-        List<Point> pts = new ArrayList<Point>();
+    public void createGeometry(PolyLine line){
+        List<Point2D> borderPoints = line.getPoints2D();
+        int size = borderPoints.size();
+        this.maxPoints = size*10;
+        this.maxCurves = size*10;
+        this.maxDomains = size*10;
+        List<String> pointIDs = new ArrayList<String>();
+        for(int i = 0; i < size; i++){
+            this.pointList.add(new Point("P"+Integer.toString(i),Double.toString(borderPoints.get(i).x()),Double.toString(borderPoints.get(i).y())));
+            pointIDs.add("P"+Integer.toString(i));
 
-        int id = 1;
-
-        for (Point2D p : ps){
-            pts.add(new Point(Integer.toString(id),Double.toString(p.x()),Double.toString(p.y())));
-            id++;
         }
 
-        return pts;
-    }
-
-    public List<Curve> createDummyCurves(List<Point> pts){
-        List<Curve> cs = new ArrayList<Curve>();
-
-        int id = 500;
-        Point bP = null;
-        Point cP = null;
-        Point fP = null;
-
-        for (Point pt : pts){
-
-            cP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
-
-            if(bP != null && cP != null){
-                cs.add(new Curve(Integer.toString(id),"NULL",bP.getPointID(),new ArrayList<String>(),cP.getPointID(),"NULL"));
-                id++;
-            }
-
-            if(bP == null){
-                fP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
-            }
-
-            bP = new Point(pt.getPointID(),pt.getPointX(),pt.getPointY());
+        for(int i = 1; i < size; i++){
+            this.curveList.add(new Curve("L"+Integer.toString(i),"NULL",pointIDs.get(i-1),new ArrayList<String>(),pointIDs.get(i),"NULL"));
         }
 
-        cs.add(new Curve(Integer.toString(id),"NULL",bP.getPointID(),new ArrayList<String>(),fP.getPointID(),"NULL"));
+        this.curveList.add(new Curve("L"+Integer.toString(size),"NULL",pointIDs.get(size-1),new ArrayList<String>(),pointIDs.get(0),"NULL"));
 
-        return cs;
+        this.domainList.add(new Domain(this.curveList.get(0).getCurveID(),"+1",0));
     }
 
-    public List<Domain> createDummyDomain(List<Curve> cs){
-        List<Domain> ds = new ArrayList<Domain>();
-
-        Curve c = cs.get(0);
-        ds.add(new Domain(c.getCurveID(),"-1",0));
-
-        return ds;
-    }
-
-    public Geometry geomFromMesh2D(List<Point2D> ps){
-        List<Point> pts = createDummyPoints(ps);
+    public Geometry geomFromMesh2D(PolyLine line){
+        createGeometry(line);
         Geometry geometry = new Geometry();
-        geometry.setMaxNP(1000);
-        geometry.setMaxNC(1000);
-        geometry.setMaxND(1000);
-        geometry.setPoints(pts);
-        geometry.setImposedPoints(new ArrayList<String>());
-        List<Curve> cs = createDummyCurves(pts);
-        geometry.setCurves(cs);
-        geometry.setRefOnPoints(new ArrayList<RefOnPoint>());
-        geometry.setRefOnCurves(new ArrayList<RefOnCurve>());
-        List<Domain> ds = createDummyDomain(cs);
-        geometry.setDomains(ds);
+        geometry.setMaxNP(this.maxPoints);
+        geometry.setMaxNC(this.maxCurves);
+        geometry.setMaxND(this.maxDomains);
+        geometry.setPoints(pointList);
+        geometry.setImposedPoints(this.imposedPoints);
+        geometry.setCurves(curveList);
+        geometry.setRefOnPoints(this.refOnPointList);
+        geometry.setRefOnCurves(this.refOnCurveList);
+        geometry.setDomains(domainList);
         geometry.setMetric(new Metrics("isotrope", new ArrayList<Metric>()));
 
         return geometry;

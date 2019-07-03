@@ -1,7 +1,7 @@
 package stratifx.application.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
-import fr.ifp.kronosflow.mesh.NodeLink;
+import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -19,7 +19,6 @@ import fr.ifpen.kine.mesh.Topology;
 import fr.ifpen.kine.process.ProcessState;
 import fr.ifpen.kine.process.StateBit;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,13 +27,17 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
 
     @Override
     public Mesh2D createMesh(List<Point2D> pts) {
+        return null;
+    }
+
+    public Mesh2D create2Mesh(PolyLine line) {
         Long simulationId = SimulationClient.createSimulationNow("bl2d");
 
         if (simulationId > 0) {
 
             //preprocess Geometry
             GeometryMapper geometryMapper = new GeometryMapper();
-            Geometry geometry = geometryMapper.geomFromMesh2D(pts);
+            Geometry geometry = geometryMapper.geomFromMesh2D(line);
             geometry.setName("geometry from StratiFX");
             geometry.setSimulationId(simulationId);
 
@@ -143,5 +146,4 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
 
         return bl2dMesh;
     }
-
 }
