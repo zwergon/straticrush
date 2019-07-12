@@ -76,7 +76,6 @@ public class ParametersUIController implements
 
     Map<String, Pane> gridingMap = new HashMap<>();
 
-
     @FXML
     ComboBox solverType;
 
@@ -146,11 +145,6 @@ public class ParametersUIController implements
         if (section != null) {
             initSceneParameters(section);
         }
-        
-
-
-
-
 
         DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
         displayWithLineId.setSelected(displayStyle.getWithLines());
@@ -263,10 +257,12 @@ public class ParametersUIController implements
         SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
         sceneStyle.setGridType(key);
 
+
         ParamInfo gpi = MenuParamInfo.getParamInfo(key);
         gridingPane = gpi.getPane();
         if ( gridingPane != null ){
             gridingPane.setVisible(true);
+            gridingPane.setManaged(true);
         }
 
         for( Node node : Griding.getChildren() ){
@@ -274,9 +270,12 @@ public class ParametersUIController implements
                 Pane pane = (Pane)node;
                 if ( pane != gridingPane ){
                     pane.setVisible(false);
+                    pane.setManaged(false);
                 }
             }
         }
+
+
     }
 
     private void onSolverTypeAction() {

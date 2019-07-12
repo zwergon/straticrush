@@ -5,42 +5,38 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id = "femsolverPane"
-            fx:controller="stratifx.application.solvers.FEMSolverUIController"
-            prefHeight="400.0" prefWidth="600.0">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="grid2dPane"
+            fx:controller="stratifx.application.grid2d.Grid2DParamUIController"
+            prefHeight="520.0" prefWidth="498.0">
+
+
     <children>
         <VBox layoutX="199.0" layoutY="100.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
             <children>
-                <Label text="FEM2D Solver Settings"  textAlignment="CENTER">
+                <Label text="Grid2D Settings" fx:id="grid2dSettings" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
                 <HBox alignment="CENTER">
                     <children>
-                        <CheckBox fx:id="lsConstraintCB" text="LS Constraint"/>
+                        <Label  text="nx : "   alignment="CENTER_RIGHT" prefWidth="100" prefHeight="20" />
+                        <TextField fx:id="nxText" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER">
                     <children>
-                        <Label fx:id="solverTypeLbl" text="Solver : " alignment="CENTER_RIGHT" prefWidth="100" prefHeight="20"/>
-                        <ComboBox fx:id="solverTypeCb" prefWidth="200" />
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER">
-                    <children>
-                        <Label fx:id="reductionTypeLbl" text="Reduction : " alignment="CENTER_RIGHT" prefWidth="100" prefHeight="20"/>
-                        <ComboBox fx:id="reductionTypeCb" prefWidth="200" />
+                        <Label  text="ny : " alignment="CENTER_RIGHT" prefWidth="100" prefHeight="20"/>
+                        <TextField fx:id="nyText"/>
                     </children>
                 </HBox>
                 <Button mnemonicParsing="false" onAction="#onApplyAction" text="Apply" />
             </children>
         </VBox>
     </children>
-
 
 </AnchorPane>

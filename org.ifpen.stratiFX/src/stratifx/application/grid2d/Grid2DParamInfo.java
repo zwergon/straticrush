@@ -9,7 +9,7 @@ public class Grid2DParamInfo extends MenuParamInfo implements IGridingParameter 
 
     public Grid2DParamInfo() {
         key = "Grid2D";
-        fxmlFile = null;
+        fxmlFile = "../grid2d/Grid2DParamUI.fxml";
         menuId = "GridingMenu";
         uiAction = new InteractionUIAction(key, key);
 
