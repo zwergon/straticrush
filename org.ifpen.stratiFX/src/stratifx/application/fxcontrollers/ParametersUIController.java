@@ -55,9 +55,6 @@ public class ParametersUIController implements
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
 
     @FXML
-    ComboBox gridComboId;
-
-    @FXML
     CheckBox displayWithSolidId;
 
     @FXML
@@ -150,20 +147,10 @@ public class ParametersUIController implements
             initSceneParameters(section);
         }
         
-        gridComboId.getItems().addAll( 
-                "None", 
-                "Trgl", 
-                "Grid2D", 
-                "Compact2D",
-                "StratiGrid"
-        );
 
 
-        SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
-        gridComboId.getSelectionModel().select(sceneStyle.getGridType());
-        gridComboId.setOnAction((event)->{
-            sceneStyle.setGridType(gridComboId.getValue().toString());
-        });
+
+
 
         DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
         displayWithLineId.setSelected(displayStyle.getWithLines());
@@ -256,7 +243,8 @@ public class ParametersUIController implements
         }
 
         if ( !items.isEmpty() ) {
-            gridingType.setValue(items.sorted().get(0));
+            SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
+            gridingType.setValue(sceneStyle.getGridType());
             onGridingTypeAction();
         }
 
@@ -271,6 +259,9 @@ public class ParametersUIController implements
 
     private void onGridingTypeAction() {
         String key = gridingType.getValue().toString();
+
+        SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
+        sceneStyle.setGridType(key);
 
         ParamInfo gpi = MenuParamInfo.getParamInfo(key);
         gridingPane = gpi.getPane();

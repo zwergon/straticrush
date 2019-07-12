@@ -163,14 +163,7 @@ public class TimeLineInteraction extends SectionInteraction {
 
 
         }
-
-
-
     }
-
-
-
-
 
 
     private Map<Patch, Mesh2D>  retrieveMeshes(Patch patch) {

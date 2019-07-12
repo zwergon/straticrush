@@ -13,11 +13,11 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import stratifx.application.compact2d.Compact2DInteraction;
 import stratifx.application.interaction.deform.*;
 import stratifx.application.interaction.edit.MovePointsInteraction;
 import stratifx.application.interaction.tools.*;
 import stratifx.application.plot.GFXScene;
+import stratifx.application.stratigrid.StratiGridInteraction;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GInteraction;
 
@@ -64,8 +64,6 @@ public class InteractionFactory {
         register("HorizonMS", HorizonMSInteraction.class);
         register("RemoveUnit", RemoveUnitInteraction.class);
         register("Dilatation", DilatationInteraction.class);
-        register("Triangulation", TriangulateInteraction.class);
-        register("StratiGrid", StratiGridInteraction.class);
         register("TimeLine", TimeLineInteraction.class);
         register("AntiGravity", AntiGravityInteraction.class);
         register("MovePoints", MovePointsInteraction.class);

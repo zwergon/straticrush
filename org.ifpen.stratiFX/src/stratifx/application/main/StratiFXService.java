@@ -24,7 +24,7 @@ import fr.ifp.kronosflow.controllers.property.PropertyController;
 import fr.ifp.kronosflow.controllers.property.PropertyControllerCaller;
 import fr.ifp.kronosflow.deform.decompaction.PorosityComputer;
 import fr.ifp.kronosflow.deform.deformation.DeformationFactory;
-import fr.ifp.kronosflow.deform.stratigraphy.StratigraphicGridBuilder;
+import fr.ifp.kronosflow.deform.stratigraphy.StratiGridPatchBuilder;
 import fr.ifp.kronosflow.deform.stratigraphy.StratigraphyPropertyComputer;
 import fr.ifp.kronosflow.dem.deformation.DEMDeformation;
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
@@ -60,12 +60,14 @@ import javafx.stage.Stage;
 import stratifx.application.bl2d.BL2DParamInfo;
 import stratifx.application.caller.EventUIAction;
 import stratifx.application.compact2d.Compact2DParamInfo;
-import stratifx.application.fxcontrollers.MenuParamInfo;
 import stratifx.application.fxcontrollers.ParamInfo;
+import stratifx.application.grid2d.Grid2DParamInfo;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
 import stratifx.application.solvers.FEMSolverParamInfo;
+import stratifx.application.stratigrid.StratiGridParamInfo;
+import stratifx.application.triangulation.TriangulationParamInfo;
 import stratifx.application.webkine.WebSolver;
 import stratifx.model.filters.JSONSectionLoad;
 import stratifx.model.filters.JSONSectionSave;
@@ -111,7 +113,7 @@ public class StratiFXService implements
         KronosContext.registerClass(IPropertyAccessor.class, ImagePropertyAccessor.class);
         
         
-        PatchBuilderFactory.registerBuilder("StratiGrid", StratigraphicGridBuilder.class);
+        PatchBuilderFactory.registerBuilder("StratiGrid", StratiGridPatchBuilder.class);
 
         PropertyController.registerBuilder(EnumProperty.XY, new XYPropertyComputer.Builder());
         PropertyController.registerBuilder(EnumProperty.TIME, new TimePropertyComputer.Builder());
@@ -131,6 +133,9 @@ public class StratiFXService implements
 
         ParamInfo.register( new BL2DParamInfo() );
         ParamInfo.register( new Compact2DParamInfo() );
+        ParamInfo.register( new StratiGridParamInfo() );
+        ParamInfo.register( new TriangulationParamInfo() );
+        ParamInfo.register( new Grid2DParamInfo() );
         ParamInfo.register( new FEMSolverParamInfo() );
 
         

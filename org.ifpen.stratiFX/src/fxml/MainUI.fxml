@@ -52,18 +52,13 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onToolsDisplacementsPatchAction" text="Patch" />
                             </items>
                         </Menu>
-                  <Menu mnemonicParsing="false" text="MasterSlave">
-                     <items>
-                              <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="Fault" />
-                              <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" fx:id="GridingMenu" text="Griding">
-                     <items>
-                         <MenuItem mnemonicParsing="false" onAction="#onToolsTriangulationAction" text="Triangulation" />
-                         <MenuItem mnemonicParsing="false" onAction="#onToolsStratiGridAction" text="StratiGrid" />
-                        </items>
-                  </Menu>
+                        <Menu mnemonicParsing="false" text="MasterSlave">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onToolsMasterSlaveAction" text="Fault" />
+                                <MenuItem mnemonicParsing="false" onAction="#onToolsHorizonMSAction" text="Horizon" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" fx:id="GridingMenu" text="Griding"/>
                         <MenuItem mnemonicParsing="false" onAction="#onToolsResetAction" text="Reset" />
                     </items>
                 </Menu>
@@ -76,12 +71,12 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformNodeMassAction" text="Mass/Spring" />
                             </items>
                         </Menu>
-                  <Menu mnemonicParsing="false" text="GlobalMove">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalFEMAction" text="FEMSolver" />
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalWebKineAction" text="WebKine" />
-                    </items>
-                  </Menu>
+                        <Menu mnemonicParsing="false" text="GlobalMove">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalFEMAction" text="FEMSolver" />
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformGlobalWebKineAction" text="WebKine" />
+                            </items>
+                        </Menu>
                         <Menu mnemonicParsing="false" text="Top">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />
@@ -103,11 +98,11 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformDilatationDecompactionAction" text="Decompaction" />
                             </items>
                         </Menu>
-                  <Menu mnemonicParsing="false" text="AntiGravity">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onDeformAntiGravityDEMAction" text="DEM" />
-                     </items>
-                  </Menu>
+                        <Menu mnemonicParsing="false" text="AntiGravity">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformAntiGravityDEMAction" text="DEM" />
+                            </items>
+                        </Menu>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Topology">
@@ -172,7 +167,7 @@ limitations under the License.
                         </ImageView>
                     </graphic>
                 </ToggleButton>
-                
+
                 <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" mnemonicParsing="false" onAction="#onOneOneAction">
                     <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -192,7 +187,7 @@ limitations under the License.
                     </graphic>
                 </Button>
 
-               
+
             </items>
         </ToolBar>
     </right>
