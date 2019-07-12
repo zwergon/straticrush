@@ -15,7 +15,7 @@ import stratifx.application.main.UIAction;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BL2DEnvUIController implements Initializable, IUIController {
+public class BL2DEnvUIController implements Initializable {
 
     @FXML
     AnchorPane bl2dPane;
@@ -76,11 +76,6 @@ public class BL2DEnvUIController implements Initializable, IUIController {
 
         bl2dPane.setVisible(false);
 
-    }
-
-    @Override
-    public boolean handleAction(UIAction action) {
-        return false;
     }
 
     @FXML

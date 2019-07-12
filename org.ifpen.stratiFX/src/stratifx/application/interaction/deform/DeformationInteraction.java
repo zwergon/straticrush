@@ -30,6 +30,7 @@ import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.kernel.polyline.IPolyline;
 import fr.ifp.kronosflow.utils.LOGGER;
 import stratifx.application.interaction.SectionInteraction;
+import stratifx.application.main.GParameters;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.manipulator.CompositeManipulator;
 import stratifx.canvas.graphics.GScene;
@@ -180,6 +181,8 @@ public abstract class DeformationInteraction extends SectionInteraction {
                             deformationCaller.hasPostDeform(false);
                             deformationCaller.addItems(compositeManipulator.getItems());
                             deformationCaller.addRigidItems(compositeManipulator.getRigidItems());
+
+                            deformationCaller.getDeformation().getStyle().cloneData(GParameters.getStyle());
 
                             moveJob = new GeoschedulerJob(getScheduler());
                             moveJob.compute(link);

@@ -14,19 +14,14 @@ import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -40,8 +35,11 @@ import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
 import stratifx.application.views.DisplayStyle;
 import stratifx.application.views.StyleUIAction;
-import javafx.fxml.FXMLLoader;
 import stratifx.application.webkine.WebServiceStyle;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
 /**
  *
@@ -80,6 +78,16 @@ public class ParametersUIController implements
     Pane gridingPane;
 
     Map<String, Pane> gridingMap = new HashMap<>();
+
+
+    @FXML
+    ComboBox solverType;
+
+    @FXML
+    VBox Solvers;
+
+    Pane solverPane;
+
 
     @FXML
     TextField hostText;
@@ -166,7 +174,48 @@ public class ParametersUIController implements
 
         initGridingTab();
 
+        initSolverTab();
+
         initWebServiceTab();
+
+    }
+
+    private void initSolverTab() {
+
+        ObservableList<String> items = solverType.getItems();
+
+        for( ISolverParameter parameter : MenuParamInfo.getParameters( ISolverParameter.class )){
+            ParamInfo mpi = (ParamInfo)parameter;
+
+            String key = mpi.getKey();
+
+            items.add(key);
+
+            if ( mpi.getFxmlFile() != null ) {
+                try {
+                    Pane pane = FXMLLoader.load(getClass().getResource(mpi.getFxmlFile()));
+                    Solvers.getChildren().add(pane);
+                    mpi.setPane(pane);
+
+
+                } catch (IOException ex) {
+                    LOGGER.error("unable to create inside gridingPane", getClass());
+                }
+            }
+
+        }
+
+        if ( !items.isEmpty() ) {
+            solverType.setValue(items.sorted().get(0));
+            onSolverTypeAction();
+        }
+
+        solverPane = null;
+
+        solverType.setOnAction((event)->{
+            onSolverTypeAction();
+        });
+
 
     }
 
@@ -206,28 +255,56 @@ public class ParametersUIController implements
 
         }
 
+        if ( !items.isEmpty() ) {
+            gridingType.setValue(items.sorted().get(0));
+            onGridingTypeAction();
+        }
+
         gridingPane = null;
 
         gridingType.setOnAction((event)->{
+            onGridingTypeAction();
+        });
 
-            String key = gridingType.getValue().toString();
 
-            MenuParamInfo gpi = MenuParamInfo.getMenuParamInfo(key);
-            gridingPane = gpi.getPane();
-            if ( gridingPane != null ){
-                gridingPane.setVisible(true);
-            }
+    }
 
-            for( Node node : Griding.getChildren() ){
-                if ( node instanceof Pane ){
-                    Pane pane = (Pane)node;
-                    if ( pane != gridingPane ){
-                        pane.setVisible(false);
-                    }
+    private void onGridingTypeAction() {
+        String key = gridingType.getValue().toString();
+
+        ParamInfo gpi = MenuParamInfo.getParamInfo(key);
+        gridingPane = gpi.getPane();
+        if ( gridingPane != null ){
+            gridingPane.setVisible(true);
+        }
+
+        for( Node node : Griding.getChildren() ){
+            if ( node instanceof Pane){
+                Pane pane = (Pane)node;
+                if ( pane != gridingPane ){
+                    pane.setVisible(false);
                 }
             }
+        }
+    }
 
-        });
+    private void onSolverTypeAction() {
+        String key = solverType.getValue().toString();
+
+        ParamInfo gpi = MenuParamInfo.getParamInfo(key);
+        solverPane = gpi.getPane();
+        if ( solverPane != null ){
+            solverPane.setVisible(true);
+        }
+
+        for( Node node : Solvers.getChildren() ){
+            if ( node instanceof Pane){
+                Pane pane = (Pane)node;
+                if ( pane != solverPane ){
+                    pane.setVisible(false);
+                }
+            }
+        }
     }
 
     private void initSceneParameters(GeoschedulerSection section) {

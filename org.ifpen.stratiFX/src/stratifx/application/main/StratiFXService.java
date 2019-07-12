@@ -49,6 +49,7 @@ import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
 import fr.ifp.kronosflow.model.property.ImagePropertyAccessor;
+import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
 import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.utils.KronosContext;
@@ -60,9 +61,11 @@ import stratifx.application.bl2d.BL2DParamInfo;
 import stratifx.application.caller.EventUIAction;
 import stratifx.application.compact2d.Compact2DParamInfo;
 import stratifx.application.fxcontrollers.MenuParamInfo;
+import stratifx.application.fxcontrollers.ParamInfo;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
+import stratifx.application.solvers.FEMSolverParamInfo;
 import stratifx.application.webkine.WebSolver;
 import stratifx.model.filters.JSONSectionLoad;
 import stratifx.model.filters.JSONSectionSave;
@@ -126,8 +129,10 @@ public class StratiFXService implements
         WrapperFactory.registerClass(InfinitePolyline.class, PolylineWrapper.class);
         WrapperFactory.registerClass(GeologicLibrary.class, GeologicLibraryWrapper.class);
 
-        MenuParamInfo.register( new BL2DParamInfo() );
-        MenuParamInfo.register( new Compact2DParamInfo() );
+        ParamInfo.register( new BL2DParamInfo() );
+        ParamInfo.register( new Compact2DParamInfo() );
+        ParamInfo.register( new FEMSolverParamInfo() );
+
         
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
 
@@ -336,7 +341,10 @@ public class StratiFXService implements
         GeoschedulerSection section = new GeoschedulerSection();
         section.setName(basename);
 
-        SceneStyle sceneStyle = new SceneStyle(section.getStyle());
+        Style style = section.getStyle();
+        style.cloneData( GParameters.getStyle() );
+
+        SceneStyle sceneStyle = new SceneStyle(style);
         sceneStyle.setGridType("None");
         sceneStyle.setComplexityType(ComplexityType.SINGLE);
 

@@ -183,7 +183,7 @@ public class GPatchObject extends GView  {
 	public void modelChanged(IControllerEvent<?> event) {		
 		switch ((EnumEventAction) event.getEventAction()) {
 		case MOVE:
-			redraw();
+			//redraw();
 			break;
 		default:
 			break;	 

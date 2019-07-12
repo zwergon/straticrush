@@ -28,6 +28,8 @@ class DeformationAnimation extends TimerTask {
 	DeformationInteraction interaction;
 	
 	boolean isStopped = false;
+
+	boolean isUpdating = false;
 	
 	static public Timer start(DeformationInteraction interaction){
 		DeformationAnimation animation = new DeformationAnimation(interaction);
@@ -45,7 +47,7 @@ class DeformationAnimation extends TimerTask {
 	@Override
 	public void run() {
 		
-		if (isStopped){
+		if (isStopped || isUpdating ){
 			return;
 		}
 		
@@ -56,7 +58,9 @@ class DeformationAnimation extends TimerTask {
 			Platform.runLater( new Runnable() {
 				@Override
 				public void run() {
-					interaction.update( );
+				    isUpdating = true;
+				    interaction.update( );
+				    isUpdating = false;
 				}
 			});
 			break;

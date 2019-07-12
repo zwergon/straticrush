@@ -25,6 +25,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stratifx.application.fxcontrollers.MenuParamInfo;
+import stratifx.application.fxcontrollers.ParamInfo;
 import stratifx.application.plot.PlotController;
 
 import java.io.IOException;
@@ -78,23 +79,23 @@ public class Main extends Application {
             MenuBar menuBar = (MenuBar)rootLayout.lookup("#MainMenuBar");
 
 
-            for(Map.Entry<String, MenuParamInfo> entry : MenuParamInfo.getMenuParamInfos().entrySet()){
+            for(Map.Entry<String, ParamInfo> entry : MenuParamInfo.getMenuParamInfos().entrySet()){
                 String key = entry.getKey();
-                MenuParamInfo menuParamInfo = entry.getValue();
 
-                Menu menu = findMenu(menuBar, menuParamInfo.getMenuId());
-                if ( null == menu ) continue;
+                if ( entry.getValue() instanceof MenuParamInfo ) {
+                    MenuParamInfo menuParamInfo = (MenuParamInfo)entry.getValue();
 
-                MenuItem item = new MenuItem(key);
-                item.setOnAction(event -> {
-                    StratiFXService.instance.broadCastAction(menuParamInfo.getUIAction());
-                });
+                    Menu menu = findMenu(menuBar, menuParamInfo.getMenuId());
+                    if (null == menu) continue;
 
-                menu.getItems().add(item);
+                    MenuItem item = new MenuItem(key);
+                    item.setOnAction(event -> {
+                        StratiFXService.instance.broadCastAction(menuParamInfo.getUIAction());
+                    });
+
+                    menu.getItems().add(item);
+                }
             }
-
-
-
 
             return rootLayout;
                  

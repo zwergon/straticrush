@@ -124,6 +124,16 @@
             </VBox>
          </content>
       </Tab>
+       <Tab closable="false" text="Solvers">
+           <content>
+               <VBox fx:id="Solvers">
+                   <padding><Insets bottom="40" left="40" right="40" top="40" /></padding>
+                   <children>
+                       <ComboBox fx:id="solverType" prefHeight="20" />
+                   </children>
+               </VBox>
+           </content>
+       </Tab>
       <Tab fx:id="webServiceTab" text="WebService" closable="false">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
