@@ -1,18 +1,18 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.grid2d;
 
 import stratifx.application.fxcontrollers.IGridingParameter;
 import stratifx.application.fxcontrollers.MenuParamInfo;
 import stratifx.application.interaction.InteractionFactory;
 import stratifx.application.interaction.InteractionUIAction;
 
-public class BL2DParamInfo extends MenuParamInfo implements IGridingParameter {
+public class Grid2DParamInfo extends MenuParamInfo implements IGridingParameter {
 
-    public BL2DParamInfo(){
-        key = "BL2DMesh";
-        fxmlFile = "../bl2d/BL2DEnvUI.fxml";
+    public Grid2DParamInfo() {
+        key = "Grid2D";
+        fxmlFile = "../griding/grid2d/Grid2DParamUI.fxml";
         menuId = "GridingMenu";
         uiAction = new InteractionUIAction(key, key);
 
-        InteractionFactory.getInstance().register( key, BL2DMeshInteraction.class);
+        InteractionFactory.getInstance().register( key, Grid2DInteraction.class);
     }
 }

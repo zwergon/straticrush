@@ -6,10 +6,10 @@
  * 1 & 4, avenue de Bois-Preau
  * 92852 Rueil-Malmaison Cedex - France
  */
-package stratifx.application.stratigrid;
+package stratifx.application.griding.grid2d;
 
-import fr.ifp.kronosflow.deform.stratigraphy.StratiGridPatchBuilder;
 import fr.ifp.kronosflow.model.IPatchMeshBuilder;
+import fr.ifp.kronosflow.model.builder.Grid2DPatchBuilder;
 import stratifx.application.interaction.tools.AMesh2DInteraction;
 import stratifx.canvas.graphics.GScene;
 
@@ -17,14 +17,15 @@ import stratifx.canvas.graphics.GScene;
  *
  * @author lecomtje
  */
-public class StratiGridInteraction extends AMesh2DInteraction {
+public class Grid2DInteraction extends AMesh2DInteraction {
 
-    public StratiGridInteraction(GScene scene) {
+
+    public Grid2DInteraction(GScene scene) {
         super(scene);
     }
 
     @Override
     public IPatchMeshBuilder createBuilder() {
-        return new StratiGridPatchBuilder();
+        return new Grid2DPatchBuilder();
     }
 }

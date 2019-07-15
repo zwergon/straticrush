@@ -1,15 +1,11 @@
-package stratifx.application.grid2d;
+package stratifx.application.griding.grid2d;
 
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import stratifx.application.bl2d.EnvStyle;
-import stratifx.application.main.GParameters;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -1,4 +1,4 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.model.style.IStyleProvider;
 import fr.ifp.kronosflow.model.style.Style;

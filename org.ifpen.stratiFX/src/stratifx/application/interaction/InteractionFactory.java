@@ -17,7 +17,6 @@ import stratifx.application.interaction.deform.*;
 import stratifx.application.interaction.edit.MovePointsInteraction;
 import stratifx.application.interaction.tools.*;
 import stratifx.application.plot.GFXScene;
-import stratifx.application.stratigrid.StratiGridInteraction;
 import stratifx.canvas.graphics.GScene;
 import stratifx.canvas.interaction.GInteraction;
 

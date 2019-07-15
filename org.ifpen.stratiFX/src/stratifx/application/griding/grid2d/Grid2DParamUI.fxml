@@ -7,7 +7,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:id="grid2dPane"
-            fx:controller="stratifx.application.grid2d.Grid2DParamUIController"
+            fx:controller="stratifx.application.griding.grid2d.Grid2DParamUIController"
             prefHeight="520.0" prefWidth="498.0">
 
 

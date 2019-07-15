@@ -1,4 +1,4 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.bl2d;
 
 import fr.ifpen.kine.BL2D.Env;
 import stratifx.application.main.GParameters;

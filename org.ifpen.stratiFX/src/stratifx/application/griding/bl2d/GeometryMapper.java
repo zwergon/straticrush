@@ -1,18 +1,12 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.incubator.extractor.CompositeLine;
 import fr.ifp.kronosflow.incubator.extractor.LineExtractor;
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.kernel.polyline.*;
-import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.model.*;
-import fr.ifp.kronosflow.model.topology.Contact;
-import fr.ifp.kronosflow.model.topology.ContactGraph;
-import fr.ifp.kronosflow.model.topology.IntervalSet;
-import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifpen.kine.BL2D.geometry.*;
-import fr.ifpen.kine.mesh.Hexa;
 import stratifx.application.main.GParameters;
 
 import java.util.*;

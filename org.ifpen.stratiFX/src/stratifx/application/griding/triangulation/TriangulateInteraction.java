@@ -13,31 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package stratifx.application.triangulation;
+package stratifx.application.griding.triangulation;
 
-import fr.ifp.kronosflow.deform.scene.Scene;
-import java.util.Collection;
-import java.util.List;
-
-import fr.ifp.kronosflow.kernel.geometry.Point2D;
-import fr.ifp.kronosflow.mesh.Triangle;
-import fr.ifp.kronosflow.mesh.triangulation.Triangulation;
-import fr.ifp.kronosflow.model.CompositePatch;
 import fr.ifp.kronosflow.model.IPatchMeshBuilder;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.model.builder.TrglPatchBuilder;
-import fr.ifp.kronosflow.uids.IHandle;
-import stratifx.application.interaction.SectionInteraction;
 import stratifx.application.interaction.tools.AMesh2DInteraction;
-import stratifx.canvas.graphics.GColor;
-import stratifx.canvas.graphics.GFXSymbol;
-import stratifx.canvas.graphics.GImage;
-import stratifx.canvas.graphics.GObject;
 import stratifx.canvas.graphics.GScene;
-import stratifx.canvas.graphics.GSegment;
-import stratifx.canvas.graphics.GStyle;
-import stratifx.canvas.interaction.GMouseEvent;
 
 public class TriangulateInteraction extends AMesh2DInteraction {
 

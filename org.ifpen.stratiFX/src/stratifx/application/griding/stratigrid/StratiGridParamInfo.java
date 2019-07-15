@@ -1,4 +1,4 @@
-package stratifx.application.stratigrid;
+package stratifx.application.griding.stratigrid;
 
 
 import stratifx.application.fxcontrollers.IGridingParameter;

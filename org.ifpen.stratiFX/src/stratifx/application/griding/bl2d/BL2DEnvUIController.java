@@ -1,4 +1,4 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.utils.LOGGER;
 import javafx.event.ActionEvent;
@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import stratifx.application.main.GParameters;
-import stratifx.application.main.IUIController;
-import stratifx.application.main.UIAction;
 
 import java.net.URL;
 import java.util.ResourceBundle;

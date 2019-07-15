@@ -1,8 +1,6 @@
-package stratifx.application.bl2d;
+package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
-import fr.ifp.kronosflow.kernel.polyline.Interval;
-import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.uids.UID;
@@ -26,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class WebBL2DMeshBuilder implements IMeshBuilder {
+
 
     private Geometry webCreateGeometry(Long simulationId, Patch patch){
 
@@ -59,7 +58,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return env;
     }
 
-    public Mesh2D createMesh(Patch patch) {
+    protected Mesh2D createMesh(Patch patch) {
 
         Long simulationId = SimulationClient.createSimulationNow("bl2d");
 
@@ -168,8 +167,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return bl2dMesh;
     }
 
-    @Override
-    public Mesh2D createMesh(List<Point2D> pts) { return null;}
+    public Mesh2D createMesh(List<Point2D> pts){ return null;}
 
     @Override
     public Mesh2D createMesh(Set<fr.ifp.kronosflow.kernel.polyline.Node> nodes) { return null;}
