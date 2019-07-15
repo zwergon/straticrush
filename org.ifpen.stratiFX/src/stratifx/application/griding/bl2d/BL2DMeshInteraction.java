@@ -13,7 +13,5 @@ public class BL2DMeshInteraction extends AMesh2DInteraction {
     }
 
     @Override
-    public IPatchMeshBuilder createBuilder() {
-        return new BL2DPatchMeshBuilder();
-    }
+    public IPatchMeshBuilder createBuilder() { return new BL2DPatchMeshBuilder(); }
 }

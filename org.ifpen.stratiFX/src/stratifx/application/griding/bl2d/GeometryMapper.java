@@ -166,6 +166,54 @@ public class GeometryMapper {
         return createGeometry();
     }
 
+    private List<String> create2Points(List<Point2D> point2DS){
+        List<String> ids = new ArrayList<String>();
+        for (Point2D point2D : point2DS) {
+            this.pointList.add(new Point(Integer.toString(this.pID), Double.toString(point2D.x()), Double.toString(point2D.y())));
+            ids.add(Integer.toString(this.pID));
+            this.pID++;
+            this.maxPoints++;
+        }
+        return ids;
+    }
+
+    private void create2Curve(List<Point2D> point2DS){
+        List<String> listIDS = create2Points(point2DS);
+        String deb = listIDS.remove(0);
+        this.curveList.add(new Curve("C"+Integer.toString(this.cID),"NULL",deb,listIDS,deb,"NULL"));
+        this.domainList.add(new Domain("C"+Integer.toString(this.cID),"+1",0));
+        this.cID++;
+        this.maxCurves++;
+        this.maxDomains++;
+    }
+
+    private void create2Segments(List<Point2D> point2DS){
+        List<String> listIDS = create2Points(point2DS);
+        int sz = listIDS.size();
+        int deb = this.cID;
+        for (int i = 0; i < sz-1; i++){
+            this.curveList.add(new Curve("C"+Integer.toString(this.cID),"NULL",listIDS.get(i),new ArrayList<String>(),listIDS.get(i+1),"NULL"));
+            this.cID++;
+            this.maxCurves++;
+        }
+        this.curveList.add(new Curve("C"+Integer.toString(this.cID),"NULL",listIDS.get(sz-1),new ArrayList<String>(),listIDS.get(0),"NULL"));
+        this.cID++;
+        this.maxCurves++;
+        this.domainList.add(new Domain("C"+Integer.toString(deb),"+1",0));
+        this.maxDomains++;
+    }
+
+    public Geometry geom2FromMesh2D(List<Point2D> point2DS){
+        EnvStyle style = new EnvStyle(GParameters.getStyle());
+        if (style.getBORDERPOINTS().equals("Yes")){
+            create2Segments(point2DS);
+        }
+        else{
+            create2Curve(point2DS);
+        }
+        return createGeometry();
+    }
+
     private Geometry createGeometry(){
 
         Geometry geometry = new Geometry();

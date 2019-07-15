@@ -25,12 +25,11 @@ import java.util.Set;
 
 public class WebBL2DMeshBuilder implements IMeshBuilder {
 
-
-    private Geometry webCreateGeometry(Long simulationId, Patch patch){
+    private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
 
         //preprocess Geometry
         GeometryMapper geometryMapper = new GeometryMapper();
-        Geometry geometry = geometryMapper.geomFromMesh2D(patch);
+        Geometry geometry = geometryMapper.geom2FromMesh2D(point2DS);
         geometry.setName("geometry from StratiFX");
         geometry.setSimulationId(simulationId);
 
@@ -49,7 +48,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return env;
     }
 
-    private Env webCreate2Env(Long simulationId){
+    protected Env webCreate2Env(Long simulationId){
 
         //preprocess Env
         Env env = webCreateEnv(simulationId);
@@ -58,19 +57,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return env;
     }
 
-    protected Mesh2D createMesh(Patch patch) {
-
-        Long simulationId = SimulationClient.createSimulationNow("bl2d");
-
-        if(simulationId > 0){
-            return webCreateMesh(simulationId, webCreateGeometry(simulationId,patch), webCreate2Env(simulationId));
-        }
-
-        return  null;
-
-    }
-
-    private Mesh2D webCreateMesh(Long simulationId, Geometry geometry, Env env){
+    protected Mesh2D webCreateMesh(Long simulationId, Geometry geometry, Env env){
 
         if (simulationId > 0) {
 

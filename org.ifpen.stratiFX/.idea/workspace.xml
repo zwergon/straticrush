@@ -7,20 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Add some iml files">
-      <change afterPath="$PROJECT_DIR$/src/stratifx/application/webkine/WebServiceStyle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/deformation/items/test/TopologySubCallerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/deformation/items/test/TopologySubCallerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/scene/test/SequenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/scene/test/SequenceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/TriangleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid682.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUI.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/bl2d/WebBL2DMeshBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/bl2d/WebBL2DMeshBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/webkine/WebSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/webkine/WebSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" beforeDir="false" afterPath="$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshInteraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshInteraction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DPatchMeshBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DPatchMeshBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/WebBL2DMeshBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/WebBL2DMeshBuilder.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +22,6 @@
     <ignored path="$USER_HOME$/kronosflow/fr.ifp.kronosflow.dem/target/" />
     <ignored path="$USER_HOME$/git-webkine/kine3d/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,109 +80,45 @@
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="MeshAccessor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/MeshAccessor.java">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DPatchMeshBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="163" column="57" lean-forward="true" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="57" />
+            <state relative-caret-position="435">
+              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshInteraction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="15" column="82" selection-start-line="15" selection-start-column="82" selection-end-line="15" selection-end-column="82" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2340">
+              <caret column="42" lean-forward="true" selection-start-column="42" selection-end-column="42" />
               <folding>
-                <element signature="e#1655#1656#0" expanded="true" />
-                <element signature="e#1718#1719#0" expanded="true" />
-                <element signature="e#4545#4546#0" expanded="true" />
-                <element signature="e#4616#4617#0" expanded="true" />
+                <element signature="e#6018#6026#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Quad.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Quad.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/WebBL2DMeshBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            <state relative-caret-position="264">
+              <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
               <folding>
-                <element signature="e#3071#3072#0" expanded="true" />
-                <element signature="e#3131#3132#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CellPoint.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/CellPoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-              <folding>
-                <element signature="e#879#880#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CellTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="125" selection-start-line="125" selection-end-line="125" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ElementCoordTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/tests/fr/ifp/kronosflow/fem2d/test/ElementCoordTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-66">
-              <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FElementCoord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/src/fr/ifp/kronosflow/fem2d/elements/FElementCoord.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="28" column="16" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FEMSolver.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/src/fr/ifp/kronosflow/fem2d/solve/FEMSolver.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1149">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Nodes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Nodes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
-              <folding>
-                <element signature="e#418#419#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TriangulationTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10">
-              <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Triangle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Triangle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="156" column="26" selection-start-line="156" selection-start-column="26" selection-end-line="156" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -233,6 +161,9 @@
       <find>Section</find>
       <find>fr.ifp.jdeform</find>
       <find>EventUI</find>
+      <find>getPosition</find>
+      <find>setPosition</find>
+      <find>iterator</find>
     </findStrings>
     <replaceStrings>
       <replace>fr.ifp.kronosflow.deform</replace>
@@ -253,37 +184,18 @@
       </list>
     </option>
     <option name="ROOT_SYNC" value="DONT_SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../git-kronos" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/stratifx/application/caller/SplitPatchController.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/caller/RemoveUnitCaller.java" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/KinObject.java" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/geology/StratigraphicColumn.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/model/wrappers/PatchWrapper.java" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/time/ATimeProvider.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/caller/TimePatchCaller.java" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.deform/src/fr/ifp/kronosflow/deform/deformation/items/HorizonFaultMSGlidingItem.java" />
-        <option value="$USER_HOME$/git-webkine/kine3d/pom.xml" />
-        <option value="$USER_HOME$/git-webkine/kine3d/src/main/java/fr/ifpen/kine/client/MeshClient.java" />
-        <option value="$USER_HOME$/git-webkine/kine3d/src/main/java/fr/ifpen/kine/client/ConstraintClient.java" />
-        <option value="$USER_HOME$/git-webkine/kine3d/src/main/java/fr/ifpen/kine/client/WebKineClient.java" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Mesh2D.java" />
-        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.uids/src/fr/ifp/kronosflow/utils/TempDir.java" />
-        <option value="$USER_HOME$/git-webkine/kine3d/src/main/java/fr/ifpen/kine/process/ProcessState.java" />
-        <option value="$USER_HOME$/git-webkine/kine3d/src/main/java/fr/ifpen/kine/client/SimulationClient.java" />
         <option value="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/encoder/DefaultEncoderService.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/GeometryMapper.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/EnvMapper.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/graph/GraphFX.java" />
         <option value="$PROJECT_DIR$/src/stratifx/model/wrappers/SectionWrapper.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/manipulator/CompositeMeshManipulator.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/interaction/HorizonMSInteraction.java" />
         <option value="$PROJECT_DIR$/src/stratifx/model/wrappers/GeologicLibraryWrapper.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/GridingParamInfo.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/main/Main.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/IGridingParameter.java" />
@@ -295,20 +207,39 @@
         <option value="$PROJECT_DIR$/src/fxml/MainUI.fxml" />
         <option value="$PROJECT_DIR$/src/stratifx/application/main/MainController.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/main/StratiFXService.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/property/image/tests/PropertyInterpolatorTest.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/WebBL2DMeshBuilder.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/Section.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/scene/test/SequenceTest.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/deformation/items/test/TopologySubCallerTest.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/property/image/tests/PropertyInterpolatorTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/Section.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/scene/test/SequenceTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/deformation/items/test/TopologySubCallerTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java" />
         <option value="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" />
         <option value="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/webkine/WebServiceStyle.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUIController.java" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUI.fxml" />
         <option value="$PROJECT_DIR$/src/stratifx/application/webkine/WebSolver.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/TriangleTest.java" />
-        <option value="$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/TriangleTest.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/webkine/WebServiceStyle.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUI.fxml" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/EnvStyle.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUIController.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/Point2D.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DMeshInteraction.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/EnvMapper.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/LinePoint.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/PolyLine.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/CompositeLine.java" />
+        <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java" />
+        <option value="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/BL2D/geometry/Geometry.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/GeometryMapper.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/WebBL2DMeshBuilder.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DPatchMeshBuilder.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DMesh.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMesh.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DParamInfo.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/grid2d/Grid2DParamInfo.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DPatchMeshBuilder.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshInteraction.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/WebBL2DMeshBuilder.java" />
       </list>
     </option>
   </component>
@@ -335,11 +266,9 @@
     <option name="skipTests" value="true" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="7" />
+  <component name="ProjectFrameBounds" extendedState="2">
     <option name="width" value="1920" />
-    <option name="height" value="1138" />
+    <option name="height" value="1165" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -351,24 +280,125 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="org.ifpen.stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
             </path>
             <path>
-              <item name="org.ifpen.stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
               <item name="kronosflow" type="9c53a853:ProjectViewModuleGroupNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+              <item name="bl2d" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+              <item name="compact2d" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+              <item name="grid2d" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+              <item name="stratigrid" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="griding" type="462c0819:PsiDirectoryNode" />
+              <item name="triangulation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
+              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="wrappers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -387,12 +417,12 @@
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_directory_selection" value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$USER_HOME$/WebKine/kine3d" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25367647" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -404,11 +434,11 @@
       <recent name="Quadr" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="stratifx.application.griding" />
       <recent name="fr.ifp.kronosflow.incubator.fit" />
       <recent name="fr.ifp.kronosflow.model" />
       <recent name="fr.ifp.kronosflow.incubator" />
       <recent name="" />
-      <recent name="fr.ifp.temisflow.contourextractor" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/iml" />
@@ -433,16 +463,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.CellTest">
-    <configuration default="true" type="Applet" factoryName="Applet">
+  <component name="RunManager" selected="Application.stratiFX">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+    <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method>
+      <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method>
+      <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
@@ -459,57 +501,48 @@
       </extension>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in fr.ifp.kronosflow.contours (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fr.ifp.kronosflow.contours" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="All in fr.ifp.kronosflow.contours" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="fr.ifp.kronosflow.contours" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="package" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <patterns />
-    </configuration>
-    <configuration name="All in fr.ifp.kronosflow.deform" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="fr.ifp.kronosflow.deform" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="All in fr.ifp.kronosflow.model" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="fr.ifp.kronosflow.model" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="package" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="CellTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="fr.ifp.kronosflow.model" />
@@ -519,20 +552,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="fr.ifp.kronosflow.mesh.test" />
       <option name="MAIN_CLASS_NAME" value="fr.ifp.kronosflow.mesh.test.CellTest" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TriangulationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="fr.ifp.kronosflow.model" />
@@ -542,101 +572,66 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="fr.ifp.kronosflow.triangulation.test" />
       <option name="MAIN_CLASS_NAME" value="fr.ifp.kronosflow.triangulation.test.TriangulationTest" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <patterns />
-      <method>
+      <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
+    <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
       <properties />
       <listeners />
-      <method>
+      <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-      <method>
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
-      <Host>localhost</Host>
-      <Port>5050</Port>
-    </configuration>
     <list>
       <item itemvalue="Application.stratiFX" />
-      <item itemvalue="JUnit.All in fr.ifp.kronosflow.deform" />
       <item itemvalue="JUnit.All in fr.ifp.kronosflow.contours" />
       <item itemvalue="JUnit.All in fr.ifp.kronosflow.model" />
       <item itemvalue="JUnit.TriangulationTest" />
       <item itemvalue="JUnit.CellTest" />
+      <item itemvalue="JUnit.All in fr.ifp.kronosflow.contours (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in fr.ifp.kronosflow.contours (1)" />
         <item itemvalue="JUnit.CellTest" />
         <item itemvalue="JUnit.TriangulationTest" />
         <item itemvalue="JUnit.All in fr.ifp.kronosflow.model" />
         <item itemvalue="JUnit.All in fr.ifp.kronosflow.contours" />
-        <item itemvalue="JUnit.All in fr.ifp.kronosflow.deform" />
       </list>
     </recent_temporary>
   </component>
@@ -813,13 +808,24 @@
       <option name="project" value="LOCAL" />
       <updated>1562083861091</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Add CompositeLine and LineExtractor to isolate border and inner lines of a patch&#10;LinePoint implements now ICurviPoint Interface">
+      <created>1563194384214</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1563194384214</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Create griding package">
+      <created>1563195836010</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1563195836010</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CellTest - 2019.07.03 at 14h 16m 40s.xml">
-      <configuration name="CellTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="CellTest - 2019.07.03 at 14h 24m 46s.xml">
       <configuration name="CellTest" configurationId="JUnit" />
     </history-entry>
@@ -847,48 +853,88 @@
     <history-entry file="CellTest - 2019.07.03 at 14h 41m 09s.xml">
       <configuration name="CellTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_fr_ifp_kronosflow_contours_(1) - 2019.07.15 at 14h 32m 52s.xml">
+      <configuration name="All in fr.ifp.kronosflow.contours (1)" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1064" extended-state="6" />
+    <frame x="0" y="0" width="1920" height="1165" extended-state="2" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.47288504" weight="0.54962647" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info id="Image Layers" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5048335" side_tool="true" visible="true" weight="0.3267671" />
-      <window_info anchor="right" id="Maven Projects" order="9" weight="0.16809882" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.69495165" weight="0.23290846" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.6523861" weight="0.53681964" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.32897863" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57078314" visible="true" weight="0.2571885" />
+      <window_info id="Structure" order="1" sideWeight="0.42921686" side_tool="true" weight="0.22366993" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57078314" visible="true" weight="0.28947368" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49677765" weight="0.19466975" />
-      <window_info id="Structure" order="1" sideWeight="0.42921686" side_tool="true" weight="0.22366993" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973147" />
       <window_info id="UI Designer" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49516648" visible="true" weight="0.3267671" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="right" id="JetGradle" order="5" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="bottom" id="Changes" order="11" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Profiler" order="9" />
-      <window_info anchor="bottom" id="Problems" order="13" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24973147" />
+      <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49677765" weight="0.19444445" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6938232" visible="true" weight="0.3716475" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49516648" weight="0.13218391" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.30617678" side_tool="true" weight="0.23215985" />
       <window_info anchor="bottom" id="Application Servers" order="8" />
-      <window_info anchor="right" id="Coverage" order="10" side_tool="true" weight="0.07042254" />
+      <window_info anchor="bottom" id="Profiler" order="9" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.6517572" weight="0.5363985" />
+      <window_info anchor="bottom" id="Changes" order="11" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.32897863" />
+      <window_info anchor="bottom" id="Problems" order="13" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.47071353" weight="0.5488506" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973147" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24973147" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="JetGradle" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info anchor="right" id="Maven Projects" order="10" weight="0.16809882" />
+      <window_info anchor="right" id="Coverage" order="11" side_tool="true" weight="0.07042254" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57078314" visible="true" weight="0.3115016" />
+      <window_info id="Structure" order="1" sideWeight="0.42921686" side_tool="true" weight="0.22366993" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Image Layers" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49677765" weight="0.19466975" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6938232" weight="0.23180076" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49516648" weight="0.3267671" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.30617678" side_tool="true" weight="0.23215985" />
+      <window_info anchor="bottom" id="Application Servers" order="8" />
+      <window_info anchor="bottom" id="Profiler" order="9" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.6517572" weight="0.53663176" />
+      <window_info anchor="bottom" id="Changes" order="11" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.32897863" />
+      <window_info anchor="bottom" id="Problems" order="13" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.47071353" weight="0.5488506" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973147" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24973147" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="JetGradle" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info anchor="right" id="Maven Projects" order="10" weight="0.16809882" />
+      <window_info anchor="right" id="Coverage" order="11" side_tool="true" weight="0.07042254" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="SHOW_OTHER_BRANCHES" value="true" />
@@ -926,9 +972,20 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
@@ -938,8 +995,7 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/../../../git-webkine" />
       <path value="$USER_HOME$/kronosflow" />
-      <path value="$USER_HOME$/WebKine" />
-      <path value="$USER_HOME$/git-kronos" />
+      <path value="$USER_HOME$/Webkine" />
     </ignored-roots>
     <MESSAGE value="refactor packaging !" />
     <MESSAGE value="Load/Save" />
@@ -963,7 +1019,9 @@
     <MESSAGE value="minor correction after TC big merge" />
     <MESSAGE value="indentation" />
     <MESSAGE value="Add resource file for unit testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add resource file for unit testing" />
+    <MESSAGE value="Add CompositeLine and LineExtractor to isolate border and inner lines of a patch&#10;LinePoint implements now ICurviPoint Interface" />
+    <MESSAGE value="Create griding package" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create griding package" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1024,7 +1082,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/time/NeutralFiberTimeProvider.java</url>
-          <line>491</line>
+          <line>528</line>
           <properties />
           <option name="timeStamp" value="160" />
         </line-breakpoint>
@@ -1047,46 +1105,34 @@
           <option name="timeStamp" value="165" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/stratifx/application/compact2d/Compact2DInteraction.java</url>
-          <line>92</line>
+          <url>file://$PROJECT_DIR$/src/stratifx/application/griding/compact2d/Compact2DInteraction.java</url>
+          <line>40</line>
           <properties />
           <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/stratifx/application/interaction/tools/TriangulateInteraction.java</url>
-          <line>60</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/implicit/MeshCompositePatch.java</url>
-          <line>102</line>
+          <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/implicit/MeshCompositePatch.java</url>
+          <line>110</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java</url>
-          <line>153</line>
+          <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java</url>
+          <line>182</line>
           <properties />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/algo/QRNullSpace.java</url>
+          <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/algo/QRNullSpace.java</url>
           <line>41</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java</url>
-          <line>91</line>
+          <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/tests/fr/ifp/kronosflow/kernel/geometry/test/MatrixText.java</url>
+          <line>90</line>
           <properties />
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DMeshInteraction.java</url>
-          <line>78</line>
-          <properties />
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/stratifx/application/plot/PlotController.java</url>
@@ -1095,8 +1141,8 @@
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java</url>
-          <line>120</line>
+          <url>file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java</url>
+          <line>154</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
@@ -1105,7 +1151,6 @@
           <option name="timeStamp" value="97" />
         </breakpoint>
       </breakpoints>
-      <option name="time" value="20" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1152,399 +1197,459 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/main/MainController.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="168" selection-start-line="168" selection-end-line="168" />
+        <state relative-caret-position="60">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/main/StratiFXService.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Triangle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="134" selection-start-line="134" selection-end-line="134" />
+        <state relative-caret-position="-855">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/interaction/tools/TriangulateInteraction.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/EdgePair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-203">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/EdgeKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/jdk1.8/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="1773" column="22" selection-start-line="1773" selection-start-column="22" selection-end-line="1773" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/views/GDeformableObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="59" column="12" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/views/GMesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/EnvStyle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="35" column="28" lean-forward="true" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#4471#4472#0" expanded="true" />
-            <element signature="e#4519#4520#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/builder/Grid2DMeshBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DEnvUIController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-928">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="349">
+          <caret line="88" column="50" selection-start-line="88" selection-start-column="50" selection-end-line="88" selection-end-column="50" />
+          <folding>
+            <element signature="e#2100#2101#0" expanded="true" />
+            <element signature="e#2128#2129#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/model/wrappers/SectionWrapper.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/FeatureGeolInterval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
+        <state relative-caret-position="120">
+          <caret line="17" column="52" lean-forward="true" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/property/image/tests/PropertyInterpolatorTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/PatchInterval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-787">
-          <caret column="24" selection-start-column="24" selection-end-column="24" />
+        <state relative-caret-position="165">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+          <folding>
+            <element signature="e#2724#2725#0" expanded="true" />
+            <element signature="e#2755#2756#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/bl2d/WebBL2DMeshBuilder.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/Point2D.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="20" />
+        <state relative-caret-position="405">
+          <caret line="194" column="26" lean-forward="true" selection-start-line="194" selection-start-column="26" selection-end-line="194" selection-end-column="26" />
+          <folding>
+            <element signature="e#4562#4563#0" expanded="true" />
+            <element signature="e#4610#4611#0" expanded="true" />
+            <element signature="e#5258#5259#0" expanded="true" />
+            <element signature="e#5310#5311#0" expanded="true" />
+            <element signature="e#5364#5365#0" expanded="true" />
+            <element signature="e#5416#5417#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.uids/src/fr/ifp/kronosflow/uids/IHandle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/plot/PlotController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="503" column="13" selection-start-line="503" selection-start-column="13" selection-end-line="503" selection-end-column="13" />
+        <state relative-caret-position="217">
+          <caret line="495" selection-start-line="495" selection-end-line="495" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/IBoundingBox.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.13.RELEASE/spring-web-4.3.13.RELEASE.jar!/org/springframework/http/converter/json/AbstractJackson2HttpMessageConverter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        <state relative-caret-position="66">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/tests/fr/ifp/kronosflow/fem2d/test/Patch2DTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/algo/ContactOperation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1078">
-          <caret line="66" column="16" selection-start-line="66" selection-start-column="16" selection-end-line="66" selection-end-column="16" />
+        <state relative-caret-position="-3389">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/tests/fr/ifp/kronosflow/fem2d/test/IntegrateTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/CompositePatch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="270">
+          <caret line="53" column="54" selection-start-line="53" selection-start-column="39" selection-end-line="53" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/Section.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/topology/ContactGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
+        <state relative-caret-position="263">
+          <caret line="340" column="23" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/AbstractSection.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/KinObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-151">
-          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+        <state relative-caret-position="258">
+          <caret line="316" column="23" selection-start-line="316" selection-start-column="23" selection-end-line="316" selection-end-column="23" />
+          <folding>
+            <element signature="e#8465#8466#0" expanded="true" />
+            <element signature="e#8522#8523#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/deformation/items/test/TopologySubCallerTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.uids/src/fr/ifp/kronosflow/uids/UID.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="57" column="23" lean-forward="true" selection-start-line="57" selection-start-column="23" selection-end-line="57" selection-end-column="23" />
+        <state relative-caret-position="-885">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding>
+            <element signature="e#593#594#0" expanded="true" />
+            <element signature="e#618#619#0" expanded="true" />
+            <element signature="e#824#825#0" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+            <element signature="e#972#973#0" expanded="true" />
+            <element signature="e#1000#1001#0" expanded="true" />
+            <element signature="e#3424#3425#0" expanded="true" />
+            <element signature="e#3465#3466#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/tests/fr/ifp/kronosflow/deform/scene/test/SequenceTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/InternIntervalOperator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="121" column="42" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
+        <state relative-caret-position="213">
+          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-webkine/kine3d/src/main/java/fr/ifpen/kine/client/WebKineClient.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/Patch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="258">
+          <caret line="157" column="31" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+          <folding>
+            <element signature="e#3950#3951#0" expanded="true" />
+            <element signature="e#4005#4006#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fxml/MainUI.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    <entry file="file://$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/BL2DClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="57" column="83" lean-forward="true" selection-start-line="57" selection-start-column="83" selection-end-line="57" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/factory/SceneStyle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="67" column="88" lean-forward="true" selection-start-line="67" selection-start-column="9" selection-end-line="67" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="180" column="103" selection-start-line="180" selection-start-column="103" selection-end-line="180" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/webkine/WebServiceStyle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="35" column="55" lean-forward="true" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#468#469#0" expanded="true" />
-            <element signature="e#505#506#0" expanded="true" />
-            <element signature="e#514#515#0" expanded="true" />
-            <element signature="e#583#584#0" expanded="true" />
-            <element signature="e#755#756#0" expanded="true" />
-            <element signature="e#774#775#0" expanded="true" />
-            <element signature="e#794#795#0" expanded="true" />
-            <element signature="e#852#853#0" expanded="true" />
-            <element signature="e#897#898#0" expanded="true" />
-            <element signature="e#964#965#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fxml/ParametersUI.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="134" column="31" lean-forward="true" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUIController.java">
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/EnvMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="555">
+          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/bl2d/BL2DEnvUI.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/FeatureInterval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="100" selection-start-line="14" selection-start-column="100" selection-end-line="14" selection-end-column="100" />
+        <state relative-caret-position="75">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/webkine/WebSolver.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/Interval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1767">
-          <caret line="111" column="20" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/interaction/deform/TopBorderInteraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/interaction/deform/DeformationInteraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="144" column="46" selection-start-line="144" selection-start-column="46" selection-end-line="144" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/stratifx/application/interaction/SectionInteraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="132" column="37" selection-start-line="132" selection-start-column="37" selection-end-line="132" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/src/fr/ifp/kronosflow/deform/scene/SceneBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.deform/src/fr/ifp/kronosflow/deform/scene/CompositeSceneBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="72" column="73" selection-start-line="72" selection-start-column="73" selection-end-line="72" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/algo/ComputeBloc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="90" column="55" selection-start-line="90" selection-start-column="55" selection-end-line="90" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/factory/ModelFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/builder/TrglPatchBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/algo/ComputeCompositePatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="88" column="59" selection-start-line="88" selection-start-column="59" selection-end-line="88" selection-end-column="59" />
+        <state relative-caret-position="645">
+          <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
           <folding>
-            <element signature="e#4084#4099#0" expanded="true" />
+            <element signature="e#2009#2010#0" expanded="true" />
+            <element signature="e#2036#2037#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/builder/TrglMeshBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/triangulation/Triangulation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="110" column="19" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/tests/fr/ifp/kronosflow/fem2d/test/InterpolateTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1216">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/implicit/MeshCompositePatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/implicit/MeshPolyLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="64" column="42" lean-forward="true" selection-start-line="64" selection-start-column="42" selection-end-line="64" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Cell.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/PatchPoint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
-          <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+          <caret line="24" column="38" lean-forward="true" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/EdgeTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.deform/src/fr/ifp/kronosflow/deform/scene/FaultMS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-370">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        <state relative-caret-position="255">
+          <caret line="35" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/IdMappingTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/CurviPoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="46" column="35" lean-forward="true" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+        <state relative-caret-position="210">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/MeshAccessor.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/geometry/RectD.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="163" column="57" lean-forward="true" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="57" />
+        <state relative-caret-position="339">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/IPolyline.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="739">
+          <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/ICurviPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/PolyLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
           <folding>
-            <element signature="e#1655#1656#0" expanded="true" />
-            <element signature="e#1718#1719#0" expanded="true" />
-            <element signature="e#4545#4546#0" expanded="true" />
-            <element signature="e#4616#4617#0" expanded="true" />
+            <element signature="e#2487#2488#0" expanded="true" />
+            <element signature="e#2524#2525#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/triangulation/test/TriangulationTest.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.kernel/src/fr/ifp/kronosflow/kernel/polyline/LinePoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10">
-          <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Triangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="156" column="26" selection-start-line="156" selection-start-column="26" selection-end-line="156" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Quad.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="-11">
+          <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
           <folding>
-            <element signature="e#3071#3072#0" expanded="true" />
-            <element signature="e#3131#3132#0" expanded="true" />
+            <element signature="e#1293#1294#0" expanded="true" />
+            <element signature="e#1320#1321#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/Nodes.java">
+    <entry file="file://$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/BL2D/geometry/Geometry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="390">
+          <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
           <folding>
-            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#626#633#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/CellPoint.java">
+    <entry file="file://$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/SimulationClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="544">
+          <caret line="62" column="32" selection-start-line="62" selection-start-column="32" selection-end-line="62" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/CompositeLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3267">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding>
-            <element signature="e#879#880#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1222#1223#0" expanded="true" />
+            <element signature="e#1249#1250#0" expanded="true" />
+            <element signature="e#1296#1297#0" expanded="true" />
+            <element signature="e#1330#1331#0" expanded="true" />
+            <element signature="e#1379#1380#0" expanded="true" />
+            <element signature="e#1416#1417#0" expanded="true" />
+            <element signature="e#1628#1629#0" expanded="true" />
+            <element signature="e#1676#1677#0" expanded="true" />
+            <element signature="e#2796#2797#0" expanded="true" />
+            <element signature="e#2844#2845#0" expanded="true" />
+            <element signature="e#2891#2892#0" expanded="true" />
+            <element signature="e#2946#2947#0" expanded="true" />
+            <element signature="e#3001#3002#0" expanded="true" />
+            <element signature="e#3053#3054#0" expanded="true" />
+            <element signature="e#4300#4301#0" expanded="true" />
+            <element signature="e#4328#4329#0" expanded="true" />
+            <element signature="e#4387#4388#0" expanded="true" />
+            <element signature="e#4414#4415#0" expanded="true" />
+            <element signature="e#5461#5462#0" expanded="true" />
+            <element signature="e#5501#5502#0" expanded="true" />
+            <element signature="e#5573#5574#0" expanded="true" />
+            <element signature="e#5611#5612#0" expanded="true" />
+            <element signature="e#6283#6284#0" expanded="true" />
+            <element signature="e#6314#6315#0" expanded="true" />
+            <element signature="e#6359#6360#0" expanded="true" />
+            <element signature="e#6395#6396#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/src/fr/ifp/kronosflow/fem2d/elements/FElementCoord.java">
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="28" column="16" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="16" />
+        <state relative-caret-position="945">
+          <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#571#586#0" expanded="true" />
+            <element signature="e#4177#4178#0" expanded="true" />
+            <element signature="e#4211#4212#0" expanded="true" />
+            <element signature="e#4262#4263#0" expanded="true" />
+            <element signature="e#4296#4297#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/src/fr/ifp/kronosflow/fem2d/solve/FEMSolver.java">
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/solvers/FEMSolverUIController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1149">
-          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        <state relative-caret-position="-15">
+          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.fem2d/tests/fr/ifp/kronosflow/fem2d/test/ElementCoordTest.java">
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/interaction/tools/AMesh2DInteraction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
-          <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+        <state relative-caret-position="525">
+          <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/mesh/test/CellTest.java">
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DEnvUI.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="125" selection-start-line="125" selection-end-line="125" />
+        <state relative-caret-position="495">
+          <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DParamInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/compact2d/Compact2DParamInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/grid2d/Grid2DParamInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DPatchMeshBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2340">
+          <caret column="42" lean-forward="true" selection-start-column="42" selection-end-column="42" />
+          <folding>
+            <element signature="e#6018#6026#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.mesh/src/fr/ifp/kronosflow/mesh/builder/IMeshBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/WebBL2DMeshBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DMeshInteraction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="15" column="82" selection-start-line="15" selection-start-column="82" selection-end-line="15" selection-end-column="82" />
         </state>
       </provider>
     </entry>
@@ -1564,7 +1669,6 @@
             <option name="proportions">
               <list>
                 <option value="0.32352942" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1607,11 +1711,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>fem2d|kronosflow|ifp</last-edited>
+          <last-edited>webkine.kine3d|ifp</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.25367647" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
