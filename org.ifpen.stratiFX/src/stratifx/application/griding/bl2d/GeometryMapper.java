@@ -143,7 +143,7 @@ public class GeometryMapper {
     }
 
     public Geometry geomFromMesh2D(Patch selected){
-        EnvStyle style = new EnvStyle(GParameters.getStyle());
+        BL2DStyle style = new BL2DStyle(GParameters.getStyle());
         LineExtractor lineExtractor = new LineExtractor();
         lineExtractor.extractLines(selected);
         if (style.getBORDERPOINTS().equals("Yes")){
@@ -204,7 +204,7 @@ public class GeometryMapper {
     }
 
     public Geometry geom2FromMesh2D(List<Point2D> point2DS){
-        EnvStyle style = new EnvStyle(GParameters.getStyle());
+        BL2DStyle style = new BL2DStyle(GParameters.getStyle());
         if (style.getBORDERPOINTS().equals("Yes")){
             create2Segments(point2DS);
         }

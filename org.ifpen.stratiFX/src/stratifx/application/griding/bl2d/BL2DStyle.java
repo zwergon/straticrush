@@ -3,7 +3,7 @@ package stratifx.application.griding.bl2d;
 import fr.ifp.kronosflow.model.style.IStyleProvider;
 import fr.ifp.kronosflow.model.style.Style;
 
-public class EnvStyle implements IStyleProvider {
+public class BL2DStyle implements IStyleProvider {
 
     private Style style;
 
@@ -14,7 +14,7 @@ public class EnvStyle implements IStyleProvider {
     private final String BORDERPOINTS = "*bl2d*borderpoints";
     private final String INNERCONTACTS = "*bl2d*innercontacts";
 
-    public EnvStyle(Style style){
+    public BL2DStyle(Style style){
         this.style = style;
     }
 

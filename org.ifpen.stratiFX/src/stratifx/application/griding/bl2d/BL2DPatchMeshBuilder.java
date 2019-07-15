@@ -9,7 +9,7 @@ import fr.ifpen.kine.client.SimulationClient;
 
 import java.util.List;
 
-public class BL2DPatchMeshBuilder extends WebBL2DMeshBuilder implements IPatchMeshBuilder  {
+public class BL2DPatchMeshBuilder extends BL2DMeshBuilder implements IPatchMeshBuilder  {
 
     Patch selected;
 

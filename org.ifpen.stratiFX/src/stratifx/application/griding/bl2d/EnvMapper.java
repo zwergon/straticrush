@@ -11,21 +11,21 @@ public class EnvMapper{
 
         Env env = new Env();
 
-        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
 
-        if(envStyle.getEnvElement().equals("Triangular")){
+        if(BL2DStyle.getEnvElement().equals("Triangular")){
             env.setElement("p1");
         }
-        if(envStyle.getEnvElement().equals("Quad-dominant")){
+        if(BL2DStyle.getEnvElement().equals("Quad-dominant")){
             env.setElement("q1.0");
         }
-        if(envStyle.getEnvElement().equals("Quadrangular")){
+        if(BL2DStyle.getEnvElement().equals("Quadrangular")){
             env.setElement("q1.1");
         }
 
-        String verb = envStyle.getEnvVerb();
-        String hmin = envStyle.getEnvHmin();
-        String hmax = envStyle.getEnvHmax();
+        String verb = BL2DStyle.getEnvVerb();
+        String hmin = BL2DStyle.getEnvHmin();
+        String hmax = BL2DStyle.getEnvHmax();
 
         if(verb!=null){
             env.setVerb(Integer.valueOf(verb));

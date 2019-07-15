@@ -2,6 +2,7 @@ package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
+import fr.ifp.kronosflow.model.IPatchMeshBuilder;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class WebBL2DMeshBuilder implements IMeshBuilder {
+public class BL2DMeshBuilder implements IMeshBuilder{
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
 
@@ -109,7 +110,7 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
                 }
             }
             else {
-                LOGGER.error("WebBL2DMeshBuilder quit with diagnosis " + state.getDiagnosis() + " and error code " + state.getErrorCode(), getClass());
+                LOGGER.error("BL2DMeshBuilder quit with diagnosis " + state.getDiagnosis() + " and error code " + state.getErrorCode(), getClass());
             }
 
 
@@ -154,8 +155,16 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return bl2dMesh;
     }
 
-    public Mesh2D createMesh(List<Point2D> pts){ return null;}
+    public Mesh2D createMesh(List<Point2D> pts){
+        Long simulationId = SimulationClient.createSimulationNow("bl2d");
+
+        if(simulationId > 0){
+            return webCreateMesh(simulationId, webCreate2Geometry(simulationId,pts), webCreate2Env(simulationId));
+        }
+        return null;
+    }
 
     @Override
     public Mesh2D createMesh(Set<fr.ifp.kronosflow.kernel.polyline.Node> nodes) { return null;}
+
 }

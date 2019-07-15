@@ -78,23 +78,23 @@ public class BL2DEnvUIController implements Initializable {
                 "Inner Segments"
         );
 
-        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
 
-        element.setValue(envStyle.getEnvElement());
+        element.setValue(BL2DStyle.getEnvElement());
 
-        bps.setValue(envStyle.getBORDERPOINTS());
+        bps.setValue(BL2DStyle.getBORDERPOINTS());
 
-        ics.setValue(envStyle.getINNERCONTACTS());
+        ics.setValue(BL2DStyle.getINNERCONTACTS());
 
-        if(envStyle.getEnvVerb()!=null){
-            verb.setText(envStyle.getEnvVerb());
+        if(BL2DStyle.getEnvVerb()!=null){
+            verb.setText(BL2DStyle.getEnvVerb());
         }
 
-        if(envStyle.getEnvHmin()!=null){
-            hmin.setText(envStyle.getEnvHmin());
+        if(BL2DStyle.getEnvHmin()!=null){
+            hmin.setText(BL2DStyle.getEnvHmin());
         }
-        if(envStyle.getEnvHmax()!=null){
-            hmax.setText(envStyle.getEnvHmax());
+        if(BL2DStyle.getEnvHmax()!=null){
+            hmax.setText(BL2DStyle.getEnvHmax());
         }
 
         bl2dPane.setVisible(false);
@@ -104,30 +104,30 @@ public class BL2DEnvUIController implements Initializable {
     @FXML
     public void onEnvApplyAction(ActionEvent action){
         LOGGER.debug("onEnvApplyAction",getClass());
-        EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
-        envStyle.setEnvElement(element.getValue().toString());
-        envStyle.setBORDERPOINTS(bps.getValue().toString());
-        envStyle.setINNERCONTACTS(ics.getValue().toString());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle.setEnvElement(element.getValue().toString());
+        BL2DStyle.setBORDERPOINTS(bps.getValue().toString());
+        BL2DStyle.setINNERCONTACTS(ics.getValue().toString());
 
         if(!verb.getText().isEmpty()){
-            envStyle.setEnvVerb(verb.getText());
+            BL2DStyle.setEnvVerb(verb.getText());
         }
         else{
-            envStyle.setEnvVerb(null);
+            BL2DStyle.setEnvVerb(null);
         }
 
         if(!hmin.getText().isEmpty()){
-            envStyle.setEnvHmin(hmin.getText());
+            BL2DStyle.setEnvHmin(hmin.getText());
         }
         else {
-            envStyle.setEnvHmin(null);
+            BL2DStyle.setEnvHmin(null);
         }
 
         if(!hmax.getText().isEmpty()){
-            envStyle.setEnvHmax(hmax.getText());
+            BL2DStyle.setEnvHmax(hmax.getText());
         }
         else {
-            envStyle.setEnvHmax(null);
+            BL2DStyle.setEnvHmax(null);
         }
     }
 }
