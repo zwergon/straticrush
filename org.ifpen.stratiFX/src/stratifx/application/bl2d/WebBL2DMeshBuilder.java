@@ -1,8 +1,10 @@
 package stratifx.application.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
+import fr.ifp.kronosflow.kernel.polyline.Interval;
 import fr.ifp.kronosflow.kernel.polyline.PolyLine;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
+import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifpen.kine.BL2D.geometry.Geometry;
@@ -25,46 +27,70 @@ import java.util.Set;
 
 public class WebBL2DMeshBuilder implements IMeshBuilder {
 
-    @Override
-    public Mesh2D createMesh(List<Point2D> pts) {
-        return null;
+    private Geometry webCreateGeometry(Long simulationId, Patch patch){
+
+        //preprocess Geometry
+        GeometryMapper geometryMapper = new GeometryMapper();
+        Geometry geometry = geometryMapper.geomFromMesh2D(patch);
+        geometry.setName("geometry from StratiFX");
+        geometry.setSimulationId(simulationId);
+
+        return geometry;
+
     }
 
-    public Mesh2D create2Mesh(PolyLine line) {
+    private Env webCreateEnv(Long simulationId){
+
+        //preprocess Env
+        EnvMapper envMapper = new EnvMapper();
+        Env env = envMapper.defaultEnv();
+        env.setName("default env from StratiFX");
+        env.setSimulationId(simulationId);
+
+        return env;
+    }
+
+    private Env webCreate2Env(Long simulationId){
+
+        //preprocess Env
+        Env env = webCreateEnv(simulationId);
+        env.setSmooth(6);
+
+        return env;
+    }
+
+    public Mesh2D createMesh(Patch patch) {
+
         Long simulationId = SimulationClient.createSimulationNow("bl2d");
+
+        if(simulationId > 0){
+            return webCreateMesh(simulationId, webCreateGeometry(simulationId,patch), webCreate2Env(simulationId));
+        }
+
+        return  null;
+
+    }
+
+    private Mesh2D webCreateMesh(Long simulationId, Geometry geometry, Env env){
 
         if (simulationId > 0) {
 
-            //preprocess Geometry
-            GeometryMapper geometryMapper = new GeometryMapper();
-            Geometry geometry = geometryMapper.geomFromMesh2D(line);
-            geometry.setName("geometry from StratiFX");
-            geometry.setSimulationId(simulationId);
-
-            //preprocess Env
-            EnvMapper envMapper = new EnvMapper();
-            Env env = envMapper.defaultEnv();
-            env.setName("default env from StratiFX");
-            env.setSimulationId(simulationId);
-
-            if (simulationId > 0) {
-
-                if (!BL2DClient.write(geometry)) {
-                    LOGGER.error("unable to write geometry", getClass());
-                    return null;
-                }
-
-                if (!BL2DClient.write(env)) {
-                    LOGGER.error("unable to write env", getClass());
-                    return null;
-                }
-
-
-                if (BL2DClient.launchSimulation(simulationId) <= 0) {
-                    LOGGER.error("unable to launch the simulation", getClass());
-                    return null;
-                }
+            if (!BL2DClient.write(geometry)) {
+                LOGGER.error("unable to write geometry", getClass());
+                return null;
             }
+
+            if (!BL2DClient.write(env)) {
+                LOGGER.error("unable to write env", getClass());
+                return null;
+            }
+
+
+            if (BL2DClient.launchSimulation(simulationId) <= 0) {
+                LOGGER.error("unable to launch the simulation", getClass());
+                return null;
+            }
+
         }
 
         StateBit stateBit = new StateBit();
@@ -106,11 +132,6 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
         return null;
     }
 
-    @Override
-    public Mesh2D createMesh(Set<fr.ifp.kronosflow.kernel.polyline.Node> nodes) {
-        return null;
-    }
-
     private BL2DMesh fromMesh(Mesh mesh){
         DefaultEncoderService enc = new DefaultEncoderService();
         BL2DMesh bl2dMesh = new BL2DMesh();
@@ -146,4 +167,10 @@ public class WebBL2DMeshBuilder implements IMeshBuilder {
 
         return bl2dMesh;
     }
+
+    @Override
+    public Mesh2D createMesh(List<Point2D> pts) { return null;}
+
+    @Override
+    public Mesh2D createMesh(Set<fr.ifp.kronosflow.kernel.polyline.Node> nodes) { return null;}
 }

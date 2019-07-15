@@ -4,7 +4,15 @@ import fr.ifp.kronosflow.model.style.IStyleProvider;
 import fr.ifp.kronosflow.model.style.Style;
 
 public class EnvStyle implements IStyleProvider {
+
     private Style style;
+
+    private final String ELEMENT = "*bl2d*element";
+    private final String VERB = "*bl2d*verb";
+    private final String HMIN = "*bl2d*hmin";
+    private final String HMAX = "*bl2d*hmax";
+    private final String BORDERPOINTS = "*bl2d*borderpoints";
+    private final String INNERCONTACTS = "*bl2d*innercontacts";
 
     public EnvStyle(Style style){
         this.style = style;
@@ -15,55 +23,30 @@ public class EnvStyle implements IStyleProvider {
         return this.style;
     }
 
-    public void setEnvElement(String element){
-        style.setAttribute("element",element);
-    }
 
-    public void setBorderPoints(String borderPoints){ style.setAttribute("border points",borderPoints);}
 
-    public void setEnvVerb(Integer verb){
-        style.setAttributeI("verb",verb);
-    }
+    public String getEnvElement(){return style.findAttributeS(ELEMENT,"Triangular");}
 
-    public void setEnvHmin(String hmin){
-        style.setAttribute("hmin",hmin);
-    }
+    public String getEnvVerb(){return style.findAttributeS(VERB,null);}
 
-    public void setEnvHmax(String hmax){
-        style.setAttribute("hmax",hmax);
-    }
+    public String getEnvHmin(){return style.findAttributeS(HMIN,null);}
 
-    public void removeEnvElement(){
-        style.removeAttribute("element");
-    }
+    public String getEnvHmax(){return style.findAttributeS(HMAX,null);}
 
-    public void removeBorderPoints(){ style.removeAttribute("border points");}
+    public String getBORDERPOINTS(){return style.findAttributeS(BORDERPOINTS,"No");}
 
-    public void removeEnvVerb(){
-        style.removeAttribute("verb");
-    }
+    public String getINNERCONTACTS(){return style.findAttributeS(INNERCONTACTS,"None");}
 
-    public void removeEnvHmin(){
-        style.removeAttribute("hmin");
-    }
+    public void setEnvElement(String element){ style.setAttribute(ELEMENT,element);}
 
-    public void removeEnvHmax(){
-        style.removeAttribute("hmax");
-    }
+    public void setEnvVerb(String verb){ style.setAttribute(VERB,verb);}
 
-    public String getEnvElement(){return style.getAttribute("element");}
+    public void setEnvHmin(String hmin){ style.setAttribute(HMIN ,hmin);}
 
-    public String getBorderPoints(){return style.getAttribute("border points");}
+    public void setEnvHmax(String hmax){ style.setAttribute(HMAX,hmax);}
 
-    public Integer getEnvVerb(){return style.getAttributeI("verb");}
+    public void setBORDERPOINTS(String borderpoints){ style.setAttribute(BORDERPOINTS,borderpoints);}
 
-    public String getEnvHmin(){return style.getAttribute("hmin");}
+    public void setINNERCONTACTS(String innercontacts){ style.setAttribute(INNERCONTACTS,innercontacts);}
 
-    public String getEnvHmax(){return style.getAttribute("hmax"); }
-
-    public void setBL2DMesh(){style.setAttributeB("BL2DMesh",true);}
-
-    public Boolean getBL2DMesh(){return style.getAttributeB("BL2DMesh");}
-
-    public void removeBL2DMesh(){style.removeAttribute("BL2DMesh");}
 }

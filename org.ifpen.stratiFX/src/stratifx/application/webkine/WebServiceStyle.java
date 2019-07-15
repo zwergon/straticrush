@@ -19,7 +19,6 @@ public class WebServiceStyle implements IStyleProvider {
         return style;
     }
 
-
     public void setPort( int port ){
         style.setAttributeI(PORT, port);
     }

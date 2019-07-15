@@ -8,22 +8,35 @@ public class EnvMapper{
     public EnvMapper(){}
 
     public Env defaultEnv(){
+
         Env env = new Env();
+
         EnvStyle envStyle = new EnvStyle(GParameters.getStyle());
-        env.setElement(envStyle.getEnvElement());
-        env.setVerb(envStyle.getEnvVerb());
+
+        if(envStyle.getEnvElement().equals("Triangular")){
+            env.setElement("p1");
+        }
+        if(envStyle.getEnvElement().equals("Quad-dominant")){
+            env.setElement("q1.0");
+        }
+        if(envStyle.getEnvElement().equals("Quadrangular")){
+            env.setElement("q1.1");
+        }
+
+        String verb = envStyle.getEnvVerb();
         String hmin = envStyle.getEnvHmin();
         String hmax = envStyle.getEnvHmax();
+
+        if(verb!=null){
+            env.setVerb(Integer.valueOf(verb));
+        }
         if(hmin!=null){
             env.setHmin(Double.valueOf(hmin));
         }
         if(hmax!=null){
             env.setHmax(Double.valueOf(hmax));
         }
-        System.out.println(env.getElement());
-        System.out.println(env.getVerb());
-        System.out.println(env.getHmin());
-        System.out.println(env.getHmax());
+
         return env;
     }
 

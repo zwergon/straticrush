@@ -17,14 +17,26 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
             <children>
-                <Label text="BL2D Env Settings" fx:id="bl2denv" GridPane.rowIndex="1" GridPane.columnIndex="0" textAlignment="CENTER">
+                <Label text="BL2D Env Settings" fx:id="bl2denv" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
                 <HBox alignment="CENTER">
                     <children>
-                        <Label fx:id="el" text="Element : " alignment="CENTER_RIGHT" prefWidth="100" prefHeight="20"/>
+                        <Label fx:id="bp" text="Imposed Border Points : " alignment="CENTER_RIGHT" prefWidth="180" prefHeight="20"/>
+                        <ComboBox fx:id="bps" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label fx:id="ic" text="Inner Contacts : " alignment="CENTER_RIGHT" prefWidth="180" prefHeight="20"/>
+                        <ComboBox fx:id="ics" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label fx:id="el" text="Element : " alignment="CENTER_RIGHT" prefWidth="80" prefHeight="20"/>
                         <ComboBox fx:id="element" />
                     </children>
                 </HBox>
