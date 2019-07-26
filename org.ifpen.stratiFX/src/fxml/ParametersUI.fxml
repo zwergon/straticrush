@@ -102,6 +102,31 @@
             </VBox>
          </content>
       </Tab>
+       <Tab closable="false" text="Patches">
+           <content>
+               <GridPane>
+                   <rowConstraints>
+                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                   </rowConstraints>
+                   <VBox fx:id="Patches">
+                       <padding><Insets bottom="40" left="40" right="40" top="40" /></padding>
+                       <children>
+                           <ListView fx:id="fxPatchesListId" prefHeight="500.0" prefWidth="500.0" GridPane.rowIndex="0" />
+                       </children>
+                   </VBox>
+                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="1">
+                       <children>
+                           <Button mnemonicParsing="false" onAction="#onPatchesApplyAction" text="Apply" />
+                           <Button mnemonicParsing="false" onAction="#onPatchesResetAction" text="Reset" />
+                       </children>
+                       <GridPane.margin>
+                           <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+                       </GridPane.margin>
+                   </HBox>
+               </GridPane>
+           </content>
+       </Tab>
        <Tab closable="false" text="Solvers">
            <content>
                <VBox fx:id="Solvers">

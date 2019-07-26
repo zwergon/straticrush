@@ -92,11 +92,12 @@ public abstract class AMesh2DInteraction extends SectionInteraction {
             IPatchMeshBuilder builder = createBuilder();
             builder.initialize(selected, pts);
             Mesh2D mesh = builder.createMesh(selected.getBorder().getPoints2D());
-
-            GMesh gmesh = new GMesh(mesh);
-            gscene.add(gmesh);
-            gObjects.put(G_MESH, gmesh);
-            gmesh.redraw();
+            if (mesh != null){
+                GMesh gmesh = new GMesh(mesh);
+                gscene.add(gmesh);
+                gObjects.put(G_MESH, gmesh);
+                gmesh.redraw();
+            }
         }
     }
 

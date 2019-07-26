@@ -16,9 +16,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="client" />
         <module name="fr.ifp.webkine.kine3d" />
         <module name="Kine3D" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="client" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

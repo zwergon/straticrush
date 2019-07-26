@@ -9,6 +9,8 @@
 package stratifx.application.fxcontrollers;
 
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
@@ -33,6 +35,7 @@ import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
+import stratifx.application.patches.PatchStyle;
 import stratifx.application.views.DisplayStyle;
 import stratifx.application.views.StyleUIAction;
 import stratifx.application.webkine.WebServiceStyle;
@@ -53,6 +56,11 @@ public class ParametersUIController implements
     ListView<ParametersUIController.FXFeature> fxFeaturesListId;
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
+
+    @FXML
+    ListView<ParametersUIController.FXPatch> fxPatchesListId;
+
+    private final ObservableList<ParametersUIController.FXPatch> patchList = FXCollections.observableArrayList();
 
     @FXML
     CheckBox displayWithSolidId;
@@ -136,6 +144,32 @@ public class ParametersUIController implements
 
     }
 
+    class FXPatch {
+        Patch patch;
+        private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+        public FXPatch(Patch patch){
+            this.patch = patch;
+            selected.setValue(true);
+        }
+
+        public String getName(){
+            return this.patch.getName();
+        }
+
+        public BooleanProperty selectedProperty() {
+            return selected;
+        }
+
+        public boolean isSelected() {
+            return selected.get();
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected.set(selected);
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
@@ -144,6 +178,7 @@ public class ParametersUIController implements
         section = (GeoschedulerSection) StratiFXService.instance.getSection();
         if (section != null) {
             initSceneParameters(section);
+            initPatches(section);
         }
 
         DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
@@ -322,13 +357,55 @@ public class ParametersUIController implements
                         return null;
                     }
                 }));
-        ;
+
         for (BoundaryFeature feature : features) {
             data.add(new FXFeature(feature));
         }
+
         fxFeaturesListId.setItems(data);
-        
-        
+
+    }
+
+    private void initPatches(GeoschedulerSection section){
+        patchList.clear();
+
+        section = (GeoschedulerSection) StratiFXService.instance.getSection();
+
+        PatchLibrary patchLibrary = section.getPatchLibrary();
+
+        List<Patch> patches = patchLibrary.getPatches();
+
+        Collections.sort(patches, new Comparator<Patch>() {
+            @Override
+            public int compare(Patch o1, Patch o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
+        fxPatchesListId.setCellFactory(CheckBoxListCell.forListView(
+                FXPatch::selectedProperty,
+                new StringConverter<FXPatch>(){
+                    @Override
+                    public String toString(FXPatch object) {
+                        return object.getName();
+                    }
+
+                    @Override
+                    public FXPatch fromString(String string) {
+                        return null;
+                    }
+                }
+        ));
+
+        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
+
+        for (Patch patch : patches){
+            FXPatch fxPatch = new FXPatch(patch);
+            patchList.add(fxPatch);
+            patchStyle.setPatch(fxPatch.getName(),fxPatch.isSelected());
+        }
+
+        fxPatchesListId.setItems(patchList);
     }
 
     @Override
@@ -371,8 +448,23 @@ public class ParametersUIController implements
 
     @FXML
     public void onSceneResetAction( ActionEvent event ){
-        
+
     }
-    
+
+    @FXML
+    public void onPatchesApplyAction( ActionEvent event){
+        LOGGER.debug("onPatchesApplyAction",getClass());
+        section = (GeoschedulerSection) StratiFXService.instance.getSection();
+        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
+        for (ParametersUIController.FXPatch fxPatch : fxPatchesListId.getItems()){
+            patchStyle.setPatch(fxPatch.getName(),fxPatch.isSelected());
+        }
+    }
+
+    @FXML
+    public void onPatchesResetAction( ActionEvent event){
+        LOGGER.debug("onPatchesResetAction",getClass());
+        initPatches((GeoschedulerSection) StratiFXService.instance.getSection());
+    }
 
 }

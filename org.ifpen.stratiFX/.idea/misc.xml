@@ -22,8 +22,9 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/../../../git-webkine/kine3d/pom.xml" />
-        <option value="$PROJECT_DIR$/../../kronosflow/fr.ifp.kronosflow.dem/pom.xml" />
-        <option value="$PROJECT_DIR$/../../git-webkine/kine3d/pom.xml" />
+        <option value="$USER_HOME$/kronosflow/fr.ifp.kronosflow.dem/pom.xml" />
+        <option value="$USER_HOME$/git-webkine/kine3d/pom.xml" />
+        <option value="$USER_HOME$/client/pom.xml" />
       </list>
     </option>
   </component>

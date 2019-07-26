@@ -6,8 +6,14 @@ import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.kernel.polyline.*;
 import fr.ifp.kronosflow.model.*;
 import fr.ifp.kronosflow.uids.UID;
+import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifpen.kine.BL2D.geometry.*;
+import fr.ifpen.kine.gmsh.geom.Line;
+import org.json.simple.JSONObject;
 import stratifx.application.main.GParameters;
+import stratifx.application.patches.PatchStyle;
+import stratifx.model.loader.AbstractLoader;
+import stratifx.model.persistable.IPersisted;
 
 import java.util.*;
 
@@ -58,8 +64,6 @@ public class GeometryMapper {
 
     private void createLineImposedPoints(CompositeLine line){
         List<ICurviPoint> pts = line.getPoints();
-        pts.remove(0);
-        pts.remove(pts.size()-1);
         for (ICurviPoint p : pts){
             LinePoint lp = (LinePoint)p;
             PatchPoint pp = (PatchPoint)lp;
@@ -76,8 +80,8 @@ public class GeometryMapper {
                 );
                 this.pID++;
                 this.maxPoints++;
+                this.imposedPoints.add(this.idsMap.get(pp.getCurviPoint().getUID()));
             }
-            this.imposedPoints.add(this.idsMap.get(pp.getCurviPoint().getUID()));
         }
     }
 
@@ -146,20 +150,33 @@ public class GeometryMapper {
         BL2DStyle style = new BL2DStyle(GParameters.getStyle());
         LineExtractor lineExtractor = new LineExtractor();
         lineExtractor.extractLines(selected);
+
+        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
+        List<String> names = lineExtractor.getpNames();
+        for (String name : names){
+            if (!patchStyle.getPatch(name)){
+                lineExtractor.removePatch(name);
+            }
+        }
+
+        List<CompositeLine> borderLines = lineExtractor.getBorders();
+
+        List<CompositeLine> interns = lineExtractor.getInternals();
+
         if (style.getBORDERPOINTS().equals("Yes")){
-            createLineSegments(lineExtractor.getBorderLines());
+            createLineSegments(borderLines);
         }
         else {
-            createCurves(lineExtractor.getBorderLines());
+            createCurves(borderLines);
         }
         if (style.getINNERCONTACTS().equals("Inner Curves")){
-            createCurves(lineExtractor.getInternLines());
+            createCurves(interns);
         }
         else if (style.getINNERCONTACTS().equals("Inner Segments")){
-            createLineSegments(lineExtractor.getInternLines());
+            createLineSegments(interns);
         }
         else if (style.getINNERCONTACTS().equals("Inner Points")){
-            createImposedPoints(lineExtractor.getInternLines());
+            createImposedPoints(interns);
         }
 
 
@@ -230,5 +247,4 @@ public class GeometryMapper {
 
         return geometry;
     }
-
 }
