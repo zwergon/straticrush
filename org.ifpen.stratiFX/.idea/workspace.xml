@@ -7,29 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Renaming">
-      <change afterPath="$PROJECT_DIR$/src/stratifx/application/patches/PatchStyle.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/GeomToBL2DClient.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/GeomToBL2DMeshClient.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/SimulationClient.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/client/SimulationClient.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/filters/ImportResultBL2D.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/kine3d/src/main/java/fr/ifpen/kine/filters/ImportResultBL2D.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/pom.xml" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/pom.xml" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DProperties.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DProperties.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DProxy.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DProxy.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DTask.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/BL2D/BL2DTask.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/aster/AsterProperties.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/aster/AsterProperties.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/controller/SimulationController.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/controller/SimulationController.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/properties/SimulationProperties.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/properties/SimulationProperties.java" afterDir="false" />
-      <change beforePath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/service/SimulationService.java" beforeDir="false" afterPath="$USER_HOME$/WebKine/server/src/main/java/fr/ifpen/webkine/service/SimulationService.java" afterDir="false" />
       <change beforePath="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java" beforeDir="false" afterPath="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" beforeDir="false" afterPath="$PROJECT_DIR$/iml/fr.ifp.webkine.kine3d.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stratifx/application/interaction/tools/AMesh2DInteraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stratifx/application/interaction/tools/AMesh2DInteraction.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -160,7 +140,7 @@
       </list>
     </option>
     <option name="ROOT_SYNC" value="DONT_SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/git-kronos" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -212,8 +192,8 @@
         <option value="$USER_HOME$/client/pom.xml" />
         <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/bodyFeature/EmptyBodyFeature.java" />
         <option value="$PROJECT_DIR$/src/fxml/ParametersUI.fxml" />
-        <option value="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/patches/PatchStyle.java" />
+        <option value="$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java" />
         <option value="$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java" />
         <option value="$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java" />
       </list>
@@ -302,30 +282,6 @@
             <path>
               <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="kronosflow" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="fr.ifp.kronosflow.model" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="kronosflow" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="fr.ifp.kronosflow.model" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="kronosflow" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="fr.ifp.kronosflow.model" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="geology" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
               <item name="webkine" type="9c53a853:ProjectViewModuleGroupNode" />
             </path>
             <path>
@@ -381,15 +337,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="stratifx" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="fxcontrollers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="griding" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -401,15 +348,6 @@
               <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="griding" type="462c0819:PsiDirectoryNode" />
               <item name="bl2d" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stratiFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fr.ifp" type="9c53a853:ProjectViewModuleGroupNode" />
-              <item name="org.ifpen.stratiFX" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="stratifx" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -863,7 +801,14 @@
       <option name="project" value="LOCAL" />
       <updated>1563201117434</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="patches">
+      <created>1564128265733</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1564128265733</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -904,7 +849,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1165" extended-state="2" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57078314" visible="true" weight="0.31842387" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57078314" visible="true" weight="0.32161874" />
       <window_info id="Structure" order="1" sideWeight="0.42921686" side_tool="true" weight="0.22366993" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
@@ -1037,7 +982,6 @@
       <path value="$USER_HOME$/kronosflow" />
       <path value="$USER_HOME$/Webkine" />
     </ignored-roots>
-    <MESSAGE value="Load/Save" />
     <MESSAGE value="Add Quad.&#10;Correct region kind in aster for faces and edges" />
     <MESSAGE value="Load/Save in JSON format" />
     <MESSAGE value="Add time package&#10;Missing commits" />
@@ -1062,7 +1006,8 @@
     <MESSAGE value="Create griding package" />
     <MESSAGE value="Change of BL2DPatchMeshBuilder" />
     <MESSAGE value="Renaming" />
-    <option name="LAST_COMMIT_MESSAGE" value="Renaming" />
+    <MESSAGE value="patches" />
+    <option name="LAST_COMMIT_MESSAGE" value="patches" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1238,13 +1183,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/stratifx/model/wrappers/SectionWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="134" selection-start-line="134" selection-end-line="134" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.model/src/fr/ifp/kronosflow/model/filters/ImportGeoFile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1500">
@@ -1425,8 +1363,8 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/BL2DEnvUI.fxml">
-      <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ISolverParameter.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1514,12 +1452,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fxml/ParametersUI.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1575">
           <caret line="135" column="30" lean-forward="true" selection-start-line="135" selection-start-column="30" selection-end-line="135" selection-end-column="30" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://$USER_HOME$/jdk1.8/src.zip!/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1560,26 +1498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="110" column="5" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#859#867#0" expanded="true" />
-            <element signature="e#951#980#0" expanded="true" />
-            <element signature="e#1056#1085#0" expanded="true" />
-            <element signature="e#1136#1149#0" expanded="true" />
-            <element signature="e#1213#1228#0" expanded="true" />
-            <element signature="e#1288#1308#0" expanded="true" />
-            <element signature="e#2130#2145#0" expanded="true" />
-            <element signature="e#3232#3247#0" expanded="true" />
-            <element signature="e#6320#6335#0" expanded="true" />
-            <element signature="e#6631#6632#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/patches/PatchStyle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1594,19 +1512,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/fxcontrollers/ParametersUIController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="459" column="72" selection-start-line="459" selection-start-column="72" selection-end-line="459" selection-end-column="72" />
-          <folding>
-            <element signature="e#11583#11584#0" expanded="true" />
-            <element signature="e#11611#11612#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="533">
+          <caret line="401" column="36" selection-start-line="401" selection-start-column="36" selection-end-line="401" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/jdk1.8/javafx-src.zip!/javafx/util/Pair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stratifx/application/griding/bl2d/GeometryMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1255">
-          <caret line="107" column="26" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
+        <state relative-caret-position="-1940">
+          <caret line="129" column="27" lean-forward="true" selection-start-line="129" selection-start-column="27" selection-end-line="129" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/git-kronos/fr.ifp.kronosflow.incubator/src/fr/ifp/kronosflow/incubator/extractor/LineExtractor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1785">
+          <caret line="119" column="37" selection-start-line="119" selection-start-column="37" selection-end-line="119" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#542#550#0" expanded="true" />
+            <element signature="e#651#680#0" expanded="true" />
+            <element signature="e#869#903#0" expanded="true" />
+            <element signature="e#814#827#0" expanded="true" />
+            <element signature="e#888#903#0" expanded="true" />
+            <element signature="e#1133#1153#0" expanded="true" />
+            <element signature="e#1210#1223#0" expanded="true" />
+            <element signature="e#1281#1294#0" expanded="true" />
+            <element signature="e#1326#1335#0" expanded="true" />
+            <element signature="e#1831#1841#0" expanded="true" />
+            <element signature="e#2175#2190#0" expanded="true" />
+            <element signature="e#2841#2851#0" expanded="true" />
+            <element signature="e#3575#3590#0" expanded="true" />
+            <element signature="e#6327#6340#0" expanded="true" />
+            <element signature="e#6460#6473#0" expanded="true" />
+            <element signature="e#7196#7211#0" expanded="true" />
+            <element signature="e#7959#7988#0" expanded="true" />
+            <element signature="e#8313#8314#0" expanded="true" />
+            <element signature="e#8342#8343#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

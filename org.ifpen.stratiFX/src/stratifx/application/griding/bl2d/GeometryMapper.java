@@ -9,6 +9,7 @@ import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifpen.kine.BL2D.geometry.*;
 import fr.ifpen.kine.gmsh.geom.Line;
+import javafx.util.Pair;
 import org.json.simple.JSONObject;
 import stratifx.application.main.GParameters;
 import stratifx.application.patches.PatchStyle;
@@ -113,6 +114,30 @@ public class GeometryMapper {
         this.maxCurves++;
         this.maxDomains++;
     }
+
+    private void createIBaseCurve(String deb, List<String> interns, String end, String dom){
+        this.curveList.add(
+                new Curve(
+                        "C"+Integer.toString(this.cID),
+                        "NULL",
+                        deb,
+                        interns,
+                        end,
+                        "NULL"
+                )
+        );
+        this.domainList.add(
+                new Domain(
+                        "C"+Integer.toString(this.cID),
+                        dom,
+                        0
+                )
+        );
+        this.cID++;
+        this.maxCurves++;
+        this.maxDomains++;
+    }
+
     private void createCurve(CompositeLine line){
         List<String> list = createPoints(line);
         int size = list.size();
@@ -123,6 +148,19 @@ public class GeometryMapper {
         }
         else {
             createBaseCurve(deb,list,end);
+        }
+    }
+
+    private void createICurve(CompositeLine line, String dom){
+        List<String> list = createPoints(line);
+        int size = list.size();
+        String end = list.remove(size-1);
+        String deb = list.remove(0);
+        if (size == 2){
+            createIBaseCurve(deb,new ArrayList<String>(),end, dom);
+        }
+        else {
+            createIBaseCurve(deb,list,end,dom);
         }
     }
 
@@ -146,6 +184,14 @@ public class GeometryMapper {
         }
     }
 
+    private void createISegments(CompositeLine line, String dom){
+        List<String> list = createPoints(line);
+        int size = list.size();
+        for (int i = 0; i < size-1; i++){
+            createIBaseCurve(list.get(i),new ArrayList<String>(),list.get(i+1),dom);
+        }
+    }
+
     public Geometry geomFromMesh2D(Patch selected){
         BL2DStyle style = new BL2DStyle(GParameters.getStyle());
         LineExtractor lineExtractor = new LineExtractor();
@@ -163,11 +209,19 @@ public class GeometryMapper {
 
         List<CompositeLine> interns = lineExtractor.getInternals();
 
+        List<Pair<CompositeLine,String>> pp = lineExtractor.getInternBorders();
+
         if (style.getBORDERPOINTS().equals("Yes")){
             createLineSegments(borderLines);
+            for (Pair<CompositeLine,String> p : pp){
+                createISegments(p.getKey(),p.getValue());
+            }
         }
         else {
             createCurves(borderLines);
+            for (Pair<CompositeLine,String> p : pp){
+                createICurve(p.getKey(),p.getValue());
+            }
         }
         if (style.getINNERCONTACTS().equals("Inner Curves")){
             createCurves(interns);
