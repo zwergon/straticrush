@@ -6,15 +6,10 @@ import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.kernel.polyline.*;
 import fr.ifp.kronosflow.model.*;
 import fr.ifp.kronosflow.uids.UID;
-import fr.ifp.kronosflow.utils.LOGGER;
 import fr.ifpen.kine.BL2D.geometry.*;
-import fr.ifpen.kine.gmsh.geom.Line;
 import javafx.util.Pair;
-import org.json.simple.JSONObject;
 import stratifx.application.main.GParameters;
 import stratifx.application.patches.PatchStyle;
-import stratifx.model.loader.AbstractLoader;
-import stratifx.model.persistable.IPersisted;
 
 import java.util.*;
 
