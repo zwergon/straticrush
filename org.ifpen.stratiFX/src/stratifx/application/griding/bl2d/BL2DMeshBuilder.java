@@ -12,6 +12,7 @@ import fr.ifpen.kine.BL2D.Env;
 import fr.ifpen.kine.client.BL2DClient;
 import fr.ifpen.kine.client.SimulationClient;
 
+import fr.ifpen.kine.client.WebKineClient;
 import fr.ifpen.kine.encoder.DefaultEncoderService;
 import fr.ifpen.kine.mesh.Cell;
 import fr.ifpen.kine.mesh.Mesh;
@@ -19,12 +20,19 @@ import fr.ifpen.kine.mesh.Node;
 import fr.ifpen.kine.mesh.Topology;
 import fr.ifpen.kine.process.ProcessState;
 import fr.ifpen.kine.process.StateBit;
+import stratifx.application.main.GParameters;
+import stratifx.application.webkine.WebServiceStyle;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class BL2DMeshBuilder implements IMeshBuilder{
+
+    public BL2DMeshBuilder() {
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+        WebKineClient.setBaseUrl(serviceStyle.getBaseUrl());
+    }
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
 
@@ -100,7 +108,6 @@ public class BL2DMeshBuilder implements IMeshBuilder{
         if  ( state != null ) {
 
             if ( state.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
-
                 Mesh resMesh = (Mesh) BL2DClient.getResults(simulationId);
                 if ( null != resMesh ) {
                     return fromMesh(resMesh);

@@ -59,6 +59,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stratifx.application.griding.bl2d.BL2DParamInfo;
 import stratifx.application.caller.EventUIAction;
+import stratifx.application.griding.bl2d.BL2DPatchMeshBuilder;
 import stratifx.application.griding.compact2d.Compact2DParamInfo;
 import stratifx.application.fxcontrollers.ParamInfo;
 import stratifx.application.griding.grid2d.Grid2DParamInfo;
@@ -142,6 +143,8 @@ public class StratiFXService implements
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
 
         DeformationFactory.getInstance().register( DeformationFactory.Kind.SOLVER, "WebKine", WebSolver.class);
+
+        PatchBuilderFactory.registerBuilder("BL2DMesh", BL2DPatchMeshBuilder.class);
 
         LOGGER.setLogger(new StratiFXLogger());
 

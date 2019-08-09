@@ -4,6 +4,7 @@ import fr.ifp.kronosflow.mesh.Cell;
 import fr.ifp.kronosflow.mesh.Edge;
 import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.Triangle;
+import fr.ifp.kronosflow.mesh.Quad;
 import fr.ifp.kronosflow.mesh.regions.RegionOneD;
 import fr.ifp.kronosflow.kernel.polyline.Node;
 import fr.ifp.kronosflow.uids.IHandle;
@@ -53,9 +54,22 @@ public class MeshMapper {
                         encoderService.cellId(Topology.NODE, cell.getNode(1).getId()),
                         encoderService.cellId(Topology.NODE, cell.getNode(2).getId())
                 });
+
+                mesh.addCell( encoderService.cellId(Topology.TRGL, ih.getUID().getId()), mCell);
+            }
+            else if ( cell instanceof Quad){
+                mCell = new fr.ifpen.kine.mesh.Quad();
+                mCell.setIds( new String[]{
+                        encoderService.cellId(Topology.NODE, cell.getNode(0).getId()),
+                        encoderService.cellId(Topology.NODE, cell.getNode(1).getId()),
+                        encoderService.cellId(Topology.NODE, cell.getNode(2).getId()),
+                        encoderService.cellId(Topology.NODE, cell.getNode(3).getId())
+                });
+
+                mesh.addCell( encoderService.cellId(Topology.QUAD, ih.getUID().getId()), mCell);
             }
 
-            mesh.addCell( encoderService.cellId(Topology.TRGL, ih.getUID().getId()), mCell);
+
         }
 
         //Creates a Region with all cells for material
