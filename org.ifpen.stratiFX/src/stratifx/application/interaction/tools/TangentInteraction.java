@@ -62,7 +62,7 @@ public class TangentInteraction extends SectionInteraction {
 
     private void createVectorField(Patch patch) {
        
-        createScene(patch);
+        createCompositeScene(patch);
     }
     
 }

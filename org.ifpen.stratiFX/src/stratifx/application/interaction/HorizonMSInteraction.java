@@ -47,7 +47,7 @@ public class HorizonMSInteraction extends MasterSlaveInteraction {
     protected void handleMousePress(GMouseEvent event, GScene gscene) {
         Patch patch = getSelectedPatch(event.x, event.y);
         if (patch != null) {
-            scene = createScene(patch);
+            scene = createCompositeScene(patch);
             selectHorizon(event.x, event.y);
 
             createTargetLine();

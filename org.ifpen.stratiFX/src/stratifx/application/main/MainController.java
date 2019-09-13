@@ -131,6 +131,11 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onMenuModelOneFaultAction(ActionEvent event){
+        StratiFXService.instance.broadCastAction(new ModelUIaction("OneFault"));
+    }
+
+    @FXML
     void onMenuLinesLoadAction(ActionEvent event){
         StratiFXService.instance.broadCastAction(UIAction.IMPORT_LINES);
     }
@@ -163,16 +168,6 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
-    void onToolsTriangulationAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Triangulation", "Triangulation"));
-    }
-
-    @FXML
-    void onToolsStratiGridAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("StratiGrid", "StratiGrid"));
-    }
-
-    @FXML
     void onToolsTangentAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
     }
@@ -181,6 +176,12 @@ public class MainController implements Initializable, IUIController {
     void onToolsTimeLineAction(ActionEvent event) {
         StratiFXService.instance.broadCastAction(new InteractionUIAction("TimeLine", "TimeLine"));
     }
+
+    @FXML
+    void onToolsTrishearAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("TriShear", "TriShear"));
+    }
+
 
     @FXML
     void onToolsResetAction(ActionEvent event) {

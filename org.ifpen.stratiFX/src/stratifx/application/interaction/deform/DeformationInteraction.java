@@ -143,7 +143,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
                         DeformationControllerCaller caller = createCaller();
 
                         caller.clear();
-                        caller.setScene(createScene(patch));
+                        caller.setScene(createCompositeScene(patch));
                         manipulator = createManipulator(scene, caller);
                         manipulator.activate();
                     }

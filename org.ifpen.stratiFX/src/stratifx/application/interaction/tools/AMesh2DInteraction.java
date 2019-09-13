@@ -84,7 +84,7 @@ public abstract class AMesh2DInteraction extends SectionInteraction {
         if (patch != null) {
             double[] xy = gscene.getTransformer().deviceToWorld(event.x, event.y);
 
-            scene = createScene(patch);
+            scene = createCompositeScene(patch);
 
             Patch selected = scene.getSelected();
             List<Point2D> pts = selected.getBorder().getPoints2D();

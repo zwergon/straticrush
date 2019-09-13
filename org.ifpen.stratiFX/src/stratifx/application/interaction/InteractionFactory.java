@@ -66,6 +66,7 @@ public class InteractionFactory {
         register("TimeLine", TimeLineInteraction.class);
         register("AntiGravity", AntiGravityInteraction.class);
         register("MovePoints", MovePointsInteraction.class);
+        register("TriShear", TriShearInteraction.class);
 
     }
     

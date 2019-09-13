@@ -45,6 +45,7 @@ import fr.ifp.kronosflow.model.builder.PatchBuilderFactory;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
+import fr.ifp.kronosflow.model.filters.OneFaultModel;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
@@ -139,7 +140,7 @@ public class StratiFXService implements
         ParamInfo.register( new Grid2DParamInfo() );
         ParamInfo.register( new FEMSolverParamInfo() );
 
-        
+
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);
 
         DeformationFactory.getInstance().register( DeformationFactory.Kind.SOLVER, "WebKine", WebSolver.class);
@@ -229,9 +230,40 @@ public class StratiFXService implements
             case UIAction.EVENT:
                 return handleEventAction((EventUIAction)action);
 
+            case UIAction.MODEL:
+                return handleModel((ModelUIaction)action);
+
             default:
                 break;
         }
+
+        return false;
+    }
+
+    private boolean handleModel(ModelUIaction action) {
+        LOGGER.debug("create Model " + action.getModelType(), this.getClass());
+
+        GeoschedulerSection section = new GeoschedulerSection();
+        section.setName(action.getModelType());
+
+        Style style = section.getStyle();
+        style.cloneData( GParameters.getStyle() );
+
+        SceneStyle sceneStyle = new SceneStyle(style);
+        sceneStyle.setGridType("None");
+        sceneStyle.setComplexityType(ComplexityType.SINGLE);
+
+
+        Map<String, String> unitMap = SectionFactory.createBorders(
+                null,
+                action.getModelType(),
+                section,
+                true );
+
+        //TODO create root.
+        section.getGeoscheduler().getRoot().getWrapper().save(section);
+
+        setCurrentSection(section);
 
         return false;
     }

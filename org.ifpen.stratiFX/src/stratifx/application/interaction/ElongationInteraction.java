@@ -46,7 +46,7 @@ public class ElongationInteraction extends SectionInteraction {
                 Patch patch = getSelectedPatch(event.x, event.y);
                 if (patch != null) {
 
-                    Scene scene = createScene(patch);
+                    Scene scene = createCompositeScene(patch);
 
                     // Create a graphic node for holding the interaction graphics
                     markers = new ElongationInteraction.GBox();

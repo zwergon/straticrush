@@ -42,10 +42,10 @@ import java.util.HashMap;
 
 public class SectionInteraction implements GInteraction {
 
+    protected final static int G_FAULT = 0;
     protected final static int G_POINTS = 1;
     protected final static int G_FAULT_MS = 2;
     protected final static int G_HORIZON_MS = 3;
-    protected  final static int G_FAULT = 0;
     protected final static int G_DISPLACEMENTS = 4;
 
     protected GScene gscene;
@@ -119,18 +119,33 @@ public class SectionInteraction implements GInteraction {
 
         return null;
     }
-    
 
-    protected Scene createScene(Patch patch) {
+    /**
+     * create a composite Scene, with CompositePatch build upon patch is the selected one.
+     * @param patch the patch to build the selected composite patch
+     * @return the create scene
+     */
+    protected Scene createCompositeScene(Patch patch) {
 
         if ((patch.getPatchLibrary().getPatches().size() == 1)
                 && (patch instanceof MeshPatch)) {
             Scene scene = new Scene();
+            scene.addElement(patch);
             scene.setSelected(patch);
             return scene;
         }
 
         return SceneBuilder.createDefaultScene(patch, style);
+    }
+
+    protected Scene createPatchScene(Patch patch){
+        Scene scene = new Scene();
+        for( Patch p : patch.getPatchLibrary().getPatches() ){
+            scene.addElement(p);
+        }
+        scene.setSelected(patch);
+
+        return scene;
     }
 
     @Override

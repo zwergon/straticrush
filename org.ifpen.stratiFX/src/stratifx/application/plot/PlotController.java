@@ -479,6 +479,7 @@ public class PlotController
             case UIAction.OPEN:
             case UIAction.LOAD:
             case UIAction.IMPORT_LINES:
+            case UIAction.MODEL:
                 return handleOpenAction();
         }
         return true;

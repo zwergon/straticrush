@@ -43,11 +43,11 @@ public class BL2DPatchMeshBuilder extends BL2DMeshBuilder implements IPatchMeshB
 
         Long simulationId = SimulationClient.createSimulationNow("bl2d");
 
-        if(simulationId > 0){
-            return webCreateMesh(simulationId, webCreateGeometry(simulationId,patch), webCreate2Env(simulationId));
+        if (simulationId == null) {
+            return null;
         }
 
-        return  null;
+        return webCreateMesh(simulationId, webCreateGeometry(simulationId,patch), webCreate2Env(simulationId));
 
     }
 }

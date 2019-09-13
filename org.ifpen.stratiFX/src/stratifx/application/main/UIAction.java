@@ -23,6 +23,7 @@ public class UIAction<T> {
     final public static int SAVE = 2;
     final public static int LOAD = 3;
     final public static int IMPORT_LINES = 4;
+    final public static int MODEL = 5;
 
     final public static int ZOOMONEONE = 6;
     final public static int ZOOMRECT = 7;
