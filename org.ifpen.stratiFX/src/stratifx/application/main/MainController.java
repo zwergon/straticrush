@@ -159,22 +159,22 @@ public class MainController implements Initializable, IUIController {
   
     @FXML
     void onToolsMasterSlaveAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("MasterSlave", "MasterSlave"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("MasterSlave", "MasterSlave", true));
     }
     
      @FXML
     void onToolsHorizonMSAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("HorizonMS", "HorizonMS"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("HorizonMS", "HorizonMS", true));
     }
 
     @FXML
     void onToolsTangentAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Tangent", "Tangent", true));
     }
     
     @FXML
     void onToolsTimeLineAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("TimeLine", "TimeLine"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("TimeLine", "TimeLine", true));
     }
 
     @FXML
@@ -190,22 +190,22 @@ public class MainController implements Initializable, IUIController {
 
     @FXML
     void onDeformNodeChainMailAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("ChainMail", "NodeMove"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("ChainMail", "NodeMove", true));
     }
 
     @FXML
     void onDeformNodeMassAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("MassSpring", "NodeMove"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("MassSpring", "NodeMove", true));
     }
     
     @FXML
     void onDeformGlobalFEMAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Global"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Global", true));
     }
 
     @FXML
     void onDeformGlobalWebKineAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Global"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Global", true));
     }
 
     @FXML
@@ -224,33 +224,38 @@ public class MainController implements Initializable, IUIController {
     }
 
     @FXML
+    void onDeformTopKinkAction(ActionEvent event) {
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("KinkDeformation", "Top", true));
+    }
+
+    @FXML
     void onDeformTopFEADynamicAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Dynamic", "Top"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Dynamic", "Top", true));
     }
 
     @FXML
     void onDeformTopFEAStaticAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Static", "Top"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Static", "Top", true));
     }
 
     @FXML
     void onDeformTopFEAStaticLSAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("StaticLS", "Top"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("StaticLS", "Top", true));
     }
 
     @FXML
     void onDeformTopFEAFem2dAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Top"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("FEM2D", "Top", true));
     }
 
     @FXML
     void onDeformTopFEAWebKineAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Top"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("WebKine", "Top", true));
     }
 
     @FXML
     void onDeformDilatationDecompactionAction(ActionEvent event) {
-        StratiFXService.instance.broadCastAction(new InteractionUIAction("Decompaction", "Dilatation"));
+        StratiFXService.instance.broadCastAction(new InteractionUIAction("Decompaction", "Dilatation", true));
     }
     
     

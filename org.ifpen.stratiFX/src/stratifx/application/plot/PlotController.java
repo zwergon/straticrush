@@ -540,19 +540,18 @@ public class PlotController
 
         InteractionUIAction uiAction = (InteractionUIAction) action;
 
+
         String deformationType = uiAction.getDeformationType();
 
-        Style style = GParameters.getStyle();
+        Style style = new Style(GParameters.getStyle());
         SceneStyle sceneStyle = new SceneStyle(style);
-        /*if (deformationType.equals("VerticalShear")
-        || deformationType.equals("FlexuralSlip")
-        || deformationType.equals("MovingLS")
-        || deformationType.equals("Triangulation")
-        || deformationType.equals("StratiGrid")) {
-        sceneStyle.setGridType("None");
-        } else {
-        sceneStyle.setGridType("Trgl");
-        }*/
+
+
+        if (!uiAction.getMeshedScene()){
+            sceneStyle.setGridType("None");
+        }
+
+
         if (deformationType.equals("Dynamic")
                 || deformationType.equals("Static")
                 || deformationType.equals("StaticLS")
@@ -564,7 +563,12 @@ public class PlotController
                 || deformationType.equals("Decompaction")) {
             style.setAttribute(Kind.DEFORMATION.toString(), "DilatationDeformation");
             style.setAttribute("DilatationType", deformationType);
-        } else {
+        }
+        else if (deformationType.equals("KinkDeformation")){
+            style.setAttribute(Kind.DEFORMATION.toString(), "KinkDeformation");
+            sceneStyle.setGridType("Grid2D");
+        }
+        else {
             style.setAttribute(Kind.DEFORMATION.toString(), deformationType);
         }
 

@@ -64,6 +64,7 @@ import stratifx.application.griding.bl2d.BL2DPatchMeshBuilder;
 import stratifx.application.griding.compact2d.Compact2DParamInfo;
 import stratifx.application.fxcontrollers.ParamInfo;
 import stratifx.application.griding.grid2d.Grid2DParamInfo;
+import stratifx.application.griding.kink.KinkParamInfo;
 import stratifx.application.properties.PropertiesUIAction;
 import stratifx.application.properties.TimePropertyComputer;
 import stratifx.application.properties.XYPropertyComputer;
@@ -138,7 +139,9 @@ public class StratiFXService implements
         ParamInfo.register( new StratiGridParamInfo() );
         ParamInfo.register( new TriangulationParamInfo() );
         ParamInfo.register( new Grid2DParamInfo() );
+        ParamInfo.register( new KinkParamInfo() );
         ParamInfo.register( new FEMSolverParamInfo() );
+
 
 
         DeformationFactory.getInstance().register( DeformationFactory.Kind.DEFORMATION, "DEM", DEMDeformation.class);

@@ -88,6 +88,7 @@ limitations under the License.
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformTopVSAction" text="Vertical Shear" />
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformTopMLSAction" text="Moving LS" />
                                 <MenuItem mnemonicParsing="false" onAction="#onDeformTopFlexuralAction" text="Flexural" />
+                                <MenuItem mnemonicParsing="false" onAction="#onDeformTopKinkAction" text="Kink" />
                                 <Menu mnemonicParsing="false" text="FEA Solver">
                                     <items>
                                         <MenuItem mnemonicParsing="false" onAction="#onDeformTopFEADynamicAction" text="Dynamic" />

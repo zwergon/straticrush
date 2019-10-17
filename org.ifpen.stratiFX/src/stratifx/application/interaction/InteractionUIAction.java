@@ -20,21 +20,23 @@ import stratifx.application.main.UIAction;
 public class InteractionUIAction extends UIAction<String> {
 
 	String manipulatorType;
-	
-	String callerType;
 
-	public InteractionUIAction( String deformationType, String manipulatorType, String callerType ) {
+	boolean meshedScene = false; //need a mesh for the Scene
+
+	public InteractionUIAction( String deformationType, String manipulatorType, boolean mesh ) {
 		super(INTERACTION, deformationType);
 		this.manipulatorType = manipulatorType;
-		this.callerType = callerType;
+
+		this.meshedScene = mesh;
 	}
-	
+
+
 	public InteractionUIAction( String deformationType, String manipulatorType ) {
-		this( deformationType, manipulatorType, null );
+		this( deformationType, manipulatorType,false );
 	}
 	
 	public InteractionUIAction( String deformationType ) {
-		this( deformationType, null, null );
+		this( deformationType, null );
 	}
 
 	public String getDeformationType() {
@@ -44,6 +46,10 @@ public class InteractionUIAction extends UIAction<String> {
 	public String getManipulatorType() {
 		return manipulatorType;
 	}
+
+	public boolean getMeshedScene(){
+	    return meshedScene;
+    }
 	
 	
 

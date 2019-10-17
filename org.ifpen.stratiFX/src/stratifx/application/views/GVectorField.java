@@ -40,6 +40,10 @@ public class GVectorField extends GObject {
         Vector v = new Vector(pos, dir);
         vectors.add( v ); 
     }
+
+    public void setRatio( double ratio ){
+        this.ratio = ratio;
+    }
     
     
     private class Vector {
