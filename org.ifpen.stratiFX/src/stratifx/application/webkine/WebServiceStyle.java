@@ -36,6 +36,6 @@ public class WebServiceStyle implements IStyleProvider {
     }
 
     public String getBaseUrl() {
-        return String.format("http://%s:%d/api", getHost(), getPort());
+        return String.format("http://%s:%d", getHost(), getPort());
     }
 }

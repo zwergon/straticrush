@@ -22,6 +22,7 @@ import java.util.Collection;
 
 public class WebSolver extends MeshSolver {
 
+    AsterClient simulationClient;
 
     boolean withDeleteSession = true;
 
@@ -29,13 +30,15 @@ public class WebSolver extends MeshSolver {
 
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
 
-        WebKineClient.setBaseUrl( serviceStyle.getBaseUrl());
+        simulationClient = new AsterClient(serviceStyle.getBaseUrl());
+        simulationClient.login();
+
     }
 
     @Override
     public boolean solve(Collection<DeformLink> nodeLinks) {
 
-        Long simulationId = SimulationClient.createSimulationNow("aster");
+        Long simulationId = simulationClient.createSimulationNow("aster");
 
         Mesh2D mesh2d = getMesh();
 
@@ -65,16 +68,16 @@ public class WebSolver extends MeshSolver {
 
             constraintSet.addMaterial(defaultMaterial);
 
-            if ( !AsterClient.write(mesh) ){
+            if ( !simulationClient.write(mesh) ){
                 return false;
             }
 
-            if ( !AsterClient.write(constraintSet) ){
+            if ( !simulationClient.write(constraintSet) ){
                 return false;
             }
 
 
-            if ( AsterClient.launchSimulation(simulationId) <= 0 ){
+            if ( simulationClient.launchSimulation(simulationId) <= 0 ){
                 return false;
             }
         }
@@ -88,7 +91,7 @@ public class WebSolver extends MeshSolver {
 
                 Thread.sleep(200);
 
-                processState = SimulationClient.getState(simulationId);
+                processState = simulationClient.getState(simulationId);
                 stateBit.setState(processState.getState());
             } while( !processState.isEnded(stateBit) );
         } catch (InterruptedException e) {
@@ -100,7 +103,7 @@ public class WebSolver extends MeshSolver {
 
             if ( processState.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
 
-                Displacements displacements = (Displacements)SimulationClient.getResults(simulationId);
+                Displacements displacements = (Displacements)simulationClient.getResults(simulationId);
                 if ( null != displacements ) {
                     handleDisplacements(mesh2d, displacements);
                 }
@@ -109,7 +112,7 @@ public class WebSolver extends MeshSolver {
                 }
 
                 if ( withDeleteSession ) {
-                    SimulationClient.deleteSimulation(simulationId);
+                    simulationClient.deleteSimulation(simulationId);
                 }
 
                 return true;

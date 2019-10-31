@@ -1,18 +1,13 @@
 package stratifx.application.griding.bl2d;
 
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
+import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifp.kronosflow.mesh.builder.IMeshBuilder;
-import fr.ifp.kronosflow.model.IPatchMeshBuilder;
-import fr.ifp.kronosflow.model.Patch;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
-import fr.ifpen.kine.BL2D.geometry.Geometry;
-import fr.ifp.kronosflow.mesh.Mesh2D;
 import fr.ifpen.kine.BL2D.Env;
+import fr.ifpen.kine.BL2D.geometry.Geometry;
 import fr.ifpen.kine.client.BL2DClient;
-import fr.ifpen.kine.client.SimulationClient;
-
-import fr.ifpen.kine.client.WebKineClient;
 import fr.ifpen.kine.encoder.DefaultEncoderService;
 import fr.ifpen.kine.mesh.Cell;
 import fr.ifpen.kine.mesh.Mesh;
@@ -29,9 +24,13 @@ import java.util.Set;
 
 public class BL2DMeshBuilder implements IMeshBuilder{
 
+    BL2DClient bl2DClient;
+
     public BL2DMeshBuilder() {
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
-        WebKineClient.setBaseUrl(serviceStyle.getBaseUrl());
+
+        bl2DClient = new BL2DClient(serviceStyle.getBaseUrl());
+        bl2DClient.login();
     }
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
@@ -70,18 +69,18 @@ public class BL2DMeshBuilder implements IMeshBuilder{
 
         if (simulationId > 0) {
 
-            if (!BL2DClient.write(geometry)) {
+            if (!bl2DClient.write(geometry)) {
                 LOGGER.error("unable to write geometry", getClass());
                 return null;
             }
 
-            if (!BL2DClient.write(env)) {
+            if (!bl2DClient.write(env)) {
                 LOGGER.error("unable to write env", getClass());
                 return null;
             }
 
 
-            if (BL2DClient.launchSimulation(simulationId) <= 0) {
+            if (bl2DClient.launchSimulation(simulationId) <= 0) {
                 LOGGER.error("unable to launch the simulation", getClass());
                 return null;
             }
@@ -96,7 +95,7 @@ public class BL2DMeshBuilder implements IMeshBuilder{
 
                 Thread.sleep(200);
 
-                state = BL2DClient.getState(simulationId);
+                state = bl2DClient.getState(simulationId);
                 stateBit.setState(state.getState());
             } while( !state.isEnded(stateBit) );
         } catch (InterruptedException e) {
@@ -108,7 +107,7 @@ public class BL2DMeshBuilder implements IMeshBuilder{
         if  ( state != null ) {
 
             if ( state.getDiagnosis() != ProcessState.Diagnosis.ERROR ) {
-                Mesh resMesh = (Mesh) BL2DClient.getResults(simulationId);
+                Mesh resMesh = (Mesh) bl2DClient.getResults(simulationId);
                 if ( null != resMesh ) {
                     return fromMesh(resMesh);
                 }
@@ -163,7 +162,7 @@ public class BL2DMeshBuilder implements IMeshBuilder{
     }
 
     public Mesh2D createMesh(List<Point2D> pts){
-        Long simulationId = SimulationClient.createSimulationNow("bl2d");
+        Long simulationId = bl2DClient.createSimulationNow("bl2d");
 
         if(simulationId > 0){
             return webCreateMesh(simulationId, webCreate2Geometry(simulationId,pts), webCreate2Env(simulationId));

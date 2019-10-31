@@ -41,7 +41,7 @@ public class BL2DPatchMeshBuilder extends BL2DMeshBuilder implements IPatchMeshB
 
     private Mesh2D createPatchMesh(Patch patch) {
 
-        Long simulationId = SimulationClient.createSimulationNow("bl2d");
+        Long simulationId = bl2DClient.createSimulationNow("bl2d");
 
         if (simulationId == null) {
             return null;

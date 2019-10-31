@@ -5,9 +5,9 @@ import fr.ifp.kronosflow.incubator.extractor.LineExtractor;
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
 import fr.ifp.kronosflow.kernel.polyline.*;
 import fr.ifp.kronosflow.model.*;
+import fr.ifp.kronosflow.model.utils.Pair;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifpen.kine.BL2D.geometry.*;
-import javafx.util.Pair;
 import stratifx.application.main.GParameters;
 import stratifx.application.patches.PatchStyle;
 
