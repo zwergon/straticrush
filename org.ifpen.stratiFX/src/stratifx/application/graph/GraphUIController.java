@@ -20,9 +20,6 @@ import fr.ifp.kronosflow.deform.scene.SceneBuilder;
 import fr.ifp.kronosflow.deform.scene.network.FaultNetwork;
 import fr.ifp.kronosflow.deform.scene.network.FaultNetworkBuilder;
 import fr.ifp.kronosflow.deform.scene.network.IFaultNetworkBuilder;
-import fr.ifp.kronosflow.deform.scene.sequence.DefaultSequenceBuilder;
-import fr.ifp.kronosflow.deform.scene.sequence.ISequenceBuilder;
-import fr.ifp.kronosflow.deform.scene.sequence.Sequence;
 import fr.ifp.kronosflow.model.Section;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,7 +57,7 @@ public class GraphUIController
             return;
         }
 
-        Scene scene = SceneBuilder.createDefaultScene(section.getPatchLibrary(), GParameters.getStyle());
+        Scene scene = SceneBuilder.createDefaultScene(section.getPatchLibrary(), GParameters.getInstanceStyle());
 
         IFaultNetworkBuilder builder = new FaultNetworkBuilder();
 

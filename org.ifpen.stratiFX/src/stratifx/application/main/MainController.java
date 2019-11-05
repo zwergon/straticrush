@@ -142,6 +142,7 @@ public class MainController implements Initializable, IUIController {
 
     @FXML
     void onCloseAction(ActionEvent event) {
+        GParameters.instance().save();
         Platform.exit();
         System.exit(0);
     }

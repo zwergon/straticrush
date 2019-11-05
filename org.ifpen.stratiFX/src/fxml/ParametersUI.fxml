@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+
 <TabPane prefHeight="520.0" prefWidth="498.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stratifx.application.fxcontrollers.ParametersUIController">
    <tabs>
       <Tab closable="false" text="Scene">
@@ -102,31 +105,6 @@
             </VBox>
          </content>
       </Tab>
-       <Tab closable="false" text="Patches">
-           <content>
-               <GridPane>
-                   <rowConstraints>
-                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                   </rowConstraints>
-                   <VBox fx:id="Patches">
-                       <padding><Insets bottom="40" left="40" right="40" top="40" /></padding>
-                       <children>
-                           <ListView fx:id="fxPatchesListId" prefHeight="500.0" prefWidth="500.0" GridPane.rowIndex="0" />
-                       </children>
-                   </VBox>
-                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="1">
-                       <children>
-                           <Button mnemonicParsing="false" onAction="#onPatchesApplyAction" text="Apply" />
-                           <Button mnemonicParsing="false" onAction="#onPatchesResetAction" text="Reset" />
-                       </children>
-                       <GridPane.margin>
-                           <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-                       </GridPane.margin>
-                   </HBox>
-               </GridPane>
-           </content>
-       </Tab>
        <Tab closable="false" text="Solvers">
            <content>
                <VBox fx:id="Solvers">
@@ -137,7 +115,7 @@
                </VBox>
            </content>
        </Tab>
-      <Tab fx:id="webServiceTab" text="WebService" closable="false">
+      <Tab fx:id="webServiceTab" closable="false" text="WebService">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -154,15 +132,30 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Port : "/>
+                              <Label text="Port : " />
                               <Spinner fx:id="portSpinner" initialValue="8090" max="10000" min="7000" />
                            </children>
                         </HBox>
+                        <Separator prefWidth="200.0" />
+                         <HBox prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <Label text="Login : " />
+                                 <TextField fx:id="loginText" />
+                             </children>
+                         </HBox>
+                         <HBox prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <Label text="Passwd : " />
+                                 <PasswordField fx:id="passwdField"/>
+                                 <Button mnemonicParsing="false" onAction="#onWebServiceRegisterAction" text="Register" />
+                             </children>
+                         </HBox>
+                         <Separator prefWidth="200.0" />
                          <CheckBox disable="true" layoutX="32.0" layoutY="190.0" mnemonicParsing="false" text="Proxy" />
                          <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
                              <children>
                                  <Label text="Proxy Host : " />
-                                 <TextField fx:id="proxyHostText" text="irproxyweb1"/>
+                                 <TextField fx:id="proxyHostText" text="irproxyweb1" />
                              </children>
                          </HBox>
                          <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
@@ -171,6 +164,7 @@
                                  <Spinner fx:id="proxyPortSpinner" initialValue="8090" max="10000" min="7000" />
                              </children>
                          </HBox>
+                         <Separator prefWidth="200.0" />
                      </children>
 
                   </VBox>

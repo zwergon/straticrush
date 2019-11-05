@@ -78,7 +78,7 @@ public class BL2DEnvUIController implements Initializable {
                 "Inner Segments"
         );
 
-        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getInstanceStyle());
 
         element.setValue(BL2DStyle.getEnvElement());
 
@@ -104,7 +104,7 @@ public class BL2DEnvUIController implements Initializable {
     @FXML
     public void onEnvApplyAction(ActionEvent action){
         LOGGER.debug("onEnvApplyAction",getClass());
-        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getInstanceStyle());
         BL2DStyle.setEnvElement(element.getValue().toString());
         BL2DStyle.setBORDERPOINTS(bps.getValue().toString());
         BL2DStyle.setINNERCONTACTS(ics.getValue().toString());

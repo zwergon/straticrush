@@ -56,6 +56,7 @@ public class Main extends Application {
 
 		
 		primaryStage.setOnCloseRequest(e -> {
+            GParameters.instance().save();
 			Platform.exit();
 			System.exit(0);
 		});

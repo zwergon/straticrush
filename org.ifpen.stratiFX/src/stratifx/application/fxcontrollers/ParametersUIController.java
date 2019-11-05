@@ -9,14 +9,15 @@
 package stratifx.application.fxcontrollers;
 
 import fr.ifp.kronosflow.geoscheduler.GeoschedulerSection;
-import fr.ifp.kronosflow.model.Patch;
-import fr.ifp.kronosflow.model.PatchLibrary;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
+import fr.ifp.kronosflow.model.factory.SectionStyle;
 import fr.ifp.kronosflow.model.geology.BoundaryFeature;
 import fr.ifp.kronosflow.model.geology.FaultFeature;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.geology.StratigraphicEvent;
 import fr.ifp.kronosflow.utils.LOGGER;
+import fr.ifpen.kine.client.RegistrationException;
+import fr.ifpen.kine.client.SimulationClient;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -35,7 +36,6 @@ import stratifx.application.main.GParameters;
 import stratifx.application.main.IUIController;
 import stratifx.application.main.StratiFXService;
 import stratifx.application.main.UIAction;
-import stratifx.application.patches.PatchStyle;
 import stratifx.application.views.DisplayStyle;
 import stratifx.application.views.StyleUIAction;
 import stratifx.application.webkine.WebServiceStyle;
@@ -57,10 +57,6 @@ public class ParametersUIController implements
 
     private final ObservableList<ParametersUIController.FXFeature> data = FXCollections.observableArrayList();
 
-    @FXML
-    ListView<ParametersUIController.FXPatch> fxPatchesListId;
-
-    private final ObservableList<ParametersUIController.FXPatch> patchList = FXCollections.observableArrayList();
 
     @FXML
     CheckBox displayWithSolidId;
@@ -99,11 +95,15 @@ public class ParametersUIController implements
     @FXML
     Spinner<Integer> portSpinner;
 
+    @FXML
+    TextField loginText;
+
+    @FXML
+    PasswordField passwdField;
+
 
     GeoschedulerSection section;
     
-    SceneStyle sceneStyle;
-
 
     class FXFeature {
 
@@ -113,11 +113,13 @@ public class ParametersUIController implements
 
         public FXFeature(BoundaryFeature feature) {
             this.feature = feature;
-            if ( (feature instanceof StratigraphicEvent) && !sceneStyle.hasUnusualBehaviour(feature, section) ) {
+
+            SectionStyle sceneStyle = section.getSectionStyle();
+            if ( (feature instanceof StratigraphicEvent) && !sceneStyle.hasUnusualBehaviour(feature) ) {
                 selected.setValue(true);
             }
             
-            if ( ( feature instanceof FaultFeature ) && sceneStyle.hasUnusualBehaviour(feature, section) ){
+            if ( ( feature instanceof FaultFeature ) && sceneStyle.hasUnusualBehaviour(feature) ){
                selected.setValue(true); 
             }
         }
@@ -144,44 +146,19 @@ public class ParametersUIController implements
 
     }
 
-    class FXPatch {
-        Patch patch;
-        private BooleanProperty selected = new SimpleBooleanProperty(false);
 
-        public FXPatch(Patch patch){
-            this.patch = patch;
-            selected.setValue(true);
-        }
-
-        public String getName(){
-            return this.patch.getName();
-        }
-
-        public BooleanProperty selectedProperty() {
-            return selected;
-        }
-
-        public boolean isSelected() {
-            return selected.get();
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected.set(selected);
-        }
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        sceneStyle  = new SceneStyle( GParameters.getStyle() ); 
+
         
         section = (GeoschedulerSection) StratiFXService.instance.getSection();
         if (section != null) {
             initSceneParameters(section);
-            initPatches(section);
         }
 
-        DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
+        DisplayStyle displayStyle = new DisplayStyle( GParameters.getInstanceStyle() );
         displayWithLineId.setSelected(displayStyle.getWithLines());
         displayWithSolidId.setSelected(displayStyle.getWithSolid());
         displayWithSymbolId.setSelected(displayStyle.getWithSymbol());
@@ -237,10 +214,13 @@ public class ParametersUIController implements
 
     private void initWebServiceTab() {
 
-        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         hostText.setText( serviceStyle.getHost() );
         portSpinner.getValueFactory().setValue( serviceStyle.getPort() );
+        loginText.setText( serviceStyle.getLogin());
+        passwdField.setText(serviceStyle.getPassWord());
+
 
         hostText.setOnAction(event -> serviceStyle.setHost(hostText.getText()));
         portSpinner.valueProperty().addListener(event -> serviceStyle.setPort(portSpinner.getValue()));
@@ -272,7 +252,7 @@ public class ParametersUIController implements
         }
 
         if ( !items.isEmpty() ) {
-            SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
+            SceneStyle sceneStyle = new SceneStyle( GParameters.getInstanceStyle() );
             gridingType.setValue(sceneStyle.getGridType());
             onGridingTypeAction();
         }
@@ -286,10 +266,12 @@ public class ParametersUIController implements
 
     }
 
+
+
     private void onGridingTypeAction() {
         String key = gridingType.getValue().toString();
 
-        SceneStyle sceneStyle = new SceneStyle( GParameters.getStyle() );
+        SceneStyle sceneStyle = new SceneStyle( GParameters.getInstanceStyle() );
         sceneStyle.setGridType(key);
 
 
@@ -366,48 +348,6 @@ public class ParametersUIController implements
 
     }
 
-    private void initPatches(GeoschedulerSection section){
-        patchList.clear();
-
-        section = (GeoschedulerSection) StratiFXService.instance.getSection();
-
-        PatchLibrary patchLibrary = section.getPatchLibrary();
-
-        List<Patch> patches = patchLibrary.getPatches();
-
-        Collections.sort(patches, new Comparator<Patch>() {
-            @Override
-            public int compare(Patch o1, Patch o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-
-        fxPatchesListId.setCellFactory(CheckBoxListCell.forListView(
-                FXPatch::selectedProperty,
-                new StringConverter<FXPatch>(){
-                    @Override
-                    public String toString(FXPatch object) {
-                        return object.getName();
-                    }
-
-                    @Override
-                    public FXPatch fromString(String string) {
-                        return null;
-                    }
-                }
-        ));
-
-        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
-
-        for (Patch patch : patches){
-            FXPatch fxPatch = new FXPatch(patch);
-            patchList.add(fxPatch);
-            patchStyle.setPatch(fxPatch.getName(),fxPatch.isSelected());
-        }
-
-        fxPatchesListId.setItems(patchList);
-    }
-
     @Override
     public boolean handleAction(UIAction action) {
         return false;
@@ -417,12 +357,13 @@ public class ParametersUIController implements
     @FXML
     public void onSceneApplyAction( ActionEvent event ){
 
+        SectionStyle sceneStyle  = new SectionStyle( section.getStyle());
         for( FXFeature fxFeature : data ){
             if ( fxFeature.feature instanceof StratigraphicEvent  ) {
-                sceneStyle.setUnusualBehavior(section, fxFeature.feature, !fxFeature.isSelected() );
+                sceneStyle.setUnusualBehavior(fxFeature.feature, !fxFeature.isSelected() );
             }
             else if ( fxFeature.feature instanceof FaultFeature ){
-                sceneStyle.setUnusualBehavior(section, fxFeature.feature, fxFeature.isSelected() );
+                sceneStyle.setUnusualBehavior(fxFeature.feature, fxFeature.isSelected() );
             }
         }
         
@@ -433,7 +374,7 @@ public class ParametersUIController implements
 
         LOGGER.debug("onDialogApplyAction", getClass());
 
-        DisplayStyle displayStyle = new DisplayStyle( GParameters.getStyle() );
+        DisplayStyle displayStyle = new DisplayStyle( GParameters.getInstanceStyle() );
 
         displayStyle.setWithLines(displayWithLineId.isSelected());
         displayStyle.setWithSolid(displayWithSolidId.isSelected());
@@ -451,20 +392,32 @@ public class ParametersUIController implements
 
     }
 
-    @FXML
-    public void onPatchesApplyAction( ActionEvent event){
-        LOGGER.debug("onPatchesApplyAction",getClass());
-        section = (GeoschedulerSection) StratiFXService.instance.getSection();
-        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
-        for (ParametersUIController.FXPatch fxPatch : fxPatchesListId.getItems()){
-            patchStyle.setPatch(fxPatch.getName(),fxPatch.isSelected());
-        }
-    }
 
     @FXML
-    public void onPatchesResetAction( ActionEvent event){
-        LOGGER.debug("onPatchesResetAction",getClass());
-        initPatches((GeoschedulerSection) StratiFXService.instance.getSection());
+    public void onWebServiceRegisterAction( ActionEvent event ) {
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
+        SimulationClient simulationClient = new SimulationClient();
+        simulationClient.setBaseUrl(serviceStyle.getBaseUrl());
+
+        String login = loginText.getText();
+
+        serviceStyle.setLogin(login);
+
+        String passwd = passwdField.getText();
+        serviceStyle.setPassWord(passwd);
+
+
+        try {
+            simulationClient.register(login, passwd);
+        }
+        catch( Exception exception ){
+            if ( exception instanceof  RegistrationException ){
+
+                LOGGER.error("unable to register user " + login + " : " + exception.getMessage(), getClass());
+            }
+
+        }
     }
 
 }

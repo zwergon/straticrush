@@ -5,6 +5,11 @@ import fr.ifp.kronosflow.model.style.Style;
 
 public class DisplayStyle implements IStyleProvider {
 
+    private final String LINES = "*display*withLines";
+    private final String SOLID = "*display*withSolid";
+    private final String SYMBOL = "*display*withSymbol";
+    private final String ANNOTATION = "*display*withAnnotation";
+
     private Style style;
 
     public DisplayStyle(Style style) {
@@ -17,35 +22,35 @@ public class DisplayStyle implements IStyleProvider {
     }
 
     public void setWithLines(boolean withLines) {
-        style.setAttributeB("withLines", withLines);
+        style.setAttributeB( LINES,  withLines);
     }
 
     public boolean getWithLines(){
-        return style.findAttributeB("withLines", true);
+        return style.findAttributeB( LINES, true);
     }
 
     public void setWithSolid(boolean withSolid) {
-        style.setAttributeB("withSolid", withSolid);
+        style.setAttributeB(SOLID, withSolid);
     }
 
     public boolean getWithSolid(){
-        return style.findAttributeB("withSolid", true);
+        return style.findAttributeB(SOLID, true);
     }
 
     public void setWithSymbol(boolean withSymbol) {
-        style.setAttributeB("withSymbol", withSymbol);
+        style.setAttributeB(SYMBOL, withSymbol);
     }
 
     public boolean getWithSymbol(){
-        return style.findAttributeB("withSymbol", false);
+        return style.findAttributeB(SYMBOL, false);
     }
 
     public void setWithAnnotation(boolean withAnnotation) {
-        style.setAttributeB("withAnnotation", withAnnotation);
+        style.setAttributeB(ANNOTATION, withAnnotation);
     }
 
     public boolean getWithAnnotation(){
-        return style.findAttributeB("withAnnotation", false);
+        return style.findAttributeB(ANNOTATION, false);
     }
 
 }

@@ -11,7 +11,7 @@ public class EnvMapper{
 
         Env env = new Env();
 
-        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle BL2DStyle = new BL2DStyle(GParameters.getInstanceStyle());
 
         if(BL2DStyle.getEnvElement().equals("Triangular")){
             env.setElement("p1");

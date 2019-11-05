@@ -7,6 +7,8 @@ public class WebServiceStyle implements IStyleProvider {
 
     private final String PORT = "*webservice*port";
     private final String HOST = "*webservice*host";
+    private final String LOGIN = "*webservice*login";
+    private final String PASSWD = "*webservice*password";
 
     private Style style;
 
@@ -33,6 +35,22 @@ public class WebServiceStyle implements IStyleProvider {
 
     public String getHost(){
         return style.findAttributeS(HOST, "localhost");
+    }
+
+    public void setLogin(String login){
+        style.setAttribute(LOGIN, login);
+    }
+
+    public String getLogin(){
+        return style.findAttributeS(LOGIN, "stratifx");
+    }
+
+    public void setPassWord(String pw){
+        style.setAttribute(PASSWD, pw);
+    }
+
+    public String getPassWord(){
+        return style.findAttributeS(PASSWD, "6Y7RzeMs3");
     }
 
     public String getBaseUrl() {

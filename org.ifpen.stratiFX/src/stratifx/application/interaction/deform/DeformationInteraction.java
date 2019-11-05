@@ -182,7 +182,7 @@ public abstract class DeformationInteraction extends SectionInteraction {
                             deformationCaller.addItems(compositeManipulator.getItems());
                             deformationCaller.addRigidItems(compositeManipulator.getRigidItems());
 
-                            deformationCaller.getDeformation().getStyle().cloneData(GParameters.getStyle());
+                            deformationCaller.getDeformation().getStyle().cloneData(GParameters.getInstanceStyle());
 
                             moveJob = new GeoschedulerJob(getScheduler());
                             moveJob.compute(link);

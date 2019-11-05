@@ -15,7 +15,24 @@
  */
 package stratifx.application.main;
 
+import com.cedarsoftware.util.io.JsonWriter;
+import fr.ifp.kronosflow.model.style.IStyleProvider;
 import fr.ifp.kronosflow.model.style.Style;
+import fr.ifp.kronosflow.model.wrapper.IWrapper;
+import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
+import fr.ifp.kronosflow.uids.IHandle;
+import fr.ifp.kronosflow.uids.UID;
+import fr.ifp.kronosflow.utils.LOGGER;
+import stratifx.model.json.JSONParameters;
+import stratifx.model.json.JSONSection;
+import stratifx.model.persistable.AbstractPersisted;
+import stratifx.model.persistable.PersistableSection;
+import stratifx.model.persistable.PersistedParameters;
+import stratifx.model.wrappers.SectionWrapper;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.net.URL;
 
 
 /**
@@ -24,19 +41,71 @@ import fr.ifp.kronosflow.model.style.Style;
  * @author lecomtje
  *
  */
-public class GParameters {
+public class GParameters  implements IHandle, IStyleProvider {
+
+    UID uid;
 
     Style style;
 
+    boolean formatted = true;
+
     static private GParameters instance = new GParameters();
 
+    static public GParameters instance(){
+        if ( instance == null ){
+            instance = new GParameters();
+        }
+
+        return instance;
+    }
+
+    public static Style getInstanceStyle() {
+        return instance().getStyle();
+    }
+
+    @Override
+    public UID getUID() {
+        return uid;
+    }
+
+    @Override
+    public Style getStyle() {
+        return style;
+    }
+
     private GParameters() {
+        uid = new UID();
         style = new Style();
         style.setAttribute("name", "GParameters");
     }
 
-    static public Style getStyle() {
-        return instance.style;
+    public void load(){
+    }
+
+
+    public void save(){
+        URL url = Main.class.getResource("/stratifx/config.properties");
+
+        try {
+            BufferedWriter output = new BufferedWriter(new FileWriter(url.getFile()));
+
+
+            JSONParameters jsonSection = new JSONParameters(new PersistedParameters(this));
+
+            if (formatted) {
+                output.write(JsonWriter.formatJson(jsonSection.toJSONString()));
+            } else {
+                output.write(jsonSection.toJSONString());
+            }
+
+            output.close();
+
+        }
+        catch( Exception ex ){
+            LOGGER.error("unable to save GParameters in config.propeties", getClass());
+        }
+
+
     }
 
 }

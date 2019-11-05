@@ -45,7 +45,6 @@ import fr.ifp.kronosflow.model.builder.PatchBuilderFactory;
 import fr.ifp.kronosflow.model.explicit.ExplicitPatch;
 import fr.ifp.kronosflow.model.factory.ModelFactory.ComplexityType;
 import fr.ifp.kronosflow.model.factory.SceneStyle;
-import fr.ifp.kronosflow.model.filters.OneFaultModel;
 import fr.ifp.kronosflow.model.filters.SectionFactory;
 import fr.ifp.kronosflow.model.geology.GeologicLibrary;
 import fr.ifp.kronosflow.model.property.EnumProperty;
@@ -250,7 +249,7 @@ public class StratiFXService implements
         section.setName(action.getModelType());
 
         Style style = section.getStyle();
-        style.cloneData( GParameters.getStyle() );
+        style.cloneData( GParameters.getInstanceStyle() );
 
         SceneStyle sceneStyle = new SceneStyle(style);
         sceneStyle.setGridType("None");
@@ -385,7 +384,7 @@ public class StratiFXService implements
         section.setName(basename);
 
         Style style = section.getStyle();
-        style.cloneData( GParameters.getStyle() );
+        style.cloneData( GParameters.getInstanceStyle() );
 
         SceneStyle sceneStyle = new SceneStyle(style);
         sceneStyle.setGridType("None");

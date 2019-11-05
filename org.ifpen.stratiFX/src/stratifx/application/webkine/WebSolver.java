@@ -28,10 +28,10 @@ public class WebSolver extends MeshSolver {
 
     public WebSolver(){
 
-        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         simulationClient = new AsterClient(serviceStyle.getBaseUrl());
-        simulationClient.login();
+        simulationClient.login(serviceStyle.getLogin(), serviceStyle.getPassWord());
 
     }
 

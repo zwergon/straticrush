@@ -3,15 +3,19 @@ package stratifx.application.griding.bl2d;
 import fr.ifp.kronosflow.incubator.extractor.CompositeLine;
 import fr.ifp.kronosflow.incubator.extractor.LineExtractor;
 import fr.ifp.kronosflow.kernel.geometry.Point2D;
-import fr.ifp.kronosflow.kernel.polyline.*;
-import fr.ifp.kronosflow.model.*;
+import fr.ifp.kronosflow.kernel.polyline.ICurviPoint;
+import fr.ifp.kronosflow.kernel.polyline.LinePoint;
+import fr.ifp.kronosflow.model.Patch;
+import fr.ifp.kronosflow.model.PatchPoint;
 import fr.ifp.kronosflow.model.utils.Pair;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifpen.kine.BL2D.geometry.*;
 import stratifx.application.main.GParameters;
-import stratifx.application.patches.PatchStyle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GeometryMapper {
 
@@ -188,17 +192,21 @@ public class GeometryMapper {
     }
 
     public Geometry geomFromMesh2D(Patch selected){
-        BL2DStyle style = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle style = new BL2DStyle(GParameters.getInstanceStyle());
         LineExtractor lineExtractor = new LineExtractor();
         lineExtractor.extractLines(selected);
 
-        PatchStyle patchStyle = new PatchStyle(GParameters.getStyle());
+
+        /*TODO need to test if patch is meshed or considered as a hole*/
+        /*
+        PatchStyle patchStyle = new PatchStyle(GParameters.getInstanceStyle());
         List<String> names = lineExtractor.getpNames();
         for (String name : names){
             if (!patchStyle.getPatch(name)){
                 lineExtractor.removePatch(name);
             }
         }
+        */
 
         List<CompositeLine> borderLines = lineExtractor.getBorders();
 
@@ -270,7 +278,7 @@ public class GeometryMapper {
     }
 
     public Geometry geom2FromMesh2D(List<Point2D> point2DS){
-        BL2DStyle style = new BL2DStyle(GParameters.getStyle());
+        BL2DStyle style = new BL2DStyle(GParameters.getInstanceStyle());
         if (style.getBORDERPOINTS().equals("Yes")){
             create2Segments(point2DS);
         }

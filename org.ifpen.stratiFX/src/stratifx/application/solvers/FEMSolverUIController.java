@@ -38,7 +38,7 @@ public class FEMSolverUIController implements Initializable {
             solverTypeCb.getItems().add(rt.toString());
         }
 
-        FEMSolverStyle solverStyle = new FEMSolverStyle(GParameters.getStyle());
+        FEMSolverStyle solverStyle = new FEMSolverStyle(GParameters.getInstanceStyle());
         reductionTypeCb.setValue(solverStyle.getReductionType().toString());
         solverTypeCb.setValue(solverStyle.getSolverType().toString());
         lsConstraintCB.setSelected(solverStyle.getLSConstraint());
@@ -49,7 +49,7 @@ public class FEMSolverUIController implements Initializable {
     @FXML
     public void onApplyAction(ActionEvent action) {
 
-        FEMSolverStyle solverStyle = new FEMSolverStyle(GParameters.getStyle());
+        FEMSolverStyle solverStyle = new FEMSolverStyle(GParameters.getInstanceStyle());
         solverStyle.setSolverType( FEMSolverStyle.SolverType.valueOf(solverTypeCb.getValue().toString()));
         solverStyle.setReductionType( FEMSolverStyle.ReductionType.valueOf(reductionTypeCb.getValue().toString()));
         solverStyle.setLSConstraint( lsConstraintCB.isSelected() );

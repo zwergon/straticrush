@@ -27,10 +27,10 @@ public class BL2DMeshBuilder implements IMeshBuilder{
     BL2DClient bl2DClient;
 
     public BL2DMeshBuilder() {
-        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getStyle());
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         bl2DClient = new BL2DClient(serviceStyle.getBaseUrl());
-        bl2DClient.login();
+        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
     }
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){

@@ -543,7 +543,7 @@ public class PlotController
 
         String deformationType = uiAction.getDeformationType();
 
-        Style style = new Style(GParameters.getStyle());
+        Style style = new Style(GParameters.getInstanceStyle());
         SceneStyle sceneStyle = new SceneStyle(style);
 
 
@@ -594,7 +594,7 @@ public class PlotController
             return false;
         }
 
-        Style style = GParameters.getStyle();
+        Style style = GParameters.getInstanceStyle();
         SceneStyle sceneStyle = new SceneStyle(style);
         Section section = StratiFXService.instance.getSection();
         
