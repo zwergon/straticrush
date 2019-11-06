@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/client/client.iml" filepath="$USER_HOME$/client/client.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.contours.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.contours.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.controllers.iml" />
       <module fileurl="file://$PROJECT_DIR$/iml/fr.ifp.kronosflow.deform.iml" filepath="$PROJECT_DIR$/iml/fr.ifp.kronosflow.deform.iml" />

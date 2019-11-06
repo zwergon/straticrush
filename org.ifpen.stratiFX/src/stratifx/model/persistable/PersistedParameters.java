@@ -18,4 +18,8 @@ public class PersistedParameters extends AbstractPersisted {
     public Style getStyle(){
         return style;
     }
+
+    public void setStyle( Style style ){
+        this.style = style;
+    }
 }

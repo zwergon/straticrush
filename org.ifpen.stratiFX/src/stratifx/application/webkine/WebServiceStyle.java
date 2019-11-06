@@ -5,10 +5,10 @@ import fr.ifp.kronosflow.model.style.Style;
 
 public class WebServiceStyle implements IStyleProvider {
 
-    private final String PORT = "*webservice*port";
-    private final String HOST = "*webservice*host";
-    private final String LOGIN = "*webservice*login";
-    private final String PASSWD = "*webservice*password";
+    public final String PORT = "*webservice*port";
+    public final String HOST = "*webservice*host";
+    public final String LOGIN = "*webservice*login";
+    public final String PASSWD = "*webservice*password";
 
     private Style style;
 

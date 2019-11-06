@@ -165,6 +165,7 @@
                              </children>
                          </HBox>
                          <Separator prefWidth="200.0" />
+                         <Button mnemonicParsing="false" onAction="#onWebServiceApplyAction" text="Apply" />
                      </children>
 
                   </VBox>

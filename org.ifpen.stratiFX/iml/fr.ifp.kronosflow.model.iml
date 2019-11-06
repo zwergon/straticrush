@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.model">
       <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.model/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.model/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../git-kronos/fr.ifp.kronosflow.model/tests/fr/ifp/kronosflow/data" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

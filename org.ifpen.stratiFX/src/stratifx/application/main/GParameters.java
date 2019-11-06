@@ -16,6 +16,7 @@
 package stratifx.application.main;
 
 import com.cedarsoftware.util.io.JsonWriter;
+import fr.ifp.kronosflow.model.Section;
 import fr.ifp.kronosflow.model.style.IStyleProvider;
 import fr.ifp.kronosflow.model.style.Style;
 import fr.ifp.kronosflow.model.wrapper.IWrapper;
@@ -23,15 +24,18 @@ import fr.ifp.kronosflow.model.wrapper.WrapperFactory;
 import fr.ifp.kronosflow.uids.IHandle;
 import fr.ifp.kronosflow.uids.UID;
 import fr.ifp.kronosflow.utils.LOGGER;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import stratifx.model.json.JSONParameters;
 import stratifx.model.json.JSONSection;
+import stratifx.model.loader.AbstractLoader;
 import stratifx.model.persistable.AbstractPersisted;
 import stratifx.model.persistable.PersistableSection;
 import stratifx.model.persistable.PersistedParameters;
 import stratifx.model.wrappers.SectionWrapper;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.*;
 import java.net.URL;
 
 
@@ -80,6 +84,25 @@ public class GParameters  implements IHandle, IStyleProvider {
     }
 
     public void load(){
+        URL url = Main.class.getResource("/stratifx/config.properties");
+
+        JSONParser parser = new JSONParser();
+
+        try {
+
+            JSONObject jsonParameters = (JSONObject)parser.parse(new FileReader(url.getFile()));
+
+            PersistedParameters persistedParameters = (PersistedParameters)AbstractLoader.loadObject(jsonParameters);
+
+            style = persistedParameters.getStyle();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 

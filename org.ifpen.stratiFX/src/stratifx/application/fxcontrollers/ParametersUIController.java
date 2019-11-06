@@ -221,9 +221,6 @@ public class ParametersUIController implements
         loginText.setText( serviceStyle.getLogin());
         passwdField.setText(serviceStyle.getPassWord());
 
-
-        hostText.setOnAction(event -> serviceStyle.setHost(hostText.getText()));
-        portSpinner.valueProperty().addListener(event -> serviceStyle.setPort(portSpinner.getValue()));
     }
 
     private void initGridingTab() {
@@ -388,6 +385,20 @@ public class ParametersUIController implements
     }
 
     @FXML
+    public void onWebServiceApplyAction(ActionEvent action ){
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
+        serviceStyle.setLogin(loginText.getText());
+        serviceStyle.setPassWord(passwdField.getText());
+        serviceStyle.setHost(hostText.getText());
+        serviceStyle.setPort(portSpinner.getValue());
+
+        StratiFXService.instance.broadCastAction(
+                new StyleUIAction(serviceStyle.getStyle())
+        );
+    }
+
+    @FXML
     public void onSceneResetAction( ActionEvent event ){
 
     }
@@ -401,12 +412,7 @@ public class ParametersUIController implements
         simulationClient.setBaseUrl(serviceStyle.getBaseUrl());
 
         String login = loginText.getText();
-
-        serviceStyle.setLogin(login);
-
         String passwd = passwdField.getText();
-        serviceStyle.setPassWord(passwd);
-
 
         try {
             simulationClient.register(login, passwd);

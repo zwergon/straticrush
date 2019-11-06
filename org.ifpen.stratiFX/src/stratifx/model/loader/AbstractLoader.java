@@ -8,6 +8,7 @@ import fr.ifp.kronosflow.model.geology.*;
 import fr.ifp.kronosflow.utils.LOGGER;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import stratifx.application.main.GParameters;
 import stratifx.model.persistable.IPersisted;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public abstract class AbstractLoader {
         loaderMap.put(UnassignedBoundaryFeature.class.getCanonicalName(), FeatureLoader.class);
         loaderMap.put(FaultFeature.class.getCanonicalName(), FeatureLoader.class );
         loaderMap.put(StratigraphicColumn.class.getCanonicalName(), StratiColumnLoader.class );
+        loaderMap.put(GParameters.class.getCanonicalName(), ParametersLoader.class);
 
     }
 

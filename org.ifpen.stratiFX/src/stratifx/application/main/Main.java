@@ -41,6 +41,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		StratiFXService.instance.setPrimaryStage(primaryStage);
 
+
+		GParameters.instance().load();
+
 		BorderPane rootLayout = initRootLayout();
 
 		createCenterPlot( rootLayout);
