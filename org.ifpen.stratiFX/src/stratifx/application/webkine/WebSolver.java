@@ -31,12 +31,15 @@ public class WebSolver extends MeshSolver {
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         simulationClient = new AsterClient(serviceStyle.getBaseUrl());
-        simulationClient.login(serviceStyle.getLogin(), serviceStyle.getPassWord());
+
 
     }
 
     @Override
     public boolean solve(Collection<DeformLink> nodeLinks) {
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
+        simulationClient.login(serviceStyle.getLogin(), serviceStyle.getPassWord());
 
         Long simulationId = simulationClient.createSimulationNow("aster");
 

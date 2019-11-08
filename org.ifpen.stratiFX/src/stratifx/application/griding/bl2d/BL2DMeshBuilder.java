@@ -30,7 +30,6 @@ public class BL2DMeshBuilder implements IMeshBuilder{
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         bl2DClient = new BL2DClient(serviceStyle.getBaseUrl());
-        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
     }
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
@@ -66,6 +65,7 @@ public class BL2DMeshBuilder implements IMeshBuilder{
     }
 
     protected Mesh2D webCreateMesh(Long simulationId, Geometry geometry, Env env){
+
 
         if (simulationId > 0) {
 
@@ -162,6 +162,10 @@ public class BL2DMeshBuilder implements IMeshBuilder{
     }
 
     public Mesh2D createMesh(List<Point2D> pts){
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
+        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
+
         Long simulationId = bl2DClient.createSimulationNow("bl2d");
 
         if(simulationId > 0){

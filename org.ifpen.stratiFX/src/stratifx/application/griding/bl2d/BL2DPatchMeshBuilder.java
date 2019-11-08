@@ -6,6 +6,8 @@ import fr.ifp.kronosflow.model.IPatchMeshBuilder;
 import fr.ifp.kronosflow.model.Patch;
 import fr.ifpen.kine.BL2D.geometry.Geometry;
 import fr.ifpen.kine.client.SimulationClient;
+import stratifx.application.main.GParameters;
+import stratifx.application.webkine.WebServiceStyle;
 
 import java.util.List;
 
@@ -40,6 +42,10 @@ public class BL2DPatchMeshBuilder extends BL2DMeshBuilder implements IPatchMeshB
     }
 
     private Mesh2D createPatchMesh(Patch patch) {
+
+        WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
+        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
+
 
         Long simulationId = bl2DClient.createSimulationNow("bl2d");
 
