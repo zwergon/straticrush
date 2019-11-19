@@ -20,6 +20,8 @@ import fr.ifpen.kine.client.RegistrationException;
 import fr.ifpen.kine.client.SimulationClient;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -100,6 +102,15 @@ public class ParametersUIController implements
 
     @FXML
     PasswordField passwdField;
+
+    @FXML
+    CheckBox proxyCB;
+
+    @FXML
+    TextField proxyHostText;
+
+    @FXML
+    Spinner<Integer> proxyPortSpinner;
 
 
     GeoschedulerSection section;
@@ -220,6 +231,22 @@ public class ParametersUIController implements
         portSpinner.getValueFactory().setValue( serviceStyle.getPort() );
         loginText.setText( serviceStyle.getLogin());
         passwdField.setText(serviceStyle.getPassWord());
+
+
+        boolean hasProxy = serviceStyle.hasProxy();
+        proxyCB.setSelected(hasProxy);
+        proxyHostText.setDisable(!hasProxy);
+        proxyPortSpinner.setDisable(!hasProxy);
+        proxyHostText.setText(serviceStyle.getProxy());
+        proxyPortSpinner.getValueFactory().setValue( serviceStyle.getProxyPort() );
+
+        proxyCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                proxyHostText.setDisable(!newValue);
+                proxyPortSpinner.setDisable(!newValue);
+            }
+        });
 
     }
 
@@ -392,6 +419,12 @@ public class ParametersUIController implements
         serviceStyle.setPassWord(passwdField.getText());
         serviceStyle.setHost(hostText.getText());
         serviceStyle.setPort(portSpinner.getValue());
+        if ( proxyCB.isSelected() ){
+            serviceStyle.setProxy(proxyHostText.getText(), proxyPortSpinner.getValue());
+        }
+        else {
+            serviceStyle.setProxy("", 0);
+        }
 
         StratiFXService.instance.broadCastAction(
                 new StyleUIAction(serviceStyle.getStyle())

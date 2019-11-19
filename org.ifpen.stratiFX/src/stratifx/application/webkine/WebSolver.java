@@ -26,12 +26,14 @@ public class WebSolver extends MeshSolver {
 
     boolean withDeleteSession = true;
 
-    public WebSolver(){
+    public WebSolver() {
 
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         simulationClient = new AsterClient(serviceStyle.getBaseUrl());
-
+        if (serviceStyle.hasProxy()){
+            simulationClient.setProxy(serviceStyle.getProxy(), serviceStyle.getProxyPort());
+        }
 
     }
 
@@ -39,7 +41,9 @@ public class WebSolver extends MeshSolver {
     public boolean solve(Collection<DeformLink> nodeLinks) {
 
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
-        simulationClient.login(serviceStyle.getLogin(), serviceStyle.getPassWord());
+        if (!simulationClient.login(serviceStyle.getLogin(), serviceStyle.getPassWord())){
+            return false;
+        }
 
         Long simulationId = simulationClient.createSimulationNow("aster");
 

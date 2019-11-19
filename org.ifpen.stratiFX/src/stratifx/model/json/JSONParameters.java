@@ -24,6 +24,9 @@ public class JSONParameters extends JSONPersisted {
             put(webStyle.HOST, webStyle.getHost());
             put(webStyle.PORT, webStyle.getPort());
             put(webStyle.LOGIN, webStyle.getLogin());
+            put(webStyle.WITHPROXY, webStyle.hasProxy());
+            put(webStyle.PROXY, webStyle.getProxy());
+            put(webStyle.PROXYPORT, webStyle.getProxyPort());
             PrivateKey privateKey = ac.getPrivate(PrivateBytes.get());
             put(webStyle.PASSWD, ac.encryptText(webStyle.getPassWord(), privateKey));
         }

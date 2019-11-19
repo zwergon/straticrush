@@ -24,10 +24,33 @@ public class ParametersLoader  extends AbstractLoader{
         Style style = new Style();
         WebServiceStyle serviceStyle = new WebServiceStyle(style);
 
-        serviceStyle.setHost((String)object.get(serviceStyle.HOST));
-        serviceStyle.setPort( ((Long)object.get(serviceStyle.PORT)).intValue());
-        serviceStyle.setLogin((String)object.get(serviceStyle.LOGIN));
+        Object retrieved = object.get(serviceStyle.HOST);
+        if ( retrieved != null ) {
+            serviceStyle.setHost((String) retrieved);
+        }
 
+        retrieved = object.get(serviceStyle.PORT);
+        if ( retrieved != null ) {
+            serviceStyle.setPort( ((Long)retrieved).intValue());
+        }
+
+        retrieved = object.get(serviceStyle.LOGIN);
+        if ( retrieved != null ) {
+            serviceStyle.setLogin((String) retrieved);
+        }
+
+
+        retrieved = object.get(serviceStyle.WITHPROXY);
+        if ( retrieved != null ) {
+            serviceStyle.setWithProxy((Boolean) retrieved);
+        }
+
+        retrieved = object.get(serviceStyle.PROXY);
+        Object retrieved2 = object.get(serviceStyle.PROXYPORT);
+
+        if (( retrieved != null ) && ( retrieved2 != null )) {
+            serviceStyle.setProxy((String) retrieved, ((Long) retrieved2).intValue());
+        }
         try {
             AsymmetricCryptography ac = new AsymmetricCryptography();
             PublicKey publicKey = ac.getPublic(PublicBytes.get());

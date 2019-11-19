@@ -44,7 +44,11 @@ public class BL2DPatchMeshBuilder extends BL2DMeshBuilder implements IPatchMeshB
     private Mesh2D createPatchMesh(Patch patch) {
 
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
-        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
+
+        boolean status = bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
+        if ( !status ){
+            return null;
+        }
 
 
         Long simulationId = bl2DClient.createSimulationNow("bl2d");

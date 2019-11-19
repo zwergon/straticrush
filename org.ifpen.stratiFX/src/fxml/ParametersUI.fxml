@@ -151,14 +151,14 @@
                              </children>
                          </HBox>
                          <Separator prefWidth="200.0" />
-                         <CheckBox disable="true" layoutX="32.0" layoutY="190.0" mnemonicParsing="false" text="Proxy" />
-                         <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+                         <CheckBox fx:id="proxyCB" disable="false" layoutX="32.0" layoutY="190.0" mnemonicParsing="false" text="Proxy" />
+                         <HBox  prefHeight="100.0" prefWidth="200.0">
                              <children>
                                  <Label text="Proxy Host : " />
                                  <TextField fx:id="proxyHostText" text="irproxyweb1" />
                              </children>
                          </HBox>
-                         <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+                         <HBox  prefHeight="100.0" prefWidth="200.0">
                              <children>
                                  <Label text="Proxy Port : " />
                                  <Spinner fx:id="proxyPortSpinner" initialValue="8090" max="10000" min="7000" />

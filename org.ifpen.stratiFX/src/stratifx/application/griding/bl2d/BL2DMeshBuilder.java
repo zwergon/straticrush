@@ -30,6 +30,9 @@ public class BL2DMeshBuilder implements IMeshBuilder{
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
 
         bl2DClient = new BL2DClient(serviceStyle.getBaseUrl());
+        if (serviceStyle.hasProxy()){
+            bl2DClient.setProxy(serviceStyle.getProxy(), serviceStyle.getProxyPort());
+        }
     }
 
     private Geometry webCreate2Geometry(Long simulationId, List<Point2D> point2DS){
@@ -164,14 +167,21 @@ public class BL2DMeshBuilder implements IMeshBuilder{
     public Mesh2D createMesh(List<Point2D> pts){
 
         WebServiceStyle serviceStyle = new WebServiceStyle(GParameters.getInstanceStyle());
-        bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord());
+        if (!bl2DClient.login( serviceStyle.getLogin(), serviceStyle.getPassWord())){
+            return null;
+        }
 
         Long simulationId = bl2DClient.createSimulationNow("bl2d");
-
-        if(simulationId > 0){
-            return webCreateMesh(simulationId, webCreate2Geometry(simulationId,pts), webCreate2Env(simulationId));
+        if(simulationId <= 0) {
+            return null;
         }
-        return null;
+
+        return webCreateMesh(
+                simulationId,
+                webCreate2Geometry(simulationId, pts),
+                webCreate2Env(simulationId)
+        );
+
     }
 
     @Override

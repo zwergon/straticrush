@@ -9,6 +9,9 @@ public class WebServiceStyle implements IStyleProvider {
     public final String HOST = "*webservice*host";
     public final String LOGIN = "*webservice*login";
     public final String PASSWD = "*webservice*password";
+    public final String WITHPROXY = "*webservice*with_proxy";
+    public final String PROXY = "*webservice*proxy";
+    public final String PROXYPORT = "*webservice*proxy_port";
 
     private Style style;
 
@@ -56,4 +59,27 @@ public class WebServiceStyle implements IStyleProvider {
     public String getBaseUrl() {
         return String.format("http://%s:%d", getHost(), getPort());
     }
+
+    public boolean hasProxy() { return style.findAttributeB(WITHPROXY, false); }
+
+    public void setWithProxy( boolean with_proxy ) {
+        style.setAttributeB(WITHPROXY, with_proxy);
+    }
+
+    public int getProxyPort() { return style.findAttributeI(PROXYPORT, 8082); }
+
+    public String getProxy() { return style.findAttributeS(PROXY, "irproxyweb1"); }
+
+    public void setProxy( String proxy, int proxy_port ){
+        if (!proxy.isEmpty()){
+            style.setAttributeB(WITHPROXY, true);
+            style.setAttribute(PROXY, proxy);
+            style.setAttributeI(PROXYPORT, proxy_port);
+        }
+        else {
+            style.setAttributeB(WITHPROXY, false);
+        }
+    }
+
+
 }
